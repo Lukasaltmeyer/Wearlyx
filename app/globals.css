@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #6C63FF;
+  --color-brand-light: #8B85FF;
+  --color-brand-dark: #5048E5;
+  --color-surface: #F2F2F7;
+  --color-card: #FFFFFF;
+  --color-border: #E5E5EA;
+  --color-muted: #9CA3AF;
+  --color-text: #111111;
+  --color-text-secondary: #6B7280;
+  --font-sans: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: #08080F;
+  color: #FFFFFF;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+
+/* Sur desktop : fond neutre derrière l'app */
+@media (min-width: 480px) {
+  body {
+    background: #030305;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #C7C7CC; border-radius: 4px; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.animate-fadeIn  { animation: fadeIn 0.3s ease both; }
+.animate-slideUp { animation: slideUp 0.35s ease both; }
+.animate-scaleIn { animation: scaleIn 0.25s ease both; }
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #1a1a28 25%, #22223a 50%, #1a1a28 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+}
+
+/* Safe areas */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-top    { padding-top:    env(safe-area-inset-top, 0px); }
+
+/* Glass */
+.glass {
+  background: rgba(8, 8, 15, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Glow violet premium */
+.glow-purple {
+  box-shadow: 0 0 20px rgba(108,58,237,0.35), 0 4px 16px rgba(0,0,0,0.4);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 60%, #e879f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hover carte produit */
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+@media (hover: hover) {
+  .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+}
+
+/* Pulse animation */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
+
+/* Heart pop */
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.45); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+.animate-heart { animation: heartPop 0.35s ease; }
+
+/* scrollbar-none alias */
+.scrollbar-none { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* Focus */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #6C63FF2E;
+}
+
+/* Line clamp */
+.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+/* Cacher scrollbar horizontale sur filtres */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
