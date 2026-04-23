@@ -49,7 +49,7 @@ function CardMenu({ product, isPremium, onDelete }: {
     e.stopPropagation();
     setDeleting(true);
     setDeleteError(false);
-    const { error } = await supabase.from("products").update({ status: "deleted" }).eq("id", product.id);
+    const { error } = await supabase.from("products").delete().eq("id", product.id);
     if (error) {
       setDeleteError(true);
       setDeleting(false);
