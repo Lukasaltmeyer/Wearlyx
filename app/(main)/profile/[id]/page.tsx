@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { ProfileView } from "@/components/ProfileView";
+import { isAdminUser } from "@/lib/admin";
 
 export default async function PublicProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -25,6 +26,8 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
     likes: undefined,
   }));
 
+  const adminUser = user ? isAdminUser(user) : false;
+
   return (
     <ProfileView
       profile={profile}
@@ -32,6 +35,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       savedProducts={[]}
       isOwner={user?.id === id}
       currentUserId={user?.id}
+      isAdmin={adminUser}
     />
   );
 }
