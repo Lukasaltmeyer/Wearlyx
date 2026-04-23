@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MoreVertical, Edit2, Share2, Star, Package, Zap } from "lucide-react";
+import { ArrowLeft, MoreVertical, Edit2, Share2, Star, Package } from "lucide-react";
 import type { Profile, Product } from "@/types/database";
 import { ProductCard } from "@/components/ProductCard";
 import { BottomNav } from "@/components/layout/BottomNav";
@@ -121,14 +121,6 @@ export function ProfileView({ profile, products, isOwner, currentUserId }: Props
                 {products.map((p) => (
                   <div key={p.id} className="relative">
                     <ProductCard product={p} currentUserId={currentUserId} />
-                    <Link
-                      href="/promotion-tools"
-                      className="absolute bottom-2 left-2 right-2 flex items-center justify-center gap-1 py-1.5 rounded-lg text-[11px] font-bold text-white"
-                      style={{ background: "rgba(76,175,80,0.9)" }}
-                    >
-                      <Zap className="w-3 h-3" />
-                      BOOSTER
-                    </Link>
                   </div>
                 ))}
               </div>
