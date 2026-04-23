@@ -59,7 +59,7 @@ export function FilterBar({ activeCategory, activeSort }: FilterBarProps) {
               )}
               style={isActive ? {
                 background: "linear-gradient(135deg, #6C3AED, #C026D3)",
-                boxShadow: "0 2px 10px rgba(108,58,237,0.3)",
+                boxShadow: "0 2px 12px rgba(108,58,237,0.45), 0 0 0 1px rgba(124,58,237,0.3)",
               } : {}}
             >
               <span className="text-[11px]">{emoji}</span>

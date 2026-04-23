@@ -92,6 +92,7 @@ export interface ProductRow {
   condition: ProductCondition;
   status: ProductStatus;
   views: number;
+  is_boosted?: boolean;
   created_at: string;
   updated_at: string;
 }

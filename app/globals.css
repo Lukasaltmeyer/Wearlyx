@@ -67,6 +67,12 @@ body {
 .animate-fadeIn  { animation: fadeIn 0.3s ease both; }
 .animate-slideUp { animation: slideUp 0.35s ease both; }
 .animate-scaleIn { animation: scaleIn 0.25s ease both; }
+.animate-scaleX  { animation: scaleXIn 0.2s ease both; }
+
+@keyframes scaleXIn {
+  from { transform: translateX(-50%) scaleX(0); opacity: 0; }
+  to   { transform: translateX(-50%) scaleX(1); opacity: 1; }
+}
 
 /* Skeleton */
 .skeleton {

@@ -16,59 +16,69 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
   if (!conversations.length) {
     return (
       <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mb-4">
-          <MessageCircle className="w-7 h-7 text-gray-400" />
+        <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/8 flex items-center justify-center mb-4">
+          <MessageCircle className="w-7 h-7 text-white/20" />
         </div>
-        <p className="font-semibold text-gray-900">Aucune conversation</p>
-        <p className="text-sm text-gray-400 mt-1">Commence par contacter un vendeur !</p>
+        <p className="font-semibold text-white/70">Aucune conversation</p>
+        <p className="text-sm text-white/30 mt-1">Commence par contacter un vendeur !</p>
       </div>
     );
   }
 
   return (
-    <div className="divide-y divide-gray-100">
+    <div className="divide-y divide-white/[0.05]">
       {conversations.map((conv) => {
         const other = conv.buyer_id === currentUserId ? conv.seller : conv.buyer;
         const product = conv.product as any;
+        const isUnread = !conv.read && conv.last_message_sender_id !== currentUserId;
 
         return (
           <Link
             key={conv.id}
             href={`/messages/${conv.id}`}
-            className="flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 active:bg-gray-100 transition-colors"
+            className="flex items-center gap-3 px-4 py-3.5 active:bg-white/4 transition-colors"
+            style={isUnread ? { background: "rgba(108,58,237,0.05)" } : {}}
           >
-            {/* Product thumbnail */}
-            {product?.images?.[0] ? (
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
-                <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+            <div className="relative flex-shrink-0">
+              {product?.images?.[0] ? (
+                <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/8">
+                  <Image src={product.images[0]} alt={product.title} fill className="object-cover" />
+                </div>
+              ) : (
+                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/8 flex-shrink-0" />
+              )}
+              <div className={cn(
+                "absolute -bottom-1 -right-1 ring-2 ring-[#08080F] rounded-full",
+                isUnread ? "ring-[#6C3AED]/50" : ""
+              )}>
+                <Avatar
+                  src={(other as any)?.avatar_url}
+                  name={(other as any)?.full_name || (other as any)?.username}
+                  size="sm"
+                />
               </div>
-            ) : (
-              <div className="w-12 h-12 rounded-xl bg-gray-100 flex-shrink-0" />
-            )}
+            </div>
 
-            <Avatar
-              src={(other as any)?.avatar_url}
-              name={(other as any)?.full_name || (other as any)?.username}
-              size="md"
-              className="-ml-4 ring-2 ring-white"
-            />
-
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 ml-1">
               <div className="flex items-center justify-between">
-                <p className="font-semibold text-gray-900 text-sm">
+                <p className={cn("text-sm truncate", isUnread ? "font-bold text-white" : "font-semibold text-white/75")}>
                   {(other as any)?.full_name || (other as any)?.username}
                 </p>
-                <p className="text-xs text-gray-400 flex-shrink-0 ml-2">
+                <p className={cn("text-[11px] flex-shrink-0 ml-2", isUnread ? "text-[#9B93FF] font-semibold" : "text-white/25")}>
                   {timeAgo(conv.last_message_at)}
                 </p>
               </div>
               {product && (
-                <p className="text-xs text-[#6C63FF] font-medium mt-0.5 truncate">{product.title}</p>
+                <p className="text-[11px] text-[#9B93FF]/70 font-medium mt-0.5 truncate">{product.title}</p>
               )}
-              <p className="text-sm text-gray-500 truncate mt-0.5">
+              <p className={cn("text-[13px] truncate mt-0.5", isUnread ? "text-white/60 font-medium" : "text-white/30")}>
                 {conv.last_message ?? "Nouvelle conversation"}
               </p>
             </div>
+
+            {isUnread && (
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "linear-gradient(135deg, #7C3AED, #C026D3)" }} />
+            )}
           </Link>
         );
       })}

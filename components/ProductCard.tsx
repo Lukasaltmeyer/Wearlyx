@@ -50,7 +50,12 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
 
   return (
     <Link href={`/products/${product.id}`} className="block group active:scale-[0.97] transition-transform duration-150">
-      <div className="rounded-2xl overflow-hidden border border-white/[0.07] transition-all duration-200 group-hover:border-white/14 group-hover:shadow-lg group-hover:shadow-black/40" style={{ background: "#0f0f1a" }}>
+      <div className={cn(
+        "rounded-2xl overflow-hidden border transition-all duration-200 group-hover:shadow-xl",
+        product.is_boosted
+          ? "border-amber-500/25 group-hover:border-amber-500/40 group-hover:shadow-amber-900/20"
+          : "border-white/[0.07] group-hover:border-white/14 group-hover:shadow-black/40"
+      )} style={{ background: "#0f0f1a" }}>
         {/* Image */}
         <div className="relative aspect-[3/4] overflow-hidden bg-[#141422]">
           {firstImage ? (
@@ -74,18 +79,24 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
           <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
 
           {/* Badges */}
-          {isPopular && !isDeal && (
+          {product.is_boosted && (
+            <div className="absolute top-2 left-2 flex items-center gap-0.5 px-2 py-0.5 rounded-full backdrop-blur-sm"
+              style={{ background: "linear-gradient(135deg, #92400E, #D97706)", boxShadow: "0 0 10px rgba(245,158,11,0.35)", border: "1px solid rgba(245,158,11,0.4)" }}>
+              <span className="text-[9px] font-black text-white">⚡ Boosté</span>
+            </div>
+          )}
+          {!product.is_boosted && isPopular && !isDeal && (
             <div className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/90 backdrop-blur-sm">
               <Flame className="w-2.5 h-2.5 text-white fill-white" />
               <span className="text-[9px] font-black text-white">Tendance</span>
             </div>
           )}
-          {isDeal && (
+          {!product.is_boosted && isDeal && (
             <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-sm">
-              <span className="text-[9px] font-black text-white">💸 Bonne affaire</span>
+              <span className="text-[9px] font-black text-white">💸 {product.price}€</span>
             </div>
           )}
-          {isNew && !isPopular && !isDeal && (
+          {!product.is_boosted && isNew && !isPopular && !isDeal && (
             <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded-full bg-[#6C3AED]/90 backdrop-blur-sm">
               <span className="text-[9px] font-black text-white">✨ Nouveau</span>
             </div>
@@ -122,26 +133,26 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
         {/* Info */}
         <div className="px-2.5 pt-2 pb-2.5">
           {product.brand && (
-            <p className="text-[9px] text-white/30 font-bold uppercase tracking-wider mb-0.5">{product.brand}</p>
+            <p className="text-[9px] font-bold uppercase tracking-wider mb-0.5" style={{ color: "#9B93FF" }}>{product.brand}</p>
           )}
           <p className="text-[12px] font-semibold text-white/85 line-clamp-1 leading-snug mb-1.5">{product.title}</p>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-1">
             {product.condition && (
-              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md bg-white/6 text-white/40">
+              <span className={cn(
+                "text-[9px] font-semibold px-1.5 py-0.5 rounded-md",
+                product.condition === "new" ? "bg-emerald-500/12 text-emerald-400/80" :
+                product.condition === "like_new" ? "bg-sky-500/10 text-sky-400/70" :
+                "bg-white/6 text-white/40"
+              )}>
                 {conditionLabel(product.condition)}
               </span>
             )}
             {product.size && (
-              <span className="text-[9px] text-white/30 bg-white/5 px-1.5 py-0.5 rounded font-medium">
+              <span className="text-[9px] text-white/50 bg-white/8 border border-white/10 px-1.5 py-0.5 rounded font-semibold">
                 {product.size}
               </span>
             )}
           </div>
-          {product.seller && (
-            <p className="text-[10px] text-white/20 mt-1.5 truncate">
-              @{product.seller.username || product.seller.full_name}
-            </p>
-          )}
         </div>
       </div>
     </Link>

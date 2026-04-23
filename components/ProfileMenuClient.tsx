@@ -44,7 +44,7 @@ export function ProfileMenuClient({
       items: [
         { label: "Favoris",              icon: Heart,      href: "/favorites" },
         { label: "Inviter des amis",     icon: Users,      href: "/referral" },
-        { label: "Mon porte-monnaie",    icon: Wallet,     href: "/wallet",  value: "0.00 €" },
+        { label: "Mon porte-monnaie",    icon: Wallet,     href: "/wallet",  value: "0.00 €", valueColor: "#10B981" },
         { label: "Mes ventes & achats",  icon: ShoppingBag, href: "/sales" },
         { label: "Outils de promotion",  icon: Zap,        href: "/promotion-tools" },
       ],
@@ -134,7 +134,7 @@ export function ProfileMenuClient({
       <div className="px-4 flex flex-col gap-3">
         {menuSections.map((section, si) => (
           <div key={si} className="rounded-2xl border border-white/[0.08] overflow-hidden" style={{ background: "rgba(255,255,255,0.02)" }}>
-            {section.items.map(({ label, icon: Icon, href, value, highlight, subtitle, adminBadge }: any) => (
+            {section.items.map(({ label, icon: Icon, href, value, valueColor, highlight, subtitle, adminBadge }: any) => (
               <Link
                 key={href + label}
                 href={href}
@@ -148,13 +148,13 @@ export function ProfileMenuClient({
                   "w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0",
                   highlight ? "bg-[#6C63FF]/15" : adminBadge ? "bg-[#6C63FF]/15" : "bg-white/[0.06]"
                 )}>
-                  <Icon className={cn("w-4 h-4", highlight ? "text-[#6C63FF]" : adminBadge ? "text-[#9B93FF]" : "text-white/45")} />
+                  <Icon className={cn("w-4 h-4", highlight ? "text-[#7C3AED]" : adminBadge ? "text-[#9B93FF]" : "text-[#9B93FF]/60")} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className={cn("text-[13px] font-semibold", highlight ? "text-[#6C63FF]" : adminBadge ? "text-[#9B93FF]" : "text-white/85")}>{label}</p>
-                  {subtitle && <p className={cn("text-[11px] mt-0.5", highlight ? "text-[#6C63FF]/50" : "text-white/30")}>{subtitle}</p>}
+                  <p className={cn("text-[13px] font-semibold", highlight ? "text-[#9B93FF]" : adminBadge ? "text-[#9B93FF]" : "text-white/85")}>{label}</p>
+                  {subtitle && <p className={cn("text-[11px] mt-0.5", highlight ? "text-[#9B93FF]/50" : "text-white/30")}>{subtitle}</p>}
                 </div>
-                {value && <span className="text-[12px] text-white/40 mr-1">{value}</span>}
+                {value && <span className="text-[12px] font-semibold mr-1" style={{ color: valueColor ?? "rgba(255,255,255,0.4)" }}>{value}</span>}
                 <ChevronRight className="w-3.5 h-3.5 text-white/15 flex-shrink-0" />
               </Link>
             ))}

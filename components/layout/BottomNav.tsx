@@ -73,7 +73,7 @@ export function BottomNav() {
                 {label}
               </span>
               {isActive && (
-                <span className="absolute top-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-[#6C3AED] to-[#C026D3]" />
+                <span className="absolute top-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-[#6C3AED] to-[#C026D3] animate-scaleX" />
               )}
             </Link>
           );
