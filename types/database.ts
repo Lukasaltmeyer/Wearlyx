@@ -133,6 +133,8 @@ export interface ConversationRow {
   seller_id: string;
   last_message: string | null;
   last_message_at: string;
+  last_message_sender_id?: string | null;
+  read?: boolean;
   created_at: string;
 }
 export type ConversationInsert = {
