@@ -16,6 +16,7 @@ const navItems = [
 export function BottomNav() {
   const pathname = usePathname();
   if (pathname.startsWith("/auth")) return null;
+  if (pathname.startsWith("/products/")) return null;
 
   return (
     <nav
