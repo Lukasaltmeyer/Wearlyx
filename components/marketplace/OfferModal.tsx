@@ -24,8 +24,9 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const minOffer = Math.ceil(productPrice * 0.4 * 100) / 100;
   const parsed = parseFloat(amount.replace(",", "."));
-  const isValid = !isNaN(parsed) && parsed > 0 && parsed < productPrice;
+  const isValid = !isNaN(parsed) && parsed >= minOffer && parsed < productPrice;
   const discount = isValid ? Math.round((1 - parsed / productPrice) * 100) : 0;
 
   const submit = async () => {
@@ -92,16 +93,19 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder={`Max ${(productPrice * 0.99).toFixed(2)}`}
+                  placeholder={`Min ${minOffer.toFixed(2)} €`}
                   className="flex-1 bg-transparent text-[18px] font-bold text-white outline-none placeholder-white/20"
                 />
                 {isValid && (
                   <span className="text-[12px] font-bold text-[#4CAF50] flex-shrink-0">-{discount}%</span>
                 )}
               </div>
+              <p className="text-[11px] text-white/25 mt-1.5">Minimum : {minOffer.toFixed(2)} € (40% du prix)</p>
               {amount && !isValid && (
-                <p className="text-[11px] text-red-400 mt-1.5">
-                  {parseFloat(amount) >= productPrice ? "L'offre doit être inférieure au prix" : "Montant invalide"}
+                <p className="text-[11px] text-red-400 mt-1">
+                  {parseFloat(amount) >= productPrice
+                    ? "L'offre doit être inférieure au prix"
+                    : `Offre minimum : ${minOffer.toFixed(2)} €`}
                 </p>
               )}
             </div>
