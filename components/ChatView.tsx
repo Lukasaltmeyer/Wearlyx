@@ -91,6 +91,19 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
       content,
     });
 
+    // Push notification to the other user
+    const otherId = conversation.buyer_id === currentUserId ? conversation.seller_id : conversation.buyer_id;
+    fetch("/api/push/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        toUserId: otherId,
+        title: "💬 Nouveau message",
+        body: content.length > 60 ? content.slice(0, 60) + "…" : content,
+        url: `/messages/${conversation.id}`,
+      }),
+    }).then(undefined, () => {});
+
     setSending(false);
   };
 

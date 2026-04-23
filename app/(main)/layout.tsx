@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getUserModeration } from "@/lib/moderation";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { ModerationBanner } from "@/components/ModerationBanner";
+import { PushNotificationSetup } from "@/components/PushNotificationSetup";
 
 export default async function MainLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
@@ -37,6 +38,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
     <>
       {children}
       <BottomNav />
+      <PushNotificationSetup />
     </>
   );
 }

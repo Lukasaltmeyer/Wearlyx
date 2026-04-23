@@ -42,14 +42,26 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
     });
     if (err) { setError("Erreur lors de l'envoi. Réessaie."); setLoading(false); return; }
 
-    // Notify seller
+    // In-app notification
     await supabase.from("notifications").insert({
       user_id: sellerId,
       type: "offer_received",
       title: "Nouvelle offre reçue",
       body: `Offre de ${parsed.toFixed(2)}€ sur "${productTitle}"`,
       data: { product_id: productId },
-    });
+    }).then(undefined, () => {});
+
+    // Push notification
+    fetch("/api/push/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        toUserId: sellerId,
+        title: "💰 Nouvelle offre reçue",
+        body: `${parsed.toFixed(2)} € sur "${productTitle}"`,
+        url: `/sales?tab=offres`,
+      }),
+    }).then(undefined, () => {});
 
     setSuccess(true);
     setLoading(false);
