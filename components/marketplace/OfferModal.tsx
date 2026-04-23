@@ -24,7 +24,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const minOffer = Math.ceil(productPrice * 0.4 * 100) / 100;
+  const minOffer = Math.ceil(productPrice * 0.6 * 100) / 100;
   const parsed = parseFloat(amount.replace(",", "."));
   const isValid = !isNaN(parsed) && parsed >= minOffer && parsed < productPrice;
   const discount = isValid ? Math.round((1 - parsed / productPrice) * 100) : 0;
