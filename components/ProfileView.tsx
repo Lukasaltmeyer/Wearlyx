@@ -27,8 +27,9 @@ function CardMenu({ product, isPremium, onDelete }: {
   onDelete: (id: string) => void;
 }) {
   const [open, setOpen] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const supabase = createClient();
 
@@ -36,26 +37,31 @@ function CardMenu({ product, isPremium, onDelete }: {
     function handleClick(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
-        setConfirmDelete(false);
+        setShowConfirm(false);
       }
     }
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const handleDelete = async () => {
-    if (!confirmDelete) { setConfirmDelete(true); return; }
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setDeleting(true);
-    await supabase.from("products").update({ status: "deleted" }).eq("id", product.id);
+    setDeleteError(false);
+    const { error } = await supabase.from("products").update({ status: "deleted" }).eq("id", product.id);
+    if (error) {
+      setDeleteError(true);
+      setDeleting(false);
+      return;
+    }
     onDelete(product.id);
-    setDeleting(false);
-    setOpen(false);
   };
 
   return (
     <div ref={ref} className="absolute top-2 right-2 z-20">
       <button
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpen(!open); setConfirmDelete(false); }}
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpen(!open); setShowConfirm(false); setDeleteError(false); }}
         className="w-7 h-7 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center active:scale-95 transition-transform"
       >
         <MoreVertical className="w-3.5 h-3.5 text-white" />
@@ -74,20 +80,23 @@ function CardMenu({ product, isPremium, onDelete }: {
               Booster l'annonce
             </Link>
           )}
-          <button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(); }}
-            disabled={deleting}
-            className={cn(
-              "w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold active:bg-white/5 transition-colors",
-              confirmDelete ? "text-red-400 bg-red-500/8" : "text-white/70"
-            )}
-          >
-            {confirmDelete ? (
-              <><Trash2 className="w-3.5 h-3.5" />{deleting ? "Suppression..." : "Confirmer la suppression"}</>
-            ) : (
-              <><X className="w-3.5 h-3.5" />Supprimer l'annonce</>
-            )}
-          </button>
+          {!showConfirm ? (
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowConfirm(true); }}
+              className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold text-white/70 active:bg-white/5 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />Supprimer l'annonce
+            </button>
+          ) : (
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold text-red-400 bg-red-500/8 active:bg-red-500/15 transition-colors"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+              {deleting ? "Suppression..." : deleteError ? "Erreur, réessaie" : "Confirmer la suppression"}
+            </button>
+          )}
         </div>
       )}
     </div>
