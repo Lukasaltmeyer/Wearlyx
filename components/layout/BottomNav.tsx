@@ -53,28 +53,31 @@ export function BottomNav() {
             <Link
               key={href}
               href={href}
-              className="flex flex-col items-center gap-1 flex-1 py-1 active:opacity-60 transition-all relative"
+              className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-90 transition-all duration-100 relative"
             >
               <div className={cn(
                 "w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-200",
-                isActive ? "bg-white/8" : ""
+                isActive
+                  ? "bg-[#6C3AED]/20"
+                  : "hover:bg-white/5"
               )}>
                 <Icon
                   className={cn(
                     "w-[20px] h-[20px] transition-all duration-200",
-                    isActive ? "text-white" : "text-white/30"
+                    isActive ? "text-[#a78bfa]" : "text-white/30"
                   )}
-                  strokeWidth={isActive ? 2.3 : 1.6}
+                  strokeWidth={isActive ? 2.5 : 1.6}
                 />
               </div>
               <span className={cn(
-                "text-[9.5px] font-semibold transition-colors duration-200",
-                isActive ? "text-white" : "text-white/30"
+                "text-[9.5px] font-bold transition-colors duration-200",
+                isActive ? "text-[#a78bfa]" : "text-white/25"
               )}>
                 {label}
               </span>
               {isActive && (
-                <span className="absolute top-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-[#6C3AED] to-[#C026D3] animate-scaleX" />
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full animate-scaleX"
+                  style={{ background: "linear-gradient(90deg, #6C3AED, #C026D3)" }} />
               )}
             </Link>
           );

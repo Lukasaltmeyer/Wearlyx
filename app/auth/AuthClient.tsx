@@ -247,8 +247,12 @@ export default function AuthClient() {
       else {
         await signUpWithEmail(email, password, { full_name: fullName, username });
         setSuccess(true);
-        // Try redirect after short delay — works if email confirm is disabled
-        setTimeout(() => { try { goHome(); } catch {} }, 1400);
+        // Check if session was created (email confirm disabled) or not
+        const user = await getSession();
+        if (user) {
+          setTimeout(goHome, 800);
+        }
+        // If email confirm required, success screen stays with instructions
       }
     } catch (e: any) {
       const m = e.message ?? "";

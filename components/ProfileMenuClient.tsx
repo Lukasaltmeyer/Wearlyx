@@ -37,6 +37,7 @@ export function ProfileMenuClient({
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push("/auth");
+    router.refresh();
   };
 
   const menuSections = [

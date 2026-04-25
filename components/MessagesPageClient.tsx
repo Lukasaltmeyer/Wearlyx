@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+
 import { MessageCircle, Bell } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { timeAgo } from "@/lib/utils";
@@ -44,12 +45,20 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
       {tab === "messages" && (
         <>
           {conversations.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center px-6">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
-                <MessageCircle className="w-7 h-7 text-white/20" />
+            <div className="flex flex-col items-center justify-center py-16 text-center px-6">
+              <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, rgba(108,58,237,0.15), rgba(192,38,211,0.1))", border: "1px solid rgba(108,58,237,0.2)" }}>
+                <MessageCircle className="w-9 h-9" style={{ color: "#a78bfa" }} />
               </div>
-              <p className="font-semibold text-white/50">Aucune conversation</p>
-              <p className="text-[13px] text-white/25 mt-1">Commence par contacter un vendeur !</p>
+              <p className="text-[17px] font-black text-white mb-1.5">Aucun message</p>
+              <p className="text-[13px] text-white/35 leading-relaxed max-w-[240px]">
+                Contacte un vendeur sur un article qui t'intéresse pour démarrer une conversation.
+              </p>
+              <Link href="/search"
+                className="mt-5 flex items-center gap-2 px-5 py-3 rounded-2xl text-[13px] font-bold text-white"
+                style={{ background: "linear-gradient(135deg, #6C3AED, #C026D3)" }}>
+                Explorer les articles
+              </Link>
             </div>
           ) : (
             <div className="divide-y divide-white/5">
@@ -92,12 +101,15 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
 
       {/* Notifications tab */}
       {tab === "notifications" && (
-        <div className="flex flex-col items-center justify-center py-20 text-center px-6">
-          <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
-            <Bell className="w-7 h-7 text-white/20" />
+        <div className="flex flex-col items-center justify-center py-16 text-center px-6">
+          <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-4"
+            style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,191,36,0.07))", border: "1px solid rgba(245,158,11,0.18)" }}>
+            <Bell className="w-9 h-9 text-amber-400/60" />
           </div>
-          <p className="font-semibold text-white/50">Aucune notification</p>
-          <p className="text-[13px] text-white/25 mt-1">Tes notifications apparaîtront ici</p>
+          <p className="text-[17px] font-black text-white mb-1.5">Aucune notification</p>
+          <p className="text-[13px] text-white/35 leading-relaxed max-w-[220px]">
+            Offres, messages et mises à jour apparaîtront ici.
+          </p>
         </div>
       )}
     </div>

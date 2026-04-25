@@ -46,30 +46,26 @@ export function PushNotificationSetup() {
   if (!shown || permission !== "default") return null;
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 z-50 max-w-[560px] mx-auto animate-slideUp">
-      <div className="rounded-2xl border border-white/10 bg-[#1A1A2E] p-4 shadow-2xl flex items-start gap-3">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+    <div className="fixed bottom-[76px] left-3 right-3 z-50 max-w-[560px] mx-auto animate-slideUp">
+      <div className="rounded-2xl border border-white/8 bg-[#13131f]/95 backdrop-blur-xl px-4 py-3 shadow-2xl flex items-center gap-3">
+        <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ background: "linear-gradient(135deg, #6C3AED, #C026D3)" }}>
-          <Bell className="w-4 h-4 text-white" />
+          <Bell className="w-3.5 h-3.5 text-white" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-bold text-white">Activer les notifications</p>
-          <p className="text-[11px] text-white/45 mt-0.5">Reçois les offres et messages en temps réel</p>
-          <div className="flex gap-2 mt-3">
-            <button onClick={requestAndSubscribe}
-              className="flex-1 py-2 rounded-xl text-[12px] font-bold text-white active:scale-95 transition-transform"
-              style={{ background: "linear-gradient(135deg, #6C3AED, #C026D3)" }}>
-              Activer
-            </button>
-            <button onClick={() => setShown(false)}
-              className="px-3 py-2 rounded-xl text-[12px] font-semibold text-white/40 bg-white/6 active:scale-95 transition-transform">
-              Plus tard
-            </button>
-          </div>
+          <p className="text-[12px] font-bold text-white">Activer les notifications</p>
+          <p className="text-[10px] text-white/40">Offres et messages en temps réel</p>
         </div>
-        <button onClick={() => setShown(false)} className="text-white/25 mt-0.5">
-          <BellOff className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1.5 flex-shrink-0">
+          <button onClick={requestAndSubscribe}
+            className="px-3 py-1.5 rounded-xl text-[11px] font-bold text-white active:scale-95 transition-transform"
+            style={{ background: "linear-gradient(135deg, #6C3AED, #C026D3)" }}>
+            Activer
+          </button>
+          <button onClick={() => setShown(false)} className="text-white/25 hover:text-white/50 transition-colors">
+            <BellOff className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   );

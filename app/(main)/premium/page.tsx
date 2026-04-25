@@ -94,13 +94,13 @@ function PlanCard({
     <div
       className={`relative rounded-3xl border overflow-hidden transition-all duration-200 ${
         plan.popular
-          ? "border-violet-500/40 shadow-xl shadow-violet-500/10"
-          : "border-white/8"
+          ? "border-violet-500/50 shadow-2xl shadow-violet-500/20 scale-[1.02]"
+          : "border-white/8 opacity-90"
       }`}
-      style={{ background: plan.popular ? "rgba(20,10,40,0.95)" : "rgba(14,14,22,0.95)" }}
+      style={{ background: plan.popular ? "rgba(22,10,45,0.98)" : "rgba(14,14,22,0.95)" }}
     >
       {/* Top gradient bar */}
-      <div className={`h-1 w-full bg-gradient-to-r ${plan.gradient}`} />
+      <div className={`h-1.5 w-full bg-gradient-to-r ${plan.gradient}`} />
 
       {/* Popular banner */}
       {plan.popular && (

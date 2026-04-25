@@ -54,14 +54,16 @@ export async function verifyPhoneOtp(phone: string, token: string) {
   if (error) throw error;
 }
 
-/** Get current authenticated user (validates token with server, clears invalid sessions) */
+/** Get current authenticated user (validates token with server) */
 export async function getSession() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user) {
-    // Clear any stale/invalid session from localStorage to prevent redirect loops
-    await supabase.auth.signOut();
-    return null;
-  }
+  if (error || !data.user) return null;
   return data.user;
+}
+
+/** Sign out and clear session */
+export async function signOut() {
+  const supabase = createClient();
+  await supabase.auth.signOut();
 }

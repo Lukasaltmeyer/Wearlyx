@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Download, X, Share, ArrowUp } from "lucide-react";
+import { Download, X, Share } from "lucide-react";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -93,61 +93,20 @@ export function InstallPrompt() {
           </div>
         </div>
       ) : (
-        /* iOS instructions */
-        <div className="p-4">
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center bg-white/15 flex-shrink-0">
-                <Download className="w-4.5 h-4.5 text-white" />
-              </div>
-              <div>
-                <p className="text-white font-black text-[13px]">Installer Wearlyx</p>
-                <p className="text-white/60 text-[11px]">Ajoute l'app à ton écran d'accueil</p>
-              </div>
-            </div>
-            <button onClick={dismiss} className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/15 flex-shrink-0">
-              <X className="w-4 h-4 text-white" />
-            </button>
+        /* iOS — compact one-line */
+        <div className="flex items-center gap-3 p-3.5">
+          <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-white/15">
+            <Share className="w-4 h-4 text-white" />
           </div>
-
-          <div className="flex items-center gap-2">
-            {/* Step 1 */}
-            <div className="flex-1 rounded-xl bg-white/10 p-2.5 flex flex-col items-center gap-1.5 text-center">
-              <div className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center">
-                <Share className="w-3.5 h-3.5 text-white" />
-              </div>
-              <p className="text-white/80 text-[10px] font-semibold leading-tight">Appuie sur<br /><span className="text-white font-black">Partager</span></p>
-            </div>
-
-            <ArrowUp className="w-3 h-3 text-white/40 flex-shrink-0 rotate-90" />
-
-            {/* Step 2 */}
-            <div className="flex-1 rounded-xl bg-white/10 p-2.5 flex flex-col items-center gap-1.5 text-center">
-              <div className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center">
-                <span className="text-white text-[14px] font-black leading-none">+</span>
-              </div>
-              <p className="text-white/80 text-[10px] font-semibold leading-tight">Puis<br /><span className="text-white font-black">Sur l'écran d'accueil</span></p>
-            </div>
-
-            <ArrowUp className="w-3 h-3 text-white/40 flex-shrink-0 rotate-90" />
-
-            {/* Step 3 */}
-            <div className="flex-1 rounded-xl bg-white/10 p-2.5 flex flex-col items-center gap-1.5 text-center">
-              <div className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center">
-                <span className="text-white text-[11px] font-black">OK</span>
-              </div>
-              <p className="text-white/80 text-[10px] font-semibold leading-tight">Puis<br /><span className="text-white font-black">Ajouter</span></p>
-            </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-white font-black text-[12px] leading-tight">Installer Wearlyx</p>
+            <p className="text-white/60 text-[10px] mt-0.5">
+              Partager <span className="text-white/40">→</span> Sur l'écran d'accueil
+            </p>
           </div>
-
-          {/* Arrow pointing down to Safari share button */}
-          <div className="flex justify-center mt-2.5">
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-              <p className="text-white/50 text-[10px]">Utilise Safari pour installer</p>
-              <div className="w-1.5 h-1.5 rounded-full bg-white/40" />
-            </div>
-          </div>
+          <button onClick={dismiss} className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/15 flex-shrink-0">
+            <X className="w-3.5 h-3.5 text-white" />
+          </button>
         </div>
       )}
     </div>

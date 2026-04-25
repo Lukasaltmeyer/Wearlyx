@@ -34,10 +34,12 @@ self.addEventListener("push", (event) => {
     self.registration.showNotification(data.title || "Wearlyx", {
       body: data.body || "",
       icon: "/icons/icon-192.png",
-      badge: "/icons/icon-192.png",
+      badge: "/icons/icon-72.png",
       data: { url: data.url || "/" },
-      vibrate: [100, 50, 100],
-      requireInteraction: false,
+      vibrate: [200, 100, 200],
+      requireInteraction: true,
+      tag: data.tag || "wearlyx-notif",
+      renotify: true,
     })
   );
 });

@@ -35,8 +35,9 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
 
   const isOwner = currentUserId === product.seller_id;
   const images = product.images?.length ? product.images : [];
-  const protectionFee = Math.round(product.price * 0.055 + 0.7 * 100) / 100;
-  const totalWithProtection = (product.price + protectionFee).toFixed(2);
+  const buyerProtection = Math.round(product.price * 0.02 * 100) / 100;
+  const commission = Math.round(product.price * 0.05 * 100) / 100;
+  const totalWithProtection = (product.price + buyerProtection + commission).toFixed(2);
 
   useEffect(() => {
     if (!product.category) return;
@@ -195,10 +196,10 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
           </p>
 
           {/* Price block */}
-          <div className="mb-1">
-            <p className="text-[30px] font-black text-white leading-none">{formatPrice(product.price)}</p>
+          <div className="mb-2">
+            <p className="text-[34px] font-black text-white leading-none">{formatPrice(product.price)}</p>
             <p className="text-[12px] text-white/35 mt-1">
-              {totalWithProtection} € inclut la protection acheteur
+              {totalWithProtection} € au total · <span className="text-white/25">protection 2% + commission 5%</span>
             </p>
           </div>
         </div>
@@ -299,18 +300,18 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
             <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4">
               {similarProducts.map((p) => (
                 <Link key={p.id} href={`/products/${p.id}`}
-                  className="flex-shrink-0 w-[120px] rounded-2xl overflow-hidden border border-white/7 active:scale-[0.97] transition-transform"
-                  style={{ background: "#0f0f1a" }}>
-                  <div className="relative aspect-[3/4] bg-[#141422]">
+                  className="flex-shrink-0 w-[110px] rounded-xl overflow-hidden border border-white/7 active:scale-[0.97] transition-transform"
+                  style={{ background: "#111827" }}>
+                  <div className="relative aspect-square bg-[#1a1f2e]">
                     {p.images?.[0] && (
-                      <Image src={p.images[0]} alt={p.title} fill className="object-cover" sizes="120px" />
+                      <Image src={p.images[0]} alt={p.title} fill className="object-cover" sizes="110px" />
                     )}
                     <div className="absolute bottom-1.5 left-2">
                       <p className="text-[12px] font-black text-white drop-shadow-sm">{formatPrice(p.price)}</p>
                     </div>
                   </div>
                   <div className="px-2 pt-1.5 pb-2">
-                    <p className="text-[11px] font-semibold text-white/70 line-clamp-1">{p.title}</p>
+                    <p className="text-[10px] font-medium text-[#9CA3AF] line-clamp-1">{p.title}</p>
                   </div>
                 </Link>
               ))}
@@ -342,8 +343,8 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
             <button
               onClick={() => { if (!currentUserId) { router.push("/auth"); return; } setShowCheckout(true); }}
               className="flex-1 py-3.5 rounded-2xl text-white text-[15px] font-black active:scale-[0.97] transition-all"
-              style={{ background: "linear-gradient(135deg, #6C3AED, #C026D3)", boxShadow: "0 4px 20px rgba(108,58,237,0.45)" }}>
-              Acheter
+              style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED, #C026D3)", boxShadow: "0 6px 24px rgba(108,58,237,0.5)" }}>
+              Acheter — {formatPrice(product.price)}
             </button>
           </div>
         )}

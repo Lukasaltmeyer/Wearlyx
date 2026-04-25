@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Send, Package } from "lucide-react";
+import { ChevronLeft, Send, Package, Check, X, RefreshCw } from "lucide-react";
 import type { Conversation, Message } from "@/types/database";
 import { Avatar } from "@/components/ui/Avatar";
 import { createClient } from "@/lib/supabase/client";
@@ -24,6 +24,158 @@ const QUICK_REPLIES = [
   "Tu acceptes une offre ?",
 ];
 
+// ─── Offer data embedded in message content ───────────────────────────────────
+interface OfferData {
+  id: string;
+  amount: number;
+  title: string;
+  buyerId: string;
+  status: "pending" | "accepted" | "declined" | "countered";
+}
+
+function parseOffer(content: string): OfferData | null {
+  if (!content.startsWith("__OFFER__:")) return null;
+  try {
+    return JSON.parse(content.slice("__OFFER__:".length));
+  } catch {
+    return null;
+  }
+}
+
+function parseSystem(content: string): string | null {
+  if (!content.startsWith("__SYSTEM__:")) return null;
+  return content.slice("__SYSTEM__:".length);
+}
+
+// ─── Offer card ───────────────────────────────────────────────────────────────
+function OfferCard({
+  offer,
+  isMine,
+  onAction,
+}: {
+  offer: OfferData;
+  isMine: boolean;
+  onAction: (offerId: string, action: "accepted" | "declined", counterAmount?: number) => Promise<void>;
+}) {
+  const [loading, setLoading] = useState<"accepted" | "declined" | "counter" | null>(null);
+  const [showCounter, setShowCounter] = useState(false);
+  const [counterAmount, setCounterAmount] = useState("");
+  const isSeller = !isMine; // seller sees the offer sent by buyer
+
+  const handle = async (action: "accepted" | "declined", amount?: number) => {
+    setLoading(action);
+    await onAction(offer.id, action, amount);
+    setLoading(null);
+    setShowCounter(false);
+  };
+
+  const statusColors: Record<string, string> = {
+    accepted: "border-emerald-500/30 bg-emerald-500/8",
+    declined: "border-red-500/30 bg-red-500/8",
+    pending: "border-[#6C3AED]/30 bg-[#6C3AED]/8",
+    countered: "border-amber-500/30 bg-amber-500/8",
+  };
+
+  const statusLabels: Record<string, string> = {
+    accepted: "✓ Offre acceptée",
+    declined: "✗ Offre refusée",
+    pending: "⏳ En attente",
+    countered: "↩ Contre-offre",
+  };
+
+  return (
+    <div className={cn("rounded-2xl border p-4 max-w-[280px] w-full", statusColors[offer.status] ?? statusColors.pending)}>
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-7 h-7 rounded-full bg-[#6C3AED]/25 flex items-center justify-center text-[14px]">💰</div>
+        <div>
+          <p className="text-[11px] text-white/40 font-medium">Offre d'achat</p>
+          <p className="text-[10px] text-white/25 truncate max-w-[180px]">{offer.title}</p>
+        </div>
+      </div>
+
+      {/* Amount */}
+      <p className="text-[26px] font-black text-white leading-none mb-1">
+        {offer.amount.toFixed(2)} €
+      </p>
+
+      {/* Status */}
+      {offer.status !== "pending" && (
+        <p className={cn("text-[12px] font-bold mt-2", {
+          "text-emerald-400": offer.status === "accepted",
+          "text-red-400": offer.status === "declined",
+          "text-amber-400": offer.status === "countered",
+        })}>
+          {statusLabels[offer.status]}
+        </p>
+      )}
+
+      {/* Actions — only shown to seller when pending */}
+      {isSeller && offer.status === "pending" && (
+        <div className="mt-3 space-y-2">
+          {!showCounter ? (
+            <div className="flex gap-2">
+              <button
+                onClick={() => handle("accepted")}
+                disabled={!!loading}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[12px] font-bold active:scale-95 transition-all disabled:opacity-50"
+              >
+                {loading === "accepted"
+                  ? <span className="w-3.5 h-3.5 rounded-full border-2 border-emerald-400/30 border-t-emerald-400 animate-spin" />
+                  : <><Check className="w-3 h-3" /> Accepter</>}
+              </button>
+              <button
+                onClick={() => handle("declined")}
+                disabled={!!loading}
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-red-500/20 border border-red-500/30 text-red-400 text-[12px] font-bold active:scale-95 transition-all disabled:opacity-50"
+              >
+                {loading === "declined"
+                  ? <span className="w-3.5 h-3.5 rounded-full border-2 border-red-400/30 border-t-red-400 animate-spin" />
+                  : <><X className="w-3 h-3" /> Refuser</>}
+              </button>
+            </div>
+          ) : null}
+          <button
+            onClick={() => setShowCounter((v) => !v)}
+            disabled={!!loading}
+            className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/5 border border-white/10 text-white/50 text-[12px] font-semibold active:scale-95 transition-all"
+          >
+            <RefreshCw className="w-3 h-3" />
+            {showCounter ? "Annuler" : "Proposer un autre prix"}
+          </button>
+          {showCounter && (
+            <div className="flex gap-2 items-center mt-1">
+              <input
+                type="number"
+                value={counterAmount}
+                onChange={(e) => setCounterAmount(e.target.value)}
+                placeholder="Montant €"
+                className="flex-1 px-3 py-2 rounded-xl bg-white/6 border border-white/10 text-[13px] text-white outline-none focus:border-[#6C3AED]/50 placeholder-white/20"
+              />
+              <button
+                onClick={() => {
+                  const amt = parseFloat(counterAmount.replace(",", "."));
+                  if (!isNaN(amt) && amt > 0) handle("declined", amt);
+                }}
+                disabled={!!loading || !counterAmount}
+                className="px-3 py-2 rounded-xl bg-[#6C3AED] text-white text-[12px] font-bold active:scale-95 disabled:opacity-40"
+              >
+                Envoyer
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Buyer sees waiting state */}
+      {isMine && offer.status === "pending" && (
+        <p className="text-[11px] text-white/30 mt-2 font-medium">En attente de réponse du vendeur…</p>
+      )}
+    </div>
+  );
+}
+
+// ─── Main ChatView ────────────────────────────────────────────────────────────
 export function ChatView({ conversation, initialMessages, currentUserId }: ChatViewProps) {
   const router = useRouter();
   const supabase = createClient();
@@ -36,6 +188,7 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
 
   const other = conversation.buyer_id === currentUserId ? conversation.seller : conversation.buyer;
   const product = conversation.product as any;
+  const otherId = conversation.buyer_id === currentUserId ? conversation.seller_id : conversation.buyer_id;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "instant" });
@@ -91,8 +244,6 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
       content,
     });
 
-    // Push notification to the other user
-    const otherId = conversation.buyer_id === currentUserId ? conversation.seller_id : conversation.buyer_id;
     fetch("/api/push/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -101,11 +252,69 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
         title: "💬 Nouveau message",
         body: content.length > 60 ? content.slice(0, 60) + "…" : content,
         url: `/messages/${conversation.id}`,
+        tag: `msg-${conversation.id}`,
       }),
     }).then(undefined, () => {});
 
     setSending(false);
   };
+
+  const handleOfferAction = useCallback(async (
+    offerId: string,
+    action: "accepted" | "declined",
+    counterAmount?: number,
+  ) => {
+    // Update offer status in DB
+    await supabase.from("offers").update({ status: action }).eq("id", offerId);
+
+    let systemText = "";
+    if (action === "accepted") {
+      systemText = "✅ Offre acceptée ! Passez à l'étape de paiement.";
+    } else if (counterAmount) {
+      systemText = `↩ Contre-offre : ${counterAmount.toFixed(2)} €`;
+    } else {
+      systemText = "❌ Offre refusée.";
+    }
+
+    // Insert system message
+    const sysContent = `__SYSTEM__:${systemText}`;
+    const { data: sysMsg } = await supabase
+      .from("messages")
+      .insert({
+        conversation_id: conversation.id,
+        sender_id: currentUserId,
+        content: sysContent,
+      })
+      .select("*, sender:profiles(id, username, full_name, avatar_url)")
+      .single();
+
+    if (sysMsg) setMessages((prev) => [...prev, sysMsg]);
+
+    // Update local offer status in messages state
+    setMessages((prev) =>
+      prev.map((m) => {
+        const o = parseOffer(m.content);
+        if (o && o.id === offerId) {
+          const updated = { ...o, status: counterAmount ? "countered" as const : action };
+          return { ...m, content: `__OFFER__:${JSON.stringify(updated)}` };
+        }
+        return m;
+      })
+    );
+
+    // Push notif to buyer
+    fetch("/api/push/notify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        toUserId: otherId,
+        title: action === "accepted" ? "🎉 Offre acceptée !" : counterAmount ? "↩ Contre-offre reçue" : "❌ Offre refusée",
+        body: systemText,
+        url: `/messages/${conversation.id}`,
+        tag: `offer-resp-${offerId}`,
+      }),
+    }).then(undefined, () => {});
+  }, [conversation.id, currentUserId, otherId, supabase]);
 
   return (
     <div className="flex flex-col h-[100dvh] bg-[#08080F]">
@@ -178,6 +387,9 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
           const isLastInGroup = !nextMsg || nextMsg.sender_id !== msg.sender_id;
           const isFirstInGroup = !prevMsg || prevMsg.sender_id !== msg.sender_id;
 
+          const offerData = parseOffer(msg.content);
+          const systemText = parseSystem(msg.content);
+
           return (
             <div key={msg.id}>
               {showTime && (
@@ -187,35 +399,59 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
                   </span>
                 </div>
               )}
-              <div className={cn(
-                "flex items-end gap-2",
-                isMine ? "justify-end" : "justify-start",
-                isFirstInGroup ? "mt-2" : "mt-0.5"
-              )}>
-                {!isMine && (
-                  <div className="w-6 flex-shrink-0">
-                    {isLastInGroup && (
-                      <Avatar src={(msg.sender as any)?.avatar_url} name={(msg.sender as any)?.full_name} size="xs" />
-                    )}
-                  </div>
-                )}
 
-                <div
-                  className={cn(
-                    "max-w-[78%] px-3.5 py-2.5 text-[14px] leading-relaxed",
-                    isMine
-                      ? cn("rounded-2xl text-white", isLastInGroup ? "rounded-br-sm" : "")
-                      : cn("rounded-2xl text-white/90 border border-white/7", isLastInGroup ? "rounded-bl-sm" : ""),
-                    msg.id.startsWith("temp-") && "opacity-60"
-                  )}
-                  style={isMine
-                    ? { background: "linear-gradient(135deg, #6C3AED, #8B5CF6)" }
-                    : { background: "rgba(255,255,255,0.07)" }
-                  }
-                >
-                  {msg.content}
+              {/* System message */}
+              {systemText && (
+                <div className="flex justify-center my-3">
+                  <span className="text-[12px] text-white/50 bg-white/5 border border-white/8 px-4 py-2 rounded-2xl font-medium text-center max-w-[280px]">
+                    {systemText}
+                  </span>
                 </div>
-              </div>
+              )}
+
+              {/* Offer card */}
+              {offerData && (
+                <div className={cn("flex mt-2", isMine ? "justify-end" : "justify-start")}>
+                  <OfferCard
+                    offer={offerData}
+                    isMine={isMine}
+                    onAction={handleOfferAction}
+                  />
+                </div>
+              )}
+
+              {/* Regular text message */}
+              {!offerData && !systemText && (
+                <div className={cn(
+                  "flex items-end gap-2",
+                  isMine ? "justify-end" : "justify-start",
+                  isFirstInGroup ? "mt-2" : "mt-0.5"
+                )}>
+                  {!isMine && (
+                    <div className="w-6 flex-shrink-0">
+                      {isLastInGroup && (
+                        <Avatar src={(msg.sender as any)?.avatar_url} name={(msg.sender as any)?.full_name} size="xs" />
+                      )}
+                    </div>
+                  )}
+
+                  <div
+                    className={cn(
+                      "max-w-[78%] px-3.5 py-2.5 text-[14px] leading-relaxed",
+                      isMine
+                        ? cn("rounded-2xl text-white", isLastInGroup ? "rounded-br-sm" : "")
+                        : cn("rounded-2xl text-white/90 border border-white/7", isLastInGroup ? "rounded-bl-sm" : ""),
+                      msg.id.startsWith("temp-") && "opacity-60"
+                    )}
+                    style={isMine
+                      ? { background: "linear-gradient(135deg, #6C3AED, #8B5CF6)" }
+                      : { background: "rgba(255,255,255,0.07)" }
+                    }
+                  >
+                    {msg.content}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}

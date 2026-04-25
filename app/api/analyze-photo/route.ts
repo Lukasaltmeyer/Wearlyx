@@ -58,7 +58,7 @@ Style: ${style}. Prix réaliste pour Vinted en euros.`;
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-001:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,7 +77,8 @@ Style: ${style}. Prix réaliste pour Vinted en euros.`;
     const data = await res.json();
 
     if (!res.ok) {
-      return NextResponse.json({ error: `Service IA indisponible` }, { status: 500 });
+      const errMsg = data?.error?.message ?? data?.error ?? JSON.stringify(data);
+      return NextResponse.json({ error: `Gemini: ${errMsg}` }, { status: 500 });
     }
 
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "";

@@ -35,8 +35,8 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  // Refresh session cookie only — no redirects
-  await supabase.auth.getSession();
+  // Refresh session cookie — getUser validates token with Supabase server
+  await supabase.auth.getUser();
 
   return response;
 }

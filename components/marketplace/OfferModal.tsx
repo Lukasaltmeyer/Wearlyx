@@ -33,14 +33,70 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
     if (!isValid) return;
     setLoading(true);
     setError("");
-    const { error: err } = await supabase.from("offers").insert({
+
+    // Insert offer
+    await supabase.from("offers").insert({
       product_id: productId,
       buyer_id: currentUserId,
       seller_id: sellerId,
       amount: parsed,
       message: message.trim() || null,
     });
-    if (err) { setError("Erreur lors de l'envoi. Réessaie."); setLoading(false); return; }
+
+    // Get offer ID back (query after insert to avoid RLS select issues)
+    const { data: offerRow } = await supabase
+      .from("offers")
+      .select("id")
+      .eq("product_id", productId)
+      .eq("buyer_id", currentUserId)
+      .eq("seller_id", sellerId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    // Find or create conversation between buyer and seller for this product
+    let convId: string | null = null;
+    const { data: existingConv } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("product_id", productId)
+      .eq("buyer_id", currentUserId)
+      .eq("seller_id", sellerId)
+      .maybeSingle();
+
+    if (existingConv) {
+      convId = existingConv.id;
+    } else {
+      const { data: newConv } = await supabase
+        .from("conversations")
+        .insert({ product_id: productId, buyer_id: currentUserId, seller_id: sellerId })
+        .select("id")
+        .single();
+      convId = newConv?.id ?? null;
+    }
+
+    if (convId) {
+      const offerContent = `__OFFER__:${JSON.stringify({
+        id: offerRow?.id ?? "unknown",
+        amount: parsed,
+        title: productTitle,
+        buyerId: currentUserId,
+        status: "pending",
+      })}`;
+      await supabase.from("messages").insert({
+        conversation_id: convId,
+        sender_id: currentUserId,
+        content: offerContent,
+      });
+      // Update conversation preview
+      await supabase
+        .from("conversations")
+        .update({
+          last_message: `💰 Offre de ${parsed.toFixed(2)} €`,
+          last_message_at: new Date().toISOString(),
+        })
+        .eq("id", convId);
+    }
 
     // In-app notification
     await supabase.from("notifications").insert({
@@ -48,10 +104,10 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
       type: "offer_received",
       title: "Nouvelle offre reçue",
       body: `Offre de ${parsed.toFixed(2)}€ sur "${productTitle}"`,
-      data: { product_id: productId },
+      data: { product_id: productId, conversation_id: convId },
     }).then(undefined, () => {});
 
-    // Push notification
+    // Push notification — redirect to conversation
     fetch("/api/push/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -59,13 +115,23 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
         toUserId: sellerId,
         title: "💰 Nouvelle offre reçue",
         body: `${parsed.toFixed(2)} € sur "${productTitle}"`,
-        url: `/sales?tab=offres`,
+        url: convId ? `/messages/${convId}` : `/sales?tab=offres`,
+        tag: `offer-${offerRow?.id ?? "new"}`,
       }),
     }).then(undefined, () => {});
 
     setSuccess(true);
     setLoading(false);
-    setTimeout(() => { onClose(); router.refresh(); }, 1500);
+
+    // Navigate to conversation
+    setTimeout(() => {
+      onClose();
+      if (convId) {
+        router.push(`/messages/${convId}`);
+      } else {
+        router.refresh();
+      }
+    }, 1400);
   };
 
   return (
@@ -92,7 +158,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
               <span className="text-2xl">✓</span>
             </div>
             <p className="text-white font-bold">Offre envoyée !</p>
-            <p className="text-white/40 text-[13px]">Le vendeur va recevoir ta proposition</p>
+            <p className="text-white/40 text-[13px]">Redirection vers la conversation…</p>
           </div>
         ) : (
           <>
@@ -112,7 +178,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
                   <span className="text-[12px] font-bold text-[#4CAF50] flex-shrink-0">-{discount}%</span>
                 )}
               </div>
-              <p className="text-[11px] text-white/25 mt-1.5">Minimum : {minOffer.toFixed(2)} € (40% du prix)</p>
+              <p className="text-[11px] text-white/25 mt-1.5">Minimum : {minOffer.toFixed(2)} € (60% du prix)</p>
               {amount && !isValid && (
                 <p className="text-[11px] text-red-400 mt-1">
                   {parseFloat(amount) >= productPrice

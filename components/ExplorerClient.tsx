@@ -250,11 +250,15 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
           )}
 
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
-                <Search className="w-7 h-7 text-white/15" />
+            <div className="flex flex-col items-center justify-center py-14 text-center px-6">
+              <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, rgba(108,58,237,0.12), rgba(192,38,211,0.08))", border: "1px solid rgba(108,58,237,0.18)" }}>
+                <Search className="w-9 h-9" style={{ color: "#a78bfa" }} />
               </div>
-              <p className="font-semibold text-white/40">Aucun article dans cette catégorie</p>
+              <p className="text-[17px] font-black text-white mb-1.5">Aucun article trouvé</p>
+              <p className="text-[13px] text-white/35 leading-relaxed">
+                Aucun article dans cette catégorie pour l&apos;instant.
+              </p>
             </div>
           ) : (
             <div className="px-3 grid grid-cols-2 gap-2.5">

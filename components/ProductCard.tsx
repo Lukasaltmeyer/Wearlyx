@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Flame } from "lucide-react";
+import { Heart } from "lucide-react";
 import { useState } from "react";
 import type { Product } from "@/types/database";
 import { formatPrice, conditionLabel, cn } from "@/lib/utils";
@@ -27,8 +27,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
     if (!currentUserId || likeLoading) return;
     setLikeLoading(true);
     setHeartPop(true);
-    setTimeout(() => setHeartPop(false), 400);
-
+    setTimeout(() => setHeartPop(false), 350);
     if (liked) {
       await supabase.from("likes").delete().match({ user_id: currentUserId, product_id: product.id });
       setLiked(false);
@@ -44,26 +43,21 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
   };
 
   const firstImage = product.images?.[0];
-  const isPopular = (likesCount ?? 0) >= 3;
-  const isNew = product.created_at && (Date.now() - new Date(product.created_at).getTime()) < 1000 * 60 * 60 * 48;
-  const isDeal = product.price < 15;
 
   return (
-    <Link href={`/products/${product.id}`} className="block group active:scale-[0.97] transition-transform duration-150">
-      <div className={cn(
-        "rounded-2xl overflow-hidden border transition-all duration-200 group-hover:shadow-xl",
-        product.is_boosted
-          ? "border-amber-500/25 group-hover:border-amber-500/40 group-hover:shadow-amber-900/20"
-          : "border-white/[0.07] group-hover:border-white/14 group-hover:shadow-black/40"
-      )} style={{ background: "#0f0f1a" }}>
-        {/* Image */}
-        <div className="relative aspect-[3/4] overflow-hidden bg-[#141422]">
+    <Link href={`/products/${product.id}`} className="block group">
+      <div
+        className="rounded-xl overflow-hidden border border-white/[0.06] transition-all duration-200 group-hover:-translate-y-[3px] group-hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)] group-active:scale-[0.97]"
+        style={{ background: "#111827" }}
+      >
+        {/* Image 1:1 */}
+        <div className="relative aspect-square overflow-hidden bg-[#1a1f2e]">
           {firstImage ? (
             <Image
               src={firstImage}
               alt={product.title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+              className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
               sizes="(max-width: 640px) 50vw, 33vw"
             />
           ) : (
@@ -75,84 +69,68 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
             </div>
           )}
 
-          {/* Bottom gradient */}
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
-
-          {/* Badges */}
+          {/* Boost badge — top left */}
           {product.is_boosted && (
-            <div className="absolute top-2 left-2 flex items-center gap-0.5 px-2 py-0.5 rounded-full backdrop-blur-sm"
-              style={{ background: "linear-gradient(135deg, #92400E, #D97706)", boxShadow: "0 0 10px rgba(245,158,11,0.35)", border: "1px solid rgba(245,158,11,0.4)" }}>
-              <span className="text-[9px] font-black text-white">⚡ Boosté</span>
-            </div>
-          )}
-          {!product.is_boosted && isPopular && !isDeal && (
-            <div className="absolute top-2 left-2 flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-orange-500/90 backdrop-blur-sm">
-              <Flame className="w-2.5 h-2.5 text-white fill-white" />
-              <span className="text-[9px] font-black text-white">Tendance</span>
-            </div>
-          )}
-          {!product.is_boosted && isDeal && (
-            <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded-full bg-emerald-500/90 backdrop-blur-sm">
-              <span className="text-[9px] font-black text-white">💸 {product.price}€</span>
-            </div>
-          )}
-          {!product.is_boosted && isNew && !isPopular && !isDeal && (
-            <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded-full bg-[#6C3AED]/90 backdrop-blur-sm">
-              <span className="text-[9px] font-black text-white">✨ Nouveau</span>
+            <div
+              className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-md"
+              style={{
+                background: "linear-gradient(135deg, #9333EA, #EC4899)",
+                boxShadow: "0 0 10px rgba(168,85,247,0.5)",
+              }}
+            >
+              <span className="text-[9px] font-black text-white tracking-wide">🔥 Boosté</span>
             </div>
           )}
 
-          {/* Like button */}
+          {/* Like button — top right */}
           <button
             onClick={handleLike}
             className={cn(
               "absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150",
               heartPop ? "scale-[1.35]" : "scale-100",
               liked
-                ? "bg-red-500 text-white shadow-md shadow-red-500/40"
-                : "bg-black/40 text-white/50 backdrop-blur-md hover:text-white/80"
+                ? "bg-red-500 shadow-md shadow-red-500/40"
+                : "bg-black/50 backdrop-blur-md group-hover:bg-black/70"
             )}
           >
-            <Heart className={cn("w-3.5 h-3.5 transition-all", liked && "fill-current")} />
+            <Heart className={cn("w-3.5 h-3.5 text-white transition-all", liked && "fill-white")} />
           </button>
 
-          {/* Price overlay */}
-          <div className="absolute bottom-2 left-2 right-9">
-            <p className="text-[14px] font-black text-white drop-shadow-sm">{formatPrice(product.price)}</p>
-          </div>
-
-          {/* Likes count bottom right */}
-          {likesCount > 0 && (
-            <div className="absolute bottom-2 right-2 flex items-center gap-0.5">
-              <Heart className="w-2.5 h-2.5 fill-red-400 text-red-400" />
-              <span className="text-[9px] font-bold text-white/70">{likesCount}</span>
-            </div>
-          )}
+          {/* Bottom gradient */}
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
         </div>
 
         {/* Info */}
-        <div className="px-2.5 pt-2 pb-2.5">
-          {product.brand && (
-            <p className="text-[9px] font-bold uppercase tracking-wider mb-0.5" style={{ color: "#9B93FF" }}>{product.brand}</p>
+        <div className="px-2.5 pt-2 pb-2.5 space-y-1">
+          {/* Price — first, most prominent */}
+          <p className="text-[16px] font-bold text-white leading-none">{formatPrice(product.price)}</p>
+
+          {/* Title */}
+          <p className="text-[12px] text-[#9CA3AF] line-clamp-2 leading-snug">{product.title}</p>
+
+          {/* Badges: size, brand, condition */}
+          {(product.size || product.brand || product.condition) && (
+            <div className="flex flex-wrap gap-1 pt-0.5">
+              {product.size && (
+                <span className="text-[10px] font-medium px-1.5 py-[3px] rounded-md text-[#D1D5DB]"
+                  style={{ background: "rgba(255,255,255,0.05)" }}>
+                  {product.size}
+                </span>
+              )}
+              {product.brand && (
+                <span className="text-[10px] font-medium px-1.5 py-[3px] rounded-md text-[#D1D5DB]"
+                  style={{ background: "rgba(255,255,255,0.05)" }}>
+                  {product.brand}
+                </span>
+              )}
+              {product.condition && (
+                <span className="text-[10px] font-medium px-1.5 py-[3px] rounded-md text-[#D1D5DB]"
+                  style={{ background: "rgba(255,255,255,0.05)" }}>
+                  {conditionLabel(product.condition)}
+                </span>
+              )}
+            </div>
           )}
-          <p className="text-[12px] font-semibold text-white/85 line-clamp-1 leading-snug mb-1.5">{product.title}</p>
-          <div className="flex items-center justify-between gap-1">
-            {product.condition && (
-              <span className={cn(
-                "text-[9px] font-semibold px-1.5 py-0.5 rounded-md",
-                product.condition === "new" ? "bg-emerald-500/12 text-emerald-400/80" :
-                product.condition === "like_new" ? "bg-sky-500/10 text-sky-400/70" :
-                "bg-white/6 text-white/40"
-              )}>
-                {conditionLabel(product.condition)}
-              </span>
-            )}
-            {product.size && (
-              <span className="text-[9px] text-white/50 bg-white/8 border border-white/10 px-1.5 py-0.5 rounded font-semibold">
-                {product.size}
-              </span>
-            )}
-          </div>
         </div>
       </div>
     </Link>
