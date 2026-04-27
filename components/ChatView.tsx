@@ -264,57 +264,101 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
     action: "accepted" | "declined",
     counterAmount?: number,
   ) => {
-    // Update offer status in DB
-    await supabase.from("offers").update({ status: action }).eq("id", offerId);
+    // Mark original offer as countered/declined/accepted
+    const newStatus = counterAmount ? "countered" : action;
+    await supabase.from("offers").update({ status: newStatus }).eq("id", offerId);
 
-    let systemText = "";
-    if (action === "accepted") {
-      systemText = "✅ Offre acceptée ! Passez à l'étape de paiement.";
-    } else if (counterAmount) {
-      systemText = `↩ Contre-offre : ${counterAmount.toFixed(2)} €`;
-    } else {
-      systemText = "❌ Offre refusée.";
-    }
-
-    // Insert system message
-    const sysContent = `__SYSTEM__:${systemText}`;
-    const { data: sysMsg } = await supabase
-      .from("messages")
-      .insert({
-        conversation_id: conversation.id,
-        sender_id: currentUserId,
-        content: sysContent,
-      })
-      .select("*, sender:profiles(id, username, full_name, avatar_url)")
-      .single();
-
-    if (sysMsg) setMessages((prev) => [...prev, sysMsg]);
-
-    // Update local offer status in messages state
+    // Update local offer status
     setMessages((prev) =>
       prev.map((m) => {
         const o = parseOffer(m.content);
         if (o && o.id === offerId) {
-          const updated = { ...o, status: counterAmount ? "countered" as const : action };
-          return { ...m, content: `__OFFER__:${JSON.stringify(updated)}` };
+          return { ...m, content: `__OFFER__:${JSON.stringify({ ...o, status: newStatus })}` };
         }
         return m;
       })
     );
 
-    // Push notif to buyer
+    let pushTitle = "";
+    let pushBody = "";
+
+    if (counterAmount) {
+      // Counter-offer: insert a new offer card (sender = seller, buyer can accept/decline)
+      // Find original offer to get product info
+      const { data: origOffer } = await supabase
+        .from("offers")
+        .select("product_id, seller_id, buyer_id")
+        .eq("id", offerId)
+        .single();
+
+      const counterContent = `__OFFER__:${JSON.stringify({
+        id: `counter-${offerId}`,
+        amount: counterAmount,
+        title: conversation.product ? (conversation.product as any).title : "Article",
+        buyerId: origOffer?.buyer_id ?? otherId,
+        status: "pending",
+        isCounter: true,
+      })}`;
+
+      const { data: counterMsg } = await supabase
+        .from("messages")
+        .insert({
+          conversation_id: conversation.id,
+          sender_id: currentUserId,
+          content: counterContent,
+        })
+        .select("*, sender:profiles(id, username, full_name, avatar_url)")
+        .single();
+
+      if (counterMsg) setMessages((prev) => [...prev, counterMsg]);
+
+      // Update conversation preview
+      await supabase.from("conversations").update({
+        last_message: `↩ Contre-offre : ${counterAmount.toFixed(2)} €`,
+        last_message_at: new Date().toISOString(),
+      }).eq("id", conversation.id);
+
+      pushTitle = "↩ Contre-offre reçue";
+      pushBody = `Le vendeur propose ${counterAmount.toFixed(2)} €`;
+    } else if (action === "accepted") {
+      // System message for accepted
+      const sysContent = `__SYSTEM__:✅ Offre acceptée ! Passez à l'étape de paiement.`;
+      const { data: sysMsg } = await supabase
+        .from("messages")
+        .insert({ conversation_id: conversation.id, sender_id: currentUserId, content: sysContent })
+        .select("*, sender:profiles(id, username, full_name, avatar_url)")
+        .single();
+      if (sysMsg) setMessages((prev) => [...prev, sysMsg]);
+
+      pushTitle = "🎉 Offre acceptée !";
+      pushBody = "Le vendeur a accepté ton offre. Tu peux passer au paiement.";
+    } else {
+      // System message for declined
+      const sysContent = `__SYSTEM__:❌ Offre refusée.`;
+      const { data: sysMsg } = await supabase
+        .from("messages")
+        .insert({ conversation_id: conversation.id, sender_id: currentUserId, content: sysContent })
+        .select("*, sender:profiles(id, username, full_name, avatar_url)")
+        .single();
+      if (sysMsg) setMessages((prev) => [...prev, sysMsg]);
+
+      pushTitle = "❌ Offre refusée";
+      pushBody = "Le vendeur a refusé ton offre.";
+    }
+
+    // Push notification to other party
     fetch("/api/push/notify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         toUserId: otherId,
-        title: action === "accepted" ? "🎉 Offre acceptée !" : counterAmount ? "↩ Contre-offre reçue" : "❌ Offre refusée",
-        body: systemText,
+        title: pushTitle,
+        body: pushBody,
         url: `/messages/${conversation.id}`,
         tag: `offer-resp-${offerId}`,
       }),
     }).then(undefined, () => {});
-  }, [conversation.id, currentUserId, otherId, supabase]);
+  }, [conversation.id, conversation.product, currentUserId, otherId, supabase]);
 
   return (
     <div className="flex flex-col h-[100dvh] bg-[#07070A]">
@@ -332,7 +376,7 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
 
         <div className="relative flex-shrink-0">
           <Avatar src={(other as any)?.avatar_url} name={(other as any)?.full_name || (other as any)?.username} size="sm" />
-          <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-[#07070A]" />
+          <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#8B5CF6] border-2 border-[#07070A]" />
         </div>
 
         <div className="flex-1 min-w-0">

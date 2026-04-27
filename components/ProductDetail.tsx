@@ -208,7 +208,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
           {/* Tags row */}
           <div className="flex flex-wrap gap-1.5 mb-3">
             {product.condition && (
-              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#8B5CF6]/15 text-[#A78BFA] border border-[#8B5CF6]/25">
                 {conditionLabel(product.condition)}
               </span>
             )}
@@ -336,14 +336,14 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
             <div className="flex-1 flex gap-2">
               <button
                 onClick={() => { if (!currentUserId) { router.push("/auth"); return; } setShowOffer(true); }}
-                className="w-14 h-12 rounded-2xl border border-[#8B5CF6]/50 text-[#A78BFA] text-[12px] font-bold active:scale-[0.98] transition-all flex items-center justify-center flex-shrink-0 bg-[#8B5CF6]/8">
-                Offre
+                className="flex-1 h-12 rounded-2xl border border-[#8B5CF6]/50 text-[#A78BFA] text-[13px] font-bold active:scale-[0.98] transition-all flex items-center justify-center bg-[#8B5CF6]/8">
+                Faire une offre
               </button>
               <button
                 onClick={() => { if (!currentUserId) { router.push("/auth"); return; } setShowCheckout(true); }}
-                className="flex-1 h-12 rounded-2xl text-white text-[15px] font-black active:scale-[0.97] transition-all shadow-lg"
+                className="flex-[1.6] h-12 rounded-2xl text-white text-[15px] font-black active:scale-[0.97] transition-all shadow-lg"
                 style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 20px rgba(139,92,246,0.5)" }}>
-                Acheter maintenant
+                Acheter
               </button>
             </div>
           )}

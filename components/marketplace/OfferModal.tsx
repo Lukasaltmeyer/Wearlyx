@@ -178,12 +178,12 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
                   <span className="text-[12px] font-bold text-[#4CAF50] flex-shrink-0">-{discount}%</span>
                 )}
               </div>
-              <p className="text-[11px] text-white/25 mt-1.5">Minimum : {minOffer.toFixed(2)} € (60% du prix)</p>
+              <p className="text-[11px] text-white/25 mt-1.5">Maximum 40% de réduction — min {minOffer.toFixed(2)} €</p>
               {amount && !isValid && (
                 <p className="text-[11px] text-red-400 mt-1">
                   {parseFloat(amount) >= productPrice
-                    ? "L'offre doit être inférieure au prix"
-                    : `Offre minimum : ${minOffer.toFixed(2)} €`}
+                    ? "L'offre doit être inférieure au prix affiché"
+                    : `L'offre doit être au maximum 40% inférieure au prix (min ${minOffer.toFixed(2)} €)`}
                 </p>
               )}
             </div>
