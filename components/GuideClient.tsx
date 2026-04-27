@@ -132,7 +132,7 @@ export function GuideClient() {
       <div className="px-4 pb-4">
         <button
           className="w-full py-4 rounded-2xl font-bold text-[14px] text-white flex items-center justify-center gap-2"
-          style={{ background: "linear-gradient(135deg, #A855F7, #22C55E)" }}
+          style={{ background: "linear-gradient(135deg, #A855F7, #8B5CF6)" }}
         >
           💬 Tu as une autre question ? Chat avec l'IA →
         </button>

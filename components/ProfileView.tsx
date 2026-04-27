@@ -129,7 +129,7 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
   ];
 
   return (
-    <div className="min-h-[100dvh] bg-[#08080F] pb-24">
+    <div className="min-h-[100dvh] bg-[#07070A] pb-24">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-5 pb-3">
         <button onClick={() => router.back()}
@@ -169,7 +169,7 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
           <button key={id} onClick={() => setTab(id)}
             className={`flex-1 py-3 text-[14px] font-semibold transition-colors relative ${tab === id ? "text-white" : "text-white/35"}`}>
             {label}
-            {tab === id && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#22C55E] rounded-full" />}
+            {tab === id && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B5CF6] rounded-full" />}
           </button>
         ))}
       </div>

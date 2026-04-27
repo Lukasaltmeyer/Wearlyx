@@ -44,7 +44,7 @@ export function UpgradePopup({ currentPlan, onClose }: Props) {
 
           {/* Header */}
           <div className="text-center mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#22C55E] to-[#4ADE80] flex items-center justify-center mx-auto mb-3 shadow-lg shadow-[#22C55E]/30">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8B5CF6] to-[#A78BFA] flex items-center justify-center mx-auto mb-3 shadow-lg shadow-[#8B5CF6]/30">
               <Zap className="w-7 h-7 text-white" />
             </div>
             <h2 className="text-xl font-black text-white">Limite mensuelle atteinte</h2>

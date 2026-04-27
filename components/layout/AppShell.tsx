@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { usePathname } from "next/navigation";
 
@@ -12,7 +12,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (isAuthPage) {
     return (
-      <div className="w-full min-h-[100dvh] bg-[#08080F] flex justify-center">
+      <div className="w-full min-h-[100dvh] bg-[#07070A] flex justify-center">
         <div className="w-full max-w-[600px] relative overflow-hidden">
           {children}
         </div>
@@ -21,8 +21,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="w-full min-h-[100dvh] bg-[#08080F] flex justify-center">
-      <div className="w-full max-w-[600px] min-h-[100dvh] bg-[#08080F] relative">
+    <div className="w-full min-h-[100dvh] bg-[#07070A] flex justify-center">
+      <div className="w-full max-w-[600px] min-h-[100dvh] bg-[#07070A] relative">
         {children}
       </div>
     </div>

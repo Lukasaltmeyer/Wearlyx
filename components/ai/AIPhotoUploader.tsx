@@ -68,20 +68,20 @@ export function AIPhotoUploader({ photos, onChange }: Props) {
           onClick={() => inputRef.current?.click()}
           className={`relative flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed p-8 cursor-pointer transition-all duration-200 ${
             dragging
-              ? "border-[#22C55E] bg-[#22C55E]/10 scale-[0.99]"
+              ? "border-[#8B5CF6] bg-[#8B5CF6]/10 scale-[0.99]"
               : "border-white/15 bg-white/4 hover:border-white/25 hover:bg-white/6"
           }`}
         >
-          <div className="w-14 h-14 rounded-2xl bg-[#22C55E]/15 border border-[#22C55E]/20 flex items-center justify-center">
-            <ImagePlus className="w-6 h-6 text-[#4ADE80]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#8B5CF6]/15 border border-[#8B5CF6]/20 flex items-center justify-center">
+            <ImagePlus className="w-6 h-6 text-[#A78BFA]" />
           </div>
           <div className="text-center">
             <p className="text-[15px] font-semibold text-white">Clique ou glisse tes photos</p>
             <p className="text-[12px] text-white/35 mt-1">JPG, PNG · max 5 photos</p>
           </div>
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20">
-            <Sparkles className="w-3 h-3 text-[#4ADE80]" />
-            <span className="text-[11px] font-semibold text-[#4ADE80]">Amélioration IA automatique</span>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/20">
+            <Sparkles className="w-3 h-3 text-[#A78BFA]" />
+            <span className="text-[11px] font-semibold text-[#A78BFA]">Amélioration IA automatique</span>
           </div>
           <input
             ref={inputRef}
@@ -109,14 +109,14 @@ export function AIPhotoUploader({ photos, onChange }: Props) {
                 {/* Enhancing overlay */}
                 {isEnhancing && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-1.5">
-                    <div className="w-6 h-6 rounded-full border-2 border-[#4ADE80] border-t-transparent animate-spin" />
-                    <span className="text-[9px] font-bold text-[#4ADE80]">IA…</span>
+                    <div className="w-6 h-6 rounded-full border-2 border-[#A78BFA] border-t-transparent animate-spin" />
+                    <span className="text-[9px] font-bold text-[#A78BFA]">IA…</span>
                   </div>
                 )}
 
                 {/* IA badge (photo améliorée) */}
                 {!isEnhancing && (
-                  <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-[#22C55E]/80 backdrop-blur-sm">
+                  <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-[#8B5CF6]/80 backdrop-blur-sm">
                     <Sparkles className="w-2.5 h-2.5 text-white" />
                     <span className="text-[9px] font-bold text-white">IA</span>
                   </div>
@@ -133,7 +133,7 @@ export function AIPhotoUploader({ photos, onChange }: Props) {
                 </div>
 
                 {i === 0 && (
-                  <div className="absolute bottom-1.5 left-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#22C55E] text-white">
+                  <div className="absolute bottom-1.5 left-1.5 text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-[#8B5CF6] text-white">
                     Principale
                   </div>
                 )}

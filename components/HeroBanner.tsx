@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Zap, Crown, ArrowUpRight } from "lucide-react";
 
 export function HeroBanner() {
@@ -9,19 +9,19 @@ export function HeroBanner() {
       <Link href="/sell/ai" className="flex-[3] block active:scale-[0.975] transition-transform duration-150">
         <div
           className="relative rounded-2xl overflow-hidden p-4 h-[120px] flex flex-col justify-between"
-          style={{ background: "#111827", border: "1px solid rgba(34,197,94,0.2)" }}
+          style={{ background: "#11111A", border: "1px solid rgba(139,92,246,0.2)" }}
         >
           {/* Subtle glow top-left */}
           <div className="absolute -top-8 -left-8 w-32 h-32 rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%)" }} />
+            style={{ background: "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)" }} />
 
           {/* Top row */}
           <div className="flex items-start justify-between relative z-10">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center"
-              style={{ background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.25)" }}>
-              <Zap className="w-4 h-4 fill-[#22C55E] text-[#22C55E]" />
+              style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.25)" }}>
+              <Zap className="w-4 h-4 fill-[#8B5CF6] text-[#8B5CF6]" />
             </div>
-            <ArrowUpRight className="w-4 h-4 mt-0.5" style={{ color: "rgba(34,197,94,0.4)" }} />
+            <ArrowUpRight className="w-4 h-4 mt-0.5" style={{ color: "rgba(139,92,246,0.4)" }} />
           </div>
 
           {/* Text */}
@@ -35,7 +35,7 @@ export function HeroBanner() {
           {/* Bottom tag */}
           <div className="absolute bottom-3.5 right-3.5 z-10">
             <span className="text-[9.5px] font-bold px-2 py-1 rounded-full"
-              style={{ background: "rgba(34,197,94,0.12)", color: "#4ADE80", border: "1px solid rgba(34,197,94,0.2)" }}>
+              style={{ background: "rgba(139,92,246,0.12)", color: "#A78BFA", border: "1px solid rgba(139,92,246,0.2)" }}>
               Gratuit ✦
             </span>
           </div>
@@ -46,7 +46,7 @@ export function HeroBanner() {
       <Link href="/premium" className="flex-[2] block active:scale-[0.975] transition-transform duration-150">
         <div
           className="relative rounded-2xl overflow-hidden p-4 h-[120px] flex flex-col justify-between"
-          style={{ background: "#111827", border: "1px solid rgba(255,255,255,0.07)" }}
+          style={{ background: "#11111A", border: "1px solid rgba(255,255,255,0.07)" }}
         >
           {/* Subtle glow */}
           <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full pointer-events-none"

@@ -15,8 +15,8 @@ interface ProductCardProps {
 }
 
 const CONDITION_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
-  new:       { label: "Neuf ✦",    color: "#22C55E", bg: "rgba(34,197,94,0.12)" },
-  like_new:  { label: "Très bon",  color: "#4ADE80", bg: "rgba(74,222,128,0.1)" },
+  new:       { label: "Neuf ✦",    color: "#8B5CF6", bg: "rgba(139,92,246,0.12)" },
+  like_new:  { label: "Très bon",  color: "#A78BFA", bg: "rgba(167,139,250,0.1)" },
   good:      { label: "Bon état",  color: "#FACC15", bg: "rgba(250,204,21,0.1)" },
   fair:      { label: "Correct",   color: "#FB923C", bg: "rgba(251,146,60,0.1)" },
 };
@@ -56,10 +56,10 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
     <Link href={`/products/${product.id}`} className="block group">
       <div
         className="rounded-2xl overflow-hidden border transition-all duration-200 group-hover:-translate-y-[3px] group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.4)] group-active:scale-[0.97]"
-        style={{ background: "#111827", borderColor: "rgba(255,255,255,0.06)" }}
+        style={{ background: "#11111A", borderColor: "rgba(255,255,255,0.06)" }}
       >
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-[#1a2235]">
+        <div className="relative aspect-square overflow-hidden bg-[#181824]">
           {firstImage ? (
             <Image
               src={firstImage}
@@ -80,7 +80,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
           {/* Boost badge */}
           {product.is_boosted && (
             <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-lg"
-              style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)", boxShadow: "0 0 10px rgba(34,197,94,0.4)" }}>
+              style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 0 10px rgba(139,92,246,0.4)" }}>
               <span className="text-[9px] font-black text-white tracking-wide">🔥 Boosté</span>
             </div>
           )}
@@ -114,13 +114,13 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
             <div className="flex flex-wrap gap-1 pt-0.5">
               {product.size && (
                 <span className="text-[9.5px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: "rgba(34,197,94,0.1)", color: "#4ADE80" }}>
+                  style={{ background: "rgba(139,92,246,0.1)", color: "#A78BFA" }}>
                   {product.size}
                 </span>
               )}
               {product.brand && (
                 <span className="text-[9.5px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: "rgba(34,197,94,0.12)", color: "#4ADE80" }}>
+                  style={{ background: "rgba(139,92,246,0.12)", color: "#A78BFA" }}>
                   {product.brand}
                 </span>
               )}

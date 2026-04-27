@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/layout/Navbar";
@@ -20,7 +20,7 @@ export default async function ReferralPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#08080F] min-h-[100dvh] pb-24 animate-fadeIn">
+      <main className="bg-[#07070A] min-h-[100dvh] pb-24 animate-fadeIn">
         <ReferralClient referralCode={referralCode} />
       </main>
     </>

@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -85,7 +85,7 @@ export default async function HomePage({
   return (
     <>
       <Navbar />
-      <main className="w-full bg-[#08080F] min-h-[100dvh] pb-[120px]">
+      <main className="w-full bg-[#07070A] min-h-[100dvh] pb-[120px]">
         <HeroBanner />
         <FilterBar activeCategory={params.category} activeSort={params.sort} />
         <ProductGrid products={enrichedProducts} currentUserId={userId} />

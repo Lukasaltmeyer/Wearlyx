@@ -1,9 +1,9 @@
-import { timeAgo } from "@/lib/utils";
+﻿import { timeAgo } from "@/lib/utils";
 
 const STATUS_BADGE: Record<string, string> = {
   open:         "bg-red-500/15 text-red-400",
   under_review: "bg-yellow-500/15 text-yellow-400",
-  resolved:     "bg-green-500/15 text-green-400",
+  resolved:     "bg-violet-500/15 text-violet-400",
   refunded:     "bg-teal-500/15 text-teal-400",
   rejected:     "bg-white/8 text-white/30",
 };

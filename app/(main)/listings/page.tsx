@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ListingsClient } from "@/components/ListingsClient";
@@ -25,7 +25,7 @@ export default async function ListingsPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#08080F] min-h-[100dvh] pb-24">
+      <main className="bg-[#07070A] min-h-[100dvh] pb-24">
         <ListingsClient products={enriched} userId={user.id} />
       </main>
     </>

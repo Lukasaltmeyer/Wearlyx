@@ -59,7 +59,7 @@ export function OrderDetailClient({ order, currentUserId }: Props) {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-[#08080F] pb-24">
+    <div className="min-h-[100dvh] bg-[#07070A] pb-24">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-5 pb-4">
         <button onClick={() => router.back()} className="w-9 h-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
@@ -92,7 +92,7 @@ export function OrderDetailClient({ order, currentUserId }: Props) {
         {shipment && (
           <div className="p-4 rounded-2xl bg-white/5 border border-white/8">
             <div className="flex items-center gap-2 mb-4">
-              <Package className="w-4 h-4 text-[#22C55E]" />
+              <Package className="w-4 h-4 text-[#8B5CF6]" />
               <p className="text-[14px] font-black text-white">Suivi du colis</p>
             </div>
             <TrackingTimeline
@@ -117,7 +117,7 @@ export function OrderDetailClient({ order, currentUserId }: Props) {
         {/* Actions seller */}
         {isSeller && order.status === "paid" && (
           <button onClick={markShipped} disabled={markLoading}
-            className="w-full py-4 rounded-2xl bg-[#22C55E] text-[15px] font-bold text-white active:scale-[0.98] transition-all disabled:opacity-50">
+            className="w-full py-4 rounded-2xl bg-[#8B5CF6] text-[15px] font-bold text-white active:scale-[0.98] transition-all disabled:opacity-50">
             {markLoading ? "..." : "📦 Marquer comme expédié"}
           </button>
         )}

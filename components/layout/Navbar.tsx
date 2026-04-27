@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -33,7 +33,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2 select-none">
           {/* W mark */}
           <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-            style={{ background: "#22C55E" }}>
+            style={{ background: "#8B5CF6" }}>
             <span className="text-[13px] font-black text-white leading-none">W</span>
           </div>
           <span className="font-black text-[20px] tracking-tight text-white leading-none">

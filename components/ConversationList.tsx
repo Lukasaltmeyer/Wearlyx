@@ -37,7 +37,7 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
             key={conv.id}
             href={`/messages/${conv.id}`}
             className="flex items-center gap-3 px-4 py-3.5 active:bg-white/4 transition-colors"
-            style={isUnread ? { background: "rgba(34,197,94,0.05)" } : {}}
+            style={isUnread ? { background: "rgba(139,92,246,0.05)" } : {}}
           >
             <div className="relative flex-shrink-0">
               {product?.images?.[0] ? (
@@ -48,8 +48,8 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
                 <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/8 flex-shrink-0" />
               )}
               <div className={cn(
-                "absolute -bottom-1 -right-1 ring-2 ring-[#08080F] rounded-full",
-                isUnread ? "ring-[#22C55E]/50" : ""
+                "absolute -bottom-1 -right-1 ring-2 ring-[#07070A] rounded-full",
+                isUnread ? "ring-[#8B5CF6]/50" : ""
               )}>
                 <Avatar
                   src={(other as any)?.avatar_url}
@@ -77,7 +77,7 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
             </div>
 
             {isUnread && (
-              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }} />
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }} />
             )}
           </Link>
         );

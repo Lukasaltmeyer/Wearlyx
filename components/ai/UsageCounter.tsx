@@ -48,7 +48,7 @@ export function UsageCounter({ onUsageLoaded }: Props) {
             ♾️ Illimité
           </span>
         ) : (
-          <span className={`text-[12px] font-bold ${isDanger ? "text-red-400" : isWarning ? "text-amber-400" : "text-[#4ADE80]"}`}>
+          <span className={`text-[12px] font-bold ${isDanger ? "text-red-400" : isWarning ? "text-amber-400" : "text-[#A78BFA]"}`}>
             {usage.remaining} restante{(usage.remaining ?? 0) > 1 ? "s" : ""}
           </span>
         )}
@@ -63,7 +63,7 @@ export function UsageCounter({ onUsageLoaded }: Props) {
               style={{
                 width: `${usage.pct}%`,
                 background: isDanger ? "#EF4444" : isWarning ? "#F59E0B" :
-                  "linear-gradient(to right, #22C55E, #4ADE80)",
+                  "linear-gradient(to right, #8B5CF6, #A78BFA)",
               }}
             />
           </div>

@@ -28,7 +28,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900",
               "placeholder:text-gray-400 transition-all duration-150",
               "hover:border-gray-300",
-              "focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20",
+              "focus:border-[#8B5CF6] focus:ring-2 focus:ring-[#8B5CF6]/20",
               error && "border-red-400 focus:border-red-400 focus:ring-red-400/20",
               leftIcon && "pl-10",
               rightIcon && "pr-10",
@@ -69,7 +69,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900",
             "placeholder:text-gray-400 transition-all duration-150 resize-none",
             "hover:border-gray-300",
-            "focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20",
+            "focus:border-[#8B5CF6] focus:ring-2 focus:ring-[#8B5CF6]/20",
             error && "border-red-400 focus:border-red-400 focus:ring-red-400/20",
             className
           )}

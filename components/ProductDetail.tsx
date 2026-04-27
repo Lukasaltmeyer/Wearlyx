@@ -97,7 +97,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
   };
 
   return (
-    <div className="bg-[#08080F] min-h-[100dvh] animate-fadeIn pb-32">
+    <div className="bg-[#07070A] min-h-[100dvh] animate-fadeIn pb-32">
 
       {/* Floating top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 pt-4">
@@ -113,7 +113,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
           <button onClick={toggleSave}
             className={cn(
               "w-10 h-10 rounded-2xl flex items-center justify-center border backdrop-blur-md active:scale-95 transition-all",
-              saved ? "bg-[#22C55E] border-[#22C55E]" : "border-white/10 bg-black/60"
+              saved ? "bg-[#8B5CF6] border-[#8B5CF6]" : "border-white/10 bg-black/60"
             )}>
             <Bookmark className={cn("w-4 h-4", saved ? "text-white fill-white" : "text-white/70")} />
           </button>
@@ -122,7 +122,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
 
       {/* Main image */}
       <div className="-mt-14">
-        <div className="relative aspect-square bg-[#141422] overflow-hidden">
+        <div className="relative aspect-square bg-[#0F0F18] overflow-hidden">
           {images.length > 0 ? (
             <Image src={images[activeImage]} alt={product.title} fill className="object-cover" priority sizes="100vw" />
           ) : (
@@ -131,7 +131,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
             </div>
           )}
           {/* Gradient bottom */}
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#08080F] to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#07070A] to-transparent pointer-events-none" />
 
           {product.status !== "active" && (
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
@@ -149,7 +149,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
               <button key={i} onClick={() => setActiveImage(i)}
                 className={cn(
                   "flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all active:scale-95",
-                  activeImage === i ? "border-[#22C55E]" : "border-white/10"
+                  activeImage === i ? "border-[#8B5CF6]" : "border-white/10"
                 )}>
                 <Image src={img} alt="" width={56} height={56} className="object-cover w-full h-full" />
               </button>
@@ -218,7 +218,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
               </span>
             )}
             {product.brand && (
-              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#22C55E]/15 text-[#4ADE80] border border-[#22C55E]/25">
+              <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-[#8B5CF6]/15 text-[#A78BFA] border border-[#8B5CF6]/25">
                 {product.brand}
               </span>
             )}
@@ -254,7 +254,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
                 <Image src={product.seller.avatar_url} alt="" width={44} height={44} className="object-cover w-full h-full" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center"
-                  style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }}>
+                  style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}>
                   <span className="text-white font-black text-[16px]">
                     {(product.seller.full_name || product.seller.username || "?")[0].toUpperCase()}
                   </span>
@@ -291,8 +291,8 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
               {similarProducts.map((p) => (
                 <Link key={p.id} href={`/products/${p.id}`}
                   className="flex-shrink-0 w-[120px] rounded-2xl overflow-hidden border border-white/7 active:scale-[0.97] transition-transform"
-                  style={{ background: "#0f0f1a" }}>
-                  <div className="relative aspect-[3/4] bg-[#141422]">
+                  style={{ background: "#0E0E16" }}>
+                  <div className="relative aspect-[3/4] bg-[#0F0F18]">
                     {p.images?.[0] && (
                       <Image src={p.images[0]} alt={p.title} fill className="object-cover" sizes="120px" />
                     )}
@@ -312,7 +312,7 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
 
       {/* Bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-30 px-4 pb-8 pt-3 safe-bottom"
-        style={{ background: "linear-gradient(to top, #08080F 70%, transparent)" }}>
+        style={{ background: "linear-gradient(to top, #07070A 70%, transparent)" }}>
         <div className="flex gap-2.5">
           <button onClick={toggleLike} disabled={actionLoading}
             className={cn(
@@ -336,13 +336,13 @@ export function ProductDetail({ product, currentUserId }: ProductDetailProps) {
             <div className="flex-1 flex gap-2">
               <button
                 onClick={() => { if (!currentUserId) { router.push("/auth"); return; } setShowOffer(true); }}
-                className="w-14 h-12 rounded-2xl border border-[#22C55E]/50 text-[#4ADE80] text-[12px] font-bold active:scale-[0.98] transition-all flex items-center justify-center flex-shrink-0 bg-[#22C55E]/8">
+                className="w-14 h-12 rounded-2xl border border-[#8B5CF6]/50 text-[#A78BFA] text-[12px] font-bold active:scale-[0.98] transition-all flex items-center justify-center flex-shrink-0 bg-[#8B5CF6]/8">
                 Offre
               </button>
               <button
                 onClick={() => { if (!currentUserId) { router.push("/auth"); return; } setShowCheckout(true); }}
                 className="flex-1 h-12 rounded-2xl text-white text-[15px] font-black active:scale-[0.97] transition-all shadow-lg"
-                style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)", boxShadow: "0 4px 20px rgba(34,197,94,0.5)" }}>
+                style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 20px rgba(139,92,246,0.5)" }}>
                 Acheter maintenant
               </button>
             </div>

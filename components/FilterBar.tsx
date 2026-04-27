@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -56,8 +56,8 @@ export function FilterBar({ activeCategory }: FilterBarProps) {
                 isActive ? "text-white" : "text-white/40 hover:text-white/60"
               )}
               style={isActive ? {
-                background: "#22C55E",
-                boxShadow: "0 0 0 1px rgba(34,197,94,0.4), 0 4px 12px rgba(34,197,94,0.2)",
+                background: "#8B5CF6",
+                boxShadow: "0 0 0 1px rgba(139,92,246,0.4), 0 4px 12px rgba(139,92,246,0.2)",
                 color: "#fff",
               } : {
                 background: "rgba(255,255,255,0.04)",

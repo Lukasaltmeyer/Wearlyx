@@ -15,13 +15,13 @@ function baseTemplate(content: string, unsubscribeToken?: string) {
     ? `<tr><td style="padding:24px 32px;text-align:center;border-top:1px solid #1a1a2e;">
         <p style="color:#555;font-size:11px;margin:0;">
           Tu reçois cet email car tu as accepté nos communications marketing.<br/>
-          <a href="${APP_URL}/api/emails/unsubscribe?token=${unsubscribeToken}" style="color:#22C55E;">Se désinscrire</a>
+          <a href="${APP_URL}/api/emails/unsubscribe?token=${unsubscribeToken}" style="color:#8B5CF6;">Se désinscrire</a>
           &nbsp;·&nbsp;
-          <a href="${APP_URL}/profile/settings/notifications" style="color:#22C55E;">Gérer mes préférences</a>
+          <a href="${APP_URL}/profile/settings/notifications" style="color:#8B5CF6;">Gérer mes préférences</a>
         </p>
        </td></tr>`
     : `<tr><td style="padding:16px 32px;text-align:center;border-top:1px solid #1a1a2e;">
-        <p style="color:#555;font-size:11px;margin:0;">Email transactionnel — <a href="${APP_URL}/profile/settings/notifications" style="color:#22C55E;">Gérer mes notifications</a></p>
+        <p style="color:#555;font-size:11px;margin:0;">Email transactionnel — <a href="${APP_URL}/profile/settings/notifications" style="color:#8B5CF6;">Gérer mes notifications</a></p>
        </td></tr>`;
 
   return `<!DOCTYPE html>
@@ -30,9 +30,9 @@ function baseTemplate(content: string, unsubscribeToken?: string) {
 <body style="margin:0;padding:0;background:#0a0a15;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a15;padding:32px 16px;">
     <tr><td align="center">
-      <table width="100%" style="max-width:560px;background:#0f0f1a;border-radius:20px;overflow:hidden;border:1px solid #1a1a2e;">
+      <table width="100%" style="max-width:560px;background:#0E0E16;border-radius:20px;overflow:hidden;border:1px solid #1a1a2e;">
         <!-- Header -->
-        <tr><td style="background:linear-gradient(135deg,#22C55E,#16A34A);padding:28px 32px;">
+        <tr><td style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);padding:28px 32px;">
           <h1 style="margin:0;color:white;font-size:22px;font-weight:900;letter-spacing:-0.5px;">Wearlyx</h1>
           <p style="margin:4px 0 0;color:rgba(255,255,255,0.7);font-size:12px;">Mode seconde main, prix imbattables</p>
         </td></tr>
@@ -72,7 +72,7 @@ function buildContent(type: EmailType, data: Record<string, string | number> = {
   const h2 = (t: string) => `<h2 style="margin:0 0 16px;color:white;font-size:20px;font-weight:800;">${t}</h2>`;
   const p = (t: string) => `<p style="margin:0 0 12px;color:#a0a0c0;font-size:14px;line-height:1.6;">${t}</p>`;
   const btn = (url: string, label: string) =>
-    `<div style="margin:24px 0 0;"><a href="${url}" style="display:inline-block;background:linear-gradient(135deg,#22C55E,#16A34A);color:white;font-weight:800;font-size:14px;text-decoration:none;padding:14px 28px;border-radius:12px;">${label}</a></div>`;
+    `<div style="margin:24px 0 0;"><a href="${url}" style="display:inline-block;background:linear-gradient(135deg,#8B5CF6,#7C3AED);color:white;font-weight:800;font-size:14px;text-decoration:none;padding:14px 28px;border-radius:12px;">${label}</a></div>`;
   const divider = `<div style="height:1px;background:#1a1a2e;margin:20px 0;"></div>`;
   const infoRow = (label: string, value: string | number) =>
     `<tr><td style="padding:8px 0;color:#555;font-size:13px;">${label}</td><td style="padding:8px 0;color:white;font-size:13px;font-weight:600;text-align:right;">${value}</td></tr>`;
@@ -139,7 +139,7 @@ function buildContent(type: EmailType, data: Record<string, string | number> = {
           p(`<strong style="color:white;">${data.buyer_name}</strong> t'a fait une offre pour <strong style="color:white;">${data.product_title}</strong>.`) +
           `<div style="background:#1a1a2e;border-radius:12px;padding:20px;margin:16px 0;text-align:center;">
             <p style="margin:0 0 4px;color:#555;font-size:12px;">Offre proposée</p>
-            <p style="margin:0;color:#4ADE80;font-size:28px;font-weight:900;">${data.offer_amount} €</p>
+            <p style="margin:0;color:#A78BFA;font-size:28px;font-weight:900;">${data.offer_amount} €</p>
             <p style="margin:4px 0 0;color:#555;font-size:12px;">Prix initial : ${data.product_price} €</p>
           </div>` +
           btn(`${APP_URL}/orders`, "Voir l'offre")
@@ -151,7 +151,7 @@ function buildContent(type: EmailType, data: Record<string, string | number> = {
         subject: `Offre acceptée ! 🎉 "${data.product_title}"`,
         html: baseTemplate(
           h2("Ton offre a été acceptée !") +
-          p(`Félicitations ! Le vendeur a accepté ton offre de <strong style="color:#4ADE80;">${data.offer_amount} €</strong> pour <strong style="color:white;">${data.product_title}</strong>.`) +
+          p(`Félicitations ! Le vendeur a accepté ton offre de <strong style="color:#A78BFA;">${data.offer_amount} €</strong> pour <strong style="color:white;">${data.product_title}</strong>.`) +
           p("Finalise ton achat maintenant avant que l'offre expire.") +
           btn(`${APP_URL}/orders`, "Finaliser l'achat")
         ),
@@ -200,8 +200,8 @@ function buildContent(type: EmailType, data: Record<string, string | number> = {
       return {
         subject: data.subject ? String(data.subject) : "Offre spéciale Wearlyx 🎁",
         html: baseTemplate(
-          `<div style="background:linear-gradient(135deg,#22C55E22,#16A34A22);border:1px solid #22C55E44;border-radius:16px;padding:24px;margin:0 0 20px;text-align:center;">
-            <p style="margin:0 0 4px;color:#4ADE80;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;">Offre exclusive</p>
+          `<div style="background:linear-gradient(135deg,#8B5CF622,#7C3AED22);border:1px solid #8B5CF644;border-radius:16px;padding:24px;margin:0 0 20px;text-align:center;">
+            <p style="margin:0 0 4px;color:#A78BFA;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;">Offre exclusive</p>
             <h2 style="margin:8px 0;color:white;font-size:28px;font-weight:900;">${data.promo_label ?? "Bonne affaire"}</h2>
             <p style="margin:0;color:#a0a0c0;font-size:14px;">${data.promo_description ?? ""}</p>
           </div>` +

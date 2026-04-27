@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -38,8 +38,8 @@ export function BottomNav() {
                 <div
                   className="w-10 h-10 rounded-[14px] flex items-center justify-center shadow-lg"
                   style={{
-                    background: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)",
-                    boxShadow: "0 4px 14px rgba(34,197,94,0.35)",
+                    background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
+                    boxShadow: "0 4px 14px rgba(139,92,246,0.35)",
                   }}
                 >
                   <Icon className="w-[19px] h-[19px] text-white" strokeWidth={2.5} />
@@ -57,25 +57,25 @@ export function BottomNav() {
             >
               <div className={cn(
                 "w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-200",
-                isActive ? "bg-[#22C55E]/15" : "hover:bg-white/5"
+                isActive ? "bg-[#8B5CF6]/15" : "hover:bg-white/5"
               )}>
                 <Icon
                   className={cn(
                     "w-[20px] h-[20px] transition-all duration-200",
-                    isActive ? "text-[#22C55E]" : "text-white/30"
+                    isActive ? "text-[#8B5CF6]" : "text-white/30"
                   )}
                   strokeWidth={isActive ? 2.5 : 1.6}
                 />
               </div>
               <span className={cn(
                 "text-[9.5px] font-bold transition-colors duration-200",
-                isActive ? "text-[#22C55E]" : "text-white/25"
+                isActive ? "text-[#8B5CF6]" : "text-white/25"
               )}>
                 {label}
               </span>
               {isActive && (
                 <span className="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full animate-scaleX"
-                  style={{ background: "#22C55E" }} />
+                  style={{ background: "#8B5CF6" }} />
               )}
             </Link>
           );

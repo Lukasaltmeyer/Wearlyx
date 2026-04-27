@@ -3,9 +3,9 @@
 const STATUS_BADGE: Record<string, string> = {
   pending:    "bg-yellow-500/15 text-yellow-400",
   paid:       "bg-blue-500/15 text-blue-400",
-  shipped:    "bg-green-500/15 text-green-400",
+  shipped:    "bg-violet-500/15 text-violet-400",
   in_transit: "bg-indigo-500/15 text-indigo-400",
-  delivered:  "bg-green-500/15 text-green-400",
+  delivered:  "bg-violet-500/15 text-violet-400",
   dispute:    "bg-red-500/15 text-red-400",
   cancelled:  "bg-white/8 text-white/30",
   refunded:   "bg-teal-500/15 text-teal-400",

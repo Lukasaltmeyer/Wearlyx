@@ -2,7 +2,7 @@
 
 const PLAN_BADGE: Record<string, string> = {
   premium: "bg-yellow-500/20 text-yellow-400",
-  pro:     "bg-green-500/20 text-green-400",
+  pro:     "bg-violet-500/20 text-violet-400",
   starter: "bg-blue-500/20 text-blue-400",
   free:    "bg-white/8 text-white/30",
 };

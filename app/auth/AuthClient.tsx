@@ -27,7 +27,7 @@ const GRADIENTS = [
   "linear-gradient(160deg, #0f172a 0%, #1e1b4b 40%, #4c1d95 80%, #0a0a14 100%)",
   "linear-gradient(160deg, #18181b 0%, #2d1b69 45%, #7c3aed 85%, #0a0a14 100%)",
   "linear-gradient(160deg, #0a0a14 0%, #1a0533 50%, #6d28d9 90%, #18181b 100%)",
-  "linear-gradient(160deg, #14001f 0%, #4a044e 45%, #22C55E 85%, #0a0a14 100%)",
+  "linear-gradient(160deg, #14001f 0%, #4a044e 45%, #8B5CF6 85%, #0a0a14 100%)",
   "linear-gradient(160deg, #0a0a14 0%, #1e1b4b 40%, #5b21b6 75%, #2d1b69 100%)",
 ];
 const INTERVAL = 4500;
@@ -134,8 +134,8 @@ function PrimaryBtn({ children, loading, type = "submit", onClick }: {
       type={type}
       disabled={loading}
       onClick={onClick}
-      className="w-full flex items-center justify-center gap-2 rounded-2xl py-4 text-[15px] font-bold text-white shadow-lg shadow-green-500/30 transition-all active:scale-[0.97] hover:brightness-110 disabled:opacity-60"
-      style={{ background: "linear-gradient(135deg, #22C55E 0%, #16A34A 60%, #f97316 100%)" }}
+      className="w-full flex items-center justify-center gap-2 rounded-2xl py-4 text-[15px] font-bold text-white shadow-lg shadow-violet-500/30 transition-all active:scale-[0.97] hover:brightness-110 disabled:opacity-60"
+      style={{ background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 60%, #f97316 100%)" }}
     >
       {loading
         ? <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
@@ -308,8 +308,8 @@ export default function AuthClient() {
         <div className="absolute inset-0" style={{ background: GRADIENTS[0] }} />
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 flex flex-col items-center gap-4 animate-fadeIn">
-          <div className="w-20 h-20 rounded-3xl bg-[#22C55E]/20 border border-[#22C55E]/40 flex items-center justify-center">
-            <Check className="w-9 h-9 text-[#22C55E]" />
+          <div className="w-20 h-20 rounded-3xl bg-[#8B5CF6]/20 border border-[#8B5CF6]/40 flex items-center justify-center">
+            <Check className="w-9 h-9 text-[#8B5CF6]" />
           </div>
           <p className="text-2xl font-black text-white">Bienvenue !</p>
           <p className="text-white/40 text-sm">Redirection en cours…</p>
@@ -334,7 +334,7 @@ export default function AuthClient() {
         <div className="mb-5 px-1">
           <h1 className="text-[42px] font-black leading-[1.02] tracking-tight text-white drop-shadow-lg">
             Vends vite.<br />
-            <span className="bg-gradient-to-r from-[#4ADE80] via-[#4ADE80] to-[#fb923c] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#A78BFA] via-[#A78BFA] to-[#fb923c] bg-clip-text text-transparent">
               Achète malin.
             </span>
           </h1>
@@ -380,7 +380,7 @@ export default function AuthClient() {
                   key={m}
                   onClick={() => switchMode(m)}
                   className={`flex-1 rounded-xl py-2.5 text-[13px] font-semibold transition-all duration-200 ${
-                    mode === m ? "bg-[#22C55E] text-white shadow-md shadow-[#22C55E]/25" : "text-white/35 hover:text-white/60"
+                    mode === m ? "bg-[#8B5CF6] text-white shadow-md shadow-[#8B5CF6]/25" : "text-white/35 hover:text-white/60"
                   }`}
                 >
                   {m === "login" ? "Connexion" : "Inscription"}
@@ -513,7 +513,7 @@ export default function AuthClient() {
                     value={d}
                     onChange={(e) => handleOtpChange(i, e.target.value)}
                     onKeyDown={(e) => { if (e.key === "Backspace" && !d && i > 0) otpRefs.current[i-1]?.focus(); }}
-                    className="h-[52px] w-11 rounded-2xl border border-white/10 bg-white/7 text-center text-xl font-bold text-white outline-none transition-all focus:border-[#22C55E]/60 focus:bg-white/12 caret-transparent"
+                    className="h-[52px] w-11 rounded-2xl border border-white/10 bg-white/7 text-center text-xl font-bold text-white outline-none transition-all focus:border-[#8B5CF6]/60 focus:bg-white/12 caret-transparent"
                   />
                 ))}
               </div>

@@ -79,7 +79,7 @@ export function BeforeAfterSlider({ before, after }: Props) {
       <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/50 backdrop-blur-sm text-[11px] font-bold text-white/80 pointer-events-none">
         AVANT
       </div>
-      <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-[#22C55E]/70 backdrop-blur-sm text-[11px] font-bold text-white pointer-events-none">
+      <div className="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-[#8B5CF6]/70 backdrop-blur-sm text-[11px] font-bold text-white pointer-events-none">
         APRÈS ✨
       </div>
     </div>

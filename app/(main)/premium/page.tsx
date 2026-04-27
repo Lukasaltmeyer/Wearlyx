@@ -34,13 +34,13 @@ const PLANS = [
     id: "pro",
     name: "Vendeur Pro",
     badge: "⭐ Populaire · 🎉 -28% le 1er mois",
-    badgeColor: "bg-green-500/20 text-green-300 border-green-500/30",
+    badgeColor: "bg-violet-500/20 text-violet-300 border-violet-500/30",
     priceNormal: 25,
     priceFirst: 18,
     icon: <Star className="w-5 h-5" />,
-    gradient: "from-[#22C55E] to-[#15803D]",
-    accentColor: "#22C55E",
-    accentLight: "rgba(34,197,94,0.12)",
+    gradient: "from-[#8B5CF6] to-[#6D28D9]",
+    accentColor: "#8B5CF6",
+    accentLight: "rgba(139,92,246,0.12)",
     popular: true,
     features: [
       { text: "60 améliorations photo IA / mois", included: true },
@@ -99,8 +99,8 @@ function PlanCard({
       }`}
       style={{
         background: plan.popular ? "rgba(10,22,14,0.98)" : "rgba(14,14,22,0.95)",
-        borderColor: plan.popular ? "rgba(34,197,94,0.35)" : undefined,
-        boxShadow: plan.popular ? "0 0 40px rgba(34,197,94,0.12)" : undefined,
+        borderColor: plan.popular ? "rgba(139,92,246,0.35)" : undefined,
+        boxShadow: plan.popular ? "0 0 40px rgba(139,92,246,0.12)" : undefined,
       }}
     >
       {/* Top gradient bar */}
@@ -109,7 +109,7 @@ function PlanCard({
       {/* Popular banner */}
       {plan.popular && (
         <div className="absolute top-0 right-5 text-white text-[11px] font-bold px-3 py-1 rounded-b-xl shadow-lg"
-          style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }}>
+          style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}>
           ⭐ POPULAIRE
         </div>
       )}
@@ -147,10 +147,10 @@ function PlanCard({
           {plan.features.map((f, i) => (
             <div key={i} className="flex items-start gap-2.5">
               <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                f.included ? "bg-[#22C55E]/20 border border-[#22C55E]/40" : "bg-white/5 border border-white/10"
+                f.included ? "bg-[#8B5CF6]/20 border border-[#8B5CF6]/40" : "bg-white/5 border border-white/10"
               }`}>
                 {f.included ? (
-                  <Check className="w-2.5 h-2.5 text-[#4ADE80]" />
+                  <Check className="w-2.5 h-2.5 text-[#A78BFA]" />
                 ) : (
                   <span className="w-1.5 h-0.5 rounded-full bg-white/20 block" />
                 )}
@@ -247,7 +247,7 @@ export default function PremiumPage() {
 
       {/* Hero */}
       <div className="px-5 pt-3 pb-6 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#22C55E] to-[#4ADE80] flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#22C55E]/30">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8B5CF6] to-[#A78BFA] flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#8B5CF6]/30">
           <Sparkles className="w-7 h-7 text-white" />
         </div>
         <h1 className="text-[28px] font-black text-white leading-tight">
@@ -272,7 +272,7 @@ export default function PremiumPage() {
           {usage.limit !== null && (
             <div className="text-right">
               <p className="text-[12px] text-white/40">IA photos</p>
-              <p className="text-[14px] font-bold text-[#4ADE80]">
+              <p className="text-[14px] font-bold text-[#A78BFA]">
                 {usage.remaining} / {usage.limit}
               </p>
             </div>
@@ -287,13 +287,13 @@ export default function PremiumPage() {
 
       {/* Success message */}
       {success && (
-        <div className="mx-4 mb-4 rounded-2xl border border-green-500/25 bg-green-500/10 px-4 py-3 flex items-center gap-3 animate-fadeIn">
-          <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-            <Check className="w-4 h-4 text-green-400" />
+        <div className="mx-4 mb-4 rounded-2xl border border-violet-500/25 bg-violet-500/10 px-4 py-3 flex items-center gap-3 animate-fadeIn">
+          <div className="w-8 h-8 rounded-full bg-violet-500/20 flex items-center justify-center flex-shrink-0">
+            <Check className="w-4 h-4 text-violet-400" />
           </div>
           <div>
-            <p className="text-[13px] font-semibold text-green-300">Abonnement activé !</p>
-            <p className="text-[11px] text-green-400/60 mt-0.5">Tes nouvelles fonctionnalités sont disponibles.</p>
+            <p className="text-[13px] font-semibold text-violet-300">Abonnement activé !</p>
+            <p className="text-[11px] text-violet-400/60 mt-0.5">Tes nouvelles fonctionnalités sont disponibles.</p>
           </div>
         </div>
       )}

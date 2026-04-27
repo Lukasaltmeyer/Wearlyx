@@ -1,46 +1,33 @@
-export const dynamic = "force-dynamic";
-import { redirect, notFound } from "next/navigation";
+﻿export const dynamic = "force-dynamic";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { ChatView } from "@/components/ChatView";
+import { ListingsClient } from "@/components/ListingsClient";
+import { Navbar } from "@/components/layout/Navbar";
 
-export default async function ChatPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function ListingsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login");
+  if (!user) redirect("/auth");
 
-  const { data: conversation } = await supabase
-    .from("conversations")
-    .select(`
-      *,
-      product:products(id, title, images, price),
-      buyer:profiles!conversations_buyer_id_fkey(id, username, full_name, avatar_url),
-      seller:profiles!conversations_seller_id_fkey(id, username, full_name, avatar_url)
-    `)
-    .eq("id", id)
-    .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
-    .single();
+  const { data: products } = await supabase
+    .from("products")
+    .select("*, likes(count)")
+    .eq("seller_id", user.id)
+    .neq("status", "deleted")
+    .order("created_at", { ascending: false });
 
-  if (!conversation) notFound();
-
-  const { data: messages } = await supabase
-    .from("messages")
-    .select("*, sender:profiles(id, username, full_name, avatar_url)")
-    .eq("conversation_id", id)
-    .order("created_at", { ascending: true });
-
-  // Mark messages as read
-  await supabase
-    .from("messages")
-    .update({ read: true })
-    .eq("conversation_id", id)
-    .neq("sender_id", user.id);
+  const enriched = (products ?? []).map((p: any) => ({
+    ...p,
+    likes_count: p.likes?.[0]?.count ?? 0,
+    likes: undefined,
+  }));
 
   return (
-    <ChatView
-      conversation={conversation}
-      initialMessages={messages ?? []}
-      currentUserId={user.id}
-    />
+    <>
+      <Navbar />
+      <main className="bg-[#07070A] min-h-[100dvh] pb-24">
+        <ListingsClient products={enriched} userId={user.id} />
+      </main>
+    </>
   );
 }

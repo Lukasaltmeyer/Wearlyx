@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { X, Share } from "lucide-react";
@@ -62,14 +62,14 @@ export function InstallPrompt() {
         style={{
           background: "rgba(17,24,39,0.97)",
           backdropFilter: "blur(20px)",
-          border: "1px solid rgba(34,197,94,0.2)",
+          border: "1px solid rgba(139,92,246,0.2)",
           boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
         }}
       >
         <div className="w-7 h-7 rounded-xl flex items-center justify-center flex-shrink-0"
-          style={{ background: "rgba(34,197,94,0.15)" }}>
+          style={{ background: "rgba(139,92,246,0.15)" }}>
           {mode === "ios"
-            ? <Share className="w-3.5 h-3.5 text-[#22C55E]" />
+            ? <Share className="w-3.5 h-3.5 text-[#8B5CF6]" />
             : <span className="text-[14px]">📲</span>}
         </div>
         <div className="flex-1 min-w-0">
@@ -82,7 +82,7 @@ export function InstallPrompt() {
           <button
             onClick={handleAndroidInstall}
             className="px-3 py-1.5 rounded-xl text-[11px] font-black text-white flex-shrink-0 active:scale-95 transition-transform"
-            style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)", boxShadow: "0 2px 8px rgba(34,197,94,0.25)" }}
+            style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 2px 8px rgba(139,92,246,0.25)" }}
           >
             Installer
           </button>

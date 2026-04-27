@@ -88,7 +88,7 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
   };
 
   return (
-    <div className="min-h-[100dvh] bg-[#08080F] pb-24">
+    <div className="min-h-[100dvh] bg-[#07070A] pb-24">
       {/* Header */}
       {!isSearching && (
         <div className="flex items-center justify-between px-4 pt-5 pb-3">
@@ -106,9 +106,9 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
       <div className={cn("px-4 transition-all", isSearching ? "pt-5 pb-0" : "pb-3")}>
         <div className={cn(
           "flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all",
-          focused ? "border-[#22C55E]/50 bg-white/7" : "border-white/8 bg-white/5"
+          focused ? "border-[#8B5CF6]/50 bg-white/7" : "border-white/8 bg-white/5"
         )}>
-          <Search className={cn("w-4 h-4 flex-shrink-0 transition-colors", focused ? "text-[#4ADE80]" : "text-white/30")} />
+          <Search className={cn("w-4 h-4 flex-shrink-0 transition-colors", focused ? "text-[#A78BFA]" : "text-white/30")} />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -181,7 +181,7 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
                 {t === "articles" ? "Articles" : "Membres"}
                 {searchTab === t && (
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full"
-                    style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }} />
+                    style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }} />
                 )}
               </button>
             ))}
@@ -232,8 +232,8 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
                     : "bg-white/5 border border-white/8 text-white/50"
                 )}
                 style={category === c.id ? {
-                  background: "linear-gradient(135deg, #22C55E, #16A34A)",
-                  boxShadow: "0 2px 12px rgba(34,197,94,0.3)",
+                  background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                  boxShadow: "0 2px 12px rgba(139,92,246,0.3)",
                 } : {}}
               >
                 <span>{c.emoji}</span>
@@ -253,8 +253,8 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
             <div className="px-4 pt-4 pb-8">
               <div className="flex flex-col items-center py-8 text-center mb-6">
                 <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-3"
-                  style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.15)" }}>
-                  <Search className="w-7 h-7" style={{ color: "#22C55E" }} />
+                  style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.15)" }}>
+                  <Search className="w-7 h-7" style={{ color: "#8B5CF6" }} />
                 </div>
                 <p className="text-[16px] font-black text-white mb-1">Aucun article pour l'instant</p>
                 <p className="text-[12px] text-white/30">Sois le premier à vendre dans cette catégorie !</p>
@@ -266,7 +266,7 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
                 {["Nike", "Jordan", "Adidas", "Supreme", "Off-White", "Stone Island", "Balenciaga", "Levi's"].map((brand) => (
                   <button key={brand}
                     onClick={() => setCategory("all")}
-                    className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white/60 border border-white/8 bg-white/4 active:scale-95 transition-all hover:border-[#22C55E]/30 hover:text-[#22C55E]">
+                    className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white/60 border border-white/8 bg-white/4 active:scale-95 transition-all hover:border-[#8B5CF6]/30 hover:text-[#8B5CF6]">
                     {brand}
                   </button>
                 ))}
@@ -277,7 +277,7 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
                 {CATEGORIES.filter(c => c.id !== "all").slice(0, 6).map((cat) => (
                   <button key={cat.id}
                     onClick={() => setCategory(cat.id)}
-                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl border border-white/6 bg-white/3 active:scale-95 transition-all hover:border-[#22C55E]/25">
+                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl border border-white/6 bg-white/3 active:scale-95 transition-all hover:border-[#8B5CF6]/25">
                     <span className="text-[20px]">{cat.emoji}</span>
                     <span className="text-[11px] text-white/50 font-semibold">{cat.label}</span>
                   </button>
@@ -307,8 +307,8 @@ function ProductCard({ product, liked, onLike }: {
   return (
     <Link href={`/products/${product.id}`} className="block group active:scale-[0.97] transition-transform duration-150">
       <div className="rounded-2xl overflow-hidden border border-white/7 transition-all group-hover:border-white/14"
-        style={{ background: "#0f0f1a" }}>
-        <div className="relative aspect-[3/4] bg-[#141422]">
+        style={{ background: "#0E0E16" }}>
+        <div className="relative aspect-[3/4] bg-[#0F0F18]">
           {firstImage ? (
             <Image
               src={firstImage}

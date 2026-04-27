@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminUser } from "@/lib/admin";
@@ -23,7 +23,7 @@ export default async function ProfileMenuPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#08080F] min-h-[100dvh] pb-24">
+      <main className="bg-[#07070A] min-h-[100dvh] pb-24">
         <ProfileMenuClient
           profile={profile}
           credits={adminUser ? 99999 : credits}

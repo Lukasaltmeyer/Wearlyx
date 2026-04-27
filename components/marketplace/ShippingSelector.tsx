@@ -46,18 +46,18 @@ export function ShippingSelector({ selected, onChange }: Props) {
             onClick={() => onChange(m.id)}
             className={cn(
               "flex items-center gap-3 px-4 py-3.5 rounded-2xl border text-left transition-all",
-              active ? "border-[#22C55E] bg-[#22C55E]/10" : "border-white/8 bg-white/3 hover:border-white/20"
+              active ? "border-[#8B5CF6] bg-[#8B5CF6]/10" : "border-white/8 bg-white/3 hover:border-white/20"
             )}
           >
             <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0",
-              active ? "bg-[#22C55E]" : "bg-white/8")}>
+              active ? "bg-[#8B5CF6]" : "bg-white/8")}>
               <Icon className={cn("w-4 h-4", active ? "text-white" : "text-white/50")} />
             </div>
             <div className="flex-1">
               <p className={cn("text-[14px] font-bold", active ? "text-white" : "text-white/70")}>{m.label}</p>
               <p className="text-[11px] text-white/35">{m.desc}</p>
             </div>
-            <span className={cn("text-[13px] font-bold flex-shrink-0", active ? "text-[#22C55E]" : "text-white/40")}>
+            <span className={cn("text-[13px] font-bold flex-shrink-0", active ? "text-[#8B5CF6]" : "text-white/40")}>
               {m.fee.toFixed(2)} €
             </span>
           </button>

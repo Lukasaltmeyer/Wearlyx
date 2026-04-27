@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { AlertTriangle, X, Clock, Ban } from "lucide-react";
@@ -19,7 +19,7 @@ export function ModerationBanner({ status, reason, expiresAt }: Props) {
 
   if (status === "suspended") {
     return (
-      <div className="fixed inset-0 z-50 bg-[#08080F] flex flex-col items-center justify-center px-6 text-center">
+      <div className="fixed inset-0 z-50 bg-[#07070A] flex flex-col items-center justify-center px-6 text-center">
         <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-6">
           <Ban className="w-7 h-7 text-amber-400" />
         </div>

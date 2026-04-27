@@ -13,7 +13,7 @@ export default async function SellPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#08080F] min-h-[100dvh] pb-24">
+      <main className="bg-[#07070A] min-h-[100dvh] pb-24">
         <div className="px-4 pt-6 pb-5">
           <Link href="/" className="inline-flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors mb-5">
             <ArrowLeft className="w-4 h-4" />
@@ -27,7 +27,7 @@ export default async function SellPage() {
           {/* IA — recommandé */}
           <Link href="/sell/ai" className="block active:scale-[0.98] transition-transform">
             <div className="relative rounded-3xl overflow-hidden p-5"
-              style={{ background: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)" }}>
+              style={{ background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)" }}>
               <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full bg-white/8" />
               <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-white/6" />
               <div className="relative z-10">

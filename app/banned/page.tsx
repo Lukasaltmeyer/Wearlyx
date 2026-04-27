@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+﻿import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function BannedPage() {
@@ -15,7 +15,7 @@ export default async function BannedPage() {
   if (!mod || mod.status !== "banned") redirect("/");
 
   return (
-    <div className="min-h-[100dvh] bg-[#08080F] flex flex-col items-center justify-center px-6 text-center">
+    <div className="min-h-[100dvh] bg-[#07070A] flex flex-col items-center justify-center px-6 text-center">
       <div className="w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
         <span className="text-3xl">🚫</span>
       </div>

@@ -10,9 +10,9 @@ const SETTINGS = [
   { label: "Paiement", icon: CreditCard, href: "/profile/settings/payment", bg: "#10B981" },
   { label: "Envoi & livraison", icon: Truck, href: "/profile/settings/shipping", bg: "#F59E0B" },
   { label: "Sécurité", icon: Shield, href: "/profile/settings/security", bg: "#EF4444" },
-  { label: "Notifications", icon: Bell, href: "/profile/settings/notifications", bg: "#22C55E" },
+  { label: "Notifications", icon: Bell, href: "/profile/settings/notifications", bg: "#8B5CF6" },
   { label: "Langue", icon: Globe, href: "/profile/settings/language", bg: "#06B6D4" },
-  { label: "Confidentialité", icon: Eye, href: "/profile/settings/privacy", bg: "#22C55E" },
+  { label: "Confidentialité", icon: Eye, href: "/profile/settings/privacy", bg: "#8B5CF6" },
 ];
 
 export function SettingsClient() {

@@ -21,16 +21,16 @@ const ICONS: Record<NotificationType, React.ElementType> = {
 };
 
 const COLORS: Record<NotificationType, string> = {
-  offer_received:   "bg-green-500/20 text-green-400",
-  offer_accepted:   "bg-green-500/20 text-green-400",
+  offer_received:   "bg-violet-500/20 text-violet-400",
+  offer_accepted:   "bg-violet-500/20 text-violet-400",
   offer_refused:    "bg-red-500/20 text-red-400",
   offer_countered:  "bg-yellow-500/20 text-yellow-400",
   order_confirmed:  "bg-blue-500/20 text-blue-400",
   order_shipped:    "bg-indigo-500/20 text-indigo-400",
-  order_delivered:  "bg-green-500/20 text-green-400",
+  order_delivered:  "bg-violet-500/20 text-violet-400",
   dispute_opened:   "bg-orange-500/20 text-orange-400",
   dispute_resolved: "bg-teal-500/20 text-teal-400",
-  new_message:      "bg-[#22C55E]/20 text-[#4ADE80]",
+  new_message:      "bg-[#8B5CF6]/20 text-[#A78BFA]",
 };
 
 interface Props { userId: string; }
@@ -82,14 +82,14 @@ export function NotificationBell({ userId }: Props) {
         <div className="fixed inset-0 z-50 flex items-start justify-center" onClick={() => setOpen(false)}>
           <div className="absolute inset-0 bg-black/40" />
           <div
-            className="relative w-full max-w-[600px] bg-[#12121C] rounded-b-3xl shadow-2xl max-h-[70vh] overflow-hidden flex flex-col"
+            className="relative w-full max-w-[600px] bg-[#11111A] rounded-b-3xl shadow-2xl max-h-[70vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-4 py-4 border-b border-white/8">
               <h2 className="text-[16px] font-black text-white">Notifications</h2>
               <div className="flex gap-2">
                 {unread > 0 && (
-                  <button onClick={markAllRead} className="text-[11px] text-[#22C55E] font-semibold">
+                  <button onClick={markAllRead} className="text-[11px] text-[#8B5CF6] font-semibold">
                     Tout lire
                   </button>
                 )}
@@ -120,7 +120,7 @@ export function NotificationBell({ userId }: Props) {
                         <p className="text-[12px] text-white/40 mt-0.5 leading-tight">{n.body}</p>
                         <p className="text-[10px] text-white/25 mt-1">{timeAgo(n.created_at)}</p>
                       </div>
-                      {!n.read && <div className="w-2 h-2 rounded-full bg-[#22C55E] flex-shrink-0 mt-1.5" />}
+                      {!n.read && <div className="w-2 h-2 rounded-full bg-[#8B5CF6] flex-shrink-0 mt-1.5" />}
                     </div>
                   );
                 })

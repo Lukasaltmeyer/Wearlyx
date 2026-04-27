@@ -1,14 +1,14 @@
-/**
+﻿/**
  * VERSION 2 — ULTRA TIKTOK / ADDICTIVE
  *
  * Usage : remplacer <HeroBanner /> par <HeroBannerViral /> dans app/page.tsx
  *
  * Palette :
- *   background   #0B0B0F
+ *   background   #07070A
  *   surfaces     #111827
- *   primary      #22C55E  (vert néon)
+ *   primary      #8B5CF6  (vert néon)
  *   accent hot   #F59E0B  (ambre chaud)
- *   pop gradient #22C55E → #06B6D4  (vert → cyan)
+ *   pop gradient #8B5CF6 → #06B6D4  (vert → cyan)
  */
 
 import Link from "next/link";
@@ -23,14 +23,14 @@ export function HeroBannerViral() {
         <div
           className="relative rounded-3xl overflow-hidden p-5"
           style={{
-            background: "linear-gradient(135deg, #052e16 0%, #14532d 40%, #166534 100%)",
-            border: "1px solid rgba(34,197,94,0.3)",
-            boxShadow: "0 8px 40px rgba(34,197,94,0.15), inset 0 1px 0 rgba(255,255,255,0.08)",
+            background: "linear-gradient(135deg, #0F0A1E 0%, #2E1065 40%, #4C1D95 100%)",
+            border: "1px solid rgba(139,92,246,0.3)",
+            boxShadow: "0 8px 40px rgba(139,92,246,0.15), inset 0 1px 0 rgba(255,255,255,0.08)",
           }}
         >
           {/* Glow orbs */}
           <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(34,197,94,0.2) 0%, transparent 65%)" }} />
+            style={{ background: "radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 65%)" }} />
           <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full pointer-events-none"
             style={{ background: "radial-gradient(circle, rgba(6,182,212,0.12) 0%, transparent 65%)" }} />
 
@@ -45,9 +45,9 @@ export function HeroBannerViral() {
             <div className="flex-1">
               {/* Live badge */}
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-3"
-                style={{ background: "rgba(34,197,94,0.2)", border: "1px solid rgba(34,197,94,0.35)" }}>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
-                <span className="text-[10px] font-black text-[#4ADE80] tracking-wide uppercase">IA Active</span>
+                style={{ background: "rgba(139,92,246,0.2)", border: "1px solid rgba(139,92,246,0.35)" }}>
+                <div className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] animate-pulse" />
+                <span className="text-[10px] font-black text-[#A78BFA] tracking-wide uppercase">IA Active</span>
               </div>
 
               <h2 className="text-[22px] font-black text-white leading-tight mb-1">
@@ -59,7 +59,7 @@ export function HeroBannerViral() {
 
               <div className="flex items-center gap-2 mt-3.5">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl"
-                  style={{ background: "#22C55E", boxShadow: "0 4px 14px rgba(34,197,94,0.4)" }}>
+                  style={{ background: "#8B5CF6", boxShadow: "0 4px 14px rgba(139,92,246,0.4)" }}>
                   <Zap className="w-3.5 h-3.5 text-white fill-white" />
                   <span className="text-[12px] font-black text-white">Essayer gratuit</span>
                 </div>
@@ -70,11 +70,11 @@ export function HeroBannerViral() {
             {/* Right icon */}
             <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 ml-3"
               style={{
-                background: "rgba(34,197,94,0.15)",
-                border: "1px solid rgba(34,197,94,0.3)",
+                background: "rgba(139,92,246,0.15)",
+                border: "1px solid rgba(139,92,246,0.3)",
                 backdropFilter: "blur(8px)",
               }}>
-              <Zap className="w-7 h-7 fill-[#22C55E] text-[#22C55E]" />
+              <Zap className="w-7 h-7 fill-[#8B5CF6] text-[#8B5CF6]" />
             </div>
           </div>
         </div>
@@ -119,12 +119,12 @@ export function HeroBannerViral() {
             }}
           >
             <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full pointer-events-none"
-              style={{ background: "radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 70%)" }} />
+              style={{ background: "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)" }} />
 
             <div className="flex items-center justify-between relative z-10">
-              <TrendingUp className="w-5 h-5" style={{ color: "#22C55E" }} />
+              <TrendingUp className="w-5 h-5" style={{ color: "#8B5CF6" }} />
               <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full animate-pulse"
-                style={{ background: "rgba(34,197,94,0.1)", color: "#4ADE80", border: "1px solid rgba(34,197,94,0.15)" }}>
+                style={{ background: "rgba(139,92,246,0.1)", color: "#A78BFA", border: "1px solid rgba(139,92,246,0.15)" }}>
                 🔥 Hot
               </span>
             </div>

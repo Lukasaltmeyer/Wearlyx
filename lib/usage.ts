@@ -14,7 +14,7 @@ export interface PlanInfo {
 export const PLANS: PlanInfo[] = [
   { id: "free",     label: "Gratuit",     emoji: "🆓", color: "#9CA3AF", aiPhotosLimit: 5,    price: "0€" },
   { id: "starter",  label: "Starter",     emoji: "🚀", color: "#60A5FA", aiPhotosLimit: 20,   price: "4.99€/mois" },
-  { id: "pro",      label: "Vendeur Pro", emoji: "⚡", color: "#4ADE80", aiPhotosLimit: 60,   price: "9.99€/mois" },
+  { id: "pro",      label: "Vendeur Pro", emoji: "⚡", color: "#A78BFA", aiPhotosLimit: 60,   price: "9.99€/mois" },
   { id: "premium",  label: "Premium",     emoji: "👑", color: "#FCD34D", aiPhotosLimit: null, price: "19.99€/mois" },
 ];
 

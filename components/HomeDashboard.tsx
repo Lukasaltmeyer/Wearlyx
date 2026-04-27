@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { Zap, Trophy, ChevronDown, ChevronUp } from "lucide-react";
@@ -30,16 +30,16 @@ export function HomeDashboard() {
     usage.plan === "pro"            ? "Vendeur Pro" : "Premium";
 
   const planColor =
-    !usage || usage.plan === "free" ? "#22C55E" :
+    !usage || usage.plan === "free" ? "#8B5CF6" :
     usage.plan === "starter"        ? "#3B82F6" :
-    usage.plan === "pro"            ? "#22C55E" : "#F59E0B";
+    usage.plan === "pro"            ? "#8B5CF6" : "#F59E0B";
 
   const dailyChallenges = CHALLENGES.filter((c) => c.type === "daily");
 
   return (
     <div
       className="mx-4 mb-1 rounded-2xl overflow-hidden"
-      style={{ background: "#0F1117", border: "1px solid rgba(255,255,255,0.05)" }}
+      style={{ background: "#11111A", border: "1px solid rgba(255,255,255,0.05)" }}
     >
       {/* Compact row */}
       <button
@@ -55,7 +55,7 @@ export function HomeDashboard() {
           </span>
 
           <div className="flex items-center gap-1">
-            <Zap className="w-3 h-3 text-[#22C55E]" />
+            <Zap className="w-3 h-3 text-[#8B5CF6]" />
             <span className="text-[12px] font-bold text-white">
               {usage?.limit === null ? "∞" : (usage?.remaining ?? 0)}
             </span>
@@ -145,11 +145,11 @@ export function HomeDashboard() {
                   <div className="flex-1">
                     <p className="text-[11.5px] font-semibold text-white/70">{c.title}</p>
                     <div className="h-1 mt-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
-                      <div className="h-full w-0 rounded-full bg-[#22C55E]" />
+                      <div className="h-full w-0 rounded-full bg-[#8B5CF6]" />
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold text-[#22C55E] flex items-center gap-0.5">
-                    <Zap className="w-2.5 h-2.5 fill-[#22C55E]" />+{c.reward}
+                  <span className="text-[10px] font-bold text-[#8B5CF6] flex items-center gap-0.5">
+                    <Zap className="w-2.5 h-2.5 fill-[#8B5CF6]" />+{c.reward}
                   </span>
                 </div>
               ))}
@@ -162,8 +162,8 @@ export function HomeDashboard() {
               href="/premium"
               className="flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-bold text-white transition-all active:scale-[0.98]"
               style={{
-                background: "linear-gradient(135deg, #22C55E, #16A34A)",
-                boxShadow: "0 4px 16px rgba(34,197,94,0.2)",
+                background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                boxShadow: "0 4px 16px rgba(139,92,246,0.2)",
               }}
             >
               <Zap className="w-3.5 h-3.5 fill-white" />

@@ -17,7 +17,7 @@ function EmptyState() {
       {/* CTA vendre */}
       <Link href="/sell/ai" className="block mb-4 active:scale-[0.98] transition-transform">
         <div className="relative rounded-2xl overflow-hidden p-5"
-          style={{ background: "linear-gradient(135deg, #4C1D95 0%, #22C55E 50%, #16A34A 100%)" }}>
+          style={{ background: "linear-gradient(135deg, #4C1D95 0%, #8B5CF6 50%, #7C3AED 100%)" }}>
           <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/8" />
           <div className="relative z-10 flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
@@ -35,7 +35,7 @@ function EmptyState() {
       <p className="text-[11px] font-bold text-white/20 uppercase tracking-wider mb-3">Articles bientôt disponibles</p>
       <div className="grid grid-cols-2 gap-2">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="rounded-xl overflow-hidden border border-white/[0.05]" style={{ background: "#111827" }}>
+          <div key={i} className="rounded-xl overflow-hidden border border-white/[0.05]" style={{ background: "#11111A" }}>
             <div className="aspect-square bg-white/[0.04] animate-pulse" style={{ animationDelay: `${i * 150}ms` }} />
             <div className="p-2.5 space-y-2">
               <div className="h-3 rounded bg-white/[0.06] w-2/3 animate-pulse" style={{ animationDelay: `${i * 150 + 100}ms` }} />

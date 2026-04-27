@@ -173,12 +173,12 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
               onClick={() => { setMode(m); setSelected(null); }}
               className={cn(
                 "flex flex-col items-center gap-1.5 py-3 rounded-2xl border transition-all",
-                mode === m ? "border-[#22C55E] bg-[#22C55E]/10" : "border-white/8 bg-white/3"
+                mode === m ? "border-[#8B5CF6] bg-[#8B5CF6]/10" : "border-white/8 bg-white/3"
               )}
             >
-              <Icon className={cn("w-5 h-5", mode === m ? "text-[#22C55E]" : "text-white/40")} />
+              <Icon className={cn("w-5 h-5", mode === m ? "text-[#8B5CF6]" : "text-white/40")} />
               <span className={cn("text-[12px] font-bold", mode === m ? "text-white" : "text-white/40")}>{labels[m]}</span>
-              <span className={cn("text-[10px] font-semibold", mode === m ? "text-[#22C55E]" : "text-white/25")}>
+              <span className={cn("text-[10px] font-semibold", mode === m ? "text-[#8B5CF6]" : "text-white/25")}>
                 {SHIPPING_FEES[m].toFixed(2)} €
               </span>
             </button>
@@ -202,7 +202,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
               value={(address as any)[key]}
               onChange={(e) => setAddress((a) => ({ ...a, [key]: e.target.value }))}
               placeholder={placeholder}
-              className="w-full px-4 py-3 rounded-2xl bg-white/6 border border-white/10 text-[14px] text-white placeholder-white/25 outline-none focus:border-[#22C55E]/50 transition-colors"
+              className="w-full px-4 py-3 rounded-2xl bg-white/6 border border-white/10 text-[14px] text-white placeholder-white/25 outline-none focus:border-[#8B5CF6]/50 transition-colors"
             />
           ))}
         </div>
@@ -213,7 +213,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
         <>
           {/* Search bar */}
           <div className="flex gap-2">
-            <div className="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/6 border border-white/10 focus-within:border-[#22C55E]/50 transition-colors">
+            <div className="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/6 border border-white/10 focus-within:border-[#8B5CF6]/50 transition-colors">
               <Search className="w-4 h-4 text-white/30 flex-shrink-0" />
               <input
                 value={searchQuery}
@@ -226,7 +226,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
             <button
               onClick={searchByAddress}
               disabled={loading}
-              className="px-3 py-2.5 rounded-2xl bg-[#22C55E]/20 border border-[#22C55E]/30 text-[#4ADE80] text-[12px] font-bold flex-shrink-0"
+              className="px-3 py-2.5 rounded-2xl bg-[#8B5CF6]/20 border border-[#8B5CF6]/30 text-[#A78BFA] text-[12px] font-bold flex-shrink-0"
             >
               Chercher
             </button>
@@ -252,7 +252,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
                     onClick={() => setFilter(f)}
                     className={cn(
                       "px-3 py-1.5 rounded-full text-[11px] font-bold transition-all",
-                      filter === f ? "bg-[#22C55E] text-white" : "bg-white/6 text-white/40 border border-white/10"
+                      filter === f ? "bg-[#8B5CF6] text-white" : "bg-white/6 text-white/40 border border-white/10"
                     )}
                   >
                     {labels[f]} ({count})
@@ -265,7 +265,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
           {/* Loading */}
           {loading && (
             <div className="flex flex-col items-center py-8 gap-3">
-              <Loader2 className="w-8 h-8 text-[#22C55E] animate-spin" />
+              <Loader2 className="w-8 h-8 text-[#8B5CF6] animate-spin" />
               <p className="text-[13px] text-white/40">Recherche des points autour de toi...</p>
             </div>
           )}
@@ -289,7 +289,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
               <p className="text-white/25 text-[12px]">Saisis ton adresse ou active la géolocalisation</p>
               <button
                 onClick={geolocate}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#22C55E]/15 border border-[#22C55E]/30 text-[#4ADE80] text-[13px] font-semibold"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#8B5CF6]/15 border border-[#8B5CF6]/30 text-[#A78BFA] text-[13px] font-semibold"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 Me localiser
@@ -307,16 +307,16 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
                   className={cn(
                     "flex items-center gap-3 px-4 py-3 rounded-2xl border text-left transition-all",
                     selected?.id === point.id
-                      ? "border-[#22C55E] bg-[#22C55E]/10"
+                      ? "border-[#8B5CF6] bg-[#8B5CF6]/10"
                       : "border-white/8 bg-white/3 hover:border-white/20"
                   )}
                 >
                   <div className={cn(
                     "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0",
-                    point.type === "locker" ? "bg-green-500/20" : "bg-blue-500/20"
+                    point.type === "locker" ? "bg-violet-500/20" : "bg-blue-500/20"
                   )}>
                     {point.type === "locker"
-                      ? <Package className="w-5 h-5 text-green-400" />
+                      ? <Package className="w-5 h-5 text-violet-400" />
                       : <Store className="w-5 h-5 text-blue-400" />
                     }
                   </div>
@@ -334,7 +334,7 @@ export function LockerPicker({ onConfirm, initialMode = "home" }: Props) {
                   <div className="flex flex-col items-end gap-1 flex-shrink-0">
                     <span className="text-[11px] font-bold text-white/40">{formatDist(point.distance)}</span>
                     {selected?.id === point.id && (
-                      <span className="text-[10px] font-black text-[#22C55E]">✓</span>
+                      <span className="text-[10px] font-black text-[#8B5CF6]">✓</span>
                     )}
                   </div>
                 </button>

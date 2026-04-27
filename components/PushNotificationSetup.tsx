@@ -49,7 +49,7 @@ export function PushNotificationSetup() {
     <div className="fixed bottom-[76px] left-3 right-3 z-50 max-w-[560px] mx-auto animate-slideUp">
       <div className="rounded-2xl border border-white/8 bg-[#13131f]/95 backdrop-blur-xl px-4 py-3 shadow-2xl flex items-center gap-3">
         <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }}>
+          style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}>
           <Bell className="w-3.5 h-3.5 text-white" />
         </div>
         <div className="flex-1 min-w-0">
@@ -59,7 +59,7 @@ export function PushNotificationSetup() {
         <div className="flex items-center gap-1.5 flex-shrink-0">
           <button onClick={requestAndSubscribe}
             className="px-3 py-1.5 rounded-xl text-[11px] font-bold text-white active:scale-95 transition-transform"
-            style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }}>
+            style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}>
             Activer
           </button>
           <button onClick={() => setShown(false)} className="text-white/25 hover:text-white/50 transition-colors">

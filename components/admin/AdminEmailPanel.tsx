@@ -35,12 +35,12 @@ export function AdminEmailPanel() {
     setLoading(false);
   };
 
-  const input = "w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-3 text-white text-[13px] placeholder:text-white/20 focus:outline-none focus:border-[#22C55E]/60";
+  const input = "w-full bg-white/5 border border-white/10 rounded-xl px-3.5 py-3 text-white text-[13px] placeholder:text-white/20 focus:outline-none focus:border-[#8B5CF6]/60";
 
   return (
-    <div className="bg-[#0f0f1a] rounded-2xl border border-white/8 p-5 space-y-4">
+    <div className="bg-[#0E0E16] rounded-2xl border border-white/8 p-5 space-y-4">
       <div className="flex items-center gap-2.5 mb-1">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "#22C55E" }}>
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "#8B5CF6" }}>
           <Megaphone className="w-4.5 h-4.5 text-white" />
         </div>
         <div>
@@ -55,7 +55,7 @@ export function AdminEmailPanel() {
           <button key={t} onClick={() => setType(t)}
             className={`flex-1 py-2 rounded-xl text-[12px] font-bold transition-all ${
               type === t
-                ? "text-white border border-[#22C55E]/60 bg-[#22C55E]/15"
+                ? "text-white border border-[#8B5CF6]/60 bg-[#8B5CF6]/15"
                 : "text-white/40 border border-white/8 bg-transparent"
             }`}>
             {t === "marketing_newsletter" ? "📰 Newsletter" : "🎁 Promo"}
@@ -74,7 +74,7 @@ export function AdminEmailPanel() {
             <button key={value} onClick={() => setFilter(value as Filter)}
               className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-semibold transition-all ${
                 filter === value
-                  ? "bg-[#22C55E]/20 border border-[#22C55E]/50 text-white"
+                  ? "bg-[#8B5CF6]/20 border border-[#8B5CF6]/50 text-white"
                   : "bg-white/5 border border-white/8 text-white/40"
               }`}>
               <span>{icon}</span> {label}
@@ -113,7 +113,7 @@ export function AdminEmailPanel() {
         onClick={handleSend}
         disabled={loading || !subject || !body}
         className="w-full h-11 rounded-xl text-white text-[13px] font-black flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed transition-all active:scale-[0.98]"
-        style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }}
+        style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}
       >
         {loading ? (
           <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />

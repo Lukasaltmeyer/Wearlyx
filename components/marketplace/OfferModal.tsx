@@ -138,7 +138,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
     <div className="fixed inset-0 z-50 flex items-end justify-center" onClick={onClose}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-[600px] bg-[#12121C] rounded-t-3xl p-6 pb-10 animate-slideUp"
+        className="relative w-full max-w-[600px] bg-[#11111A] rounded-t-3xl p-6 pb-10 animate-slideUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -165,7 +165,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
             {/* Amount input */}
             <div className="mb-4">
               <label className="text-[11px] font-bold text-white/40 uppercase tracking-wider mb-2 block">Ton offre (€)</label>
-              <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/6 border border-white/10 focus-within:border-[#22C55E]/50">
+              <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/6 border border-white/10 focus-within:border-[#8B5CF6]/50">
                 <Tag className="w-4 h-4 text-white/30 flex-shrink-0" />
                 <input
                   type="number"
@@ -196,7 +196,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Explique ta proposition au vendeur..."
                 rows={2}
-                className="w-full px-4 py-3 rounded-2xl bg-white/6 border border-white/10 text-[14px] text-white placeholder-white/20 outline-none resize-none focus:border-[#22C55E]/50"
+                className="w-full px-4 py-3 rounded-2xl bg-white/6 border border-white/10 text-[14px] text-white placeholder-white/20 outline-none resize-none focus:border-[#8B5CF6]/50"
               />
             </div>
 
@@ -208,7 +208,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
               className={cn(
                 "w-full py-4 rounded-2xl text-[15px] font-bold text-white transition-all",
                 isValid && !loading
-                  ? "bg-[#22C55E] shadow-lg shadow-[#22C55E]/25 active:scale-[0.98]"
+                  ? "bg-[#8B5CF6] shadow-lg shadow-[#8B5CF6]/25 active:scale-[0.98]"
                   : "bg-white/10 opacity-50 cursor-not-allowed"
               )}
             >

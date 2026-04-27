@@ -44,7 +44,7 @@ const STATUS_STYLE: Record<string, string> = {
   deleted:      "bg-red-500/10 text-red-400 border border-red-500/20",
   pending:      "bg-amber-500/10 text-amber-400 border border-amber-500/20",
   paid:         "bg-blue-500/10 text-blue-400 border border-blue-500/20",
-  shipped:      "bg-green-500/10 text-green-400 border border-green-500/20",
+  shipped:      "bg-violet-500/10 text-violet-400 border border-violet-500/20",
   in_transit:   "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20",
   delivered:    "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
   dispute:      "bg-red-500/10 text-red-400 border border-red-500/20",
@@ -56,12 +56,12 @@ const STATUS_STYLE: Record<string, string> = {
   rejected:     "bg-zinc-500/10 text-zinc-500 border border-zinc-500/15",
   free:             "bg-zinc-500/10 text-zinc-400 border border-zinc-500/15",
   starter:          "bg-blue-500/10 text-blue-400 border border-blue-500/20",
-  pro:              "bg-green-500/10 text-green-400 border border-green-500/20",
+  pro:              "bg-violet-500/10 text-violet-400 border border-violet-500/20",
   premium:          "bg-amber-500/10 text-amber-400 border border-amber-500/20",
   // Shipments
   prepared:         "bg-blue-500/10 text-blue-400 border border-blue-500/20",
   dropped:          "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20",
-  out_for_delivery: "bg-green-500/10 text-green-400 border border-green-500/20",
+  out_for_delivery: "bg-violet-500/10 text-violet-400 border border-violet-500/20",
   failed:           "bg-red-500/10 text-red-400 border border-red-500/20",
   // Offers
   accepted: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
@@ -125,7 +125,7 @@ function SearchInput({ value, onChange, placeholder }: { value: string; onChange
     <div className="relative">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-700 pointer-events-none" />
       <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? "Search…"}
-        className="bg-[#0C0C0F] border border-[#1C1C20] rounded-lg pl-9 pr-4 py-2 text-[13px] text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-[#22C55E]/40 transition-colors w-full" />
+        className="bg-[#0C0C0F] border border-[#1C1C20] rounded-lg pl-9 pr-4 py-2 text-[13px] text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-[#8B5CF6]/40 transition-colors w-full" />
     </div>
   );
 }
@@ -153,7 +153,7 @@ function SectionTitle({ title, sub, count }: { title: string; sub?: string; coun
 
 // ─── Sparkline SVG ────────────────────────────────────────────────────────────
 
-function Sparkline({ data, color = "#22C55E", height = 32 }: { data: number[]; color?: string; height?: number }) {
+function Sparkline({ data, color = "#8B5CF6", height = 32 }: { data: number[]; color?: string; height?: number }) {
   if (data.length < 2) return null;
   const max = Math.max(...data, 1);
   const min = Math.min(...data);
@@ -173,7 +173,7 @@ function Sparkline({ data, color = "#22C55E", height = 32 }: { data: number[]; c
 
 // ─── Bar Chart ────────────────────────────────────────────────────────────────
 
-function BarChart({ data, color = "#22C55E", height = 80 }: { data: { label: string; value: number }[]; color?: string; height?: number }) {
+function BarChart({ data, color = "#8B5CF6", height = 80 }: { data: { label: string; value: number }[]; color?: string; height?: number }) {
   const max = Math.max(...data.map(d => d.value), 1);
   return (
     <div className="flex items-end gap-1.5 h-[80px]">
@@ -204,7 +204,7 @@ function KPICard({
   const colorMap: Record<string, { icon: string; spark: string; badge: string }> = {
     zinc:    { icon: "text-zinc-400 bg-zinc-500/8",     spark: "#71717A", badge: "" },
     blue:    { icon: "text-blue-400 bg-blue-500/8",     spark: "#60A5FA", badge: "" },
-    violet:  { icon: "text-green-400 bg-green-500/8", spark: "#4ADE80", badge: "" },
+    violet:  { icon: "text-violet-400 bg-violet-500/8", spark: "#A78BFA", badge: "" },
     emerald: { icon: "text-emerald-400 bg-emerald-500/8", spark: "#34D399", badge: "" },
     amber:   { icon: "text-amber-400 bg-amber-500/8",   spark: "#FBBF24", badge: "" },
     red:     { icon: "text-red-400 bg-red-500/8",       spark: "#F87171", badge: "" },
@@ -350,7 +350,7 @@ function OverviewView({ stats, activity, openDisputes }: { stats: any; activity:
               +8%
             </div>
           </div>
-          <BarChart data={revenueBar} color="#22C55E" />
+          <BarChart data={revenueBar} color="#8B5CF6" />
         </Card>
 
         <Card className="p-5">
@@ -399,7 +399,7 @@ function OverviewView({ stats, activity, openDisputes }: { stats: any; activity:
             {[
               { l: "Free",    n: stats.planCounts.free,    c: "bg-zinc-600",    t: "text-zinc-400" },
               { l: "Starter", n: stats.planCounts.starter, c: "bg-blue-500",    t: "text-blue-400" },
-              { l: "Pro",     n: stats.planCounts.pro,     c: "bg-green-500",  t: "text-green-400" },
+              { l: "Pro",     n: stats.planCounts.pro,     c: "bg-violet-500",  t: "text-violet-400" },
               { l: "Premium", n: stats.planCounts.premium, c: "bg-amber-500",   t: "text-amber-400" },
             ].map(({ l, n, c, t }) => {
               const pct = stats.usersCount > 0 ? (n / stats.usersCount) * 100 : 0;
@@ -430,7 +430,7 @@ function OverviewView({ stats, activity, openDisputes }: { stats: any; activity:
             {[
               ...(activity.recentUsers ?? []).slice(0, 2).map((u: any) => ({ icon: "👤", label: `@${u.username ?? "Utilisateur"} a rejoint`, time: u.created_at, color: "text-blue-400" })),
               ...(activity.recentOrders ?? []).slice(0, 3).map((o: any) => ({ icon: "🛒", label: `Commande €${o.total?.toFixed(0) ?? 0}`, time: o.created_at, color: "text-emerald-400" })),
-              ...(activity.recentProducts ?? []).slice(0, 3).map((p: any) => ({ icon: "👕", label: p.title ?? "Nouvelle annonce", time: p.created_at, color: "text-green-400" })),
+              ...(activity.recentProducts ?? []).slice(0, 3).map((p: any) => ({ icon: "👕", label: p.title ?? "Nouvelle annonce", time: p.created_at, color: "text-violet-400" })),
             ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 8).map((ev, i) => (
               <div key={i} className="flex items-start gap-3 py-2.5 border-b border-[#17171B] last:border-0">
                 <span className="text-[14px] mt-0.5 flex-shrink-0">{ev.icon}</span>
@@ -449,7 +449,7 @@ function OverviewView({ stats, activity, openDisputes }: { stats: any; activity:
         <h3 className="text-[12px] font-semibold text-zinc-600 uppercase tracking-wider mb-3">Insights automatiques</h3>
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
           {[
-            { label: "Dernière annonce", value: topProduct?.title ?? "—",                icon: ShoppingBag, color: "text-green-400" },
+            { label: "Dernière annonce", value: topProduct?.title ?? "—",                icon: ShoppingBag, color: "text-violet-400" },
             { label: "Dernière commande", value: topOrder ? `€${(Array.isArray(topOrder.product) ? topOrder.product[0] : topOrder.product)?.title ?? "—"}` : "—", icon: Package, color: "text-emerald-400" },
             { label: "Plan dominant",    value: ["free","starter","pro","premium"].reduce((a, b) => (stats.planCounts[a] ?? 0) > (stats.planCounts[b] ?? 0) ? a : b), icon: Star, color: "text-amber-400" },
             { label: "Ratio IA",         value: stats.usersCount > 0 ? `${((stats.aiCount / stats.usersCount)).toFixed(1)} gen/user` : "—", icon: Cpu, color: "text-blue-400" },
@@ -495,7 +495,7 @@ function UsersView({ users, stats }: { users: any[]; stats: any }) {
       <SectionTitle title="Utilisateurs" sub="Gestion de tous les comptes" count={stats.usersCount} />
       <div className="grid grid-cols-4 gap-3">
         {(["free","starter","pro","premium"] as const).map(p => {
-          const cMap = { free: "text-zinc-400", starter: "text-blue-400", pro: "text-green-400", premium: "text-amber-400" };
+          const cMap = { free: "text-zinc-400", starter: "text-blue-400", pro: "text-violet-400", premium: "text-amber-400" };
           return (
             <Card key={p} className="p-4">
               <p className="text-[10px] font-semibold text-zinc-700 uppercase tracking-wider mb-1.5 capitalize">{p}</p>
@@ -510,7 +510,7 @@ function UsersView({ users, stats }: { users: any[]; stats: any }) {
           {["all","free","starter","pro","premium"].map(p => (
             <button key={p} onClick={() => setPlan(p)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                plan === p ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                plan === p ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {p}
             </button>
           ))}
@@ -567,7 +567,7 @@ function UsersView({ users, stats }: { users: any[]; stats: any }) {
                         </a>
                         <button
                           onClick={() => setModerating(u)}
-                          className="px-2.5 py-1.5 rounded-lg bg-[#22C55E]/10 border border-[#22C55E]/20 text-[11px] font-semibold text-[#9B93FF] hover:bg-[#22C55E]/20 transition-colors"
+                          className="px-2.5 py-1.5 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 text-[11px] font-semibold text-[#9B93FF] hover:bg-[#8B5CF6]/20 transition-colors"
                         >
                           Modérer
                         </button>
@@ -602,7 +602,7 @@ function ProductsView({ products, stats }: { products: any[]; stats: any }) {
           {["all","active","sold","reserved","deleted"].map(s => (
             <button key={s} onClick={() => setStatusFilter(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                statusFilter === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                statusFilter === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s}
             </button>
           ))}
@@ -685,7 +685,7 @@ function OrdersView({ orders, stats }: { orders: any[]; stats: any }) {
           {["all","pending","paid","shipped","delivered","dispute"].map(s => (
             <button key={s} onClick={() => setStatusFilter(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                statusFilter === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                statusFilter === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s}
             </button>
           ))}
@@ -786,7 +786,7 @@ function DisputesView({ disputes, stats }: { disputes: any[]; stats: any }) {
 
             <textarea value={adminNote} onChange={e => setAdminNote(e.target.value)}
               placeholder="Note pour l'utilisateur (optionnel)…"
-              className="w-full bg-[#0C0C0F] border border-[#1C1C20] rounded-lg p-3 text-[13px] text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-[#22C55E]/40 resize-none" rows={2} />
+              className="w-full bg-[#0C0C0F] border border-[#1C1C20] rounded-lg p-3 text-[13px] text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-[#8B5CF6]/40 resize-none" rows={2} />
 
             <div className="flex gap-2 flex-wrap">
               {selected.status === "open" && (<>
@@ -844,7 +844,7 @@ function DisputesView({ disputes, stats }: { disputes: any[]; stats: any }) {
           {["all","open","under_review","validated","solution_proposed","resolved","rejected"].map(s => (
             <button key={s} onClick={() => setStatusFilter(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold transition-colors",
-                statusFilter === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                statusFilter === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -863,7 +863,7 @@ function DisputesView({ disputes, stats }: { disputes: any[]; stats: any }) {
                 return (
                   <tr key={d.id} className={cn("hover:bg-[#141417] transition-colors",
                     d.status === "open" && "bg-red-500/5 border-l-2 border-red-500/40",
-                    d.status === "solution_proposed" && "bg-[#22C55E]/5 border-l-2 border-[#22C55E]/30")}>
+                    d.status === "solution_proposed" && "bg-[#8B5CF6]/5 border-l-2 border-[#8B5CF6]/30")}>
                     <Td>
                       <p className="text-zinc-200 font-medium truncate max-w-[150px]">{product?.title ?? "—"}</p>
                       <p className="text-[11px] text-zinc-600">€{order?.total?.toFixed(2) ?? "—"}</p>
@@ -882,7 +882,7 @@ function DisputesView({ disputes, stats }: { disputes: any[]; stats: any }) {
                         className={cn("px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-colors",
                           needsAction
                             ? "bg-red-500/15 border border-red-500/20 text-red-400 hover:bg-red-500/25"
-                            : "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#9B93FF] hover:bg-[#22C55E]/20")}>
+                            : "bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 text-[#9B93FF] hover:bg-[#8B5CF6]/20")}>
                         Gérer
                       </button>
                     </Td>
@@ -940,7 +940,7 @@ function AnalyticsView({ stats }: { stats: any }) {
           <h3 className="text-[12px] font-semibold text-zinc-500 uppercase tracking-wider mb-4">Répartition des revenus</h3>
           {[
             { l: "Starter × €5",  v: stats.planCounts.starter * 5,  c: "text-blue-400",   w: stats.planCounts.starter * 5 },
-            { l: "Pro × €15",     v: stats.planCounts.pro * 15,      c: "text-green-400", w: stats.planCounts.pro * 15 },
+            { l: "Pro × €15",     v: stats.planCounts.pro * 15,      c: "text-violet-400", w: stats.planCounts.pro * 15 },
             { l: "Premium × €30", v: stats.planCounts.premium * 30,  c: "text-amber-400",  w: stats.planCounts.premium * 30 },
           ].map(({ l, v, c, w }) => {
             const pct = mrr > 0 ? (w / mrr) * 100 : 0;
@@ -1021,7 +1021,7 @@ function SubscriptionsView({ stats }: { stats: any }) {
         {[
           { plan: "Free",    users: stats.planCounts.free,    rev: 0,                             bar: "bg-zinc-600",   c: "text-zinc-400" },
           { plan: "Starter", users: stats.planCounts.starter, rev: stats.planCounts.starter * 5,  bar: "bg-blue-500",   c: "text-blue-400" },
-          { plan: "Pro",     users: stats.planCounts.pro,     rev: stats.planCounts.pro * 15,      bar: "bg-green-500", c: "text-green-400" },
+          { plan: "Pro",     users: stats.planCounts.pro,     rev: stats.planCounts.pro * 15,      bar: "bg-violet-500", c: "text-violet-400" },
           { plan: "Premium", users: stats.planCounts.premium, rev: stats.planCounts.premium * 30,  bar: "bg-amber-500",  c: "text-amber-400" },
         ].map(({ plan, users, rev, bar, c }) => (
           <Card key={plan} className="p-4">
@@ -1066,7 +1066,7 @@ function AIView({ stats }: { stats: any }) {
             {[
               { plan: "Free",    limit: 5,   used: 3,  c: "bg-zinc-600",   t: "text-zinc-400" },
               { plan: "Starter", limit: 20,  used: 12, c: "bg-blue-500",   t: "text-blue-400" },
-              { plan: "Pro",     limit: 60,  used: 35, c: "bg-green-500", t: "text-green-400" },
+              { plan: "Pro",     limit: 60,  used: 35, c: "bg-violet-500", t: "text-violet-400" },
               { plan: "Premium", limit: 999, used: 0,  c: "bg-amber-500",  t: "text-amber-400", unlimited: true },
             ].map(({ plan, limit, c, t, unlimited }) => (
               <div key={plan} className="flex items-center gap-4">
@@ -1147,7 +1147,7 @@ function PaymentsView({ orders }: { orders: any[] }) {
           {["all","pending","paid","shipped","delivered","refunded","cancelled"].map(s => (
             <button key={s} onClick={() => setSf(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                sf === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                sf === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -1253,7 +1253,7 @@ function ShipmentsView({ shipments }: { shipments: any[] }) {
           {["all","pending","in_transit","out_for_delivery","delivered","failed"].map(s => (
             <button key={s} onClick={() => setSf(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                sf === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                sf === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -1277,7 +1277,7 @@ function ShipmentsView({ shipments }: { shipments: any[] }) {
                     <Td className="text-zinc-400">{s.carrier ?? "—"}</Td>
                     <Td>
                       {s.tracking_number
-                        ? <span className="font-mono text-[12px] text-green-400">{s.tracking_number}</span>
+                        ? <span className="font-mono text-[12px] text-violet-400">{s.tracking_number}</span>
                         : <span className="text-zinc-700">—</span>}
                     </Td>
                     <Td><Pill status={s.status} /></Td>
@@ -1349,7 +1349,7 @@ function OffersView({ offers }: { offers: any[] }) {
           {["all","pending","accepted","refused","countered","expired"].map(s => (
             <button key={s} onClick={() => setSf(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                sf === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                sf === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -1374,7 +1374,7 @@ function OffersView({ offers }: { offers: any[] }) {
                     <Td className="text-zinc-500">@{seller?.username ?? "—"}</Td>
                     <Td className="text-zinc-400">€{product?.price ?? "—"}</Td>
                     <Td>
-                      <span className="font-bold text-green-400">€{o.amount}</span>
+                      <span className="font-bold text-violet-400">€{o.amount}</span>
                       {pct > 0 && <span className="ml-1.5 text-[10px] text-zinc-600">-{pct}%</span>}
                     </Td>
                     <Td><Pill status={o.status} /></Td>
@@ -1449,7 +1449,7 @@ function ReviewsView({ reviews }: { reviews: any[] }) {
                     </Td>
                     <Td>
                       <span className={cn("text-[11px] font-semibold px-2 py-0.5 rounded-md",
-                        r.role === "buyer" ? "bg-blue-500/10 text-blue-400" : "bg-green-500/10 text-green-400")}>
+                        r.role === "buyer" ? "bg-blue-500/10 text-blue-400" : "bg-violet-500/10 text-violet-400")}>
                         {r.role === "buyer" ? "Acheteur" : "Vendeur"}
                       </span>
                     </Td>
@@ -1520,7 +1520,7 @@ function TicketsView({ tickets }: { tickets: any[] }) {
             <h3 className="text-[15px] font-bold text-zinc-100 mb-1">{selected.subject}</h3>
             <p className="text-[12px] text-zinc-600 mb-4">{selected.description}</p>
             <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Note admin (optionnel)…"
-              className="w-full bg-[#0C0C0F] border border-[#1C1C20] rounded-lg p-3 text-[13px] text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-[#22C55E]/40 resize-none mb-4" rows={3} />
+              className="w-full bg-[#0C0C0F] border border-[#1C1C20] rounded-lg p-3 text-[13px] text-zinc-300 placeholder-zinc-700 focus:outline-none focus:border-[#8B5CF6]/40 resize-none mb-4" rows={3} />
             <div className="flex gap-2">
               {["in_progress","resolved","closed"].map(s => (
                 <button key={s} onClick={() => updateTicket(selected.id, s)} disabled={loading}
@@ -1555,7 +1555,7 @@ function TicketsView({ tickets }: { tickets: any[] }) {
           {["all","open","in_progress","resolved","closed"].map(s => (
             <button key={s} onClick={() => setSf(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                sf === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                sf === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : s === "in_progress" ? "En cours" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -1586,7 +1586,7 @@ function TicketsView({ tickets }: { tickets: any[] }) {
                     <Td className="text-zinc-600">{timeAgo(t.created_at)}</Td>
                     <Td>
                       <button onClick={() => { setSelected(t); setNote(t.admin_note ?? ""); }}
-                        className="px-2.5 py-1.5 rounded-lg bg-[#22C55E]/10 border border-[#22C55E]/20 text-[11px] font-semibold text-[#9B93FF] hover:bg-[#22C55E]/20 transition-colors">
+                        className="px-2.5 py-1.5 rounded-lg bg-[#8B5CF6]/10 border border-[#8B5CF6]/20 text-[11px] font-semibold text-[#9B93FF] hover:bg-[#8B5CF6]/20 transition-colors">
                         Gérer
                       </button>
                     </Td>
@@ -1653,7 +1653,7 @@ function BugsView({ bugs }: { bugs: any[] }) {
           {["all","detected","in_progress","fixed","wont_fix"].map(s => (
             <button key={s} onClick={() => setSf(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                sf === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                sf === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : s === "in_progress" ? "En cours" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -1737,7 +1737,7 @@ function ModerationView({ reports }: { reports: any[] }) {
     scam: "Arnaque", harassment: "Harcèlement", other: "Autre",
   };
   const TARGET_STYLE: Record<string, string> = {
-    product: "text-green-400 bg-green-500/8", user: "text-blue-400 bg-blue-500/8",
+    product: "text-violet-400 bg-violet-500/8", user: "text-blue-400 bg-blue-500/8",
     review: "text-amber-400 bg-amber-500/8", message: "text-zinc-400 bg-zinc-500/8",
   };
 
@@ -1770,7 +1770,7 @@ function ModerationView({ reports }: { reports: any[] }) {
           {["all","pending","reviewed","actioned","dismissed"].map(s => (
             <button key={s} onClick={() => setSf(s)}
               className={cn("px-2.5 py-1 rounded-md text-[11px] font-semibold capitalize transition-colors",
-                sf === s ? "bg-[#22C55E] text-white" : "text-zinc-600 hover:text-zinc-300")}>
+                sf === s ? "bg-[#8B5CF6] text-white" : "text-zinc-600 hover:text-zinc-300")}>
               {s === "all" ? "Tous" : STATUS_LABEL[s] ?? s}
             </button>
           ))}
@@ -1855,9 +1855,9 @@ export function AdminDashboard({ stats, activity, users, products, orders, dispu
       <button key={id} onClick={() => { setView(id as View); setSidebarOpen(false); }}
         className={cn(
           "flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left text-[13px] font-medium w-full transition-all",
-          active ? "bg-[#22C55E]/12 text-[#9B93FF]" : "text-zinc-600 hover:text-zinc-300 hover:bg-[#0F0F13]"
+          active ? "bg-[#8B5CF6]/12 text-[#9B93FF]" : "text-zinc-600 hover:text-zinc-300 hover:bg-[#0F0F13]"
         )}>
-        <Icon className={cn("w-4 h-4 flex-shrink-0", active && "text-[#22C55E]")} />
+        <Icon className={cn("w-4 h-4 flex-shrink-0", active && "text-[#8B5CF6]")} />
         <span className="flex-1">{label}</span>
         {badge && <span className="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-[10px] font-bold text-white">{badge}</span>}
       </button>
@@ -1871,7 +1871,7 @@ export function AdminDashboard({ stats, activity, users, products, orders, dispu
       <aside className="hidden md:flex w-[216px] flex-shrink-0 border-r border-[#141418] flex-col h-screen sticky top-0 overflow-y-auto">
         <div className="px-5 py-4 border-b border-[#141418]">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#22C55E] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-[#8B5CF6] flex items-center justify-center">
               <Shield className="w-3.5 h-3.5 text-white" />
             </div>
             <div>
@@ -1909,7 +1909,7 @@ export function AdminDashboard({ stats, activity, users, products, orders, dispu
           <aside className="absolute left-0 top-0 bottom-0 w-[260px] bg-[#0A0A0E] border-r border-[#141418] flex flex-col overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="px-5 py-4 border-b border-[#141418] flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#22C55E] flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-[#8B5CF6] flex items-center justify-center">
                   <Shield className="w-3.5 h-3.5 text-white" />
                 </div>
                 <div>
@@ -2008,7 +2008,7 @@ export function AdminDashboard({ stats, activity, users, products, orders, dispu
                   {badge && <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 flex items-center justify-center text-[9px] font-bold text-white">{badge}</span>}
                 </div>
                 <span className="text-[9px] font-semibold truncate">{item.label}</span>
-                {active && <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-[#22C55E]" />}
+                {active && <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full bg-[#8B5CF6]" />}
               </button>
             );
           })}

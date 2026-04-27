@@ -86,7 +86,7 @@ export function ProfileMenuClient({
           {profile?.avatar_url ? (
             <Image src={profile.avatar_url} alt="avatar" width={48} height={48} className="w-full h-full object-cover" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#22C55E] to-[#16A34A] flex items-center justify-center">
+            <div className="w-full h-full bg-gradient-to-br from-[#8B5CF6] to-[#7C3AED] flex items-center justify-center">
               <span className="text-white font-bold text-lg">
                 {(profile?.full_name || profile?.username || "?")[0].toUpperCase()}
               </span>
@@ -118,10 +118,10 @@ export function ProfileMenuClient({
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1.5">
             <p className="text-[13px] font-semibold text-white">Badges & Récompenses</p>
-            <span className="text-[13px] font-bold text-[#22C55E]">{credits} cr.</span>
+            <span className="text-[13px] font-bold text-[#8B5CF6]">{credits} cr.</span>
           </div>
           <div className="w-full h-1 rounded-full bg-white/8 overflow-hidden">
-            <div className="h-full rounded-full bg-gradient-to-r from-[#22C55E] to-[#16A34A]" style={{ width: `${pct}%` }} />
+            <div className="h-full rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED]" style={{ width: `${pct}%` }} />
           </div>
           <div className="flex justify-between mt-1.5">
             <p className="text-[10px] text-white/25">{badgesEarned}/{totalBadges} badges</p>
@@ -141,15 +141,15 @@ export function ProfileMenuClient({
                 href={href}
                 className={cn(
                   "flex items-center gap-3 px-4 py-3.5 transition-colors active:bg-white/5 border-b border-white/[0.05] last:border-0",
-                  highlight && "bg-[#22C55E]/[0.06]",
-                  adminBadge && "bg-[#22C55E]/[0.06]"
+                  highlight && "bg-[#8B5CF6]/[0.06]",
+                  adminBadge && "bg-[#8B5CF6]/[0.06]"
                 )}
               >
                 <div className={cn(
                   "w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0",
-                  highlight ? "bg-[#22C55E]/15" : adminBadge ? "bg-[#22C55E]/15" : "bg-white/[0.06]"
+                  highlight ? "bg-[#8B5CF6]/15" : adminBadge ? "bg-[#8B5CF6]/15" : "bg-white/[0.06]"
                 )}>
-                  <Icon className={cn("w-4 h-4", highlight ? "text-[#22C55E]" : adminBadge ? "text-[#9B93FF]" : "text-[#9B93FF]/60")} />
+                  <Icon className={cn("w-4 h-4", highlight ? "text-[#8B5CF6]" : adminBadge ? "text-[#9B93FF]" : "text-[#9B93FF]/60")} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={cn("text-[13px] font-semibold", highlight ? "text-[#9B93FF]" : adminBadge ? "text-[#9B93FF]" : "text-white/85")}>{label}</p>
