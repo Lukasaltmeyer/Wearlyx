@@ -34,13 +34,13 @@ const PLANS = [
     id: "pro",
     name: "Vendeur Pro",
     badge: "⭐ Populaire · 🎉 -28% le 1er mois",
-    badgeColor: "bg-violet-500/20 text-violet-200 border-violet-500/30",
+    badgeColor: "bg-green-500/20 text-green-300 border-green-500/30",
     priceNormal: 25,
     priceFirst: 18,
     icon: <Star className="w-5 h-5" />,
-    gradient: "from-violet-600 to-purple-800",
-    accentColor: "#7C3AED",
-    accentLight: "rgba(124,58,237,0.15)",
+    gradient: "from-[#22C55E] to-[#15803D]",
+    accentColor: "#22C55E",
+    accentLight: "rgba(34,197,94,0.12)",
     popular: true,
     features: [
       { text: "60 améliorations photo IA / mois", included: true },
@@ -94,17 +94,22 @@ function PlanCard({
     <div
       className={`relative rounded-3xl border overflow-hidden transition-all duration-200 ${
         plan.popular
-          ? "border-violet-500/50 shadow-2xl shadow-violet-500/20 scale-[1.02]"
+          ? "scale-[1.02]"
           : "border-white/8 opacity-90"
       }`}
-      style={{ background: plan.popular ? "rgba(22,10,45,0.98)" : "rgba(14,14,22,0.95)" }}
+      style={{
+        background: plan.popular ? "rgba(10,22,14,0.98)" : "rgba(14,14,22,0.95)",
+        borderColor: plan.popular ? "rgba(34,197,94,0.35)" : undefined,
+        boxShadow: plan.popular ? "0 0 40px rgba(34,197,94,0.12)" : undefined,
+      }}
     >
       {/* Top gradient bar */}
       <div className={`h-1.5 w-full bg-gradient-to-r ${plan.gradient}`} />
 
       {/* Popular banner */}
       {plan.popular && (
-        <div className="absolute top-0 right-5 bg-gradient-to-r from-violet-600 to-purple-600 text-white text-[11px] font-bold px-3 py-1 rounded-b-xl shadow-lg">
+        <div className="absolute top-0 right-5 text-white text-[11px] font-bold px-3 py-1 rounded-b-xl shadow-lg"
+          style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }}>
           ⭐ POPULAIRE
         </div>
       )}

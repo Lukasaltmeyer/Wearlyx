@@ -6,11 +6,11 @@ import { Home, Compass, Plus, MessageCircle, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/",         icon: Home,          label: "Accueil" },
-  { href: "/search",   icon: Compass,       label: "Explorer" },
-  { href: "/sell",     icon: Plus,          label: "Vendre",  primary: true },
-  { href: "/messages", icon: MessageCircle, label: "Messages" },
-  { href: "/profile/menu", icon: User,      label: "Profil" },
+  { href: "/",              icon: Home,          label: "Accueil" },
+  { href: "/search",        icon: Compass,       label: "Explorer" },
+  { href: "/sell",          icon: Plus,          label: "Vendre",  primary: true },
+  { href: "/messages",      icon: MessageCircle, label: "Messages" },
+  { href: "/profile/menu",  icon: User,          label: "Profil" },
 ];
 
 export function BottomNav() {
@@ -22,7 +22,7 @@ export function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-40 safe-bottom"
       style={{
-        background: "rgba(6, 6, 12, 0.97)",
+        background: "rgba(8, 8, 12, 0.97)",
         backdropFilter: "blur(32px)",
         WebkitBackdropFilter: "blur(32px)",
         borderTop: "1px solid rgba(255,255,255,0.05)",
@@ -38,8 +38,8 @@ export function BottomNav() {
                 <div
                   className="w-10 h-10 rounded-[14px] flex items-center justify-center shadow-lg"
                   style={{
-                    background: "linear-gradient(135deg, #6C3AED 0%, #C026D3 100%)",
-                    boxShadow: "0 4px 14px rgba(108,58,237,0.4)",
+                    background: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)",
+                    boxShadow: "0 4px 14px rgba(34,197,94,0.35)",
                   }}
                 >
                   <Icon className="w-[19px] h-[19px] text-white" strokeWidth={2.5} />
@@ -57,27 +57,25 @@ export function BottomNav() {
             >
               <div className={cn(
                 "w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-200",
-                isActive
-                  ? "bg-[#6C3AED]/20"
-                  : "hover:bg-white/5"
+                isActive ? "bg-[#22C55E]/15" : "hover:bg-white/5"
               )}>
                 <Icon
                   className={cn(
                     "w-[20px] h-[20px] transition-all duration-200",
-                    isActive ? "text-[#a78bfa]" : "text-white/30"
+                    isActive ? "text-[#22C55E]" : "text-white/30"
                   )}
                   strokeWidth={isActive ? 2.5 : 1.6}
                 />
               </div>
               <span className={cn(
                 "text-[9.5px] font-bold transition-colors duration-200",
-                isActive ? "text-[#a78bfa]" : "text-white/25"
+                isActive ? "text-[#22C55E]" : "text-white/25"
               )}>
                 {label}
               </span>
               {isActive && (
                 <span className="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full animate-scaleX"
-                  style={{ background: "linear-gradient(90deg, #6C3AED, #C026D3)" }} />
+                  style={{ background: "#22C55E" }} />
               )}
             </Link>
           );

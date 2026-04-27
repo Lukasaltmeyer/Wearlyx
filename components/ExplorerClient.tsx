@@ -232,8 +232,8 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
                     : "bg-white/5 border border-white/8 text-white/50"
                 )}
                 style={category === c.id ? {
-                  background: "linear-gradient(135deg, #6C3AED, #C026D3)",
-                  boxShadow: "0 2px 12px rgba(108,58,237,0.35)",
+                  background: "linear-gradient(135deg, #22C55E, #16A34A)",
+                  boxShadow: "0 2px 12px rgba(34,197,94,0.3)",
                 } : {}}
               >
                 <span>{c.emoji}</span>
@@ -250,15 +250,39 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
           )}
 
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-14 text-center px-6">
-              <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-4"
-                style={{ background: "linear-gradient(135deg, rgba(108,58,237,0.12), rgba(192,38,211,0.08))", border: "1px solid rgba(108,58,237,0.18)" }}>
-                <Search className="w-9 h-9" style={{ color: "#a78bfa" }} />
+            <div className="px-4 pt-4 pb-8">
+              <div className="flex flex-col items-center py-8 text-center mb-6">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-3"
+                  style={{ background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.15)" }}>
+                  <Search className="w-7 h-7" style={{ color: "#22C55E" }} />
+                </div>
+                <p className="text-[16px] font-black text-white mb-1">Aucun article pour l'instant</p>
+                <p className="text-[12px] text-white/30">Sois le premier à vendre dans cette catégorie !</p>
               </div>
-              <p className="text-[17px] font-black text-white mb-1.5">Aucun article trouvé</p>
-              <p className="text-[13px] text-white/35 leading-relaxed">
-                Aucun article dans cette catégorie pour l&apos;instant.
-              </p>
+
+              {/* Marques tendance */}
+              <p className="text-[11px] font-bold text-white/30 uppercase tracking-wider mb-3">Marques populaires</p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {["Nike", "Jordan", "Adidas", "Supreme", "Off-White", "Stone Island", "Balenciaga", "Levi's"].map((brand) => (
+                  <button key={brand}
+                    onClick={() => setCategory("all")}
+                    className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white/60 border border-white/8 bg-white/4 active:scale-95 transition-all hover:border-[#22C55E]/30 hover:text-[#22C55E]">
+                    {brand}
+                  </button>
+                ))}
+              </div>
+
+              <p className="text-[11px] font-bold text-white/30 uppercase tracking-wider mb-3">Catégories</p>
+              <div className="grid grid-cols-3 gap-2">
+                {CATEGORIES.filter(c => c.id !== "all").slice(0, 6).map((cat) => (
+                  <button key={cat.id}
+                    onClick={() => setCategory(cat.id)}
+                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl border border-white/6 bg-white/3 active:scale-95 transition-all hover:border-[#22C55E]/25">
+                    <span className="text-[20px]">{cat.emoji}</span>
+                    <span className="text-[11px] text-white/50 font-semibold">{cat.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="px-3 grid grid-cols-2 gap-2.5">
