@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -22,7 +22,7 @@ const FILTER_CATEGORIES = [
   { value: "sport",          label: "Sport",         emoji: "🏃" },
 ];
 
-export function FilterBar({ activeCategory, activeSort }: FilterBarProps) {
+export function FilterBar({ activeCategory }: FilterBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -41,8 +41,8 @@ export function FilterBar({ activeCategory, activeSort }: FilterBarProps) {
   );
 
   return (
-    <div className="px-3 py-2.5">
-      <div className="flex gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+    <div className="px-4 py-2">
+      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-0.5">
         {FILTER_CATEGORIES.map(({ value, label, emoji }) => {
           const isActive = value === "all"
             ? !activeCategory || activeCategory === "all"
@@ -52,15 +52,17 @@ export function FilterBar({ activeCategory, activeSort }: FilterBarProps) {
               key={value}
               onClick={() => setParam("category", value)}
               className={cn(
-                "flex-shrink-0 flex items-center gap-1 px-3 py-1.5 rounded-full text-[12px] font-semibold transition-all duration-150 active:scale-95",
-                isActive
-                  ? "text-white border border-transparent"
-                  : "bg-white/[0.05] text-white/45 border border-white/[0.07] hover:bg-white/[0.08] hover:text-white/65"
+                "flex-shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12.5px] font-semibold transition-all duration-150 active:scale-95",
+                isActive ? "text-white" : "text-white/40 hover:text-white/60"
               )}
               style={isActive ? {
-                background: "linear-gradient(135deg, #22C55E, #16A34A)",
-                boxShadow: "0 2px 12px rgba(34,197,94,0.45), 0 0 0 1px rgba(34,197,94,0.3)",
-              } : {}}
+                background: "#22C55E",
+                boxShadow: "0 0 0 1px rgba(34,197,94,0.4), 0 4px 12px rgba(34,197,94,0.2)",
+                color: "#fff",
+              } : {
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
             >
               <span className="text-[11px]">{emoji}</span>
               {label}

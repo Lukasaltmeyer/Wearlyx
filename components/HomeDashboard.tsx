@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { Zap, Trophy, ChevronDown, ChevronUp } from "lucide-react";
@@ -37,76 +37,93 @@ export function HomeDashboard() {
   const dailyChallenges = CHALLENGES.filter((c) => c.type === "daily");
 
   return (
-    <div className="mx-3 mb-2 rounded-2xl border border-white/8 overflow-hidden" style={{ background: "rgba(12,12,20,0.98)" }}>
-      {/* Compact bar — always visible */}
+    <div
+      className="mx-4 mb-1 rounded-2xl overflow-hidden"
+      style={{ background: "#0F1117", border: "1px solid rgba(255,255,255,0.05)" }}
+    >
+      {/* Compact row */}
       <button
         onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between px-4 py-3"
       >
         <div className="flex items-center gap-3">
-          {/* Plan badge */}
-          <span className="text-[11px] font-bold px-2.5 py-1 rounded-full border"
-            style={{ color: planColor, borderColor: `${planColor}40`, background: `${planColor}18` }}>
+          <span
+            className="text-[11px] font-bold px-2.5 py-1 rounded-full"
+            style={{ color: planColor, background: `${planColor}18`, border: `1px solid ${planColor}30` }}
+          >
             {planLabel}
           </span>
 
-          {/* IA credits */}
           <div className="flex items-center gap-1">
             <Zap className="w-3 h-3 text-[#22C55E]" />
             <span className="text-[12px] font-bold text-white">
               {usage?.limit === null ? "∞" : (usage?.remaining ?? 0)}
             </span>
-            <span className="text-[11px] text-white/30">crédits IA</span>
+            <span className="text-[11px] text-white/25">IA</span>
           </div>
 
-          {/* Badges count */}
           <div className="flex items-center gap-1">
-            <Trophy className="w-3 h-3 text-[#F59E0B]" />
+            <Trophy className="w-3 h-3 text-amber-400" />
             <span className="text-[12px] font-bold text-white">{earnedIds.length}</span>
-            <span className="text-[11px] text-white/30">badges</span>
           </div>
         </div>
 
-        {open ? <ChevronUp className="w-4 h-4 text-white/30" /> : <ChevronDown className="w-4 h-4 text-white/30" />}
+        {open
+          ? <ChevronUp className="w-3.5 h-3.5 text-white/20" />
+          : <ChevronDown className="w-3.5 h-3.5 text-white/20" />
+        }
       </button>
 
       {/* Expanded panel */}
       {open && (
-        <div className="border-t border-white/6 px-4 pb-4 pt-3 space-y-4">
+        <div
+          className="border-t px-4 pb-4 pt-3 space-y-4"
+          style={{ borderColor: "rgba(255,255,255,0.05)" }}
+        >
           {/* Credits bar */}
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <div className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-[#22C55E]" />
-                <span className="text-[12px] font-bold text-white">Crédits IA</span>
+          {usage?.limit !== null && (
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[12px] font-semibold text-white/60">Crédits IA</span>
+                <span className="text-[11px] text-white/30">
+                  {usage?.remaining ?? 0} / {usage?.limit ?? 5}
+                </span>
               </div>
-              {usage?.limit !== null && (
-                <span className="text-[11px] text-white/40">{usage?.remaining ?? 0} / {usage?.limit ?? 5} restants</span>
-              )}
-              {usage?.limit === null && <span className="text-[11px] font-bold text-[#F59E0B]">Illimité ♾️</span>}
+              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+                <div
+                  className="h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${Math.max(4, 100 - (usage?.pct ?? 0))}%`,
+                    background: planColor,
+                  }}
+                />
+              </div>
             </div>
-            {usage?.limit !== null && (
-              <div className="h-2 rounded-full bg-white/8 overflow-hidden">
-                <div className="h-full rounded-full transition-all"
-                  style={{ width: `${Math.max(0, 100 - (usage?.pct ?? 0))}%`, background: planColor }} />
-              </div>
-            )}
-          </div>
+          )}
 
-          {/* Earned badges */}
+          {/* Badges */}
           <div>
-            <p className="text-[12px] font-bold text-white mb-2">Badges ({earnedIds.length}/{BADGES.length})</p>
+            <p className="text-[11px] font-semibold text-white/30 mb-2 uppercase tracking-wider">
+              Badges ({earnedIds.length}/{BADGES.length})
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {BADGES.map((badge) => {
                 const earned = earnedIds.includes(badge.id);
                 return (
-                  <span key={badge.id}
-                    className={`text-[11px] px-2 py-1 rounded-full border font-medium transition-all ${earned ? "" : "opacity-20 grayscale"}`}
+                  <span
+                    key={badge.id}
+                    className={`text-[10.5px] px-2 py-1 rounded-full font-medium transition-all ${earned ? "" : "opacity-20 grayscale"}`}
                     style={earned ? {
-                      borderColor: `${badge.color}40`,
-                      background: `${badge.color}18`,
+                      borderColor: `${badge.color}35`,
+                      background: `${badge.color}12`,
                       color: badge.color,
-                    } : { borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", color: "rgba(255,255,255,0.3)" }}>
+                      border: `1px solid ${badge.color}35`,
+                    } : {
+                      border: "1px solid rgba(255,255,255,0.07)",
+                      background: "rgba(255,255,255,0.02)",
+                      color: "rgba(255,255,255,0.25)",
+                    }}
+                  >
                     {badge.emoji} {badge.name}
                   </span>
                 );
@@ -116,15 +133,19 @@ export function HomeDashboard() {
 
           {/* Daily challenges */}
           <div>
-            <p className="text-[12px] font-bold text-white mb-2">Défis du jour</p>
+            <p className="text-[11px] font-semibold text-white/30 mb-2 uppercase tracking-wider">Défis du jour</p>
             <div className="flex flex-col gap-1.5">
               {dailyChallenges.map((c) => (
-                <div key={c.id} className="flex items-center gap-3 p-2 rounded-xl border border-white/6 bg-white/2">
+                <div
+                  key={c.id}
+                  className="flex items-center gap-3 p-2.5 rounded-xl"
+                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+                >
                   <span className="text-base">{c.emoji}</span>
                   <div className="flex-1">
-                    <p className="text-[11px] font-semibold text-white/80">{c.title}</p>
-                    <div className="h-1 mt-1 rounded-full bg-white/8">
-                      <div className="h-full w-0 rounded-full bg-[#4CAF50]" />
+                    <p className="text-[11.5px] font-semibold text-white/70">{c.title}</p>
+                    <div className="h-1 mt-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+                      <div className="h-full w-0 rounded-full bg-[#22C55E]" />
                     </div>
                   </div>
                   <span className="text-[10px] font-bold text-[#22C55E] flex items-center gap-0.5">
@@ -135,11 +156,16 @@ export function HomeDashboard() {
             </div>
           </div>
 
-          {/* CTA */}
+          {/* Upgrade CTA */}
           {(!usage || usage.plan === "free") && (
-            <Link href="/premium"
-              className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[12px] font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #22C55E, #A855F7)" }}>
+            <Link
+              href="/premium"
+              className="flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-bold text-white transition-all active:scale-[0.98]"
+              style={{
+                background: "linear-gradient(135deg, #22C55E, #16A34A)",
+                boxShadow: "0 4px 16px rgba(34,197,94,0.2)",
+              }}
+            >
               <Zap className="w-3.5 h-3.5 fill-white" />
               Débloquer plus de crédits
             </Link>

@@ -1,60 +1,79 @@
-﻿import Link from "next/link";
-import { Zap, Crown, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Zap, Crown, ArrowUpRight } from "lucide-react";
 
 export function HeroBanner() {
   return (
-    <div className="px-3 pt-3.5 pb-1 flex gap-2.5">
+    <div className="px-4 pt-4 pb-2 flex gap-3">
 
-      {/* Vendre avec l'IA */}
-      <Link href="/sell/ai" className="block active:scale-[0.97] transition-transform duration-150" style={{ flex: "3" }}>
+      {/* ── Vendre avec l'IA ───────────────────── */}
+      <Link href="/sell/ai" className="flex-[3] block active:scale-[0.975] transition-transform duration-150">
         <div
-          className="relative rounded-2xl overflow-hidden p-4 min-h-[116px] flex flex-col justify-between"
-          style={{ background: "linear-gradient(140deg, #3b0764 0%, #22C55E 50%, #16A34A 100%)" }}
+          className="relative rounded-2xl overflow-hidden p-4 h-[120px] flex flex-col justify-between"
+          style={{ background: "#111827", border: "1px solid rgba(34,197,94,0.2)" }}
         >
-          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/[0.07]" />
-          <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-white/[0.04]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent" />
+          {/* Subtle glow top-left */}
+          <div className="absolute -top-8 -left-8 w-32 h-32 rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%)" }} />
 
-          <div className="relative z-10">
-            <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-2.5">
-              <Zap className="w-4 h-4 text-white fill-white" />
+          {/* Top row */}
+          <div className="flex items-start justify-between relative z-10">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.25)" }}>
+              <Zap className="w-4 h-4 fill-[#22C55E] text-[#22C55E]" />
             </div>
-            <p className="text-white font-black text-[15px] leading-tight">Vendre avec l&apos;IA</p>
-            <p className="text-white/70 text-[11px] mt-0.5 leading-snug">Photo → annonce en 30s</p>
+            <ArrowUpRight className="w-4 h-4 mt-0.5" style={{ color: "rgba(34,197,94,0.4)" }} />
           </div>
 
-          <div className="relative z-10 flex items-center justify-between mt-2">
-            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white/20 text-white">
-              ✦ Gratuit
+          {/* Text */}
+          <div className="relative z-10">
+            <p className="text-[15px] font-black text-white leading-tight mb-0.5">Vendre avec l'IA</p>
+            <p className="text-[11px] leading-snug" style={{ color: "rgba(255,255,255,0.4)" }}>
+              Photo → annonce en 30s
+            </p>
+          </div>
+
+          {/* Bottom tag */}
+          <div className="absolute bottom-3.5 right-3.5 z-10">
+            <span className="text-[9.5px] font-bold px-2 py-1 rounded-full"
+              style={{ background: "rgba(34,197,94,0.12)", color: "#4ADE80", border: "1px solid rgba(34,197,94,0.2)" }}>
+              Gratuit ✦
             </span>
-            <ArrowRight className="w-3.5 h-3.5 text-white/60" />
           </div>
         </div>
       </Link>
 
-      {/* Plan Premium */}
-      <Link href="/premium" className="block active:scale-[0.97] transition-transform duration-150" style={{ flex: "2" }}>
+      {/* ── Premium ────────────────────────────── */}
+      <Link href="/premium" className="flex-[2] block active:scale-[0.975] transition-transform duration-150">
         <div
-          className="relative rounded-2xl overflow-hidden p-4 min-h-[116px] flex flex-col justify-between"
-          style={{ background: "linear-gradient(140deg, #451a03 0%, #b45309 50%, #F59E0B 100%)" }}
+          className="relative rounded-2xl overflow-hidden p-4 h-[120px] flex flex-col justify-between"
+          style={{ background: "#111827", border: "1px solid rgba(255,255,255,0.07)" }}
         >
-          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/[0.07]" />
-          <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-white/[0.04]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent" />
+          {/* Subtle glow */}
+          <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)" }} />
 
-          <div className="relative z-10">
-            <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-2.5">
-              <Crown className="w-4 h-4 text-white fill-white/30" />
+          {/* Top row */}
+          <div className="flex items-start justify-between relative z-10">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center"
+              style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.2)" }}>
+              <Crown className="w-4 h-4" style={{ color: "#F59E0B" }} />
             </div>
-            <p className="text-white font-black text-[15px] leading-tight">Premium</p>
-            <p className="text-white/70 text-[11px] mt-0.5 leading-snug">IA illimitée & Boosts</p>
           </div>
 
-          <div className="relative z-10 flex items-center justify-between mt-2">
-            <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-white/20 text-white">
+          {/* Text */}
+          <div className="relative z-10">
+            <p className="text-[15px] font-black text-white leading-tight mb-0.5">Premium</p>
+            <p className="text-[11px] leading-snug" style={{ color: "rgba(255,255,255,0.35)" }}>
+              IA & Boosts illimités
+            </p>
+          </div>
+
+          {/* Bottom tag */}
+          <div className="absolute bottom-3.5 right-3 z-10">
+            <span className="text-[9.5px] font-bold px-2 py-1 rounded-full"
+              style={{ background: "rgba(245,158,11,0.1)", color: "#F59E0B", border: "1px solid rgba(245,158,11,0.18)" }}>
               10€/mois
             </span>
-            <ArrowRight className="w-3.5 h-3.5 text-white/60" />
           </div>
         </div>
       </Link>
