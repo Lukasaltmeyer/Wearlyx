@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -36,7 +36,7 @@ export function ReferralClient({ referralCode }: Props) {
 
       {/* Hero banner */}
       <div className="mx-4 mb-5 p-5 rounded-3xl relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #EC4899 0%, #6C63FF 100%)" }}>
+        style={{ background: "linear-gradient(135deg, #22C55E 0%, #22C55E 100%)" }}>
         <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-white/10" />
         <div className="absolute -bottom-6 -left-6 w-28 h-28 rounded-full bg-white/8" />
         <div className="relative z-10">
@@ -55,7 +55,7 @@ export function ReferralClient({ referralCode }: Props) {
           <button
             onClick={handleCopy}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-bold transition-all flex-shrink-0 ${
-              copied ? "bg-[#10B981]/20 text-[#10B981]" : "bg-[#6C63FF] text-white"
+              copied ? "bg-[#10B981]/20 text-[#10B981]" : "bg-[#22C55E] text-white"
             }`}
           >
             {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -77,9 +77,9 @@ export function ReferralClient({ referralCode }: Props) {
         <p className="text-[12px] font-black text-white/30 uppercase tracking-wider mb-3">Tes récompenses</p>
         <div className="flex flex-col gap-2">
           {[
-            { icon: Users, color: "#6C63FF", title: "Ami inscrit", desc: "Ton ami crée un compte", reward: "+50 crédits" },
+            { icon: Users, color: "#22C55E", title: "Ami inscrit", desc: "Ton ami crée un compte", reward: "+50 crédits" },
             { icon: Star, color: "#F59E0B", title: "1ère vente", desc: "Ton ami réalise sa 1ère vente", reward: "+100 crédits" },
-            { icon: Gift, color: "#EC4899", title: "Bonus fidélité", desc: "5 amis invités au total", reward: "+500 crédits" },
+            { icon: Gift, color: "#22C55E", title: "Bonus fidélité", desc: "5 amis invités au total", reward: "+500 crédits" },
           ].map(({ icon: Icon, color, title, desc, reward }) => (
             <div key={title} className="flex items-center gap-3 p-4 rounded-2xl border border-white/6 bg-white/2">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -90,7 +90,7 @@ export function ReferralClient({ referralCode }: Props) {
                 <p className="text-[13px] font-bold text-white">{title}</p>
                 <p className="text-[12px] text-white/40">{desc}</p>
               </div>
-              <span className="text-[12px] font-black text-[#6C63FF]">{reward}</span>
+              <span className="text-[12px] font-black text-[#22C55E]">{reward}</span>
             </div>
           ))}
         </div>

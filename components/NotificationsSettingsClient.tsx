@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,7 @@ function Toggle({ enabled, onToggle, loading }: { enabled: boolean; onToggle: ()
       disabled={loading}
       className={cn(
         "relative w-12 h-6 rounded-full transition-all duration-300 flex-shrink-0",
-        enabled ? "bg-gradient-to-r from-[#6C3AED] to-[#C026D3]" : "bg-white/10"
+        enabled ? "bg-gradient-to-r from-[#22C55E] to-[#16A34A]" : "bg-white/10"
       )}
     >
       <span className={cn(
@@ -78,7 +78,7 @@ export function NotificationsSettingsClient({ initialEmailEnabled, initialMarket
         <div className="rounded-2xl border border-white/8 bg-white/[0.025] p-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: "#8B5CF6" }}>
+              style={{ background: "#22C55E" }}>
               <Bell className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1">
@@ -121,7 +121,7 @@ export function NotificationsSettingsClient({ initialEmailEnabled, initialMarket
           <div className="rounded-2xl border border-white/6 bg-white/[0.025] p-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: "#EC4899" }}>
+                style={{ background: "#22C55E" }}>
                 <Megaphone className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1">

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { cn, getInitials } from "@/lib/utils";
@@ -33,7 +33,7 @@ export function Avatar({ src, name, size = "md", className }: AvatarProps) {
     <div
       className={cn(
         "rounded-full flex items-center justify-center flex-shrink-0 font-semibold text-white",
-        "bg-gradient-to-br from-[#6C63FF] to-[#8B85FF]",
+        "bg-gradient-to-br from-[#22C55E] to-[#8B85FF]",
         sizeClass,
         className
       )}

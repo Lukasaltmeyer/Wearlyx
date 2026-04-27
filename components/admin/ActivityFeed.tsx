@@ -1,4 +1,4 @@
-import { timeAgo } from "@/lib/utils";
+﻿import { timeAgo } from "@/lib/utils";
 
 interface Props {
   recentUsers: any[];
@@ -13,7 +13,7 @@ export function ActivityFeed({ recentUsers, recentProducts, recentOrders, recent
       icon: "👤", label: `Inscription : ${u.full_name || u.username}`, date: u.created_at, color: "text-blue-400",
     })),
     ...(recentProducts ?? []).map((p: any) => ({
-      icon: "👕", label: `Annonce : ${p.title} — ${p.price}€`, date: p.created_at, color: "text-purple-400",
+      icon: "👕", label: `Annonce : ${p.title} — ${p.price}€`, date: p.created_at, color: "text-green-400",
     })),
     ...(recentOrders ?? []).map((o: any) => ({
       icon: "🛒", label: `Vente : ${(o.product as any)?.title} (${o.total}€) par ${(o.buyer as any)?.username}`, date: o.created_at, color: "text-green-400",

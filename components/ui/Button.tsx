@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 import { forwardRef } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -9,7 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants = {
-  primary: "bg-[#6C63FF] text-white hover:bg-[#5048E5] active:bg-[#4038D0] shadow-sm",
+  primary: "bg-[#22C55E] text-white hover:bg-[#16A34A] active:bg-[#4038D0] shadow-sm",
   secondary: "bg-gray-100 text-gray-900 hover:bg-gray-200 active:bg-gray-300",
   ghost: "bg-transparent text-gray-700 hover:bg-gray-100 active:bg-gray-200",
   danger: "bg-red-500 text-white hover:bg-red-600 active:bg-red-700",
@@ -30,7 +30,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         className={cn(
           "inline-flex items-center justify-center gap-2 font-semibold transition-all duration-150",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C63FF]/50",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22C55E]/50",
           "disabled:opacity-50 disabled:cursor-not-allowed",
           variants[variant],
           sizes[size],

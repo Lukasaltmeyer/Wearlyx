@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { Zap, Trophy, ChevronDown, ChevronUp } from "lucide-react";
@@ -30,9 +30,9 @@ export function HomeDashboard() {
     usage.plan === "pro"            ? "Vendeur Pro" : "Premium";
 
   const planColor =
-    !usage || usage.plan === "free" ? "#6C63FF" :
+    !usage || usage.plan === "free" ? "#22C55E" :
     usage.plan === "starter"        ? "#3B82F6" :
-    usage.plan === "pro"            ? "#8B5CF6" : "#F59E0B";
+    usage.plan === "pro"            ? "#22C55E" : "#F59E0B";
 
   const dailyChallenges = CHALLENGES.filter((c) => c.type === "daily");
 
@@ -52,7 +52,7 @@ export function HomeDashboard() {
 
           {/* IA credits */}
           <div className="flex items-center gap-1">
-            <Zap className="w-3 h-3 text-[#6C63FF]" />
+            <Zap className="w-3 h-3 text-[#22C55E]" />
             <span className="text-[12px] font-bold text-white">
               {usage?.limit === null ? "∞" : (usage?.remaining ?? 0)}
             </span>
@@ -77,7 +77,7 @@ export function HomeDashboard() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-[#6C63FF]" />
+                <Zap className="w-3.5 h-3.5 text-[#22C55E]" />
                 <span className="text-[12px] font-bold text-white">Crédits IA</span>
               </div>
               {usage?.limit !== null && (
@@ -127,8 +127,8 @@ export function HomeDashboard() {
                       <div className="h-full w-0 rounded-full bg-[#4CAF50]" />
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold text-[#6C63FF] flex items-center gap-0.5">
-                    <Zap className="w-2.5 h-2.5 fill-[#6C63FF]" />+{c.reward}
+                  <span className="text-[10px] font-bold text-[#22C55E] flex items-center gap-0.5">
+                    <Zap className="w-2.5 h-2.5 fill-[#22C55E]" />+{c.reward}
                   </span>
                 </div>
               ))}
@@ -139,7 +139,7 @@ export function HomeDashboard() {
           {(!usage || usage.plan === "free") && (
             <Link href="/premium"
               className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-[12px] font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #6C63FF, #A855F7)" }}>
+              style={{ background: "linear-gradient(135deg, #22C55E, #A855F7)" }}>
               <Zap className="w-3.5 h-3.5 fill-white" />
               Débloquer plus de crédits
             </Link>

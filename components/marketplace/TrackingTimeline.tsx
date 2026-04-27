@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 import type { ShipmentStatus } from "@/types/database";
 
 const STEPS: { status: ShipmentStatus; label: string; icon: string }[] = [
@@ -47,7 +47,7 @@ export function TrackingTimeline({ status, trackingNumber, carrier, estimatedDel
       <div className="relative">
         <div className="absolute left-5 top-5 bottom-5 w-0.5 bg-white/8" />
         <div
-          className="absolute left-5 top-5 w-0.5 bg-[#6C63FF] transition-all duration-500"
+          className="absolute left-5 top-5 w-0.5 bg-[#22C55E] transition-all duration-500"
           style={{ height: `${Math.min(currentIndex / (STEPS.length - 1), 1) * 100}%` }}
         />
         <div className="flex flex-col gap-0">
@@ -58,7 +58,7 @@ export function TrackingTimeline({ status, trackingNumber, carrier, estimatedDel
               <div key={step.status} className="flex items-center gap-4 py-3 relative">
                 <div className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center text-[16px] flex-shrink-0 z-10 border-2 transition-all",
-                  done ? "border-[#6C63FF] bg-[#6C63FF]/20" : "border-white/10 bg-[#0A0A10]"
+                  done ? "border-[#22C55E] bg-[#22C55E]/20" : "border-white/10 bg-[#0A0A10]"
                 )}>
                   {step.icon}
                 </div>
@@ -67,7 +67,7 @@ export function TrackingTimeline({ status, trackingNumber, carrier, estimatedDel
                     {step.label}
                   </p>
                   {active && (
-                    <p className="text-[11px] text-[#6C63FF] font-semibold">En cours</p>
+                    <p className="text-[11px] text-[#22C55E] font-semibold">En cours</p>
                   )}
                 </div>
               </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -58,8 +58,8 @@ export function FilterBar({ activeCategory, activeSort }: FilterBarProps) {
                   : "bg-white/[0.05] text-white/45 border border-white/[0.07] hover:bg-white/[0.08] hover:text-white/65"
               )}
               style={isActive ? {
-                background: "linear-gradient(135deg, #6C3AED, #C026D3)",
-                boxShadow: "0 2px 12px rgba(108,58,237,0.45), 0 0 0 1px rgba(124,58,237,0.3)",
+                background: "linear-gradient(135deg, #22C55E, #16A34A)",
+                boxShadow: "0 2px 12px rgba(34,197,94,0.45), 0 0 0 1px rgba(34,197,94,0.3)",
               } : {}}
             >
               <span className="text-[11px]">{emoji}</span>

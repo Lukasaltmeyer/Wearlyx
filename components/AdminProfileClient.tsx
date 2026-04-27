@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -40,7 +40,7 @@ function Section({ title, icon: Icon, children }: { title: string; icon: any; ch
   return (
     <div className="mx-4 mt-3 rounded-2xl border border-white/[0.07] overflow-hidden bg-[#0D0D15]">
       <div className="px-4 py-3 border-b border-white/[0.05] flex items-center gap-2">
-        <Icon className="w-3.5 h-3.5 text-[#6C63FF]" />
+        <Icon className="w-3.5 h-3.5 text-[#22C55E]" />
         <p className="text-[12px] font-semibold text-white/70">{title}</p>
       </div>
       <div className="px-4 py-4">{children}</div>
@@ -80,9 +80,9 @@ export function AdminProfileClient({ profile, stats }: Props) {
     <div className="pb-10">
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
-      <div className="mx-4 mt-4 rounded-2xl overflow-hidden border border-[#6C63FF]/25">
+      <div className="mx-4 mt-4 rounded-2xl overflow-hidden border border-[#22C55E]/25">
         {/* Banner */}
-        <div className="h-24 relative flex items-end px-4 pb-0" style={{ background: "linear-gradient(135deg, #4C1D95 0%, #6C63FF 50%, #A855F7 100%)" }}>
+        <div className="h-24 relative flex items-end px-4 pb-0" style={{ background: "linear-gradient(135deg, #4C1D95 0%, #22C55E 50%, #A855F7 100%)" }}>
           <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(circle at 75% 40%, white 0%, transparent 55%)" }} />
           <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/25 backdrop-blur-sm px-2.5 py-1 rounded-full">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -92,12 +92,12 @@ export function AdminProfileClient({ profile, stats }: Props) {
 
         <div className="bg-[#0D0D15] px-4 pb-4 -mt-8">
           <div className="flex items-end justify-between mb-3">
-            <div className="w-16 h-16 rounded-2xl border-2 border-[#6C63FF]/60 overflow-hidden bg-[#1A1040] flex items-center justify-center shadow-lg shadow-[#6C63FF]/20">
+            <div className="w-16 h-16 rounded-2xl border-2 border-[#22C55E]/60 overflow-hidden bg-[#1A1040] flex items-center justify-center shadow-lg shadow-[#22C55E]/20">
               {profile?.avatar_url
                 ? <Image src={profile.avatar_url} alt="" width={64} height={64} className="w-full h-full object-cover" />
-                : <Shield className="w-8 h-8 text-[#6C63FF]" />}
+                : <Shield className="w-8 h-8 text-[#22C55E]" />}
             </div>
-            <Link href="/admin" className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-[#9B93FF] border border-[#6C63FF]/25 bg-[#6C63FF]/10 hover:bg-[#6C63FF]/20 transition-colors">
+            <Link href="/admin" className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-semibold text-[#9B93FF] border border-[#22C55E]/25 bg-[#22C55E]/10 hover:bg-[#22C55E]/20 transition-colors">
               <ExternalLink className="w-3.5 h-3.5" /> Admin Panel
             </Link>
           </div>
@@ -109,8 +109,8 @@ export function AdminProfileClient({ profile, stats }: Props) {
           <div className="flex flex-wrap gap-1.5">
             {[
               { label: "Fondateur",   icon: Crown,   style: "bg-amber-500/15 text-amber-400 border-amber-500/25" },
-              { label: "Admin",       icon: Shield,  style: "bg-[#6C63FF]/15 text-[#9B93FF] border-[#6C63FF]/25" },
-              { label: "Premium",     icon: Star,    style: "bg-violet-500/15 text-violet-400 border-violet-500/25" },
+              { label: "Admin",       icon: Shield,  style: "bg-[#22C55E]/15 text-[#9B93FF] border-[#22C55E]/25" },
+              { label: "Premium",     icon: Star,    style: "bg-green-500/15 text-green-400 border-green-500/25" },
               { label: "Accès total", icon: Zap,     style: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25" },
             ].map(({ label, icon: Icon, style }) => (
               <span key={label} className={cn("flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border", style)}>
@@ -143,7 +143,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
         </div>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { l: "Crédits IA",    v: "∞",    c: "text-violet-400" },
+            { l: "Crédits IA",    v: "∞",    c: "text-green-400" },
             { l: "Boosts",        v: "∞",    c: "text-blue-400" },
             { l: "Fonctions",     v: "Tout", c: "text-emerald-400" },
           ].map(({ l, v, c }) => (
@@ -171,7 +171,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
           {[
             { l: "Free",    n: stats.planCounts?.free ?? 0,    c: "bg-zinc-600" },
             { l: "Starter", n: stats.planCounts?.starter ?? 0, c: "bg-blue-500" },
-            { l: "Pro",     n: stats.planCounts?.pro ?? 0,     c: "bg-violet-500" },
+            { l: "Pro",     n: stats.planCounts?.pro ?? 0,     c: "bg-green-500" },
             { l: "Premium", n: stats.planCounts?.premium ?? 0, c: "bg-amber-500" },
           ].map(({ l, n, c }) => {
             const pct = stats.usersCount > 0 ? (n / stats.usersCount) * 100 : 0;
@@ -192,7 +192,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
       <Section title="Contrôle IA" icon={Cpu}>
         <div className="grid grid-cols-2 gap-2">
           {[
-            { l: "Générations totales",  v: (stats.aiCount ?? 0).toLocaleString(), c: "text-violet-400" },
+            { l: "Générations totales",  v: (stats.aiCount ?? 0).toLocaleString(), c: "text-green-400" },
             { l: "Coût estimé API",      v: `€${((stats.aiCount ?? 0) * 0.002).toFixed(2)}`, c: "text-amber-400" },
             { l: "Moy. / utilisateur",   v: stats.usersCount > 0 ? ((stats.aiCount ?? 0) / stats.usersCount).toFixed(1) : "0", c: "text-blue-400" },
             { l: "Utilisateurs IA",      v: paidUsers.toLocaleString(), c: "text-emerald-400" },
@@ -212,7 +212,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
             { l: "Nouveaux utilisateurs",  icon: UserPlus,    href: "/admin", c: "text-blue-400 bg-blue-500/8 border-blue-500/15" },
             { l: "Ventes récentes",        icon: Package,      href: "/admin", c: "text-emerald-400 bg-emerald-500/8 border-emerald-500/15" },
             { l: "Litiges urgents",        icon: AlertTriangle, href: "/admin", c: "text-red-400 bg-red-500/8 border-red-500/15" },
-            { l: "Analytics",              icon: BarChart3,    href: "/admin", c: "text-violet-400 bg-violet-500/8 border-violet-500/15" },
+            { l: "Analytics",              icon: BarChart3,    href: "/admin", c: "text-green-400 bg-green-500/8 border-green-500/15" },
             { l: "Abonnements",            icon: CreditCard,   href: "/admin", c: "text-amber-400 bg-amber-500/8 border-amber-500/15" },
             { l: "Produits",               icon: ShoppingBag,  href: "/admin", c: "text-indigo-400 bg-indigo-500/8 border-indigo-500/15" },
           ].map(({ l, icon: Icon, href, c }) => (
@@ -253,7 +253,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
           className={cn(
             "w-full flex items-center justify-between px-4 py-3 rounded-2xl border transition-all",
             advancedMode
-              ? "bg-[#6C63FF]/12 border-[#6C63FF]/30 text-[#9B93FF]"
+              ? "bg-[#22C55E]/12 border-[#22C55E]/30 text-[#9B93FF]"
               : "bg-white/[0.03] border-white/[0.07] text-white/40"
           )}>
           <div className="flex items-center gap-2.5">
@@ -264,14 +264,14 @@ export function AdminProfileClient({ profile, stats }: Props) {
             </div>
           </div>
           {advancedMode
-            ? <ToggleRight className="w-6 h-6 text-[#6C63FF]" />
+            ? <ToggleRight className="w-6 h-6 text-[#22C55E]" />
             : <ToggleLeft className="w-6 h-6" />}
         </button>
 
         {advancedMode && (
-          <div className="mt-2 rounded-2xl border border-[#6C63FF]/20 bg-[#0D0D18] p-4 space-y-2">
+          <div className="mt-2 rounded-2xl border border-[#22C55E]/20 bg-[#0D0D18] p-4 space-y-2">
             {[
-              { l: "Modération rapide produits",  icon: ShoppingBag, c: "text-violet-400" },
+              { l: "Modération rapide produits",  icon: ShoppingBag, c: "text-green-400" },
               { l: "Accès analytics avancés",     icon: BarChart3,   c: "text-blue-400" },
               { l: "Logs activité plateforme",    icon: Activity,    c: "text-emerald-400" },
               { l: "Suppression rapide contenu",  icon: AlertTriangle, c: "text-red-400" },
@@ -314,7 +314,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
             {(["info", "promo", "maintenance"] as const).map(t => (
               <button key={t} onClick={() => setMsgType(t)}
                 className={cn("flex-1 py-1.5 rounded-lg text-[11px] font-semibold capitalize transition-all border",
-                  msgType === t ? "bg-[#6C63FF] text-white border-[#6C63FF]" : "text-white/25 border-white/[0.07] hover:text-white/50"
+                  msgType === t ? "bg-[#22C55E] text-white border-[#22C55E]" : "text-white/25 border-white/[0.07] hover:text-white/50"
                 )}>
                 {t}
               </button>
@@ -338,7 +338,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
             onChange={e => setMessage(e.target.value)}
             placeholder="Écris ton annonce pour tous les utilisateurs…"
             rows={3}
-            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-[#6C63FF]/40 resize-none transition-colors"
+            className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2.5 text-[13px] text-white placeholder-white/20 focus:outline-none focus:border-[#22C55E]/40 resize-none transition-colors"
           />
 
           {/* Send */}
@@ -347,7 +347,7 @@ export function AdminProfileClient({ profile, stats }: Props) {
               "w-full py-3 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-2 transition-all",
               sent
                 ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/25"
-                : "bg-[#6C63FF] text-white hover:bg-[#5B52E0] disabled:opacity-30 disabled:cursor-not-allowed"
+                : "bg-[#22C55E] text-white hover:bg-[#5B52E0] disabled:opacity-30 disabled:cursor-not-allowed"
             )}>
             {sent
               ? <><CheckCircle className="w-4 h-4" /> Envoyé à tous !</>

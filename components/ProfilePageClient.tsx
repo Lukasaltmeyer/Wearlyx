@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -81,7 +81,7 @@ export function ProfilePageClient({ profile, products, savedProducts, usageRow, 
         <div className="flex items-start justify-between">
           {/* Avatar + info */}
           <div className="flex items-center gap-3">
-            <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-[#6C63FF] to-[#A855F7] flex-shrink-0">
+            <div className="relative w-16 h-16 rounded-2xl overflow-hidden bg-gradient-to-br from-[#22C55E] to-[#A855F7] flex-shrink-0">
               {profile?.avatar_url ? (
                 <Image src={profile.avatar_url} alt="avatar" fill className="object-cover" />
               ) : (
@@ -129,7 +129,7 @@ export function ProfilePageClient({ profile, products, savedProducts, usageRow, 
         {/* Stats row */}
         <div className="mt-3 grid grid-cols-3 gap-2">
           {[
-            { label: "Articles", value: products.length, icon: ShoppingBag, color: "#6C63FF" },
+            { label: "Articles", value: products.length, icon: ShoppingBag, color: "#22C55E" },
             { label: "Ventes",   value: profile?.sales_count ?? 0, icon: Trophy, color: "#10B981" },
             { label: "Badges",   value: earnedIds.length, icon: Star, color: "#F59E0B" },
           ].map(({ label, value, icon: Icon, color }) => (
@@ -152,8 +152,8 @@ export function ProfilePageClient({ profile, products, savedProducts, usageRow, 
         <Link href="/listings"
           className="flex items-center justify-between px-4 py-3 rounded-2xl border border-white/8 bg-white/3 hover:bg-white/5 transition-colors">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-[#6C63FF]/20 flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4 text-[#6C63FF]" />
+            <div className="w-8 h-8 rounded-xl bg-[#22C55E]/20 flex items-center justify-center">
+              <ShoppingBag className="w-4 h-4 text-[#22C55E]" />
             </div>
             <div>
               <p className="text-[13px] font-bold text-white">Mes annonces</p>
@@ -171,7 +171,7 @@ export function ProfilePageClient({ profile, products, savedProducts, usageRow, 
             <button key={id} onClick={() => setTab(id as any)}
               className={`flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all ${
                 tab === id
-                  ? "bg-[#6C63FF] text-white shadow-sm"
+                  ? "bg-[#22C55E] text-white shadow-sm"
                   : "text-white/40 hover:text-white/60"
               }`}>
               {label}{count !== null ? ` (${count})` : ""}
@@ -189,7 +189,7 @@ export function ProfilePageClient({ profile, products, savedProducts, usageRow, 
               <p className="text-[14px] font-semibold text-white/30">Aucun article publié</p>
               <Link href="/sell/ai"
                 className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-2xl text-[13px] font-bold text-white"
-                style={{ background: "linear-gradient(135deg, #6C63FF, #A855F7)" }}>
+                style={{ background: "linear-gradient(135deg, #22C55E, #A855F7)" }}>
                 <Zap className="w-3.5 h-3.5" /> Vendre avec l'IA
               </Link>
             </div>

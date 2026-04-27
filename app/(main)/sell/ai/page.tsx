@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -45,18 +45,18 @@ function StepBar({ current }: { current: number }) {
         <div key={i} className="flex items-center flex-1 last:flex-none">
           <div className="flex flex-col items-center">
             <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black transition-all ${
-              i < current ? "bg-[#6C63FF] text-white" :
-              i === current ? "bg-[#6C63FF]/20 border-2 border-[#6C63FF] text-[#a78bfa]" :
+              i < current ? "bg-[#22C55E] text-white" :
+              i === current ? "bg-[#22C55E]/20 border-2 border-[#22C55E] text-[#4ADE80]" :
               "bg-white/8 text-white/20"
             }`}>
               {i < current ? <Check className="w-3 h-3" /> : i + 1}
             </div>
             <span className={`text-[9px] font-semibold mt-1 whitespace-nowrap ${
-              i === current ? "text-[#a78bfa]" : i < current ? "text-white/50" : "text-white/15"
+              i === current ? "text-[#4ADE80]" : i < current ? "text-white/50" : "text-white/15"
             }`}>{label}</span>
           </div>
           {i < STEPS.length - 1 && (
-            <div className={`flex-1 h-px mx-1 mb-4 ${i < current ? "bg-[#6C63FF]/60" : "bg-white/8"}`} />
+            <div className={`flex-1 h-px mx-1 mb-4 ${i < current ? "bg-[#22C55E]/60" : "bg-white/8"}`} />
           )}
         </div>
       ))}
@@ -74,9 +74,9 @@ function GeneratingScreen({ phase }: { phase: "photo" | "listing" }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-6 gap-6">
       <div className="relative w-20 h-20">
-        <div className="absolute inset-0 rounded-full bg-[#6C63FF]/20 animate-ping" />
-        <div className="absolute inset-2 rounded-full bg-[#6C63FF]/30 animate-pulse" />
-        <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#6C63FF] to-[#C084FC] flex items-center justify-center shadow-lg shadow-[#6C63FF]/40">
+        <div className="absolute inset-0 rounded-full bg-[#22C55E]/20 animate-ping" />
+        <div className="absolute inset-2 rounded-full bg-[#22C55E]/30 animate-pulse" />
+        <div className="absolute inset-4 rounded-full bg-gradient-to-br from-[#22C55E] to-[#4ADE80] flex items-center justify-center shadow-lg shadow-[#22C55E]/40">
           <Sparkles className="w-6 h-6 text-white" />
         </div>
       </div>
@@ -89,8 +89,8 @@ function GeneratingScreen({ phase }: { phase: "photo" | "listing" }) {
       <div className="flex flex-col gap-2 w-full max-w-[240px]">
         {steps.map((s, i) => (
           <div key={i} className="flex items-center gap-2.5">
-            <div className="w-4 h-4 rounded-full bg-[#6C63FF]/30 border border-[#6C63FF]/50 flex items-center justify-center flex-shrink-0">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#a78bfa] animate-pulse" />
+            <div className="w-4 h-4 rounded-full bg-[#22C55E]/30 border border-[#22C55E]/50 flex items-center justify-center flex-shrink-0">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#4ADE80] animate-pulse" />
             </div>
             <p className="text-[12px] text-white/50">{s}</p>
           </div>
@@ -114,13 +114,13 @@ function Field({ label, value, onChange, multiline, onRegenerate, regenerating }
         <div className="flex items-center gap-2">
           {onRegenerate && (
             <button onClick={onRegenerate} disabled={regenerating}
-              className="flex items-center gap-1 text-[10px] font-semibold text-[#a78bfa]/70 hover:text-[#a78bfa] transition-colors disabled:opacity-40">
+              className="flex items-center gap-1 text-[10px] font-semibold text-[#4ADE80]/70 hover:text-[#4ADE80] transition-colors disabled:opacity-40">
               <RefreshCw className={`w-3 h-3 ${regenerating ? "animate-spin" : ""}`} />
               Regénérer
             </button>
           )}
           <button onClick={() => setEditing(!editing)}
-            className="text-white/25 hover:text-[#a78bfa] transition-colors">
+            className="text-white/25 hover:text-[#4ADE80] transition-colors">
             <Edit3 className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -129,13 +129,13 @@ function Field({ label, value, onChange, multiline, onRegenerate, regenerating }
         <div className="flex flex-col gap-2">
           {multiline ? (
             <textarea value={value} onChange={e => onChange(e.target.value)} rows={4}
-              className="w-full bg-white/8 border border-white/15 rounded-xl px-3 py-2 text-[13px] text-white outline-none focus:border-[#6C63FF]/50 resize-none" />
+              className="w-full bg-white/8 border border-white/15 rounded-xl px-3 py-2 text-[13px] text-white outline-none focus:border-[#22C55E]/50 resize-none" />
           ) : (
             <input value={value} onChange={e => onChange(e.target.value)}
-              className="w-full bg-white/8 border border-white/15 rounded-xl px-3 py-2 text-[13px] text-white outline-none focus:border-[#6C63FF]/50" />
+              className="w-full bg-white/8 border border-white/15 rounded-xl px-3 py-2 text-[13px] text-white outline-none focus:border-[#22C55E]/50" />
           )}
           <button onClick={() => setEditing(false)}
-            className="self-end text-[11px] font-bold text-[#a78bfa]">Sauvegarder ✓</button>
+            className="self-end text-[11px] font-bold text-[#4ADE80]">Sauvegarder ✓</button>
         </div>
       ) : (
         <p className={`text-[13px] text-white/80 leading-relaxed ${!multiline && "font-semibold"}`}>{value}</p>
@@ -322,7 +322,7 @@ export default function AISellerPage() {
             <ArrowLeft className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-2 flex-1">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#6C63FF] to-[#C026D3] flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#22C55E] to-[#16A34A] flex items-center justify-center">
               <Zap className="w-3.5 h-3.5 text-white fill-white" />
             </div>
             <span className="text-[15px] font-black text-white">Vendre avec l'IA</span>
@@ -354,17 +354,17 @@ export default function AISellerPage() {
             {/* Drop zone */}
             {photos.length < 5 && (
               <div onClick={() => inputRef.current?.click()}
-                className="flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-white/12 bg-white/3 p-10 cursor-pointer hover:border-[#6C63FF]/50 hover:bg-[#6C63FF]/5 transition-all active:scale-[0.98]">
-                <div className="w-14 h-14 rounded-2xl bg-[#6C63FF]/12 border border-[#6C63FF]/20 flex items-center justify-center">
-                  <ImagePlus className="w-6 h-6 text-[#a78bfa]" />
+                className="flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-dashed border-white/12 bg-white/3 p-10 cursor-pointer hover:border-[#22C55E]/50 hover:bg-[#22C55E]/5 transition-all active:scale-[0.98]">
+                <div className="w-14 h-14 rounded-2xl bg-[#22C55E]/12 border border-[#22C55E]/20 flex items-center justify-center">
+                  <ImagePlus className="w-6 h-6 text-[#4ADE80]" />
                 </div>
                 <div className="text-center">
                   <p className="text-[15px] font-bold text-white">Clique pour ajouter</p>
                   <p className="text-[12px] text-white/35 mt-0.5">JPG, PNG · max 5 photos</p>
                 </div>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#6C63FF]/10 border border-[#6C63FF]/15">
-                  <Sparkles className="w-3 h-3 text-[#a78bfa]" />
-                  <span className="text-[11px] font-semibold text-[#a78bfa]">Amélioration IA automatique</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/15">
+                  <Sparkles className="w-3 h-3 text-[#4ADE80]" />
+                  <span className="text-[11px] font-semibold text-[#4ADE80]">Amélioration IA automatique</span>
                 </div>
                 <input ref={inputRef} type="file" accept="image/jpeg,image/png" multiple className="hidden"
                   onChange={e => addPhotos(e.target.files)} />
@@ -381,7 +381,7 @@ export default function AISellerPage() {
                       className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-black/60 border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                       <X className="w-3 h-3 text-white" />
                     </button>
-                    {i === 0 && <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-[#6C63FF] text-[9px] font-bold text-white">Principale</div>}
+                    {i === 0 && <div className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-[#22C55E] text-[9px] font-bold text-white">Principale</div>}
                   </div>
                 ))}
                 {photos.length < 5 && (
@@ -395,7 +395,7 @@ export default function AISellerPage() {
 
             {photos.length > 0 && (
               <button onClick={goToStyle}
-                className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#6C63FF] to-[#C026D3] text-[15px] font-black text-white shadow-lg shadow-[#6C63FF]/25 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+                className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#16A34A] text-[15px] font-black text-white shadow-lg shadow-[#22C55E]/25 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
                 <Sparkles className="w-4 h-4" />
                 Améliorer avec l'IA
                 <ChevronRight className="w-4 h-4" />
@@ -422,7 +422,7 @@ export default function AISellerPage() {
                   </div>
                   <div className="relative">
                     <img src={URL.createObjectURL(enhancedPhotos[0])} alt="Après" className="w-full aspect-square object-cover" />
-                    <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-[#6C63FF]/80 text-[10px] font-bold text-white">✨ APRÈS IA</div>
+                    <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-[#22C55E]/80 text-[10px] font-bold text-white">✨ APRÈS IA</div>
                   </div>
                 </div>
               </div>
@@ -434,17 +434,17 @@ export default function AISellerPage() {
                 return (
                   <button key={s.id} onClick={() => setStyle(s.id)}
                     className={`relative rounded-2xl overflow-hidden border transition-all active:scale-[0.97] ${
-                      style === s.id ? "border-[#6C63FF] shadow-lg shadow-[#6C63FF]/20" : "border-white/8"
+                      style === s.id ? "border-[#22C55E] shadow-lg shadow-[#22C55E]/20" : "border-white/8"
                     }`}>
                     <div className="h-16 flex items-center justify-center" style={{ backgroundColor: s.color }}>
                       <span className="text-2xl">{s.emoji}</span>
                       {style === s.id && (
-                        <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#6C63FF] flex items-center justify-center">
+                        <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#22C55E] flex items-center justify-center">
                           <Check className="w-2.5 h-2.5 text-white" />
                         </div>
                       )}
                     </div>
-                    <div className={`px-2 py-1.5 ${style === s.id ? "bg-[#6C63FF]/15" : "bg-white/3"}`}>
+                    <div className={`px-2 py-1.5 ${style === s.id ? "bg-[#22C55E]/15" : "bg-white/3"}`}>
                       <p className="text-[11px] font-bold text-white">{s.label}</p>
                       <p className="text-[9px] text-white/35">{s.desc}</p>
                     </div>
@@ -454,7 +454,7 @@ export default function AISellerPage() {
             </div>
 
             <button onClick={generate}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#6C63FF] to-[#C026D3] text-[15px] font-black text-white shadow-lg shadow-[#6C63FF]/25 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#16A34A] text-[15px] font-black text-white shadow-lg shadow-[#22C55E]/25 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
               <Sparkles className="w-4 h-4" />
               ✨ Générer l'annonce
             </button>
@@ -472,7 +472,7 @@ export default function AISellerPage() {
                 <p className="text-[18px] font-black text-white">✏️ Vérifie & modifie</p>
                 <p className="text-[13px] text-white/40 mt-0.5">L'IA a tout généré · édite si besoin</p>
               </div>
-              <button onClick={generate} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#6C63FF]/10 border border-[#6C63FF]/20 text-[11px] font-bold text-[#a78bfa] active:scale-95 transition-transform">
+              <button onClick={generate} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#22C55E]/10 border border-[#22C55E]/20 text-[11px] font-bold text-[#4ADE80] active:scale-95 transition-transform">
                 <RefreshCw className="w-3 h-3" />
                 Tout regénérer
               </button>
@@ -482,9 +482,9 @@ export default function AISellerPage() {
             <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
               {photosToShow.map((f, i) => (
                 <div key={i} className="relative flex-shrink-0">
-                  <img src={URL.createObjectURL(f)} className={`rounded-2xl object-cover border ${i === 0 ? "w-28 h-28 border-[#6C63FF]/40" : "w-20 h-20 border-white/8 opacity-70"}`} alt="" />
+                  <img src={URL.createObjectURL(f)} className={`rounded-2xl object-cover border ${i === 0 ? "w-28 h-28 border-[#22C55E]/40" : "w-20 h-20 border-white/8 opacity-70"}`} alt="" />
                   {i === 0 && (
-                    <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-[#6C63FF]/80">
+                    <div className="absolute top-1.5 right-1.5 flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-[#22C55E]/80">
                       <Sparkles className="w-2.5 h-2.5 text-white" />
                       <span className="text-[8px] font-bold text-white">IA</span>
                     </div>
@@ -509,7 +509,7 @@ export default function AISellerPage() {
                 </div>
                 <input value={price} onChange={e => setPrice(e.target.value)} type="number"
                   className="w-full bg-transparent text-[22px] font-black text-white outline-none" />
-                <p className="text-[10px] text-[#a78bfa] mt-0.5">Conseillé : {result.price}€</p>
+                <p className="text-[10px] text-[#4ADE80] mt-0.5">Conseillé : {result.price}€</p>
               </div>
               <div className="rounded-2xl border border-white/8 bg-white/[0.03] p-4">
                 <div className="flex items-center gap-1.5 mb-2">
@@ -534,7 +534,7 @@ export default function AISellerPage() {
             </div>
 
             <button onClick={() => setStep(4)}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#6C63FF] to-[#C026D3] text-[15px] font-black text-white shadow-lg shadow-[#6C63FF]/25 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 mt-2">
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#16A34A] text-[15px] font-black text-white shadow-lg shadow-[#22C55E]/25 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 mt-2">
               Voir le résumé
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -577,7 +577,7 @@ export default function AISellerPage() {
             {error && <p className="text-red-400 text-[13px] text-center">{error}</p>}
 
             <button onClick={publish} disabled={publishing}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#6C63FF] to-[#C026D3] text-[16px] font-black text-white shadow-xl shadow-[#6C63FF]/30 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 disabled:opacity-60">
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#16A34A] text-[16px] font-black text-white shadow-xl shadow-[#22C55E]/30 active:scale-[0.98] transition-transform flex items-center justify-center gap-2 disabled:opacity-60">
               {publishing
                 ? <span className="w-5 h-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
                 : <><Zap className="w-5 h-5 fill-white" /> Publier l'annonce</>

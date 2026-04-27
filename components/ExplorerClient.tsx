@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -106,9 +106,9 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
       <div className={cn("px-4 transition-all", isSearching ? "pt-5 pb-0" : "pb-3")}>
         <div className={cn(
           "flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all",
-          focused ? "border-[#6C3AED]/50 bg-white/7" : "border-white/8 bg-white/5"
+          focused ? "border-[#22C55E]/50 bg-white/7" : "border-white/8 bg-white/5"
         )}>
-          <Search className={cn("w-4 h-4 flex-shrink-0 transition-colors", focused ? "text-[#a78bfa]" : "text-white/30")} />
+          <Search className={cn("w-4 h-4 flex-shrink-0 transition-colors", focused ? "text-[#4ADE80]" : "text-white/30")} />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -181,7 +181,7 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
                 {t === "articles" ? "Articles" : "Membres"}
                 {searchTab === t && (
                   <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full"
-                    style={{ background: "linear-gradient(135deg, #6C3AED, #C026D3)" }} />
+                    style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }} />
                 )}
               </button>
             ))}

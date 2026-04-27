@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -169,7 +169,7 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
           <button key={id} onClick={() => setTab(id)}
             className={`flex-1 py-3 text-[14px] font-semibold transition-colors relative ${tab === id ? "text-white" : "text-white/35"}`}>
             {label}
-            {tab === id && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#6C63FF] rounded-full" />}
+            {tab === id && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#22C55E] rounded-full" />}
           </button>
         ))}
       </div>

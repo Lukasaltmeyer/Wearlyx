@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { getUsage, getPlanInfo, type UsageData } from "@/lib/usage";
@@ -48,7 +48,7 @@ export function UsageCounter({ onUsageLoaded }: Props) {
             ♾️ Illimité
           </span>
         ) : (
-          <span className={`text-[12px] font-bold ${isDanger ? "text-red-400" : isWarning ? "text-amber-400" : "text-[#a78bfa]"}`}>
+          <span className={`text-[12px] font-bold ${isDanger ? "text-red-400" : isWarning ? "text-amber-400" : "text-[#4ADE80]"}`}>
             {usage.remaining} restante{(usage.remaining ?? 0) > 1 ? "s" : ""}
           </span>
         )}
@@ -63,7 +63,7 @@ export function UsageCounter({ onUsageLoaded }: Props) {
               style={{
                 width: `${usage.pct}%`,
                 background: isDanger ? "#EF4444" : isWarning ? "#F59E0B" :
-                  "linear-gradient(to right, #6C63FF, #C084FC)",
+                  "linear-gradient(to right, #22C55E, #4ADE80)",
               }}
             />
           </div>

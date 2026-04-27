@@ -1,4 +1,4 @@
-// ─── Gamification System ─────────────────────────────────────────────────────
+﻿// ─── Gamification System ─────────────────────────────────────────────────────
 
 export type BadgeId =
   | "first_sale" | "five_sales" | "twenty_sales" | "hundred_sales"
@@ -16,14 +16,14 @@ export interface Badge {
 }
 
 export const BADGES: Badge[] = [
-  { id: "first_listing",  name: "1ère Annonce",    emoji: "🛍️", color: "#6C63FF", description: "Tu as publié ta 1ère annonce",       requirement: 1,   field: "products_count" },
+  { id: "first_listing",  name: "1ère Annonce",    emoji: "🛍️", color: "#22C55E", description: "Tu as publié ta 1ère annonce",       requirement: 1,   field: "products_count" },
   { id: "ten_listings",   name: "Vendeur actif",   emoji: "🔥", color: "#F59E0B", description: "10 annonces publiées",                requirement: 10,  field: "products_count" },
   { id: "first_sale",     name: "1ère Vente",      emoji: "💰", color: "#10B981", description: "Tu as réalisé ta 1ère vente",         requirement: 1,   field: "sales_count" },
   { id: "five_sales",     name: "Vendeur confirmé",emoji: "⭐", color: "#3B82F6", description: "5 ventes réalisées",                  requirement: 5,   field: "sales_count" },
-  { id: "twenty_sales",   name: "Pro Seller",      emoji: "🏆", color: "#8B5CF6", description: "20 ventes — tu assures !",            requirement: 20,  field: "sales_count" },
+  { id: "twenty_sales",   name: "Pro Seller",      emoji: "🏆", color: "#22C55E", description: "20 ventes — tu assures !",            requirement: 20,  field: "sales_count" },
   { id: "hundred_sales",  name: "Légende",         emoji: "👑", color: "#F97316", description: "100 ventes — status légendaire",      requirement: 100, field: "sales_count" },
   { id: "ai_user",        name: "IA Master",       emoji: "🤖", color: "#06B6D4", description: "Tu as utilisé l'IA 10 fois",          requirement: 10,  field: "ai_photos_used" },
-  { id: "photo_pro",      name: "Photo Pro",       emoji: "📸", color: "#EC4899", description: "50 photos améliorées avec l'IA",      requirement: 50,  field: "ai_photos_used" },
+  { id: "photo_pro",      name: "Photo Pro",       emoji: "📸", color: "#22C55E", description: "50 photos améliorées avec l'IA",      requirement: 50,  field: "ai_photos_used" },
   { id: "top_rated",      name: "Top Rated",       emoji: "⭐", color: "#F59E0B", description: "Note moyenne au-dessus de 4.5",       requirement: 45,  field: "rating" },
   { id: "verified",       name: "Vérifié",         emoji: "✅", color: "#10B981", description: "Compte vérifié",                     requirement: 1,   field: "special" },
   { id: "premium_member", name: "Premium",         emoji: "💎", color: "#A855F7", description: "Abonnement premium actif",           requirement: 1,   field: "special" },

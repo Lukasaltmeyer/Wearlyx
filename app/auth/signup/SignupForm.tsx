@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -58,7 +58,7 @@ export default function SignupForm() {
   return (
     <div className="min-h-[100dvh] bg-white flex flex-col">
       <div className="px-6 pt-14 pb-8">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#8B85FF] flex items-center justify-center mb-6 shadow-lg shadow-[#6C63FF]/25">
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#22C55E] to-[#8B85FF] flex items-center justify-center mb-6 shadow-lg shadow-[#22C55E]/25">
           <span className="text-white text-xl font-black">W</span>
         </div>
         <h1 className="text-3xl font-black text-gray-900 leading-tight">Crée ton compte</h1>
@@ -129,7 +129,7 @@ export default function SignupForm() {
         <div className="text-center pb-8">
           <p className="text-sm text-gray-500">
             Déjà un compte ?{" "}
-            <Link href="/auth/login" className="text-[#6C63FF] font-semibold">
+            <Link href="/auth/login" className="text-[#22C55E] font-semibold">
               Se connecter
             </Link>
           </p>

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+﻿import { cn } from "@/lib/utils";
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface BadgeProps {
 
 const variants = {
   default: "bg-gray-100 text-gray-700",
-  brand: "bg-[#6C63FF]/10 text-[#6C63FF]",
+  brand: "bg-[#22C55E]/10 text-[#22C55E]",
   success: "bg-emerald-100 text-emerald-700",
   warning: "bg-amber-100 text-amber-700",
   muted: "bg-gray-100 text-gray-500",

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,7 +23,7 @@ export function SearchBar({ initialValue }: { initialValue?: string }) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Rechercher une marque, article…"
-        className="w-full bg-white border border-gray-200 rounded-2xl pl-10 pr-10 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#6C63FF] focus:ring-2 focus:ring-[#6C63FF]/20 transition-all"
+        className="w-full bg-white border border-gray-200 rounded-2xl pl-10 pr-10 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 transition-all"
         autoFocus
       />
       {value && (

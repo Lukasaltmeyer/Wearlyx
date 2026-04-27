@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -22,7 +22,7 @@ interface Props { userId: string }
 const ORDER_ST: Record<string, { label: string; badge: string }> = {
   pending:    { label: "En attente",  badge: "bg-amber-400/12 text-amber-400" },
   paid:       { label: "Payé",        badge: "bg-blue-400/12 text-blue-400" },
-  shipped:    { label: "Expédié",     badge: "bg-violet-400/12 text-violet-400" },
+  shipped:    { label: "Expédié",     badge: "bg-green-400/12 text-green-400" },
   in_transit: { label: "En transit",  badge: "bg-indigo-400/12 text-indigo-400" },
   delivered:  { label: "Livré ✓",    badge: "bg-emerald-400/12 text-emerald-400" },
   dispute:    { label: "Litige",      badge: "bg-red-400/12 text-red-400" },
@@ -41,7 +41,7 @@ const OFFER_ST: Record<string, { label: string; badge: string }> = {
 const DISPUTE_ST: Record<string, { label: string; badge: string }> = {
   open:              { label: "Ouvert",             badge: "bg-red-400/12 text-red-400" },
   under_review:      { label: "En cours",           badge: "bg-amber-400/12 text-amber-400" },
-  validated:         { label: "Validé — Action req.", badge: "bg-[#6C63FF]/12 text-[#9B93FF]" },
+  validated:         { label: "Validé — Action req.", badge: "bg-[#22C55E]/12 text-[#9B93FF]" },
   solution_proposed: { label: "Solution envoyée",   badge: "bg-blue-400/12 text-blue-400" },
   solution_accepted: { label: "Résolu ✓",          badge: "bg-emerald-400/12 text-emerald-400" },
   solution_refused:  { label: "Solution refusée",   badge: "bg-red-400/12 text-red-400" },
@@ -160,7 +160,7 @@ function OrderCard({ order, isBuyer, onMarkShipped, onMarkDelivered, onOpenDispu
               {isBuyer ? "Vendeur" : "Acheteur"} · @{other?.username ?? "—"}
             </span>
             {shipment?.tracking_number && (
-              <span className="text-[11px] font-mono text-violet-400">{shipment.tracking_number}</span>
+              <span className="text-[11px] font-mono text-green-400">{shipment.tracking_number}</span>
             )}
           </div>
         </div>
@@ -179,7 +179,7 @@ function OrderCard({ order, isBuyer, onMarkShipped, onMarkDelivered, onOpenDispu
         )}
         {!isBuyer && onMarkShipped && (
           <button onClick={onMarkShipped}
-            className="flex-1 py-2 rounded-xl bg-violet-400/12 border border-violet-400/20 text-[12px] font-bold text-violet-400 hover:bg-violet-400/20 transition-colors">
+            className="flex-1 py-2 rounded-xl bg-green-400/12 border border-green-400/20 text-[12px] font-bold text-green-400 hover:bg-green-400/20 transition-colors">
             📦 Expédier
           </button>
         )}
@@ -364,7 +364,7 @@ function AchatsTab({ userId }: { userId: string }) {
   if (loading) return <LoadingRows />;
   if (!orders?.length) return (
     <EmptyState icon={ShoppingBag} text="Aucun achat pour l'instant" sub="Tes achats apparaîtront ici"
-      cta={<Link href="/" className="px-5 py-2.5 rounded-2xl bg-[#6C63FF] text-white text-[13px] font-bold">Explorer les articles</Link>} />
+      cta={<Link href="/" className="px-5 py-2.5 rounded-2xl bg-[#22C55E] text-white text-[13px] font-bold">Explorer les articles</Link>} />
   );
 
   const active    = orders.filter(o => !["delivered","refunded","cancelled"].includes(o.status));
@@ -431,7 +431,7 @@ function VentesTab({ userId }: { userId: string }) {
   if (loading) return <LoadingRows />;
   if (!orders?.length) return (
     <EmptyState icon={Package} text="Aucune vente pour l'instant" sub="Tes ventes apparaîtront ici"
-      cta={<Link href="/sell" className="px-5 py-2.5 rounded-2xl bg-[#6C63FF] text-white text-[13px] font-bold">Vendre un article</Link>} />
+      cta={<Link href="/sell" className="px-5 py-2.5 rounded-2xl bg-[#22C55E] text-white text-[13px] font-bold">Vendre un article</Link>} />
   );
 
   const active    = orders.filter(o => !["delivered","refunded","cancelled"].includes(o.status));
@@ -491,7 +491,7 @@ function OffresTab({ userId }: { userId: string }) {
         {(["reçues", "envoyées"] as const).map(t => (
           <button key={t} onClick={() => setSubTab(t)}
             className={cn("flex-1 py-2 rounded-lg text-[13px] font-bold capitalize transition-colors",
-              subTab === t ? "bg-[#6C63FF] text-white" : "text-white/40 hover:text-white/60")}>
+              subTab === t ? "bg-[#22C55E] text-white" : "text-white/40 hover:text-white/60")}>
             {t.charAt(0).toUpperCase() + t.slice(1)}
             {t === "reçues" && pendingReceived > 0 && (
               <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-red-500 text-white text-[10px]">{pendingReceived}</span>
@@ -521,7 +521,7 @@ function OffresTab({ userId }: { userId: string }) {
                       <StatusBadge status={offer.status} map={OFFER_ST} />
                     </div>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[15px] font-black text-violet-400">{offer.amount} €</span>
+                      <span className="text-[15px] font-black text-green-400">{offer.amount} €</span>
                       {product?.price && <span className="text-[11px] text-white/30 line-through">{product.price} €</span>}
                       {pct > 0 && <span className="text-[11px] text-emerald-400 font-bold">-{pct}%</span>}
                     </div>
@@ -620,9 +620,9 @@ function AvisTab({ userId }: { userId: string }) {
               ))}
             </div>
             <textarea value={comment} onChange={e => setComment(e.target.value)} placeholder="Commentaire (optionnel)…"
-              className="w-full bg-white/5 border border-white/10 rounded-2xl p-3.5 text-[14px] text-white placeholder-white/30 focus:outline-none focus:border-[#6C63FF]/50 resize-none mb-4" rows={3} />
+              className="w-full bg-white/5 border border-white/10 rounded-2xl p-3.5 text-[14px] text-white placeholder-white/30 focus:outline-none focus:border-[#22C55E]/50 resize-none mb-4" rows={3} />
             <button onClick={submitReview} disabled={submitting}
-              className="w-full py-4 rounded-2xl bg-[#6C63FF] text-white text-[15px] font-black disabled:opacity-50 active:scale-[0.98] transition-all">
+              className="w-full py-4 rounded-2xl bg-[#22C55E] text-white text-[15px] font-black disabled:opacity-50 active:scale-[0.98] transition-all">
               {submitting ? "Envoi…" : "Publier l'avis"}
             </button>
           </div>
@@ -637,7 +637,7 @@ function AvisTab({ userId }: { userId: string }) {
         ] as const).map(t => (
           <button key={t.id} onClick={() => setSubTab(t.id)}
             className={cn("flex-1 py-2 rounded-lg text-[12px] font-bold transition-colors",
-              subTab === t.id ? "bg-[#6C63FF] text-white" : "text-white/40 hover:text-white/60")}>
+              subTab === t.id ? "bg-[#22C55E] text-white" : "text-white/40 hover:text-white/60")}>
             {t.label}
           </button>
         ))}
@@ -762,7 +762,7 @@ function LitigesTab({ userId }: { userId: string }) {
 
             {/* Admin note */}
             {d.admin_note && (
-              <div className="px-3 py-2.5 rounded-xl bg-[#6C63FF]/10 border border-[#6C63FF]/20">
+              <div className="px-3 py-2.5 rounded-xl bg-[#22C55E]/10 border border-[#22C55E]/20">
                 <p className="text-[11px] font-bold text-[#9B93FF] mb-0.5">Réponse de l'équipe Wearlyx</p>
                 <p className="text-[12px] text-white/60">{d.admin_note}</p>
               </div>
@@ -778,20 +778,20 @@ function LitigesTab({ userId }: { userId: string }) {
                       <button key={s.id} onClick={() => setChosenSolution(s.id)}
                         className={cn("w-full p-3 rounded-xl text-left transition-all",
                           chosenSolution === s.id
-                            ? "bg-[#6C63FF]/15 border border-[#6C63FF]/30"
+                            ? "bg-[#22C55E]/15 border border-[#22C55E]/30"
                             : "bg-white/5 border border-white/8 hover:bg-white/8")}>
                         <p className={cn("text-[13px] font-bold", chosenSolution === s.id ? "text-[#9B93FF]" : "text-white/70")}>{s.label}</p>
                         <p className="text-[11px] text-white/30 mt-0.5">{s.sub}</p>
                       </button>
                     ))}
                     <button onClick={() => proposeSolution(d.id)} disabled={!chosenSolution || submitting}
-                      className="w-full py-3 rounded-xl bg-[#6C63FF] text-white text-[13px] font-black disabled:opacity-40 active:scale-[0.98] transition-all mt-1">
+                      className="w-full py-3 rounded-xl bg-[#22C55E] text-white text-[13px] font-black disabled:opacity-40 active:scale-[0.98] transition-all mt-1">
                       {submitting ? "Envoi…" : "Valider ma solution →"}
                     </button>
                   </div>
                 ) : (
                   <button onClick={() => { setSolutionFor(d.id); setChosenSolution(""); }}
-                    className="w-full py-2.5 rounded-xl bg-[#6C63FF]/15 border border-[#6C63FF]/25 text-[#9B93FF] text-[13px] font-bold hover:bg-[#6C63FF]/25 transition-colors">
+                    className="w-full py-2.5 rounded-xl bg-[#22C55E]/15 border border-[#22C55E]/25 text-[#9B93FF] text-[13px] font-bold hover:bg-[#22C55E]/25 transition-colors">
                     Choisir ma solution →
                   </button>
                 )}
@@ -871,19 +871,19 @@ function SupportTab({ userId }: { userId: string }) {
               {(["payment","delivery","bug","account","other"] as const).map(c => (
                 <button key={c} onClick={() => setForm(f => ({ ...f, category: c }))}
                   className={cn("py-2.5 rounded-xl text-[12px] font-bold transition-colors",
-                    form.category === c ? "bg-[#6C63FF] text-white" : "bg-white/5 border border-white/8 text-white/40 hover:text-white/60")}>
+                    form.category === c ? "bg-[#22C55E] text-white" : "bg-white/5 border border-white/8 text-white/40 hover:text-white/60")}>
                   {CATEGORY_FR[c]}
                 </button>
               ))}
             </div>
             <input value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
               placeholder="Sujet de ta demande…"
-              className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-[14px] text-white placeholder-white/30 focus:outline-none focus:border-[#6C63FF]/50 mb-3" />
+              className="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-[14px] text-white placeholder-white/30 focus:outline-none focus:border-[#22C55E]/50 mb-3" />
             <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
               placeholder="Décris ton problème en détail…"
-              className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-[14px] text-white placeholder-white/30 focus:outline-none focus:border-[#6C63FF]/50 resize-none mb-4" rows={4} />
+              className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-[14px] text-white placeholder-white/30 focus:outline-none focus:border-[#22C55E]/50 resize-none mb-4" rows={4} />
             <button onClick={submit} disabled={submitting || !form.subject.trim() || !form.description.trim()}
-              className="w-full py-4 rounded-2xl bg-[#6C63FF] text-white text-[15px] font-black disabled:opacity-40 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+              className="w-full py-4 rounded-2xl bg-[#22C55E] text-white text-[15px] font-black disabled:opacity-40 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
               <Send className="w-4 h-4" />
               {submitting ? "Envoi…" : "Envoyer la demande"}
             </button>
@@ -892,7 +892,7 @@ function SupportTab({ userId }: { userId: string }) {
       )}
       <div className="px-4 pt-4">
         <button onClick={() => setShowForm(true)}
-          className="w-full py-3.5 rounded-2xl bg-[#6C63FF] text-white text-[14px] font-black mb-4 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+          className="w-full py-3.5 rounded-2xl bg-[#22C55E] text-white text-[14px] font-black mb-4 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
           <Plus className="w-4 h-4" />
           Nouveau ticket support
         </button>
@@ -1105,7 +1105,7 @@ export function SalesClient({ userId }: Props) {
               )}>
               <Icon className="w-3.5 h-3.5" />
               {label}
-              {active && <span className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full bg-[#6C63FF]" />}
+              {active && <span className="absolute bottom-0 left-2 right-2 h-[2px] rounded-full bg-[#22C55E]" />}
             </button>
           );
         })}

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { cn } from "@/lib/utils";
 
@@ -46,7 +46,7 @@ export function StyleSelector({ selected, onSelect, isPro = false }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2 mb-1">
-        <div className="w-5 h-5 rounded-full bg-[#7C3AED] flex items-center justify-center">
+        <div className="w-5 h-5 rounded-full bg-[#22C55E] flex items-center justify-center">
           <span className="text-[10px] font-black text-white">2</span>
         </div>
         <p className="text-[12px] font-bold text-white/60 uppercase tracking-wider">Style de photo</p>
@@ -63,7 +63,7 @@ export function StyleSelector({ selected, onSelect, isPro = false }: Props) {
               className={cn(
                 "relative flex flex-col rounded-2xl border overflow-hidden text-left transition-all active:scale-[0.97]",
                 isActive
-                  ? "border-[#7C3AED] shadow-lg shadow-[#7C3AED]/20"
+                  ? "border-[#22C55E] shadow-lg shadow-[#22C55E]/20"
                   : "border-white/8 hover:border-white/20"
               )}
             >
@@ -77,20 +77,20 @@ export function StyleSelector({ selected, onSelect, isPro = false }: Props) {
                 {/* PRO badge */}
                 {s.pro && (
                   <span className="absolute top-1.5 left-1.5 text-[8px] font-black px-1.5 py-0.5 rounded-md"
-                    style={{ background: "rgba(108,99,255,0.9)", color: "white" }}>
+                    style={{ background: "rgba(34,197,94,0.9)", color: "white" }}>
                     PRO
                   </span>
                 )}
                 {/* Check */}
                 {isActive && (
-                  <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#7C3AED] flex items-center justify-center">
+                  <div className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-[#22C55E] flex items-center justify-center">
                     <span className="text-[8px] font-bold text-white">✓</span>
                   </div>
                 )}
               </div>
 
               {/* Label */}
-              <div className={cn("px-2 py-1.5", isActive ? "bg-[#7C3AED]/15" : "bg-white/3")}>
+              <div className={cn("px-2 py-1.5", isActive ? "bg-[#22C55E]/15" : "bg-white/3")}>
                 <p className="text-[11px] font-bold text-white leading-tight">{s.label}</p>
                 <p className="text-[9px] text-white/35 leading-tight mt-0.5">{s.desc}</p>
               </div>

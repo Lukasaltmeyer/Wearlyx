@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -37,7 +37,7 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
             key={conv.id}
             href={`/messages/${conv.id}`}
             className="flex items-center gap-3 px-4 py-3.5 active:bg-white/4 transition-colors"
-            style={isUnread ? { background: "rgba(108,58,237,0.05)" } : {}}
+            style={isUnread ? { background: "rgba(34,197,94,0.05)" } : {}}
           >
             <div className="relative flex-shrink-0">
               {product?.images?.[0] ? (
@@ -49,7 +49,7 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
               )}
               <div className={cn(
                 "absolute -bottom-1 -right-1 ring-2 ring-[#08080F] rounded-full",
-                isUnread ? "ring-[#6C3AED]/50" : ""
+                isUnread ? "ring-[#22C55E]/50" : ""
               )}>
                 <Avatar
                   src={(other as any)?.avatar_url}
@@ -77,7 +77,7 @@ export function ConversationList({ conversations, currentUserId }: ConversationL
             </div>
 
             {isUnread && (
-              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "linear-gradient(135deg, #7C3AED, #C026D3)" }} />
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: "linear-gradient(135deg, #22C55E, #16A34A)" }} />
             )}
           </Link>
         );

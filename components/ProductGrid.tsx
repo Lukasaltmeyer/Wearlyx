@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { ProductCard } from "@/components/ProductCard";
 import type { Product } from "@/types/database";
@@ -17,7 +17,7 @@ function EmptyState() {
       {/* CTA vendre */}
       <Link href="/sell/ai" className="block mb-4 active:scale-[0.98] transition-transform">
         <div className="relative rounded-2xl overflow-hidden p-5"
-          style={{ background: "linear-gradient(135deg, #4C1D95 0%, #7C3AED 50%, #C026D3 100%)" }}>
+          style={{ background: "linear-gradient(135deg, #4C1D95 0%, #22C55E 50%, #16A34A 100%)" }}>
           <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/8" />
           <div className="relative z-10 flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">

@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
@@ -27,7 +27,7 @@ export default async function SellPage() {
           {/* IA — recommandé */}
           <Link href="/sell/ai" className="block active:scale-[0.98] transition-transform">
             <div className="relative rounded-3xl overflow-hidden p-5"
-              style={{ background: "linear-gradient(135deg, #6C3AED 0%, #C026D3 100%)" }}>
+              style={{ background: "linear-gradient(135deg, #22C55E 0%, #16A34A 100%)" }}>
               <div className="absolute -top-8 -right-8 w-36 h-36 rounded-full bg-white/8" />
               <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full bg-white/6" />
               <div className="relative z-10">

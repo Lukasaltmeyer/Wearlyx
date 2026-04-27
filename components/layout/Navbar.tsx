@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -33,7 +33,7 @@ export function Navbar() {
           <span
             className="font-black text-[22px] tracking-tight select-none"
             style={{
-              background: "linear-gradient(135deg, #ffffff 0%, #a78bfa 60%, #e879f9 100%)",
+              background: "linear-gradient(135deg, #ffffff 0%, #4ADE80 60%, #4ADE80 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
             }}

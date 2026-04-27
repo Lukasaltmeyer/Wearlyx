@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -60,7 +60,7 @@ export function ListingsClient({ products: initial, userId }: Props) {
         </div>
         <Link href="/sell/ai"
           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-bold text-white"
-          style={{ background: "linear-gradient(135deg, #6C63FF, #A855F7)" }}>
+          style={{ background: "linear-gradient(135deg, #22C55E, #A855F7)" }}>
           <Plus className="w-3.5 h-3.5" />
           Publier
         </Link>
@@ -70,7 +70,7 @@ export function ListingsClient({ products: initial, userId }: Props) {
       <div className="px-4 mb-4 grid grid-cols-3 gap-2">
         {[
           { label: "En ligne",  value: stats.active,     color: "#10B981", icon: Package },
-          { label: "Vues",      value: stats.totalViews,  color: "#6C63FF", icon: Eye },
+          { label: "Vues",      value: stats.totalViews,  color: "#22C55E", icon: Eye },
           { label: "J'aime",    value: stats.totalLikes,  color: "#EF4444", icon: Heart },
         ].map(({ label, value, color, icon: Icon }) => (
           <div key={label} className="rounded-xl border border-white/6 bg-white/3 px-3 py-2.5 text-center">
@@ -87,7 +87,7 @@ export function ListingsClient({ products: initial, userId }: Props) {
           {([["all", "Tout"], ["active", "En ligne"], ["sold", "Vendus"]] as const).map(([val, lbl]) => (
             <button key={val} onClick={() => setFilter(val)}
               className={`flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all ${
-                filter === val ? "bg-[#6C63FF] text-white" : "text-white/40 hover:text-white/60"
+                filter === val ? "bg-[#22C55E] text-white" : "text-white/40 hover:text-white/60"
               }`}>
               {lbl}
             </button>
@@ -103,7 +103,7 @@ export function ListingsClient({ products: initial, userId }: Props) {
             <p className="text-[14px] font-semibold text-white/30">Aucune annonce</p>
             <Link href="/sell/ai"
               className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-2xl text-[13px] font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #6C63FF, #A855F7)" }}>
+              style={{ background: "linear-gradient(135deg, #22C55E, #A855F7)" }}>
               <Zap className="w-3.5 h-3.5" /> Créer avec l'IA
             </Link>
           </div>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { Bell, X, Package, Tag, ShieldAlert, MessageCircle, CheckCircle } from "lucide-react";
@@ -21,7 +21,7 @@ const ICONS: Record<NotificationType, React.ElementType> = {
 };
 
 const COLORS: Record<NotificationType, string> = {
-  offer_received:   "bg-purple-500/20 text-purple-400",
+  offer_received:   "bg-green-500/20 text-green-400",
   offer_accepted:   "bg-green-500/20 text-green-400",
   offer_refused:    "bg-red-500/20 text-red-400",
   offer_countered:  "bg-yellow-500/20 text-yellow-400",
@@ -30,7 +30,7 @@ const COLORS: Record<NotificationType, string> = {
   order_delivered:  "bg-green-500/20 text-green-400",
   dispute_opened:   "bg-orange-500/20 text-orange-400",
   dispute_resolved: "bg-teal-500/20 text-teal-400",
-  new_message:      "bg-[#6C63FF]/20 text-[#a78bfa]",
+  new_message:      "bg-[#22C55E]/20 text-[#4ADE80]",
 };
 
 interface Props { userId: string; }
@@ -89,7 +89,7 @@ export function NotificationBell({ userId }: Props) {
               <h2 className="text-[16px] font-black text-white">Notifications</h2>
               <div className="flex gap-2">
                 {unread > 0 && (
-                  <button onClick={markAllRead} className="text-[11px] text-[#6C63FF] font-semibold">
+                  <button onClick={markAllRead} className="text-[11px] text-[#22C55E] font-semibold">
                     Tout lire
                   </button>
                 )}
@@ -120,7 +120,7 @@ export function NotificationBell({ userId }: Props) {
                         <p className="text-[12px] text-white/40 mt-0.5 leading-tight">{n.body}</p>
                         <p className="text-[10px] text-white/25 mt-1">{timeAgo(n.created_at)}</p>
                       </div>
-                      {!n.read && <div className="w-2 h-2 rounded-full bg-[#6C63FF] flex-shrink-0 mt-1.5" />}
+                      {!n.read && <div className="w-2 h-2 rounded-full bg-[#22C55E] flex-shrink-0 mt-1.5" />}
                     </div>
                   );
                 })

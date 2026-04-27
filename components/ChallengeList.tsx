@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { CHALLENGES } from "@/lib/gamification";
 import { Zap } from "lucide-react";
@@ -37,7 +37,7 @@ export function ChallengeList({ progress = [], type = "all" }: Props) {
           const done = pct >= 100;
           const typeColor =
             challenge.type === "daily"   ? "#4CAF50" :
-            challenge.type === "weekly"  ? "#6C63FF" : "#F59E0B";
+            challenge.type === "weekly"  ? "#22C55E" : "#F59E0B";
 
           return (
             <div key={challenge.id}
@@ -50,8 +50,8 @@ export function ChallengeList({ progress = [], type = "all" }: Props) {
                   <p className={`text-[12px] font-semibold truncate ${done ? "text-[#4CAF50]" : "text-white/80"}`}>
                     {challenge.title}
                   </p>
-                  <span className="text-[10px] flex-shrink-0 font-bold text-[#6C63FF] flex items-center gap-0.5">
-                    <Zap className="w-2.5 h-2.5 fill-[#6C63FF]" />
+                  <span className="text-[10px] flex-shrink-0 font-bold text-[#22C55E] flex items-center gap-0.5">
+                    <Zap className="w-2.5 h-2.5 fill-[#22C55E]" />
                     +{challenge.reward}
                   </span>
                 </div>

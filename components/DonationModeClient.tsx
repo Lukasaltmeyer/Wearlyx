@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -49,7 +49,7 @@ export function DonationModeClient() {
           style={{
             background: enabled
               ? "rgba(239,68,68,0.8)"
-              : "linear-gradient(135deg, #EC4899, #F43F5E)",
+              : "linear-gradient(135deg, #22C55E, #F43F5E)",
             boxShadow: enabled ? "none" : "0 4px 20px rgba(236,72,153,0.4)",
           }}
         >

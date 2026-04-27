@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { X, Tag } from "lucide-react";
@@ -165,7 +165,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
             {/* Amount input */}
             <div className="mb-4">
               <label className="text-[11px] font-bold text-white/40 uppercase tracking-wider mb-2 block">Ton offre (€)</label>
-              <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/6 border border-white/10 focus-within:border-[#6C63FF]/50">
+              <div className="flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/6 border border-white/10 focus-within:border-[#22C55E]/50">
                 <Tag className="w-4 h-4 text-white/30 flex-shrink-0" />
                 <input
                   type="number"
@@ -196,7 +196,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Explique ta proposition au vendeur..."
                 rows={2}
-                className="w-full px-4 py-3 rounded-2xl bg-white/6 border border-white/10 text-[14px] text-white placeholder-white/20 outline-none resize-none focus:border-[#6C63FF]/50"
+                className="w-full px-4 py-3 rounded-2xl bg-white/6 border border-white/10 text-[14px] text-white placeholder-white/20 outline-none resize-none focus:border-[#22C55E]/50"
               />
             </div>
 
@@ -208,7 +208,7 @@ export function OfferModal({ productId, sellerId, productPrice, productTitle, cu
               className={cn(
                 "w-full py-4 rounded-2xl text-[15px] font-bold text-white transition-all",
                 isValid && !loading
-                  ? "bg-[#6C63FF] shadow-lg shadow-[#6C63FF]/25 active:scale-[0.98]"
+                  ? "bg-[#22C55E] shadow-lg shadow-[#22C55E]/25 active:scale-[0.98]"
                   : "bg-white/10 opacity-50 cursor-not-allowed"
               )}
             >

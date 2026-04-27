@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -120,7 +120,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
               )}
               {product.brand && (
                 <span className="text-[9.5px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: "rgba(139,92,246,0.12)", color: "#a78bfa" }}>
+                  style={{ background: "rgba(34,197,94,0.12)", color: "#4ADE80" }}>
                   {product.brand}
                 </span>
               )}

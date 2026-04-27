@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
@@ -72,7 +72,7 @@ function OfferCard({
   const statusColors: Record<string, string> = {
     accepted: "border-emerald-500/30 bg-emerald-500/8",
     declined: "border-red-500/30 bg-red-500/8",
-    pending: "border-[#6C3AED]/30 bg-[#6C3AED]/8",
+    pending: "border-[#22C55E]/30 bg-[#22C55E]/8",
     countered: "border-amber-500/30 bg-amber-500/8",
   };
 
@@ -87,7 +87,7 @@ function OfferCard({
     <div className={cn("rounded-2xl border p-4 max-w-[280px] w-full", statusColors[offer.status] ?? statusColors.pending)}>
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-7 h-7 rounded-full bg-[#6C3AED]/25 flex items-center justify-center text-[14px]">💰</div>
+        <div className="w-7 h-7 rounded-full bg-[#22C55E]/25 flex items-center justify-center text-[14px]">💰</div>
         <div>
           <p className="text-[11px] text-white/40 font-medium">Offre d'achat</p>
           <p className="text-[10px] text-white/25 truncate max-w-[180px]">{offer.title}</p>
@@ -150,7 +150,7 @@ function OfferCard({
                 value={counterAmount}
                 onChange={(e) => setCounterAmount(e.target.value)}
                 placeholder="Montant €"
-                className="flex-1 px-3 py-2 rounded-xl bg-white/6 border border-white/10 text-[13px] text-white outline-none focus:border-[#6C3AED]/50 placeholder-white/20"
+                className="flex-1 px-3 py-2 rounded-xl bg-white/6 border border-white/10 text-[13px] text-white outline-none focus:border-[#22C55E]/50 placeholder-white/20"
               />
               <button
                 onClick={() => {
@@ -158,7 +158,7 @@ function OfferCard({
                   if (!isNaN(amt) && amt > 0) handle("declined", amt);
                 }}
                 disabled={!!loading || !counterAmount}
-                className="px-3 py-2 rounded-xl bg-[#6C3AED] text-white text-[12px] font-bold active:scale-95 disabled:opacity-40"
+                className="px-3 py-2 rounded-xl bg-[#22C55E] text-white text-[12px] font-bold active:scale-95 disabled:opacity-40"
               >
                 Envoyer
               </button>
@@ -348,7 +348,7 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
         <Link
           href={`/products/${product.id}`}
           className="flex items-center gap-3 px-4 py-2.5 border-b border-white/5 active:bg-white/3 transition-colors"
-          style={{ background: "rgba(108,58,237,0.07)" }}
+          style={{ background: "rgba(34,197,94,0.07)" }}
         >
           <div className="relative w-10 h-10 rounded-xl overflow-hidden flex-shrink-0 border border-white/10">
             {product.images?.[0] ? (
@@ -361,7 +361,7 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-[12px] font-semibold text-white/60 truncate">{product.title}</p>
-            <p className="text-[13px] text-[#a78bfa] font-black">{product.price} €</p>
+            <p className="text-[13px] text-[#4ADE80] font-black">{product.price} €</p>
           </div>
           <ChevronLeft className="w-4 h-4 text-white/20 rotate-180 flex-shrink-0" />
         </Link>
@@ -444,7 +444,7 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
                       msg.id.startsWith("temp-") && "opacity-60"
                     )}
                     style={isMine
-                      ? { background: "linear-gradient(135deg, #6C3AED, #8B5CF6)" }
+                      ? { background: "linear-gradient(135deg, #22C55E, #22C55E)" }
                       : { background: "rgba(255,255,255,0.07)" }
                     }
                   >
@@ -465,7 +465,7 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
             <button
               key={r}
               onClick={() => sendMessage(r)}
-              className="flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold text-[#a78bfa] border border-[#6C3AED]/35 bg-[#6C3AED]/8 active:scale-95 transition-all whitespace-nowrap"
+              className="flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold text-[#4ADE80] border border-[#22C55E]/35 bg-[#22C55E]/8 active:scale-95 transition-all whitespace-nowrap"
             >
               {r}
             </button>
@@ -487,16 +487,16 @@ export function ChatView({ conversation, initialMessages, currentUserId }: ChatV
             onFocus={() => messages.length === 0 && setShowQuickReplies(true)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
             placeholder="Écris un message…"
-            className="flex-1 bg-white/6 border border-white/8 rounded-2xl px-4 py-3 text-[14px] text-white placeholder:text-white/25 outline-none focus:border-[#6C3AED]/50 transition-all"
+            className="flex-1 bg-white/6 border border-white/8 rounded-2xl px-4 py-3 text-[14px] text-white placeholder:text-white/25 outline-none focus:border-[#22C55E]/50 transition-all"
           />
           <button
             onClick={() => sendMessage()}
             disabled={!input.trim() || sending}
             className={cn(
               "w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all active:scale-95",
-              input.trim() ? "text-white shadow-lg shadow-[#6C3AED]/25" : "bg-white/5 text-white/20"
+              input.trim() ? "text-white shadow-lg shadow-[#22C55E]/25" : "bg-white/5 text-white/20"
             )}
-            style={input.trim() ? { background: "linear-gradient(135deg, #6C3AED, #C026D3)" } : {}}
+            style={input.trim() ? { background: "linear-gradient(135deg, #22C55E, #16A34A)" } : {}}
           >
             <Send className="w-4 h-4" />
           </button>

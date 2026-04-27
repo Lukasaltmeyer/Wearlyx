@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -92,7 +92,7 @@ export function OrderDetailClient({ order, currentUserId }: Props) {
         {shipment && (
           <div className="p-4 rounded-2xl bg-white/5 border border-white/8">
             <div className="flex items-center gap-2 mb-4">
-              <Package className="w-4 h-4 text-[#6C63FF]" />
+              <Package className="w-4 h-4 text-[#22C55E]" />
               <p className="text-[14px] font-black text-white">Suivi du colis</p>
             </div>
             <TrackingTimeline
@@ -117,7 +117,7 @@ export function OrderDetailClient({ order, currentUserId }: Props) {
         {/* Actions seller */}
         {isSeller && order.status === "paid" && (
           <button onClick={markShipped} disabled={markLoading}
-            className="w-full py-4 rounded-2xl bg-[#6C63FF] text-[15px] font-bold text-white active:scale-[0.98] transition-all disabled:opacity-50">
+            className="w-full py-4 rounded-2xl bg-[#22C55E] text-[15px] font-bold text-white active:scale-[0.98] transition-all disabled:opacity-50">
             {markLoading ? "..." : "📦 Marquer comme expédié"}
           </button>
         )}

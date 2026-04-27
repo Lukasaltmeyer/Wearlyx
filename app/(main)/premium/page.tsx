@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -147,10 +147,10 @@ function PlanCard({
           {plan.features.map((f, i) => (
             <div key={i} className="flex items-start gap-2.5">
               <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                f.included ? "bg-[#6C63FF]/20 border border-[#6C63FF]/40" : "bg-white/5 border border-white/10"
+                f.included ? "bg-[#22C55E]/20 border border-[#22C55E]/40" : "bg-white/5 border border-white/10"
               }`}>
                 {f.included ? (
-                  <Check className="w-2.5 h-2.5 text-[#a78bfa]" />
+                  <Check className="w-2.5 h-2.5 text-[#4ADE80]" />
                 ) : (
                   <span className="w-1.5 h-0.5 rounded-full bg-white/20 block" />
                 )}
@@ -247,7 +247,7 @@ export default function PremiumPage() {
 
       {/* Hero */}
       <div className="px-5 pt-3 pb-6 text-center">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#C084FC] flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#6C63FF]/30">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#22C55E] to-[#4ADE80] flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#22C55E]/30">
           <Sparkles className="w-7 h-7 text-white" />
         </div>
         <h1 className="text-[28px] font-black text-white leading-tight">
@@ -272,7 +272,7 @@ export default function PremiumPage() {
           {usage.limit !== null && (
             <div className="text-right">
               <p className="text-[12px] text-white/40">IA photos</p>
-              <p className="text-[14px] font-bold text-[#a78bfa]">
+              <p className="text-[14px] font-bold text-[#4ADE80]">
                 {usage.remaining} / {usage.limit}
               </p>
             </div>

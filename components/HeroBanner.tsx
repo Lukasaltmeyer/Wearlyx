@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Zap, Crown, ArrowRight } from "lucide-react";
 
 export function HeroBanner() {
@@ -9,7 +9,7 @@ export function HeroBanner() {
       <Link href="/sell/ai" className="block active:scale-[0.97] transition-transform duration-150" style={{ flex: "3" }}>
         <div
           className="relative rounded-2xl overflow-hidden p-4 min-h-[116px] flex flex-col justify-between"
-          style={{ background: "linear-gradient(140deg, #3b0764 0%, #6C3AED 50%, #C026D3 100%)" }}
+          style={{ background: "linear-gradient(140deg, #3b0764 0%, #22C55E 50%, #16A34A 100%)" }}
         >
           <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/[0.07]" />
           <div className="absolute -bottom-4 -left-4 w-20 h-20 rounded-full bg-white/[0.04]" />

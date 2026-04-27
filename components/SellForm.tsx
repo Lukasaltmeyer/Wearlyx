@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -131,7 +131,7 @@ export function SellForm({ userId }: SellFormProps) {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="aspect-square bg-gray-100 rounded-xl flex flex-col items-center justify-center gap-1 border-2 border-dashed border-gray-200 hover:border-[#6C63FF] hover:bg-[#6C63FF]/5 transition-colors"
+              className="aspect-square bg-gray-100 rounded-xl flex flex-col items-center justify-center gap-1 border-2 border-dashed border-gray-200 hover:border-[#22C55E] hover:bg-[#22C55E]/5 transition-colors"
             >
               <Camera className="w-5 h-5 text-gray-400" />
               <span className="text-[10px] text-gray-400 font-medium">Ajouter</span>
@@ -232,7 +232,7 @@ export function SellForm({ userId }: SellFormProps) {
             onChange={(e) => setCategory(e.target.value)}
             className={cn(
               "w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 appearance-none",
-              "focus:border-[#6C63FF] focus:ring-2 focus:ring-[#6C63FF]/20 transition-all",
+              "focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 transition-all",
               !category && "text-gray-400",
               errors.category && "border-red-400"
             )}
@@ -259,7 +259,7 @@ export function SellForm({ userId }: SellFormProps) {
               className={cn(
                 "px-3 py-1.5 rounded-xl text-sm font-medium border transition-all",
                 size === s
-                  ? "bg-[#6C63FF] border-[#6C63FF] text-white"
+                  ? "bg-[#22C55E] border-[#22C55E] text-white"
                   : "bg-white border-gray-200 text-gray-700 hover:border-gray-300"
               )}
             >
@@ -281,16 +281,16 @@ export function SellForm({ userId }: SellFormProps) {
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-all",
                 condition === c.value
-                  ? "bg-[#6C63FF]/5 border-[#6C63FF] text-[#6C63FF]"
+                  ? "bg-[#22C55E]/5 border-[#22C55E] text-[#22C55E]"
                   : "bg-white border-gray-200 text-gray-700 hover:border-gray-300"
               )}
             >
               <div className={cn(
                 "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-                condition === c.value ? "border-[#6C63FF]" : "border-gray-300"
+                condition === c.value ? "border-[#22C55E]" : "border-gray-300"
               )}>
                 {condition === c.value && (
-                  <div className="w-2 h-2 rounded-full bg-[#6C63FF]" />
+                  <div className="w-2 h-2 rounded-full bg-[#22C55E]" />
                 )}
               </div>
               <span className="text-sm font-medium">{c.label}</span>

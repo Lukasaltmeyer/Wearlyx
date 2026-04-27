@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useCallback } from "react";
 import { ArrowLeft, Upload, Sparkles, Download, RefreshCw, Sliders, ChevronDown, ChevronUp } from "lucide-react";
@@ -29,11 +29,11 @@ function UploadZone({ onFiles }: { onFiles: (files: File[]) => void }) {
       onDrop={(e) => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files); }}
       onClick={() => inputRef.current?.click()}
       className={`flex flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed p-10 cursor-pointer transition-all duration-200 ${
-        dragging ? "border-[#6C63FF] bg-[#6C63FF]/10 scale-[0.99]" : "border-white/12 bg-white/4 hover:border-white/22 hover:bg-white/6"
+        dragging ? "border-[#22C55E] bg-[#22C55E]/10 scale-[0.99]" : "border-white/12 bg-white/4 hover:border-white/22 hover:bg-white/6"
       }`}
     >
-      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6C63FF]/20 to-[#C084FC]/20 border border-[#6C63FF]/25 flex items-center justify-center">
-        <Upload className="w-7 h-7 text-[#a78bfa]" />
+      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#22C55E]/20 to-[#4ADE80]/20 border border-[#22C55E]/25 flex items-center justify-center">
+        <Upload className="w-7 h-7 text-[#4ADE80]" />
       </div>
       <div className="text-center">
         <p className="text-[15px] font-bold text-white">Clique ou glisse tes photos</p>
@@ -60,14 +60,14 @@ function OptionSlider({ label, value, onChange, icon }: {
       <div className="flex-1">
         <div className="flex justify-between mb-1">
           <span className="text-[12px] text-white/60 font-medium">{label}</span>
-          <span className="text-[12px] text-[#a78bfa] font-semibold">{value}%</span>
+          <span className="text-[12px] text-[#4ADE80] font-semibold">{value}%</span>
         </div>
         <input
           type="range" min={0} max={100} value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
           style={{
-            background: `linear-gradient(to right, #6C63FF ${value}%, rgba(255,255,255,0.1) ${value}%)`,
+            background: `linear-gradient(to right, #22C55E ${value}%, rgba(255,255,255,0.1) ${value}%)`,
           }}
         />
       </div>
@@ -83,7 +83,7 @@ function ProgressBar({ pct }: { pct: number }) {
   return (
     <div className="flex flex-col items-center gap-5 py-10">
       <div className="relative w-20 h-20">
-        <div className="absolute inset-0 rounded-full bg-[#6C63FF]/15 animate-pulse" />
+        <div className="absolute inset-0 rounded-full bg-[#22C55E]/15 animate-pulse" />
         <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
           <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
           <circle cx="40" cy="40" r="34" fill="none" stroke="url(#grad)" strokeWidth="6"
@@ -94,8 +94,8 @@ function ProgressBar({ pct }: { pct: number }) {
           />
           <defs>
             <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#6C63FF" />
-              <stop offset="100%" stopColor="#C084FC" />
+              <stop offset="0%" stopColor="#22C55E" />
+              <stop offset="100%" stopColor="#4ADE80" />
             </linearGradient>
           </defs>
         </svg>
@@ -105,7 +105,7 @@ function ProgressBar({ pct }: { pct: number }) {
       </div>
       <div className="text-center">
         <p className="text-[14px] font-semibold text-white">Amélioration en cours</p>
-        <p className="text-[12px] text-[#a78bfa] mt-1">{steps[stepIdx]}</p>
+        <p className="text-[12px] text-[#4ADE80] mt-1">{steps[stepIdx]}</p>
       </div>
     </div>
   );
@@ -135,7 +135,7 @@ function ResultCard({ item, onReenhance }: { item: ResultItem; onReenhance: () =
           <RefreshCw className="w-3.5 h-3.5" /> Refaire
         </button>
         <button onClick={download}
-          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#6C63FF] text-[14px] font-semibold text-white shadow-lg shadow-[#6C63FF]/25 transition-all active:scale-[0.98]">
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#22C55E] text-[14px] font-semibold text-white shadow-lg shadow-[#22C55E]/25 transition-all active:scale-[0.98]">
           <Download className="w-4 h-4" /> Télécharger
         </button>
       </div>
@@ -213,7 +213,7 @@ export default function EnhancePage() {
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#6C63FF] to-[#C084FC] flex items-center justify-center">
+            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#22C55E] to-[#4ADE80] flex items-center justify-center">
               <Sparkles className="w-3.5 h-3.5 text-white" />
             </div>
             <h1 className="text-[17px] font-black text-white">Amélioration Photo IA</h1>
@@ -221,7 +221,7 @@ export default function EnhancePage() {
           <p className="text-[12px] text-white/35 mt-0.5">Améliore tes photos sans perdre le réalisme</p>
         </div>
         {/* Plan badge */}
-        <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-[#6C63FF]/15 text-[#a78bfa] border border-[#6C63FF]/25 flex-shrink-0">
+        <span className="text-[10px] font-bold px-2 py-1 rounded-full bg-[#22C55E]/15 text-[#4ADE80] border border-[#22C55E]/25 flex-shrink-0">
           🆓 5/mois
         </span>
       </div>
@@ -277,11 +277,11 @@ export default function EnhancePage() {
               {photos.map((f, i) => (
                 <div key={i} onClick={() => setSelectedIdx(i)}
                   className={`relative flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${
-                    selectedIdx === i ? "border-[#6C63FF]" : "border-white/10"
+                    selectedIdx === i ? "border-[#22C55E]" : "border-white/10"
                   }`}>
                   <img src={URL.createObjectURL(f)} className="w-full h-full object-cover" alt="" />
                   {selectedIdx === i && (
-                    <div className="absolute inset-0 bg-[#6C63FF]/20 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-[#22C55E]/20 flex items-center justify-center">
                       <span className="text-[10px] font-bold text-white">✓</span>
                     </div>
                   )}
@@ -322,7 +322,7 @@ export default function EnhancePage() {
 
             <button
               onClick={() => enhance()}
-              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#6C63FF] to-[#C084FC] text-[15px] font-bold text-white shadow-lg shadow-[#6C63FF]/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#4ADE80] text-[15px] font-bold text-white shadow-lg shadow-[#22C55E]/25 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
             >
               <Sparkles className="w-5 h-5" />
               Améliorer {photos.length > 1 ? `${photos.length} photos` : "la photo"}
@@ -342,7 +342,7 @@ export default function EnhancePage() {
                 {results.map((r, i) => (
                   <button key={i} onClick={() => setSelectedIdx(i)}
                     className={`flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
-                      selectedIdx === i ? "border-[#6C63FF]" : "border-white/10 opacity-60"
+                      selectedIdx === i ? "border-[#22C55E]" : "border-white/10 opacity-60"
                     }`}>
                     <img src={r.enhanced} className="w-full h-full object-cover" alt="" />
                   </button>
