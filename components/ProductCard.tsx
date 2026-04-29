@@ -57,9 +57,9 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
       <div
         className="rounded-2xl overflow-hidden border transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.5)] group-active:scale-[0.97]"
         style={{
-          background: "linear-gradient(160deg, #141420 0%, #0F0F1A 100%)",
-          borderColor: "rgba(255,255,255,0.07)",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.3)",
+          background: "#111827",
+          borderColor: "rgba(255,255,255,0.06)",
+          boxShadow: "0 6px 20px rgba(0,0,0,0.4)",
         }}
       >
         {/* Image */}
@@ -109,7 +109,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
         {/* Info */}
         <div className="px-2.5 pt-2.5 pb-3 space-y-1.5">
           {/* Price */}
-          <p className="text-[18px] font-black text-white leading-none tracking-tight">{formatPrice(product.price)}</p>
+          <p className="text-[19px] font-bold text-white leading-none tracking-tight">{formatPrice(product.price)}</p>
 
           {/* Title */}
           <p className="text-[11.5px] text-white/40 line-clamp-1 leading-snug">{product.title}</p>
