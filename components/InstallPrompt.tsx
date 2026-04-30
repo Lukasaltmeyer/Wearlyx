@@ -56,7 +56,7 @@ export function InstallPrompt() {
   if (!mode) return null;
 
   return (
-    <div className="fixed bottom-[76px] left-0 right-0 z-50 flex justify-center px-4 animate-fadeIn pointer-events-none">
+    <div className="fixed bottom-[64px] left-0 right-0 z-50 flex justify-center px-4 animate-fadeIn pointer-events-none">
       <div
         className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl pointer-events-auto w-full max-w-[360px]"
         style={{

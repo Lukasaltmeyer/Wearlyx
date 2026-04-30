@@ -22,10 +22,8 @@ export function Navbar() {
     <header
       className="sticky top-0 z-40"
       style={{
-        background: "rgba(11,15,20,0.96)",
-        backdropFilter: "blur(32px)",
-        WebkitBackdropFilter: "blur(32px)",
-        borderBottom: "1px solid rgba(255,255,255,0.04)",
+        background: "#0B0F14",
+        borderBottom: "none",
       }}
     >
       <div className="px-4 flex items-center justify-between max-w-[560px] mx-auto" style={{ height: 48 }}>

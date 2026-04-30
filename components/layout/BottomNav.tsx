@@ -28,7 +28,7 @@ export function BottomNav() {
         borderTop: "1px solid rgba(255,255,255,0.05)",
       }}
     >
-      <div className="h-[56px] flex items-center w-full max-w-[560px] mx-auto px-1">
+      <div className="h-[56px] flex items-center w-full px-2">
         {navItems.map(({ href, icon: Icon, label, primary }) => {
           const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
 
