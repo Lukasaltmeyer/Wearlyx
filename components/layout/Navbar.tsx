@@ -30,14 +30,9 @@ export function Navbar() {
     >
       <div className="px-4 flex items-center justify-between max-w-[560px] mx-auto" style={{ height: 48 }}>
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 select-none">
-          {/* W mark */}
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
-            style={{ background: "#8B5CF6" }}>
-            <span className="text-[13px] font-black text-white leading-none">W</span>
-          </div>
-          <span className="font-black text-[20px] tracking-tight text-white leading-none">
-            wearlyx
+        <Link href="/" className="flex items-center select-none">
+          <span className="font-black text-[18px] tracking-tight text-white leading-none">
+            Wearlyx
           </span>
         </Link>
 

@@ -42,8 +42,8 @@ export function HeroBanner() {
         <div
           className="relative rounded-2xl overflow-hidden p-3.5 h-[100px] flex flex-col justify-between"
           style={{
-            background: "#111827",
-            border: "1px solid rgba(251,191,36,0.18)",
+            background: "linear-gradient(135deg, #D97706, #F59E0B)",
+            border: "1px solid rgba(255,255,255,0.06)",
             boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
           }}
         >
@@ -52,16 +52,16 @@ export function HeroBanner() {
 
           <div className="relative z-10 flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ background: "rgba(251,191,36,0.12)" }}>
-              <Crown className="w-3 h-3" style={{ color: "#FCD34D" }} />
+              style={{ background: "rgba(255,255,255,0.2)" }}>
+              <Crown className="w-3 h-3 text-white" />
             </div>
           </div>
 
           <div className="relative z-10">
             <p className="text-[14px] font-black text-white leading-tight mb-0.5">Plan Premium</p>
-            <p className="text-[10.5px] text-white/35 mb-2">Boosts, IA illimitée</p>
+            <p className="text-[10.5px] text-white/70 mb-2">Boosts, IA illimitée</p>
             <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full"
-              style={{ background: "rgba(251,191,36,0.12)", color: "#FCD34D" }}>
+              style={{ background: "rgba(255,255,255,0.2)", color: "#fff" }}>
               Dès 10€/mois
             </span>
           </div>
