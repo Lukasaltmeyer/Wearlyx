@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -75,7 +75,7 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
   };
 
   return (
-    <div className="min-h-[100dvh] pb-24" style={{ background: "#0B0F14" }}>
+    <div className="min-h-[100dvh] pb-24" style={{ background: "#0A0A0A" }}>
 
       {/* Search bar */}
       <div className="px-3 pt-3 pb-2">

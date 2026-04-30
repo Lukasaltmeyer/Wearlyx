@@ -12,7 +12,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   if (isAuthPage) {
     return (
-      <div className="w-full min-h-[100dvh] bg-[#07070A] flex justify-center">
+      <div className="w-full min-h-[100dvh] bg-[#0A0A0A] flex justify-center">
         <div className="w-full max-w-[600px] relative overflow-hidden">
           {children}
         </div>
@@ -21,8 +21,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="w-full min-h-[100dvh] flex justify-center" style={{ background: "#060609" }}>
-      <div className="w-full max-w-[560px] min-h-[100dvh] relative" style={{ background: "#0B0F14" }}>
+    <div className="w-full min-h-[100dvh] flex justify-center" style={{ background: "#0A0A0A" }}>
+      <div className="w-full max-w-[560px] min-h-[100dvh] relative" style={{ background: "#0A0A0A" }}>
         {children}
       </div>
     </div>

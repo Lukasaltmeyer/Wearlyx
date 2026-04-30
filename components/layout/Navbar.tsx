@@ -22,7 +22,7 @@ export function Navbar() {
     <header
       className="relative z-10"
       style={{
-        background: "#0B0F14",
+        background: "#0A0A0A",
       }}
     >
       <div className="px-4 flex items-center justify-between max-w-[560px] mx-auto" style={{ height: 48 }}>
