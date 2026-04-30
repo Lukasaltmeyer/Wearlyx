@@ -28,7 +28,7 @@ export function Navbar() {
         borderBottom: "1px solid rgba(255,255,255,0.04)",
       }}
     >
-      <div className="px-4 flex items-center justify-between max-w-[620px] mx-auto" style={{ height: 56 }}>
+      <div className="px-4 flex items-center justify-between max-w-[560px] mx-auto" style={{ height: 48 }}>
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 select-none">
           {/* W mark */}
