@@ -23,7 +23,8 @@ export function Navbar() {
       className="sticky top-0 z-40"
       style={{
         background: "#0B0F14",
-        borderBottom: "none",
+        border: "none",
+        boxShadow: "none",
       }}
     >
       <div className="px-4 flex items-center justify-between max-w-[560px] mx-auto" style={{ height: 48 }}>

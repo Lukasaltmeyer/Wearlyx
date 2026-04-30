@@ -8,7 +8,7 @@ export function HeroBanner() {
       {/* ── Vendre avec l'IA ── */}
       <Link href="/sell/ai" className="block active:scale-[0.975] transition-transform duration-150">
         <div
-          className="relative rounded-2xl overflow-hidden p-3.5 h-[100px] flex flex-col justify-between"
+          className="relative rounded-2xl p-3.5 h-[112px] flex flex-col justify-between"
           style={{
             background: "linear-gradient(135deg, #4C1D95, #6D28D9)",
             border: "1px solid rgba(255,255,255,0.06)",
@@ -40,7 +40,7 @@ export function HeroBanner() {
       {/* ── Premium ── */}
       <Link href="/premium" className="block active:scale-[0.975] transition-transform duration-150">
         <div
-          className="relative rounded-2xl overflow-hidden p-3.5 h-[100px] flex flex-col justify-between"
+          className="relative rounded-2xl p-3.5 h-[112px] flex flex-col justify-between"
           style={{
             background: "linear-gradient(135deg, #D97706, #F59E0B)",
             border: "1px solid rgba(255,255,255,0.06)",
