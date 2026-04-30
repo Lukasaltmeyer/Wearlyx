@@ -3,10 +3,10 @@ import { Zap, Crown } from "lucide-react";
 
 export function HeroBanner() {
   return (
-    <div className="px-4 pt-3 pb-2 flex gap-3">
+    <div className="px-4 pt-3 pb-2 grid grid-cols-2 gap-3">
 
       {/* ── Vendre avec l'IA ── */}
-      <Link href="/sell/ai" className="flex-[3] block active:scale-[0.975] transition-transform duration-150">
+      <Link href="/sell/ai" className="block active:scale-[0.975] transition-transform duration-150">
         <div
           className="relative rounded-2xl overflow-hidden p-3.5 h-[100px] flex flex-col justify-between"
           style={{
@@ -38,7 +38,7 @@ export function HeroBanner() {
       </Link>
 
       {/* ── Premium ── */}
-      <Link href="/premium" className="flex-[2] block active:scale-[0.975] transition-transform duration-150">
+      <Link href="/premium" className="block active:scale-[0.975] transition-transform duration-150">
         <div
           className="relative rounded-2xl overflow-hidden p-3.5 h-[100px] flex flex-col justify-between"
           style={{
