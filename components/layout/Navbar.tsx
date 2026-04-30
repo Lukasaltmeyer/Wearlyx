@@ -20,11 +20,9 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-40"
+      className="relative z-10"
       style={{
         background: "#0B0F14",
-        border: "none",
-        boxShadow: "none",
       }}
     >
       <div className="px-4 flex items-center justify-between max-w-[560px] mx-auto" style={{ height: 48 }}>

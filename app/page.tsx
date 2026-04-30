@@ -85,7 +85,7 @@ export default async function HomePage({
   return (
     <>
       <Navbar />
-      <main className="w-full bg-[#07070A] min-h-[100dvh] pb-[160px]">
+      <main className="w-full min-h-[100dvh] pb-[160px]" style={{ background: "#0B0F14" }}>
         <HeroBanner />
         <FilterBar activeCategory={params.category} activeSort={params.sort} />
         <ProductGrid products={enrichedProducts} currentUserId={userId} />
