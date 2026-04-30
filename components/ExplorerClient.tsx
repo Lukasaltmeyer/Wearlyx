@@ -1,44 +1,31 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { RefreshCw, Heart, Bookmark, Search, TrendingUp } from "lucide-react";
+import { Heart, Search, X, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 
 const CATEGORIES = [
-  { id: "all",            label: "Tout",           emoji: "✦" },
-  { id: "femme",          label: "Femmes",         emoji: "👗" },
-  { id: "homme",          label: "Hommes",         emoji: "👕" },
-  { id: "createurs",      label: "Créateurs",      emoji: "✨" },
-  { id: "enfant",         label: "Enfants",        emoji: "🧸" },
-  { id: "maison",         label: "Maison",         emoji: "🏠" },
-  { id: "electronique",   label: "Électronique",   emoji: "📱" },
-  { id: "divertissement", label: "Divertissement", emoji: "🎮" },
-  { id: "loisirs",        label: "Loisirs",        emoji: "⚽" },
-  { id: "sport",          label: "Sport",          emoji: "🏃" },
+  { id: "all",            label: "Tout" },
+  { id: "femme",          label: "Femmes" },
+  { id: "homme",          label: "Hommes" },
+  { id: "createurs",      label: "Créateurs" },
+  { id: "enfant",         label: "Enfants" },
+  { id: "maison",         label: "Maison" },
+  { id: "electronique",   label: "Électronique" },
+  { id: "sport",          label: "Sport" },
+  { id: "loisirs",        label: "Loisirs" },
 ];
 
-const POPULAR_SEARCHES = [
-  { label: "Streetwear", emoji: "🔥" },
-  { label: "Vintage", emoji: "🕹" },
-  { label: "Nike", emoji: "✔" },
-  { label: "Jordan", emoji: "🏀" },
-  { label: "Luxury", emoji: "💎" },
-  { label: "Y2K", emoji: "⭐" },
-  { label: "Oversized", emoji: "🧥" },
-  { label: "Denim", emoji: "👖" },
-];
-
-const PROTECTION_RATE = 0.07;
+const POPULAR_SEARCHES = ["Streetwear", "Vintage", "Nike", "Jordan", "Luxury", "Y2K", "Oversized", "Denim"];
 
 function conditionShort(c: string) {
   if (!c) return "";
-  if (c.includes("neuf") && c.includes("étiquette")) return "Neuf";
-  if (c === "new" || c === "neuf") return "Neuf";
-  if (c.includes("très") || c === "very_good") return "Très bon";
+  if (c === "new" || c.includes("neuf")) return "Neuf";
+  if (c.includes("très") || c === "very_good" || c === "like_new") return "Très bon";
   if (c.includes("bon") || c === "good") return "Bon";
   if (c.includes("correct") || c === "fair") return "Correct";
   return c;
@@ -52,7 +39,7 @@ interface Props {
 }
 
 export function ExplorerClient({ products, currentUserId, initialQ, initialCategory }: Props) {
-  const router = useRouter();
+  useRouter();
   const [q, setQ] = useState(initialQ ?? "");
   const [focused, setFocused] = useState(false);
   const [searchTab, setSearchTab] = useState<"articles" | "membres">("articles");
@@ -88,286 +75,184 @@ export function ExplorerClient({ products, currentUserId, initialQ, initialCateg
   };
 
   return (
-    <div className="min-h-[100dvh] bg-[#07070A] pb-24">
-      {/* Header */}
-      {!isSearching && (
-        <div className="flex items-center justify-between px-4 pt-5 pb-3">
-          <h1 className="text-[22px] font-black text-white">Explorer</h1>
-          <button
-            onClick={() => router.refresh()}
-            className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white/70 active:scale-90 transition-all"
-          >
-            <RefreshCw className="w-4 h-4" />
-          </button>
-        </div>
-      )}
+    <div className="min-h-[100dvh] pb-24" style={{ background: "#0B0F14" }}>
 
       {/* Search bar */}
-      <div className={cn("px-4 transition-all", isSearching ? "pt-5 pb-0" : "pb-3")}>
+      <div className="px-3 pt-3 pb-2">
         <div className={cn(
-          "flex items-center gap-3 px-4 py-3 rounded-2xl border transition-all",
-          focused ? "border-[#8B5CF6]/50 bg-white/7" : "border-white/8 bg-white/5"
+          "flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl border transition-all",
+          focused ? "border-[#8B5CF6]/40 bg-white/6" : "border-white/8 bg-white/5"
         )}>
-          <Search className={cn("w-4 h-4 flex-shrink-0 transition-colors", focused ? "text-[#A78BFA]" : "text-white/30")} />
+          <Search className={cn("w-4 h-4 flex-shrink-0", focused ? "text-[#A78BFA]" : "text-white/30")} />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
-            placeholder="Rechercher un article, une marque…"
+            placeholder="Rechercher un article ou une marque…"
             className="flex-1 bg-transparent text-[14px] text-white placeholder-white/25 outline-none"
           />
-          {isSearching && (
-            <button
-              onClick={() => { setQ(""); setFocused(false); }}
-              className="text-[13px] text-white/50 hover:text-white transition-colors flex-shrink-0 font-medium"
-            >
-              Annuler
+          {(q || focused) && (
+            <button onClick={() => { setQ(""); setFocused(false); }} className="flex-shrink-0">
+              <X className="w-4 h-4 text-white/30" />
             </button>
           )}
         </div>
       </div>
 
-      {/* Search suggestions (focused + empty) */}
+      {/* Suggestions overlay */}
       {showSuggestions && (
-        <div className="px-4 pt-4 animate-fadeIn">
-          <div className="flex items-center gap-2 mb-3">
-            <TrendingUp className="w-3.5 h-3.5 text-white/30" />
-            <p className="text-[11px] font-bold text-white/30 uppercase tracking-wider">Recherches populaires</p>
+        <div className="px-3 pt-2 animate-fadeIn">
+          <div className="flex items-center gap-2 mb-2.5">
+            <TrendingUp className="w-3.5 h-3.5 text-white/25" />
+            <p className="text-[11px] font-bold text-white/25 uppercase tracking-wider">Tendances</p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {POPULAR_SEARCHES.map(({ label, emoji }) => (
-              <button
-                key={label}
-                onMouseDown={() => { setQ(label); setFocused(false); }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold text-white/70 border border-white/10 bg-white/4 active:scale-95 transition-all hover:border-white/20"
-              >
-                <span>{emoji}</span>
-                <span>{label}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Categories quick access */}
-          <p className="text-[11px] font-bold text-white/30 uppercase tracking-wider mt-5 mb-3">Catégories</p>
-          <div className="grid grid-cols-3 gap-2">
-            {CATEGORIES.filter(c => c.id !== "all").slice(0, 6).map((c) => (
-              <button
-                key={c.id}
-                onMouseDown={() => { setCategory(c.id); setFocused(false); }}
-                className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-[13px] font-semibold text-white/60 border border-white/8 bg-white/3 active:scale-95 transition-all text-left"
-              >
-                <span>{c.emoji}</span>
-                <span className="truncate">{c.label}</span>
+          <div className="flex flex-wrap gap-1.5">
+            {POPULAR_SEARCHES.map((label) => (
+              <button key={label} onMouseDown={() => { setQ(label); setFocused(false); }}
+                className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white/60 border border-white/8 bg-white/4 active:scale-95 transition-all">
+                {label}
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Search mode — tabs Articles / Membres */}
-      {isSearching && !showSuggestions ? (
-        <div>
-          <div className="flex border-b border-white/8 mt-4">
-            {(["articles", "membres"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setSearchTab(t)}
-                className={cn(
-                  "flex-1 py-3 text-[14px] font-bold transition-all relative capitalize",
-                  searchTab === t ? "text-white" : "text-white/35"
-                )}
-              >
-                {t === "articles" ? "Articles" : "Membres"}
-                {searchTab === t && (
-                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full"
-                    style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }} />
-                )}
-              </button>
-            ))}
-          </div>
-
-          {searchTab === "articles" && (
-            <div className="px-3 pt-4">
-              {filtered.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <Search className="w-10 h-10 text-white/10 mb-3" />
-                  <p className="text-white/40 font-semibold">Aucun article trouvé</p>
-                  {q && <p className="text-white/25 text-[13px] mt-1">pour « {q} »</p>}
-                </div>
-              ) : (
-                <div className="grid grid-cols-2 gap-2.5">
-                  {filtered.map((product) => (
-                    <ProductCard key={product.id} product={product} liked={likedIds.has(product.id)} onLike={handleLike} />
-                  ))}
-                </div>
+      {/* Search tabs */}
+      {isSearching && !showSuggestions && (
+        <div className="flex border-b border-white/8 mt-1">
+          {(["articles", "membres"] as const).map((t) => (
+            <button key={t} onClick={() => setSearchTab(t)}
+              className={cn("flex-1 py-2.5 text-[13px] font-bold transition-all relative capitalize",
+                searchTab === t ? "text-white" : "text-white/35")}>
+              {t === "articles" ? "Articles" : "Membres"}
+              {searchTab === t && (
+                <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full bg-[#8B5CF6]" />
               )}
-            </div>
-          )}
-
-          {searchTab === "membres" && (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3">
-                <svg className="w-6 h-6 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <p className="text-white/40 font-semibold">Recherche un membre</p>
-              <p className="text-white/25 text-[13px] mt-1">Tape un nom d'utilisateur</p>
-            </div>
-          )}
+            </button>
+          ))}
         </div>
-      ) : !isSearching && (
+      )}
+
+      {/* Category chips */}
+      {!isSearching && (
+        <div className="flex gap-1.5 px-3 overflow-x-auto no-scrollbar pb-2">
+          {CATEGORIES.map((c) => (
+            <button key={c.id} onClick={() => setCategory(c.id)}
+              className={cn(
+                "flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold transition-all active:scale-95",
+                category === c.id ? "text-white" : "bg-white/5 border border-white/8 text-white/50"
+              )}
+              style={category === c.id ? { background: "#8B5CF6" } : {}}>
+              {c.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Grid */}
+      {(!isSearching || searchTab === "articles") && (
         <>
-          {/* Category pills */}
-          <div className="flex gap-2 px-4 overflow-x-auto no-scrollbar pb-1 mb-2">
-            {CATEGORIES.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setCategory(c.id)}
-                className={cn(
-                  "flex-shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-all active:scale-95",
-                  category === c.id
-                    ? "text-white shadow-md"
-                    : "bg-white/5 border border-white/8 text-white/50"
-                )}
-                style={category === c.id ? {
-                  background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
-                  boxShadow: "0 2px 12px rgba(139,92,246,0.3)",
-                } : {}}
-              >
-                <span>{c.emoji}</span>
-                <span>{c.label}</span>
-              </button>
-            ))}
-          </div>
-
-          {filtered.length > 0 && (
-            <p className="px-4 text-[12px] text-white/25 mb-3">
-              {filtered.length} article{filtered.length > 1 ? "s" : ""}
-              {category !== "all" && ` · ${CATEGORIES.find(c => c.id === category)?.label}`}
-            </p>
-          )}
-
           {filtered.length === 0 ? (
-            <div className="px-4 pt-4 pb-8">
-              <div className="flex flex-col items-center py-8 text-center mb-6">
-                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-3"
-                  style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.15)" }}>
-                  <Search className="w-7 h-7" style={{ color: "#8B5CF6" }} />
-                </div>
-                <p className="text-[16px] font-black text-white mb-1">Aucun article pour l'instant</p>
-                <p className="text-[12px] text-white/30">Sois le premier à vendre dans cette catégorie !</p>
-              </div>
-
-              {/* Marques tendance */}
-              <p className="text-[11px] font-bold text-white/30 uppercase tracking-wider mb-3">Marques populaires</p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {["Nike", "Jordan", "Adidas", "Supreme", "Off-White", "Stone Island", "Balenciaga", "Levi's"].map((brand) => (
-                  <button key={brand}
-                    onClick={() => setCategory("all")}
-                    className="px-3 py-1.5 rounded-full text-[12px] font-semibold text-white/60 border border-white/8 bg-white/4 active:scale-95 transition-all hover:border-[#8B5CF6]/30 hover:text-[#8B5CF6]">
-                    {brand}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-[11px] font-bold text-white/30 uppercase tracking-wider mb-3">Catégories</p>
-              <div className="grid grid-cols-3 gap-2">
-                {CATEGORIES.filter(c => c.id !== "all").slice(0, 6).map((cat) => (
-                  <button key={cat.id}
-                    onClick={() => setCategory(cat.id)}
-                    className="flex flex-col items-center gap-1.5 py-3 rounded-2xl border border-white/6 bg-white/3 active:scale-95 transition-all hover:border-[#8B5CF6]/25">
-                    <span className="text-[20px]">{cat.emoji}</span>
-                    <span className="text-[11px] text-white/50 font-semibold">{cat.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <EmptyState category={category} onCategory={setCategory} />
           ) : (
-            <div className="px-3 grid grid-cols-2 gap-2.5">
+            <div className="px-2 grid grid-cols-2 gap-2">
               {filtered.map((product) => (
-                <ProductCard key={product.id} product={product} liked={likedIds.has(product.id)} onLike={handleLike} />
+                <ProductCard key={product.id} product={product}
+                  liked={likedIds.has(product.id)} onLike={handleLike} />
               ))}
             </div>
           )}
         </>
       )}
+
+      {isSearching && searchTab === "membres" && (
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <p className="text-white/40 font-semibold text-[14px]">Recherche un membre</p>
+          <p className="text-white/25 text-[12px] mt-1">Tape un nom d'utilisateur</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EmptyState({ onCategory }: { category?: string; onCategory: (c: string) => void }) {
+  return (
+    <div className="px-3 pt-6 pb-8 flex flex-col items-center text-center">
+      <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-3"
+        style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.15)" }}>
+        <Search className="w-6 h-6" style={{ color: "#8B5CF6" }} />
+      </div>
+      <p className="text-[15px] font-black text-white mb-1">Aucun article</p>
+      <p className="text-[12px] text-white/30 mb-5">Sois le premier à vendre dans cette catégorie !</p>
+      <div className="flex flex-wrap gap-1.5 justify-center">
+        {["Nike", "Jordan", "Adidas", "Supreme", "Off-White", "Levi's"].map((brand) => (
+          <button key={brand} onClick={() => onCategory("all")}
+            className="px-3 py-1.5 rounded-full text-[11px] font-semibold text-white/50 border border-white/8 bg-white/4 active:scale-95 transition-all">
+            {brand}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
 
 function ProductCard({ product, liked, onLike }: {
-  product: any;
-  liked: boolean;
+  product: any; liked: boolean;
   onLike: (e: React.MouseEvent, id: string) => void;
 }) {
   const firstImage = product.images?.[0];
-  const protection = (product.price * PROTECTION_RATE).toFixed(2);
   return (
-    <Link href={`/products/${product.id}`} className="block group active:scale-[0.97] transition-transform duration-150">
-      <div className="rounded-2xl overflow-hidden border border-white/7 transition-all group-hover:border-white/14"
-        style={{ background: "#0E0E16" }}>
-        <div className="relative aspect-[3/4] bg-[#0F0F18]">
+    <Link href={`/products/${product.id}`} className="block active:scale-[0.97] transition-transform duration-150">
+      <div className="rounded-2xl overflow-hidden" style={{ background: "#111827" }}>
+
+        {/* Image */}
+        <div className="relative aspect-[3/4] bg-[#0D0D18]">
           {firstImage ? (
-            <Image
-              src={firstImage}
-              alt={product.title}
-              fill
-              className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
-              sizes="50vw"
-            />
+            <Image src={firstImage} alt={product.title} fill
+              className="object-cover" sizes="50vw" />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
-              <svg className="w-10 h-10 text-white/8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-8 h-8 text-white/8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2}
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
           )}
 
-          {/* Gradient overlay */}
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
-
-          {/* Price overlay */}
-          <div className="absolute bottom-2 left-2.5">
-            <p className="text-[14px] font-black text-white drop-shadow-sm">{product.price?.toFixed(2)} €</p>
-          </div>
-
-          {/* Like button */}
-          <button
-            onClick={(e) => onLike(e, product.id)}
+          {/* Like */}
+          <button onClick={(e) => onLike(e, product.id)}
             className={cn(
               "absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all active:scale-110",
-              liked ? "bg-red-500 text-white shadow-md shadow-red-500/40" : "bg-black/50 text-white/70 backdrop-blur-sm"
-            )}
-          >
+              liked ? "bg-red-500 text-white" : "bg-black/55 backdrop-blur-sm text-white/70"
+            )}>
             <Heart className={cn("w-3.5 h-3.5", liked && "fill-current")} />
-          </button>
-
-          {/* Bookmark */}
-          <button
-            onClick={(e) => e.preventDefault()}
-            className="absolute top-10 right-2 w-7 h-7 rounded-full bg-black/50 text-white/50 backdrop-blur-sm flex items-center justify-center active:scale-110 transition-all"
-          >
-            <Bookmark className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        <div className="p-2.5">
+        {/* Info */}
+        <div className="px-2.5 pt-2 pb-2.5">
+          <p className="text-[17px] font-black text-white leading-none mb-1">
+            {product.price?.toFixed(0)} €
+          </p>
           {product.brand && (
-            <p className="text-[9px] text-white/30 font-bold uppercase tracking-wider mb-0.5">{product.brand}</p>
+            <p className="text-[11px] text-white/40 font-semibold truncate mb-1">{product.brand}</p>
           )}
-          <p className="text-[12px] font-semibold text-white/85 line-clamp-1 leading-snug mb-1.5">{product.title}</p>
-          <div className="flex flex-wrap gap-1">
+          <p className="text-[11px] text-white/35 truncate line-clamp-1 mb-1.5">{product.title}</p>
+          <div className="flex gap-1 flex-wrap">
             {product.size && (
-              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md bg-white/6 text-white/40">T.{product.size}</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md"
+                style={{ background: "rgba(139,92,246,0.1)", color: "#A78BFA" }}>
+                {product.size}
+              </span>
             )}
             {product.condition && (
-              <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-md bg-white/6 text-white/40">{conditionShort(product.condition)}</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md"
+                style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.35)" }}>
+                {conditionShort(product.condition)}
+              </span>
             )}
           </div>
-          <p className="text-[9px] text-white/20 mt-1.5">🛡 +{protection} € protection</p>
         </div>
       </div>
     </Link>
