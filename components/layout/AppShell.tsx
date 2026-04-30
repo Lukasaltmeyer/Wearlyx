@@ -22,7 +22,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="w-full min-h-[100dvh] flex justify-center" style={{ background: "#060609" }}>
-      <div className="w-full max-w-[500px] min-h-[100dvh] relative" style={{ background: "#0B0F14" }}>
+      <div className="w-full max-w-[620px] min-h-[100dvh] relative" style={{ background: "#0B0F14" }}>
         {children}
       </div>
     </div>
