@@ -1,9 +1,7 @@
 "use client";
-
-import dynamic from "next/dynamic";
-
-const AuthClient = dynamic(() => import("./AuthClient"), { ssr: false });
+import { useEffect } from "react";
 
 export default function AuthWrapper() {
-  return <AuthClient />;
+  useEffect(() => { window.location.replace("/auth/login"); }, []);
+  return null;
 }

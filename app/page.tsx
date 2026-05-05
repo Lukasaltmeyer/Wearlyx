@@ -31,7 +31,7 @@ export default async function HomePage({
   // Visiteur non connecté → page d'accueil/auth
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth");
+  if (!user) redirect("/auth/login");
 
   let enrichedProducts: Product[] = [];
   let userId: string | undefined;
