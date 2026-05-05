@@ -53,6 +53,13 @@ export default function LoginClient() {
     catch (e: any) { setError(e.message ?? "Erreur Google."); setGoogleLoading(false); }
   };
 
+  const startContact = (m: Method) => {
+    setMethod(m);
+    setContact("");
+    setError("");
+    setStep("contact");
+  };
+
   const handleSendOtp = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!contact.trim()) return;
@@ -64,7 +71,7 @@ export default function LoginClient() {
     } catch (e: any) {
       const m = e.message ?? "";
       if (m.includes("rate") || m.includes("limit")) setError("Trop de tentatives. Attends quelques secondes.");
-      else setError(method === "email" ? "Email invalide ou introuvable." : "Numéro invalide.");
+      else setError(method === "email" ? "Email invalide ou introuvable." : "Numéro invalide. Format : +33 6…");
     } finally { setLoading(false); }
   };
 
@@ -111,60 +118,60 @@ export default function LoginClient() {
           {/* ── MAIN ─────────────────────────────────────────────────────────── */}
           {step === "main" && (
             <div className="flex flex-col gap-3 animate-fadeIn">
-              <p className="text-[18px] font-black text-white mb-1">Connexion</p>
+              <p className="text-[20px] font-black text-white mb-0.5">Se connecter</p>
 
               <GoogleBtn onClick={handleGoogle} loading={googleLoading} label="Se connecter avec Google" />
+
               <Divider />
 
-              {/* Email/phone + send code inline */}
-              <form onSubmit={(e) => { e.preventDefault(); setStep("contact"); }}
-                className="flex flex-col gap-2">
-                <div className="flex gap-2">
-                  <button type="button" onClick={() => setMethod("email")}
-                    className={`flex-1 py-2 rounded-xl text-[12px] font-bold transition-all border ${method === "email" ? "border-[#8B5CF6]/50 bg-[#8B5CF6]/10 text-[#A78BFA]" : "border-white/8 bg-white/4 text-white/35"}`}>
-                    Email
-                  </button>
-                  <button type="button" onClick={() => setMethod("phone")}
-                    className={`flex-1 py-2 rounded-xl text-[12px] font-bold transition-all border ${method === "phone" ? "border-[#8B5CF6]/50 bg-[#8B5CF6]/10 text-[#A78BFA]" : "border-white/8 bg-white/4 text-white/35"}`}>
-                    Téléphone
-                  </button>
+              <button type="button" onClick={() => startContact("email")}
+                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] font-semibold text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 text-white/35" />
+                  <span>Se connecter avec l'email</span>
                 </div>
+                <ArrowRight className="w-4 h-4 text-white/25" />
+              </button>
 
-                <DarkInput
-                  type={method === "email" ? "email" : "tel"}
-                  placeholder={method === "email" ? "ton@email.com" : "+33 6 12 34 56 78"}
-                  value={contact} onChange={setContact}
-                  leftIcon={method === "email" ? <Mail className="w-4 h-4" /> : <Phone className="w-4 h-4" />}
-                  autoComplete={method === "email" ? "email" : "tel"}
-                  inputMode={method === "email" ? "email" : "tel"}
-                />
-                <PrimaryBtn type="button" disabled={!contact.trim()} loading={loading}
-                  onClick={() => { if (contact.trim()) handleSendOtp({ preventDefault: () => {} } as any); }}>
-                  Recevoir un code <ArrowRight className="w-4 h-4" />
-                </PrimaryBtn>
-              </form>
+              <button type="button" onClick={() => startContact("phone")}
+                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] font-semibold text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
+                <div className="flex items-center gap-3">
+                  <Phone className="w-4 h-4 text-white/35" />
+                  <span>Se connecter avec le téléphone</span>
+                </div>
+                <ArrowRight className="w-4 h-4 text-white/25" />
+              </button>
 
-              <p className="text-center text-[12px] text-white/30 pt-1">
-                Pas encore de compte ?{" "}
-                <Link href="/auth/signup" className="text-[#A78BFA] font-semibold underline underline-offset-2">
-                  Créer un compte
-                </Link>
-              </p>
+              <div className="pt-1 border-t border-white/6 text-center">
+                <p className="text-[13px] text-white/35 mt-3">
+                  Pas encore de compte ?{" "}
+                  <Link href="/auth/signup"
+                    className="text-[#A78BFA] font-bold underline underline-offset-2">
+                    Créer un compte
+                  </Link>
+                </p>
+              </div>
             </div>
           )}
 
-          {/* ── CONTACT (step 2 si besoin de retaper) ────────────────────────── */}
+          {/* ── CONTACT ──────────────────────────────────────────────────────── */}
           {step === "contact" && (
             <form onSubmit={handleSendOtp} className="flex flex-col gap-3 animate-fadeIn">
-              <p className="text-[16px] font-bold text-white mb-1">
-                {method === "email" ? "Ton adresse email" : "Ton numéro"}
-              </p>
+              <div>
+                <p className="text-[16px] font-bold text-white mb-0.5">
+                  {method === "email" ? "Ton adresse email" : "Ton numéro de téléphone"}
+                </p>
+                <p className="text-[12px] text-white/35">
+                  {method === "email" ? "On t'envoie un code de connexion" : "Format international (+33 6…)"}
+                </p>
+              </div>
               <DarkInput
                 type={method === "email" ? "email" : "tel"}
                 placeholder={method === "email" ? "ton@email.com" : "+33 6 12 34 56 78"}
                 value={contact} onChange={setContact}
                 leftIcon={method === "email" ? <Mail className="w-4 h-4" /> : <Phone className="w-4 h-4" />}
                 autoComplete={method === "email" ? "email" : "tel"}
+                inputMode={method === "email" ? "email" : "tel"}
               />
               <PrimaryBtn loading={loading} disabled={!contact.trim()}>
                 Recevoir le code <ArrowRight className="w-4 h-4" />
