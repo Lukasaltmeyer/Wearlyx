@@ -1,5 +1,7 @@
-import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const LoginClient = dynamic(() => import("./LoginClient"), { ssr: false });
 
 export default function LoginPage() {
-  redirect("/auth");
+  return <LoginClient />;
 }
