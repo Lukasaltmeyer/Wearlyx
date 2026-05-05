@@ -81,6 +81,7 @@ export default function LoginClient() {
     try {
       if (method === "email") await verifyEmailOtp(contact.trim(), otpDigits.join(""));
       else await verifyPhoneOtp(contact.trim(), otpDigits.join(""));
+      sessionStorage.setItem("wlx_just_authed", "1");
       window.location.replace("/");
     } catch {
       setError("Code incorrect ou expiré.");

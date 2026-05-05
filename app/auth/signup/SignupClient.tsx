@@ -118,6 +118,7 @@ export default function SignupClient() {
         postal_code: postalCode.trim(),
         phone: method === "email" ? phone.trim() : contact.trim(),
       });
+      sessionStorage.setItem("wlx_just_authed", "1");
       window.location.replace("/");
     } catch (e: any) {
       const m = e.message ?? "";

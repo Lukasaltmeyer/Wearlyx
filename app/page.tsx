@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Navbar } from "@/components/layout/Navbar";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { StayLoggedInBanner } from "@/components/StayLoggedInBanner";
 import { ProductGrid } from "@/components/ProductGrid";
 import { FilterBar } from "@/components/FilterBar";
 import { HeroBanner } from "@/components/HeroBanner";
@@ -100,6 +101,7 @@ export default async function HomePage({
         <p className="text-[11px] text-white/25">Les frais de port sont calculés lors du paiement</p>
       </div>
 
+      <StayLoggedInBanner />
       <BottomNav />
     </>
   );

@@ -63,6 +63,7 @@ export function CompleteProfileClient() {
         city: city.trim(),
         postal_code: postalCode.trim(),
       });
+      sessionStorage.setItem("wlx_just_authed", "1");
       window.location.replace("/");
     } catch (e: any) {
       const m = e.message ?? "";
