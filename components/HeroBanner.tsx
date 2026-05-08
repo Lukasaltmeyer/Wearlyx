@@ -8,7 +8,7 @@ export function HeroBanner() {
       {/* ── Vendre avec l'IA ── */}
       <Link href="/sell/ai" className="block active:scale-[0.975] transition-transform duration-150">
         <div
-          className="relative rounded-2xl p-3.5 h-[112px] flex flex-col justify-between"
+          className="relative rounded-2xl p-4 h-[140px] flex flex-col justify-between"
           style={{
             background: "linear-gradient(135deg, #4C1D95, #6D28D9)",
             border: "1px solid rgba(255,255,255,0.06)",
@@ -27,8 +27,8 @@ export function HeroBanner() {
           </div>
 
           <div className="relative z-10">
-            <p className="text-[14px] font-black text-white leading-tight mb-0.5">Vendre avec l'IA</p>
-            <p className="text-[10.5px] text-white/40 mb-2">Photo → annonce en 10s</p>
+            <p className="text-[16px] font-black text-white leading-tight mb-0.5">Vendre avec l'IA</p>
+            <p className="text-[11.5px] text-white/40 mb-2">Photo → annonce en 10s</p>
             <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full"
               style={{ background: "rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.7)" }}>
               Gratuit ✦
@@ -40,7 +40,7 @@ export function HeroBanner() {
       {/* ── Premium ── */}
       <Link href="/premium" className="block active:scale-[0.975] transition-transform duration-150">
         <div
-          className="relative rounded-2xl p-3.5 h-[112px] flex flex-col justify-between"
+          className="relative rounded-2xl p-4 h-[140px] flex flex-col justify-between"
           style={{
             background: "linear-gradient(135deg, #D97706, #F59E0B)",
             border: "1px solid rgba(255,255,255,0.06)",
@@ -58,8 +58,8 @@ export function HeroBanner() {
           </div>
 
           <div className="relative z-10">
-            <p className="text-[14px] font-black text-white leading-tight mb-0.5">Plan Premium</p>
-            <p className="text-[10.5px] text-white/70 mb-2">Boosts, IA illimitée</p>
+            <p className="text-[16px] font-black text-white leading-tight mb-0.5">Plan Premium</p>
+            <p className="text-[11.5px] text-white/70 mb-2">Boosts, IA illimitée</p>
             <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full"
               style={{ background: "rgba(255,255,255,0.2)", color: "#fff" }}>
               Dès 10€/mois
