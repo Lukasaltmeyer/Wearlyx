@@ -248,13 +248,13 @@ function ProductTile({ product, onDelete, deleting }: {
         {(product.size || product.brand || product.condition) && (
           <div className="flex flex-wrap gap-1 mt-1.5">
             {product.size && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/8 text-white/50">{product.size}</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/10 text-white/60">{product.size}</span>
             )}
             {product.brand && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#8B5CF6]/15 text-[#A78BFA]">{product.brand}</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400">{product.brand}</span>
             )}
             {product.condition && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/8 text-white/50">{product.condition}</span>
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-blue-500/20 text-blue-400">{product.condition}</span>
             )}
           </div>
         )}
