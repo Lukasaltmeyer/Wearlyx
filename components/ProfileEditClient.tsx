@@ -152,8 +152,8 @@ export function ProfileEditClient({ profile, userId }: Props) {
         <div className="flex items-center justify-between px-4 py-3.5 rounded-2xl border border-white/10 bg-white/[0.04]">
           <span className="text-[14px] text-white/70">Afficher la ville dans le profil</span>
           <button type="button" onClick={() => setShowCity((v: boolean) => !v)}
-            className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${showCity ? "bg-[#8B5CF6]" : "bg-white/15"}`}>
-            <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${showCity ? "translate-x-5" : "translate-x-0.5"}`} />
+            className={`relative flex-shrink-0 w-12 h-7 rounded-full transition-colors duration-200 ${showCity ? "bg-[#8B5CF6]" : "bg-white/15"}`}>
+            <span className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-200 ${showCity ? "translate-x-5" : "translate-x-0"}`} />
           </button>
         </div>
 
