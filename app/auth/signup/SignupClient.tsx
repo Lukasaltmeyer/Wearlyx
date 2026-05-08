@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Mail, Phone, ArrowRight, MapPin, Hash, User } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, User, Phone, MapPin, Hash } from "lucide-react";
 import Link from "next/link";
 import {
   signInWithProvider,
   signInWithEmailOtp,
   verifyEmailOtp,
-  signInWithPhone,
-  verifyPhoneOtp,
+  setPassword,
   updateProfile,
   getSession,
 } from "@/lib/auth";
@@ -26,26 +25,29 @@ import {
   useCarousel,
 } from "../_components/AuthUI";
 
-type Method = "email" | "phone";
-type Step = "main" | "contact" | "otp" | "profile";
+type Step = "main" | "form" | "otp";
 
 export default function SignupClient() {
   const idx = useCarousel();
   const [visible, setVisible] = useState(false);
   const [step, setStep] = useState<Step>("main");
-  const [method, setMethod] = useState<Method>("email");
-  const [contact, setContact] = useState("");
-  const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
-  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const [userId, setUserId] = useState<string | null>(null);
 
-  // Profile fields
+  // Form fields
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword_] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
-  const [phone, setPhone] = useState("");
+
+  // OTP
+  const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -60,22 +62,31 @@ export default function SignupClient() {
 
   const handleGoogle = async () => {
     setGoogleLoading(true); setError("");
-    try { await signInWithProvider("google"); }
+    try { await signInWithProvider("google", "signup"); }
     catch (e: any) { setError(e.message ?? "Erreur Google."); setGoogleLoading(false); }
   };
 
-  const handleSendOtp = async (e: React.SyntheticEvent) => {
+  const handleFormSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!contact.trim()) return;
-    setLoading(true); setError("");
+    setError("");
+
+    if (!firstName.trim()) { setError("Le prénom est obligatoire."); return; }
+    if (!email.trim()) { setError("L'email est obligatoire."); return; }
+    if (password.length < 6) { setError("Le mot de passe doit faire au moins 6 caractères."); return; }
+    if (password !== confirmPassword) { setError("Les mots de passe ne correspondent pas."); return; }
+    if (!username.trim() || username.length < 3) { setError("Le pseudo doit faire au moins 3 caractères."); return; }
+    if (!phone.trim()) { setError("Le téléphone est obligatoire."); return; }
+    if (!city.trim()) { setError("La ville est obligatoire."); return; }
+    if (!postalCode.trim()) { setError("Le code postal est obligatoire."); return; }
+
+    setLoading(true);
     try {
-      if (method === "email") await signInWithEmailOtp(contact.trim());
-      else await signInWithPhone(contact.trim());
+      await signInWithEmailOtp(email.trim());
       setStep("otp");
     } catch (e: any) {
       const m = e.message ?? "";
       if (m.includes("rate") || m.includes("limit")) setError("Trop de tentatives. Attends quelques secondes.");
-      else setError(method === "email" ? "Email invalide." : "Numéro invalide. Utilise le format +33 6…");
+      else setError("Impossible d'envoyer le code. Vérifie l'email.");
     } finally { setLoading(false); }
   };
 
@@ -87,55 +98,45 @@ export default function SignupClient() {
 
   const handleVerifyOtp = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (otpDigits.join("").length < 6) return;
+    const code = otpDigits.join("");
+    if (code.length < 6) return;
     setLoading(true); setError("");
     try {
-      let user;
-      if (method === "email") user = await verifyEmailOtp(contact.trim(), otpDigits.join(""));
-      else user = await verifyPhoneOtp(contact.trim(), otpDigits.join(""));
-      if (user) { setUserId(user.id); setStep("profile"); }
-    } catch {
-      setError("Code incorrect ou expiré.");
-      setOtpDigits(["", "", "", "", "", ""]);
-      otpRefs.current[0]?.focus();
-    } finally { setLoading(false); }
-  };
+      const user = await verifyEmailOtp(email.trim(), code);
+      if (!user) throw new Error("Session non créée.");
 
-  const handleProfile = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (!firstName.trim() || !username.trim() || !city.trim() || !postalCode.trim()) {
-      setError("Tous les champs obligatoires (*) doivent être remplis."); return;
-    }
-    if (username.length < 3) { setError("Le pseudo doit faire au moins 3 caractères."); return; }
-    if (method === "email" && !phone.trim()) { setError("Le téléphone est obligatoire."); return; }
-    if (!userId) return;
-    setLoading(true); setError("");
-    try {
-      await updateProfile(userId, {
+      // Set password on the newly created account
+      await setPassword(password);
+
+      // Save profile
+      await updateProfile(user.id, {
         full_name: `${firstName.trim()} ${lastName.trim()}`.trim(),
         username: username.trim().toLowerCase(),
         city: city.trim(),
         postal_code: postalCode.trim(),
-        phone: method === "email" ? phone.trim() : contact.trim(),
+        phone: phone.trim(),
       });
+
       sessionStorage.setItem("wlx_just_authed", "1");
       window.location.replace("/");
     } catch (e: any) {
       const m = e.message ?? "";
       if (m.includes("unique") || m.includes("duplicate")) setError("Ce pseudo est déjà pris.");
-      else setError("Erreur lors de la sauvegarde. Réessaie.");
+      else if (m.includes("expired") || m.includes("invalid")) {
+        setError("Code incorrect ou expiré.");
+        setOtpDigits(["", "", "", "", "", ""]);
+        otpRefs.current[0]?.focus();
+      } else {
+        setError(m || "Erreur lors de la création du compte.");
+      }
     } finally { setLoading(false); }
   };
 
   const goBack = () => {
     setError("");
-    if (step === "otp") { setStep("contact"); setOtpDigits(["","","","","",""]); }
-    else if (step === "profile") setStep("otp");
+    if (step === "otp") { setStep("form"); setOtpDigits(["","","","","",""]); }
     else setStep("main");
   };
-
-  const profileValid = firstName.trim() && username.trim() && city.trim() && postalCode.trim() &&
-    (method === "phone" || phone.trim());
 
   return (
     <div className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden bg-black"
@@ -152,14 +153,13 @@ export default function SignupClient() {
           {/* ── MAIN ─────────────────────────────────────────────────────────── */}
           {step === "main" && (
             <div className="flex flex-col gap-3 animate-fadeIn">
-              <p className="text-[18px] font-black text-white mb-1">Créer un compte</p>
+              <p className="text-[20px] font-black text-white mb-0.5">Créer un compte</p>
 
               <GoogleBtn onClick={handleGoogle} loading={googleLoading} label="S'inscrire avec Google" />
               <Divider />
 
-              <button type="button"
-                onClick={() => { setMethod("email"); setContact(""); setStep("contact"); }}
-                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
+              <button type="button" onClick={() => setStep("form")}
+                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] font-semibold text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-white/35" />
                   <span>S'inscrire avec l'email</span>
@@ -167,22 +167,14 @@ export default function SignupClient() {
                 <ArrowRight className="w-4 h-4 text-white/25" />
               </button>
 
-              <button type="button"
-                onClick={() => { setMethod("phone"); setContact(""); setStep("contact"); }}
-                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-white/35" />
-                  <span>S'inscrire avec le téléphone</span>
-                </div>
-                <ArrowRight className="w-4 h-4 text-white/25" />
-              </button>
-
-              <p className="text-center text-[12px] text-white/30 pt-1">
-                Déjà un compte ?{" "}
-                <Link href="/auth/login" className="text-[#A78BFA] font-semibold underline underline-offset-2">
-                  Se connecter
-                </Link>
-              </p>
+              <div className="pt-1 border-t border-white/6 text-center">
+                <p className="text-[13px] text-white/35 mt-3">
+                  Déjà un compte ?{" "}
+                  <Link href="/auth/login" className="text-[#A78BFA] font-bold underline underline-offset-2">
+                    Se connecter
+                  </Link>
+                </p>
+              </div>
 
               <p className="text-center text-[11px] text-white/20 leading-relaxed">
                 En t'inscrivant tu acceptes nos{" "}
@@ -193,27 +185,80 @@ export default function SignupClient() {
             </div>
           )}
 
-          {/* ── CONTACT ──────────────────────────────────────────────────────── */}
-          {step === "contact" && (
-            <form onSubmit={handleSendOtp} className="flex flex-col gap-3 animate-fadeIn">
+          {/* ── FORM ─────────────────────────────────────────────────────────── */}
+          {step === "form" && (
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 animate-fadeIn">
               <div>
-                <p className="text-[16px] font-bold text-white mb-0.5">
-                  {method === "email" ? "Ton adresse email" : "Ton numéro de téléphone"}
-                </p>
-                <p className="text-[12px] text-white/35">
-                  {method === "email" ? "On t'envoie un code de vérification" : "Format international (+33 6…)"}
-                </p>
+                <p className="text-[16px] font-bold text-white mb-0.5">Ton compte</p>
+                <p className="text-[12px] text-white/35">Tous les champs sont obligatoires</p>
               </div>
-              <DarkInput
-                type={method === "email" ? "email" : "tel"}
-                placeholder={method === "email" ? "ton@email.com" : "+33 6 12 34 56 78"}
-                value={contact} onChange={setContact}
-                leftIcon={method === "email" ? <Mail className="w-4 h-4" /> : <Phone className="w-4 h-4" />}
-                autoComplete={method === "email" ? "email" : "tel"}
-                inputMode={method === "email" ? "email" : "tel"}
-              />
-              <PrimaryBtn loading={loading} disabled={!contact.trim()}>
-                Recevoir le code <ArrowRight className="w-4 h-4" />
+
+              {/* Nom */}
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <DarkInput placeholder="Prénom *" value={firstName} onChange={setFirstName}
+                    leftIcon={<User className="w-4 h-4" />} autoComplete="given-name" />
+                </div>
+                <div className="flex-1">
+                  <DarkInput placeholder="Nom" value={lastName} onChange={setLastName}
+                    leftIcon={<User className="w-4 h-4" />} autoComplete="family-name" />
+                </div>
+              </div>
+
+              {/* Email */}
+              <DarkInput type="email" placeholder="Email *" value={email} onChange={setEmail}
+                leftIcon={<Mail className="w-4 h-4" />} autoComplete="email" />
+
+              {/* Password */}
+              <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/7 px-4 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
+                <Lock className="w-4 h-4 text-white/35 flex-shrink-0 group-focus-within:text-[#A78BFA] transition-colors" />
+                <input type={showPwd ? "text" : "password"} placeholder="Mot de passe * (6 car. min.)"
+                  value={password} onChange={(e) => setPassword_(e.target.value)}
+                  autoComplete="new-password"
+                  className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" />
+                <button type="button" onClick={() => setShowPwd(v => !v)}
+                  className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0">
+                  {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {/* Confirm password */}
+              <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/7 px-4 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
+                <Lock className="w-4 h-4 text-white/35 flex-shrink-0 group-focus-within:text-[#A78BFA] transition-colors" />
+                <input type={showConfirm ? "text" : "password"} placeholder="Confirmer le mot de passe *"
+                  value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
+                  className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" />
+                <button type="button" onClick={() => setShowConfirm(v => !v)}
+                  className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0">
+                  {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {/* Pseudo */}
+              <DarkInput placeholder="@pseudo * (unique, 3 car. min.)" value={username}
+                onChange={(v) => setUsername(v.toLowerCase().replace(/[^a-z0-9._]/g, ""))}
+                leftIcon={<span className="text-sm font-bold text-white/35">@</span>} />
+
+              {/* Phone */}
+              <DarkInput type="tel" placeholder="Téléphone * (+33 6…)" value={phone} onChange={setPhone}
+                leftIcon={<Phone className="w-4 h-4" />} inputMode="tel" autoComplete="tel" />
+
+              {/* City + Postal */}
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <DarkInput placeholder="Ville *" value={city} onChange={setCity}
+                    leftIcon={<MapPin className="w-4 h-4" />} autoComplete="address-level2" />
+                </div>
+                <div className="flex-1">
+                  <DarkInput placeholder="Code postal *" value={postalCode} onChange={setPostalCode}
+                    leftIcon={<Hash className="w-4 h-4" />} inputMode="numeric" maxLength={5}
+                    autoComplete="postal-code" />
+                </div>
+              </div>
+
+              <PrimaryBtn loading={loading}>
+                Recevoir le code de vérification <ArrowRight className="w-4 h-4" />
               </PrimaryBtn>
             </form>
           )}
@@ -222,57 +267,20 @@ export default function SignupClient() {
           {step === "otp" && (
             <form onSubmit={handleVerifyOtp} className="flex flex-col gap-4 animate-fadeIn">
               <div>
-                <p className="text-[16px] font-bold text-white mb-0.5">Entre le code</p>
+                <p className="text-[16px] font-bold text-white mb-0.5">Vérifie ton email</p>
                 <p className="text-[12px] text-white/35">
-                  Code envoyé à <span className="text-white/60 font-semibold">{contact}</span>
+                  Code à 6 chiffres envoyé à <span className="text-white/60 font-semibold">{email}</span>
                 </p>
               </div>
               <OtpGrid digits={otpDigits} refs={otpRefs} onChange={handleOtpChange} />
               <PrimaryBtn loading={loading} disabled={otpDigits.join("").length < 6}>
-                Vérifier <ArrowRight className="w-4 h-4" />
+                Créer mon compte <ArrowRight className="w-4 h-4" />
               </PrimaryBtn>
               <button type="button"
-                onClick={() => { setStep("contact"); setOtpDigits(["","","","","",""]); }}
+                onClick={async () => { await signInWithEmailOtp(email.trim()); setOtpDigits(["","","","","",""]); }}
                 className="text-center text-[12px] text-white/30 hover:text-white/55 transition-colors">
                 Renvoyer le code
               </button>
-            </form>
-          )}
-
-          {/* ── PROFILE ──────────────────────────────────────────────────────── */}
-          {step === "profile" && (
-            <form onSubmit={handleProfile} className="flex flex-col gap-3 animate-fadeIn">
-              <div>
-                <p className="text-[16px] font-bold text-white mb-0.5">Complète ton profil</p>
-                <p className="text-[12px] text-white/35">Tous les champs * sont obligatoires</p>
-              </div>
-
-              <div className="flex gap-2">
-                <DarkInput placeholder="Prénom *" value={firstName} onChange={setFirstName}
-                  leftIcon={<User className="w-4 h-4" />} autoComplete="given-name" />
-                <DarkInput placeholder="Nom" value={lastName} onChange={setLastName}
-                  leftIcon={<User className="w-4 h-4" />} autoComplete="family-name" />
-              </div>
-
-              <DarkInput placeholder="@pseudo *" value={username}
-                onChange={(v) => setUsername(v.toLowerCase().replace(/[^a-z0-9._]/g, ""))}
-                leftIcon={<span className="text-sm font-bold text-white/35">@</span>} />
-
-              <DarkInput placeholder="Ville *" value={city} onChange={setCity}
-                leftIcon={<MapPin className="w-4 h-4" />} autoComplete="address-level2" />
-
-              <DarkInput placeholder="Code postal *" value={postalCode} onChange={setPostalCode}
-                leftIcon={<Hash className="w-4 h-4" />} inputMode="numeric" maxLength={5}
-                autoComplete="postal-code" />
-
-              {method === "email" && (
-                <DarkInput placeholder="Téléphone (+33 6…) *" value={phone} onChange={setPhone}
-                  type="tel" leftIcon={<Phone className="w-4 h-4" />} inputMode="tel" autoComplete="tel" />
-              )}
-
-              <PrimaryBtn loading={loading} disabled={!profileValid}>
-                Créer mon compte <ArrowRight className="w-4 h-4" />
-              </PrimaryBtn>
             </form>
           )}
         </AuthCard>

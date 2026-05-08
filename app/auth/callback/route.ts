@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
+  const from = searchParams.get("from") ?? "login"; // "login" | "signup"
 
-  console.log("[OAuth callback] received, code:", !!code);
+  console.log("[OAuth callback] code:", !!code, "from:", from);
 
   if (!code) {
-    console.log("[OAuth callback] no code — redirecting to login");
+    console.log("[OAuth callback] no code → login");
     return NextResponse.redirect(new URL("/auth/login", origin));
   }
 
@@ -20,22 +21,31 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL("/auth/login", origin));
   }
 
-  console.log("[OAuth callback] user found:", data.user.id);
+  const userId = data.user.id;
+  console.log("[OAuth callback] user:", userId);
 
-  // Check if profile is complete
+  // Check profile completeness
   const { data: profile } = await supabase
     .from("profiles")
     .select("username")
-    .eq("id", data.user.id)
+    .eq("id", userId)
     .single();
 
-  console.log("[OAuth callback] profile username:", profile?.username ?? "none");
+  const hasProfile = !!profile?.username;
+  console.log("[OAuth callback] hasProfile:", hasProfile, "from:", from);
 
-  if (!profile?.username) {
-    console.log("[OAuth callback] profile incomplete → /auth/complete-profile");
+  // Signup flow — existing account → redirect to login with error
+  if (from === "signup" && hasProfile) {
+    console.log("[OAuth callback] signup but account exists → login?error=already_exists");
+    return NextResponse.redirect(new URL("/auth/login?error=already_exists", origin));
+  }
+
+  // No profile yet → complete profile page
+  if (!hasProfile) {
+    console.log("[OAuth callback] no profile → /auth/complete-profile");
     return NextResponse.redirect(new URL("/auth/complete-profile", origin));
   }
 
-  console.log("[OAuth callback] profile complete → /");
+  console.log("[OAuth callback] all good → /");
   return NextResponse.redirect(new URL("/", origin));
 }

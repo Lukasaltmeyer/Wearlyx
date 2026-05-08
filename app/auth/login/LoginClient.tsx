@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Mail, Phone, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   signInWithProvider,
-  signInWithEmailOtp,
-  verifyEmailOtp,
-  signInWithPhone,
-  verifyPhoneOtp,
+  signInWithEmail,
+  sendPasswordReset,
   getSession,
 } from "@/lib/auth";
 import {
@@ -21,86 +20,75 @@ import {
   Divider,
   ErrorBanner,
   BackBtn,
-  OtpGrid,
   useCarousel,
 } from "../_components/AuthUI";
 
-type Method = "email" | "phone";
-type Step = "main" | "contact" | "otp";
+type Step = "main" | "forgot" | "forgot-sent";
 
 export default function LoginClient() {
   const idx = useCarousel();
   const [visible, setVisible] = useState(false);
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("main");
-  const [method, setMethod] = useState<Method>("email");
-  const [contact, setContact] = useState("");
-  const [otpDigits, setOtpDigits] = useState(["", "", "", "", "", ""]);
-  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState("");
+  const [info] = useState("");
 
   useEffect(() => {
     getSession().then((u) => {
       if (u) window.location.replace("/");
       else setTimeout(() => setVisible(true), 80);
     });
-  }, []);
+    // Show error from OAuth (e.g. account already exists on signup page)
+    const err = searchParams?.get("error");
+    if (err === "already_exists") {
+      setError("Ce compte Google existe déjà. Connecte-toi ici.");
+    }
+  }, [searchParams]);
 
   const handleGoogle = async () => {
     setGoogleLoading(true); setError("");
-    try { await signInWithProvider("google"); }
+    try { await signInWithProvider("google", "login"); }
     catch (e: any) { setError(e.message ?? "Erreur Google."); setGoogleLoading(false); }
   };
 
-  const startContact = (m: Method) => {
-    setMethod(m);
-    setContact("");
-    setError("");
-    setStep("contact");
-  };
-
-  const handleSendOtp = async (e: React.SyntheticEvent) => {
+  const handleEmailLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (!contact.trim()) return;
+    if (!email.trim() || !password) return;
     setLoading(true); setError("");
     try {
-      if (method === "email") await signInWithEmailOtp(contact.trim());
-      else await signInWithPhone(contact.trim());
-      setStep("otp");
-    } catch (e: any) {
-      const m = e.message ?? "";
-      if (m.includes("rate") || m.includes("limit")) setError("Trop de tentatives. Attends quelques secondes.");
-      else setError(method === "email" ? "Email invalide ou introuvable." : "Numéro invalide. Format : +33 6…");
-    } finally { setLoading(false); }
-  };
-
-  const handleOtpChange = (i: number, val: string) => {
-    if (!/^\d?$/.test(val)) return;
-    const next = [...otpDigits]; next[i] = val; setOtpDigits(next);
-    if (val && i < 5) otpRefs.current[i + 1]?.focus();
-  };
-
-  const handleVerifyOtp = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    if (otpDigits.join("").length < 6) return;
-    setLoading(true); setError("");
-    try {
-      if (method === "email") await verifyEmailOtp(contact.trim(), otpDigits.join(""));
-      else await verifyPhoneOtp(contact.trim(), otpDigits.join(""));
+      await signInWithEmail(email.trim(), password);
       sessionStorage.setItem("wlx_just_authed", "1");
       window.location.replace("/");
-    } catch {
-      setError("Code incorrect ou expiré.");
-      setOtpDigits(["", "", "", "", "", ""]);
-      otpRefs.current[0]?.focus();
+    } catch (e: any) {
+      const m = e.message ?? "";
+      if (m.includes("Invalid login") || m.includes("invalid_credentials") || m.includes("Invalid email or password")) {
+        setError("Email ou mot de passe incorrect.");
+      } else if (m.includes("Email not confirmed")) {
+        setError("Email non vérifié. Vérifie ta boîte mail.");
+      } else {
+        setError(m || "Erreur de connexion.");
+      }
     } finally { setLoading(false); }
   };
 
-  const goBack = () => {
-    setError("");
-    if (step === "otp") { setStep("contact"); setOtpDigits(["", "", "", "", "", ""]); }
-    else setStep("main");
+  const handleForgot = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    if (!forgotEmail.trim()) return;
+    setLoading(true); setError("");
+    try {
+      await sendPasswordReset(forgotEmail.trim());
+      setStep("forgot-sent");
+    } catch (e: any) {
+      setError("Impossible d'envoyer l'email. Vérifie l'adresse.");
+    } finally { setLoading(false); }
   };
 
   return (
@@ -112,8 +100,13 @@ export default function LoginClient() {
         <TaglineBlock idx={idx} />
 
         <AuthCard>
-          {step !== "main" && <BackBtn onClick={goBack} />}
+          {step !== "main" && <BackBtn onClick={() => { setStep("main"); setError(""); }} />}
           {error && <div className="mb-3"><ErrorBanner message={error} onDismiss={() => setError("")} /></div>}
+          {info && (
+            <div className="mb-3 flex items-center gap-2.5 rounded-2xl border border-green-500/20 bg-green-500/10 px-3.5 py-3">
+              <p className="text-[13px] text-green-300">{info}</p>
+            </div>
+          )}
 
           {/* ── MAIN ─────────────────────────────────────────────────────────── */}
           {step === "main" && (
@@ -121,32 +114,42 @@ export default function LoginClient() {
               <p className="text-[20px] font-black text-white mb-0.5">Se connecter</p>
 
               <GoogleBtn onClick={handleGoogle} loading={googleLoading} label="Se connecter avec Google" />
-
               <Divider />
 
-              <button type="button" onClick={() => startContact("email")}
-                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] font-semibold text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-white/35" />
-                  <span>Se connecter avec l'email</span>
-                </div>
-                <ArrowRight className="w-4 h-4 text-white/25" />
-              </button>
+              <form onSubmit={handleEmailLogin} className="flex flex-col gap-3">
+                <DarkInput type="email" placeholder="Adresse email" value={email} onChange={setEmail}
+                  leftIcon={<Mail className="w-4 h-4" />} autoComplete="email" />
 
-              <button type="button" onClick={() => startContact("phone")}
-                className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] font-semibold text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-white/35" />
-                  <span>Se connecter avec le téléphone</span>
+                <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/7 px-4 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
+                  <Lock className="w-4 h-4 text-white/35 flex-shrink-0 group-focus-within:text-[#A78BFA] transition-colors" />
+                  <input
+                    type={showPwd ? "text" : "password"}
+                    placeholder="Mot de passe"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
+                    className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none"
+                  />
+                  <button type="button" onClick={() => setShowPwd(v => !v)}
+                    className="text-white/30 hover:text-white/60 transition-colors flex-shrink-0">
+                    {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
                 </div>
-                <ArrowRight className="w-4 h-4 text-white/25" />
-              </button>
+
+                <button type="button" onClick={() => { setStep("forgot"); setForgotEmail(email); }}
+                  className="text-right text-[12px] text-[#A78BFA] hover:text-[#C4B5FD] transition-colors -mt-1">
+                  Mot de passe oublié ?
+                </button>
+
+                <PrimaryBtn loading={loading} disabled={!email.trim() || !password}>
+                  Se connecter <ArrowRight className="w-4 h-4" />
+                </PrimaryBtn>
+              </form>
 
               <div className="pt-1 border-t border-white/6 text-center">
                 <p className="text-[13px] text-white/35 mt-3">
                   Pas encore de compte ?{" "}
-                  <Link href="/auth/signup"
-                    className="text-[#A78BFA] font-bold underline underline-offset-2">
+                  <Link href="/auth/signup" className="text-[#A78BFA] font-bold underline underline-offset-2">
                     Créer un compte
                   </Link>
                 </p>
@@ -154,49 +157,37 @@ export default function LoginClient() {
             </div>
           )}
 
-          {/* ── CONTACT ──────────────────────────────────────────────────────── */}
-          {step === "contact" && (
-            <form onSubmit={handleSendOtp} className="flex flex-col gap-3 animate-fadeIn">
+          {/* ── MOT DE PASSE OUBLIÉ ───────────────────────────────────────────── */}
+          {step === "forgot" && (
+            <form onSubmit={handleForgot} className="flex flex-col gap-3 animate-fadeIn">
               <div>
-                <p className="text-[16px] font-bold text-white mb-0.5">
-                  {method === "email" ? "Ton adresse email" : "Ton numéro de téléphone"}
-                </p>
-                <p className="text-[12px] text-white/35">
-                  {method === "email" ? "On t'envoie un code de connexion" : "Format international (+33 6…)"}
-                </p>
+                <p className="text-[16px] font-bold text-white mb-0.5">Mot de passe oublié</p>
+                <p className="text-[12px] text-white/35">On t'envoie un lien de réinitialisation</p>
               </div>
-              <DarkInput
-                type={method === "email" ? "email" : "tel"}
-                placeholder={method === "email" ? "ton@email.com" : "+33 6 12 34 56 78"}
-                value={contact} onChange={setContact}
-                leftIcon={method === "email" ? <Mail className="w-4 h-4" /> : <Phone className="w-4 h-4" />}
-                autoComplete={method === "email" ? "email" : "tel"}
-                inputMode={method === "email" ? "email" : "tel"}
-              />
-              <PrimaryBtn loading={loading} disabled={!contact.trim()}>
-                Recevoir le code <ArrowRight className="w-4 h-4" />
+              <DarkInput type="email" placeholder="ton@email.com" value={forgotEmail} onChange={setForgotEmail}
+                leftIcon={<Mail className="w-4 h-4" />} autoComplete="email" />
+              <PrimaryBtn loading={loading} disabled={!forgotEmail.trim()}>
+                Envoyer le lien <ArrowRight className="w-4 h-4" />
               </PrimaryBtn>
             </form>
           )}
 
-          {/* ── OTP ──────────────────────────────────────────────────────────── */}
-          {step === "otp" && (
-            <form onSubmit={handleVerifyOtp} className="flex flex-col gap-4 animate-fadeIn">
-              <div>
-                <p className="text-[16px] font-bold text-white mb-0.5">Entre le code</p>
-                <p className="text-[12px] text-white/35">
-                  Code envoyé à <span className="text-white/60 font-semibold">{contact}</span>
-                </p>
+          {/* ── EMAIL ENVOYÉ ─────────────────────────────────────────────────── */}
+          {step === "forgot-sent" && (
+            <div className="flex flex-col items-center gap-3 py-2 animate-fadeIn text-center">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                style={{ background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.2)" }}>
+                <Mail className="w-6 h-6 text-[#A78BFA]" />
               </div>
-              <OtpGrid digits={otpDigits} refs={otpRefs} onChange={handleOtpChange} />
-              <PrimaryBtn loading={loading} disabled={otpDigits.join("").length < 6}>
-                Se connecter <ArrowRight className="w-4 h-4" />
-              </PrimaryBtn>
-              <button type="button" onClick={() => { setStep("contact"); setOtpDigits(["","","","","",""]); }}
-                className="text-center text-[12px] text-white/30 hover:text-white/55 transition-colors">
-                Renvoyer le code
+              <p className="text-[16px] font-bold text-white">Email envoyé !</p>
+              <p className="text-[13px] text-white/40 leading-relaxed">
+                Vérifie ta boîte mail à <span className="text-white/70 font-semibold">{forgotEmail}</span> et clique sur le lien pour réinitialiser ton mot de passe.
+              </p>
+              <button onClick={() => setStep("main")}
+                className="mt-2 text-[13px] text-[#A78BFA] font-semibold">
+                Retour à la connexion
               </button>
-            </form>
+            </div>
           )}
         </AuthCard>
       </div>

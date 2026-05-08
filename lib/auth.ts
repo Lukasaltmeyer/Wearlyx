@@ -2,19 +2,26 @@ import { createClient } from "@/lib/supabase/client";
 
 export type AuthProvider = "google";
 
-/** Sign in with OAuth provider (Google) */
-export async function signInWithProvider(provider: AuthProvider) {
+/** Sign in with OAuth provider — pass from="login"|"signup" to distinguish flows */
+export async function signInWithProvider(provider: AuthProvider, from: "login" | "signup" = "login") {
   const supabase = createClient();
   const { error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `${window.location.origin}/auth/callback?next=/`,
+      redirectTo: `${window.location.origin}/auth/callback?from=${from}`,
     },
   });
   if (error) throw error;
 }
 
-/** Send magic link / OTP to email */
+/** Sign in with email + password */
+export async function signInWithEmail(email: string, password: string) {
+  const supabase = createClient();
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+}
+
+/** Send OTP to email for verification (signup only) */
 export async function signInWithEmailOtp(email: string) {
   const supabase = createClient();
   const { error } = await supabase.auth.signInWithOtp({
@@ -24,7 +31,7 @@ export async function signInWithEmailOtp(email: string) {
   if (error) throw error;
 }
 
-/** Verify email OTP token — returns session immediately (no confirmation needed) */
+/** Verify email OTP — creates session immediately */
 export async function verifyEmailOtp(email: string, token: string) {
   const supabase = createClient();
   const { data, error } = await supabase.auth.verifyOtp({
@@ -34,6 +41,22 @@ export async function verifyEmailOtp(email: string, token: string) {
   });
   if (error) throw error;
   return data.user;
+}
+
+/** Set password on the current authenticated user (call after OTP signup) */
+export async function setPassword(password: string) {
+  const supabase = createClient();
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) throw error;
+}
+
+/** Send password reset email */
+export async function sendPasswordReset(email: string) {
+  const supabase = createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/auth/reset-password`,
+  });
+  if (error) throw error;
 }
 
 /** Send OTP to phone number (E.164 format: +33612345678) */
