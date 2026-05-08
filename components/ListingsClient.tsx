@@ -245,6 +245,19 @@ function ProductTile({ product, onDelete, deleting }: {
       <div className="p-2.5">
         <p className="text-[13px] font-black text-white">{formatPrice(product.price)}</p>
         <p className="text-[11px] text-white/40 truncate mt-0.5">{product.title}</p>
+        {(product.size || product.brand || product.condition) && (
+          <div className="flex flex-wrap gap-1 mt-1.5">
+            {product.size && (
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/8 text-white/50">{product.size}</span>
+            )}
+            {product.brand && (
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#8B5CF6]/15 text-[#A78BFA]">{product.brand}</span>
+            )}
+            {product.condition && (
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-white/8 text-white/50">{product.condition}</span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
