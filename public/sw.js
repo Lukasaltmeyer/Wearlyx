@@ -1,4 +1,4 @@
-const CACHE_NAME = "wearlyx-v5";
+const CACHE_NAME = "wearlyx-v6";
 const STATIC_ASSETS = ["/", "/manifest.json"];
 
 self.addEventListener("install", (event) => {
