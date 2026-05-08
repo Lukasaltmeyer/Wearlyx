@@ -43,7 +43,6 @@ export function ProfileMenuClient({
   const menuSections = [
     {
       items: [
-        { label: "Mes annonces",          icon: ShoppingBag, href: "/listings" },
         { label: "Favoris",              icon: Heart,      href: "/favorites" },
         { label: "Inviter des amis",     icon: Users,      href: "/referral" },
         { label: "Mon porte-monnaie",    icon: Wallet,     href: "/wallet",  value: "0.00 €", valueColor: "#10B981" },
