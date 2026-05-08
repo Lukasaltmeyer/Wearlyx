@@ -50,7 +50,15 @@ export function ListingsClient({ products: initial, reviews, profile }: Props) {
   const handleDelete = async (id: string) => {
     if (!confirm("Supprimer cette annonce ?")) return;
     setDeleting(id);
-    await supabase.from("products").update({ status: "deleted" }).eq("id", id);
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", id);
+    if (error) {
+      alert("Erreur : " + error.message);
+      setDeleting(null);
+      return;
+    }
     setProducts((prev) => prev.filter((p) => p.id !== id));
     setDeleting(null);
   };
