@@ -27,7 +27,7 @@ import {
   useCarousel,
 } from "../_components/AuthUI";
 
-type Step = "main" | "form" | "otp" | "phone-contact" | "phone-otp" | "phone-profile";
+type Step = "main" | "form-1" | "form-2" | "otp" | "phone-contact" | "phone-otp" | "phone-profile";
 
 export default function SignupClient() {
   const idx = useCarousel();
@@ -190,7 +190,8 @@ export default function SignupClient() {
 
   const goBack = () => {
     setError("");
-    if (step === "otp") { setStep("form"); setOtpDigits(["","","","","",""]); }
+    if (step === "otp") { setStep("form-2"); setOtpDigits(["","","","","",""]); }
+    else if (step === "form-2") setStep("form-1");
     else if (step === "phone-otp") { setStep("phone-contact"); setOtpDigits(["","","","","",""]); }
     else if (step === "phone-profile") setStep("phone-otp");
     else setStep("main");
@@ -216,7 +217,7 @@ export default function SignupClient() {
               <GoogleBtn onClick={handleGoogle} loading={googleLoading} label="S'inscrire avec Google" />
               <Divider />
 
-              <button type="button" onClick={() => setStep("form")}
+              <button type="button" onClick={() => setStep("form-1")}
                 className="w-full flex items-center justify-between rounded-2xl border border-white/8 bg-white/5 px-4 py-3.5 text-[13px] font-semibold text-white/70 transition-all hover:bg-white/8 active:scale-[0.98]">
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-white/35" />
@@ -252,34 +253,34 @@ export default function SignupClient() {
             </div>
           )}
 
-          {/* ── EMAIL FORM ───────────────────────────────────────────────────── */}
-          {step === "form" && (
-            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 animate-fadeIn">
-              <div>
-                <p className="text-[16px] font-bold text-white mb-0.5">Ton compte</p>
-                <p className="text-[12px] text-white/35">Tous les champs sont obligatoires</p>
+          {/* ── ÉTAPE 1 : Identité + Email + Mot de passe ────────────────────── */}
+          {step === "form-1" && (
+            <div className="flex flex-col gap-3 animate-fadeIn">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[18px] font-black text-white">Ton identité</p>
+                <span className="text-[11px] font-bold text-white/25 bg-white/6 px-2.5 py-1 rounded-full">1 / 2</span>
               </div>
+
               <div className="flex gap-2">
-                <div className="flex-1">
-                  <DarkInput placeholder="Prénom *" value={firstName} onChange={setFirstName}
-                    leftIcon={<User className="w-4 h-4" />} autoComplete="given-name" />
-                </div>
-                <div className="flex-1">
-                  <DarkInput placeholder="Nom" value={lastName} onChange={setLastName}
-                    leftIcon={<User className="w-4 h-4" />} autoComplete="family-name" />
-                </div>
+                <DarkInput placeholder="Prénom *" value={firstName} onChange={setFirstName}
+                  leftIcon={<User className="w-4 h-4" />} autoComplete="given-name" />
+                <DarkInput placeholder="Nom" value={lastName} onChange={setLastName}
+                  leftIcon={<User className="w-4 h-4" />} autoComplete="family-name" />
               </div>
-              <DarkInput type="email" placeholder="Email *" value={email} onChange={setEmail}
+
+              <DarkInput type="email" placeholder="Adresse email *" value={email} onChange={setEmail}
                 leftIcon={<Mail className="w-4 h-4" />} autoComplete="email" />
+
               <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/7 px-4 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
                 <Lock className="w-4 h-4 text-white/35 flex-shrink-0 group-focus-within:text-[#A78BFA] transition-colors" />
-                <input type={showPwd ? "text" : "password"} placeholder="Mot de passe * (6 car. min.)"
+                <input type={showPwd ? "text" : "password"} placeholder="Mot de passe (6 car. min.) *"
                   value={password} onChange={(e) => setPassword_(e.target.value)} autoComplete="new-password"
                   className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" />
                 <button type="button" onClick={() => setShowPwd(v => !v)} className="text-white/30 hover:text-white/60 flex-shrink-0">
                   {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+
               <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/7 px-4 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
                 <Lock className="w-4 h-4 text-white/35 flex-shrink-0 group-focus-within:text-[#A78BFA] transition-colors" />
                 <input type={showConfirm ? "text" : "password"} placeholder="Confirmer le mot de passe *"
@@ -289,23 +290,43 @@ export default function SignupClient() {
                   {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+
+              <PrimaryBtn type="button" onClick={() => {
+                setError("");
+                if (!firstName.trim()) { setError("Le prénom est obligatoire."); return; }
+                if (!email.trim()) { setError("L'email est obligatoire."); return; }
+                if (password.length < 6) { setError("Le mot de passe doit faire au moins 6 caractères."); return; }
+                if (password !== confirmPassword) { setError("Les mots de passe ne correspondent pas."); return; }
+                setStep("form-2");
+              }}>
+                Continuer <ArrowRight className="w-4 h-4" />
+              </PrimaryBtn>
+            </div>
+          )}
+
+          {/* ── ÉTAPE 2 : Profil ─────────────────────────────────────────────── */}
+          {step === "form-2" && (
+            <form onSubmit={handleFormSubmit} className="flex flex-col gap-3 animate-fadeIn">
+              <div className="flex items-center justify-between mb-1">
+                <p className="text-[18px] font-black text-white">Ton profil</p>
+                <span className="text-[11px] font-bold text-white/25 bg-white/6 px-2.5 py-1 rounded-full">2 / 2</span>
+              </div>
+
               <DarkInput placeholder="@pseudo * (unique)" value={username}
                 onChange={(v) => setUsername(v.toLowerCase().replace(/[^a-z0-9._]/g, ""))}
                 leftIcon={<span className="text-sm font-bold text-white/35">@</span>} />
+
               <DarkInput type="tel" placeholder="Téléphone * (+33 6…)" value={phone} onChange={setPhone}
                 leftIcon={<Phone className="w-4 h-4" />} inputMode="tel" autoComplete="tel" />
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <DarkInput placeholder="Ville *" value={city} onChange={setCity}
-                    leftIcon={<MapPin className="w-4 h-4" />} autoComplete="address-level2" />
-                </div>
-                <div className="flex-1">
-                  <DarkInput placeholder="Code postal *" value={postalCode} onChange={setPostalCode}
-                    leftIcon={<Hash className="w-4 h-4" />} inputMode="numeric" maxLength={5} />
-                </div>
-              </div>
-              <PrimaryBtn loading={loading}>
-                Recevoir le code <ArrowRight className="w-4 h-4" />
+
+              <DarkInput placeholder="Ville *" value={city} onChange={setCity}
+                leftIcon={<MapPin className="w-4 h-4" />} autoComplete="address-level2" />
+
+              <DarkInput placeholder="Code postal *" value={postalCode} onChange={setPostalCode}
+                leftIcon={<Hash className="w-4 h-4" />} inputMode="numeric" maxLength={5} />
+
+              <PrimaryBtn loading={loading} disabled={!username.trim() || !phone.trim() || !city.trim() || !postalCode.trim()}>
+                Recevoir le code de vérification <ArrowRight className="w-4 h-4" />
               </PrimaryBtn>
             </form>
           )}
