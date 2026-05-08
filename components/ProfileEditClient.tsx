@@ -53,8 +53,8 @@ export function ProfileEditClient({ profile, userId }: Props) {
       if (uploadErr) throw uploadErr;
       const { data: { publicUrl } } = supabase.storage.from("avatars").getPublicUrl(path);
       setAvatarUrl(`${publicUrl}?t=${Date.now()}`);
-    } catch {
-      setError("Erreur lors de l'upload de la photo.");
+    } catch (err: any) {
+      setError("Upload échoué : " + (err?.message ?? JSON.stringify(err)));
       setAvatarPreview(profile?.avatar_url ?? "");
     } finally {
       setUploadingAvatar(false);

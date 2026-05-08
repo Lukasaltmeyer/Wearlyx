@@ -35,8 +35,20 @@ export function ListingsClient({ products: initial, reviews, profile }: Props) {
   const [products, setProducts] = useState(initial);
   const [tab, setTab] = useState<Tab>("annonces");
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
   const supabase = createClient();
+
+  const handleShare = async () => {
+    setShowMenu(false);
+    const url = `${window.location.origin}/profile/${profile?.id}`;
+    if (navigator.share) {
+      await navigator.share({ title: profile?.username ?? "Wearlyx", url });
+    } else {
+      await navigator.clipboard.writeText(url);
+      alert("Lien copié !");
+    }
+  };
 
   const active = products.filter((p) => p.status === "active");
   const sold   = products.filter((p) => p.status === "sold");
@@ -68,10 +80,28 @@ export function ListingsClient({ products: initial, reviews, profile }: Props) {
         <h1 className="flex-1 text-center text-[17px] font-black text-white">
           {profile?.username || profile?.full_name || "Mon profil"}
         </h1>
-        <Link href="/profile/edit"
-          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
-          <MoreHorizontal className="w-4 h-4" />
-        </Link>
+        <div className="relative">
+          <button onClick={() => setShowMenu(v => !v)}
+            className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
+            <MoreHorizontal className="w-4 h-4" />
+          </button>
+          {showMenu && (
+            <>
+              <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
+              <div className="absolute right-0 top-11 z-50 w-48 rounded-2xl border border-white/10 overflow-hidden shadow-2xl"
+                style={{ background: "#1a1a2e" }}>
+                <Link href="/profile/edit" onClick={() => setShowMenu(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 text-[14px] text-white hover:bg-white/5 transition-colors border-b border-white/6">
+                  Modifier le profil
+                </Link>
+                <button onClick={handleShare}
+                  className="w-full flex items-center gap-3 px-4 py-3.5 text-[14px] text-white hover:bg-white/5 transition-colors text-left">
+                  Partager
+                </button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Tabs */}
