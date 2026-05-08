@@ -79,7 +79,7 @@ export function ProfileMenuClient({
     <div className="pb-6">
       {/* Profile card */}
       <Link
-        href={`/profile/${profile?.id}`}
+        href="/listings"
         className="flex items-center gap-3.5 mx-4 mt-4 mb-3 p-4 rounded-2xl border border-white/[0.08] active:scale-[0.99] transition-transform"
         style={{ background: "rgba(255,255,255,0.03)" }}
       >
@@ -103,7 +103,7 @@ export function ProfileMenuClient({
               </span>
             )}
           </div>
-          <p className="text-[12px] text-white/35 mt-0.5">{isAdmin ? "Créateur · Accès illimité" : "Mon profil →"}</p>
+          <p className="text-[12px] text-white/35 mt-0.5">{isAdmin ? "Créateur · Accès illimité" : "Voir mes annonces →"}</p>
         </div>
       </Link>
 
