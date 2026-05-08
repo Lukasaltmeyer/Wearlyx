@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, MoreVertical, Plus, Star, Package, Trash2, Eye } from "lucide-react";
+import { ArrowLeft, MoreVertical, Plus, Star, Package } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { Product, Profile } from "@/types/database";
 import { formatPrice, timeAgo } from "@/lib/utils";
@@ -33,7 +33,7 @@ const STATUS_LABEL: Record<string, { label: string; color: string; bg: string }>
   reserved: { label: "Réservé",   color: "#3B82F6", bg: "rgba(59,130,246,0.15)" },
 };
 
-export function ListingsClient({ products: initial, reviews, profile, userId }: Props) {
+export function ListingsClient({ products: initial, reviews, profile }: Props) {
   const [products, setProducts] = useState(initial);
   const [tab, setTab] = useState<Tab>("annonces");
   const [deleting, setDeleting] = useState<string | null>(null);

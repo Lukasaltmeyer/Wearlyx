@@ -9,7 +9,7 @@ export default async function ListingsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth");
 
-  const [{ data: profile }, { data: products }, { data: reviews }] = await Promise.all([
+  const [{ data: profile }, { data: products }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
     supabase
       .from("products")
@@ -17,12 +17,15 @@ export default async function ListingsPage() {
       .eq("seller_id", user.id)
       .neq("status", "deleted")
       .order("created_at", { ascending: false }),
-    supabase
-      .from("reviews")
-      .select("*")
-      .eq("seller_id", user.id)
-      .order("created_at", { ascending: false }),
   ]);
+
+  // Reviews optional — table may not exist yet
+  const { data: reviews } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("seller_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(50);
 
   const enriched = (products ?? []).map((p: any) => ({
     ...p,
