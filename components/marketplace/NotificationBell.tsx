@@ -82,7 +82,8 @@ export function NotificationBell({ userId }: Props) {
         <div className="fixed inset-0 z-50 flex items-start justify-center" onClick={() => setOpen(false)}>
           <div className="absolute inset-0 bg-black/40" />
           <div
-            className="relative w-full max-w-[600px] bg-[#11111A] rounded-b-3xl shadow-2xl max-h-[70vh] overflow-hidden flex flex-col"
+            className="relative w-full max-w-[600px] rounded-b-3xl shadow-2xl max-h-[70vh] overflow-hidden flex flex-col"
+            style={{ background: "#11111a" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between px-4 py-4 border-b border-white/8">

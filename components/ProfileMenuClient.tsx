@@ -43,6 +43,7 @@ export function ProfileMenuClient({
   const menuSections = [
     {
       items: [
+        { label: "Mes annonces",          icon: ShoppingBag, href: "/listings" },
         { label: "Favoris",              icon: Heart,      href: "/favorites" },
         { label: "Inviter des amis",     icon: Users,      href: "/referral" },
         { label: "Mon porte-monnaie",    icon: Wallet,     href: "/wallet",  value: "0.00 €", valueColor: "#10B981" },
@@ -102,7 +103,7 @@ export function ProfileMenuClient({
               </span>
             )}
           </div>
-          <p className="text-[12px] text-white/35 mt-0.5">{isAdmin ? "Créateur · Accès illimité" : "Voir mes annonces →"}</p>
+          <p className="text-[12px] text-white/35 mt-0.5">{isAdmin ? "Créateur · Accès illimité" : "Mon profil →"}</p>
         </div>
       </Link>
 
