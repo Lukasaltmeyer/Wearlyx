@@ -66,7 +66,7 @@ export function ListingsClient({ products: initial, reviews, profile }: Props) {
           <ArrowLeft className="w-4 h-4" />
         </button>
         <h1 className="flex-1 text-center text-[17px] font-black text-white">
-          {profile?.username ? `@${profile.username}` : profile?.full_name || "Mon profil"}
+          {profile?.username || profile?.full_name || "Mon profil"}
         </h1>
         <Link href="/profile/edit"
           className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
