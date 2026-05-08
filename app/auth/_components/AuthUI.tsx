@@ -191,9 +191,9 @@ export function TaglineBlock({ idx }: { idx: number }) {
   return (
     <div className="mb-5 px-1">
       <h1 className="text-[42px] font-black leading-[1.02] tracking-tight text-white drop-shadow-lg">
-        Vends vite.<br />
+        Le futur de<br />
         <span style={{ background: "linear-gradient(90deg, #A78BFA, #8B5CF6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-          Achète malin.
+          la seconde main.
         </span>
       </h1>
       <p className="mt-2 text-[14px] text-white/50">La marketplace mode qui cartonne en France.</p>
