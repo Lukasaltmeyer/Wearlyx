@@ -3,7 +3,7 @@ import { Zap, Crown } from "lucide-react";
 
 export function HeroBanner() {
   return (
-    <div className="px-4 pt-3 pb-2 grid grid-cols-2 gap-3">
+    <div className="px-3 pt-3 pb-2 grid grid-cols-2 gap-2.5">
 
       {/* ── Vendre avec l'IA ── */}
       <Link href="/sell/ai" className="block active:scale-[0.975] transition-transform duration-150">
