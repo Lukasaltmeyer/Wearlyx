@@ -262,10 +262,14 @@ export default function SignupClient() {
               </div>
 
               <div className="flex gap-2">
-                <DarkInput placeholder="Prénom *" value={firstName} onChange={setFirstName}
-                  leftIcon={<User className="w-4 h-4" />} autoComplete="given-name" />
-                <DarkInput placeholder="Nom" value={lastName} onChange={setLastName}
-                  leftIcon={<User className="w-4 h-4" />} autoComplete="family-name" />
+                <div className="flex-1 min-w-0">
+                  <DarkInput placeholder="Prénom *" value={firstName} onChange={setFirstName}
+                    leftIcon={<User className="w-4 h-4" />} autoComplete="given-name" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <DarkInput placeholder="Nom" value={lastName} onChange={setLastName}
+                    leftIcon={<User className="w-4 h-4" />} autoComplete="family-name" />
+                </div>
               </div>
 
               <DarkInput type="email" placeholder="Adresse email *" value={email} onChange={setEmail}

@@ -63,12 +63,12 @@ export function DarkInput({ type = "text", placeholder, value, onChange, leftIco
   inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"]; maxLength?: number;
 }) {
   return (
-    <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/7 px-4 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
+    <div className="w-full group flex items-center gap-2 rounded-2xl border border-white/10 bg-white/7 px-3 py-4 transition-all focus-within:border-[#8B5CF6]/50 focus-within:bg-white/10">
       {leftIcon && <span className="text-white/35 flex-shrink-0 transition-colors group-focus-within:text-[#A78BFA]">{leftIcon}</span>}
       <input type={type} placeholder={placeholder} value={value}
         onChange={(e) => onChange(e.target.value)}
         autoComplete={autoComplete} inputMode={inputMode} maxLength={maxLength}
-        className="flex-1 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" />
+        className="w-full min-w-0 bg-transparent text-[15px] text-white placeholder-white/30 outline-none" />
     </div>
   );
 }
