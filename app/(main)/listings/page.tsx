@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ListingsClient } from "@/components/ListingsClient";
@@ -9,12 +9,20 @@ export default async function ListingsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth");
 
-  const { data: products } = await supabase
-    .from("products")
-    .select("*, likes(count)")
-    .eq("seller_id", user.id)
-    .neq("status", "deleted")
-    .order("created_at", { ascending: false });
+  const [{ data: profile }, { data: products }, { data: reviews }] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", user.id).single(),
+    supabase
+      .from("products")
+      .select("*, likes(count)")
+      .eq("seller_id", user.id)
+      .neq("status", "deleted")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("reviews")
+      .select("*")
+      .eq("seller_id", user.id)
+      .order("created_at", { ascending: false }),
+  ]);
 
   const enriched = (products ?? []).map((p: any) => ({
     ...p,
@@ -26,7 +34,12 @@ export default async function ListingsPage() {
     <>
       <Navbar />
       <main className="bg-[#07070A] min-h-[100dvh] pb-24">
-        <ListingsClient products={enriched} userId={user.id} />
+        <ListingsClient
+          products={enriched}
+          reviews={reviews ?? []}
+          profile={profile}
+          userId={user.id}
+        />
       </main>
     </>
   );

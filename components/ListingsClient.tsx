@@ -1,42 +1,51 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Plus, Eye, Heart, Trash2, Edit, Zap, Package, TrendingUp } from "lucide-react";
+import { ArrowLeft, MoreVertical, Plus, Star, Package, Trash2, Eye } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import type { Product } from "@/types/database";
-import { formatPrice, conditionLabel, timeAgo } from "@/lib/utils";
+import type { Product, Profile } from "@/types/database";
+import { formatPrice, timeAgo } from "@/lib/utils";
+
+interface Review {
+  id: string;
+  rating: number;
+  comment: string | null;
+  created_at: string;
+  buyer_id: string;
+  buyer?: { full_name?: string; username?: string; avatar_url?: string };
+}
 
 interface Props {
   products: Product[];
+  reviews: Review[];
+  profile: Profile | null;
   userId: string;
 }
+
+type Tab = "annonces" | "evaluations" | "apropos";
 
 const STATUS_LABEL: Record<string, { label: string; color: string; bg: string }> = {
   active:   { label: "En ligne",  color: "#10B981", bg: "rgba(16,185,129,0.15)" },
   sold:     { label: "Vendu",     color: "#F59E0B", bg: "rgba(245,158,11,0.15)" },
   reserved: { label: "Réservé",   color: "#3B82F6", bg: "rgba(59,130,246,0.15)" },
-  deleted:  { label: "Supprimé",  color: "#EF4444", bg: "rgba(239,68,68,0.15)" },
 };
 
-export function ListingsClient({ products: initial, userId }: Props) {
+export function ListingsClient({ products: initial, reviews, profile, userId }: Props) {
   const [products, setProducts] = useState(initial);
-  const [filter, setFilter] = useState<"all" | "active" | "sold">("all");
+  const [tab, setTab] = useState<Tab>("annonces");
   const [deleting, setDeleting] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
-  const filtered = filter === "all" ? products : products.filter((p) => p.status === filter);
+  const active = products.filter((p) => p.status === "active");
+  const sold = products.filter((p) => p.status === "sold");
 
-  const stats = {
-    total: products.length,
-    active: products.filter((p) => p.status === "active").length,
-    sold: products.filter((p) => p.status === "sold").length,
-    totalLikes: products.reduce((sum, p) => sum + (p.likes_count ?? 0), 0),
-    totalViews: products.reduce((sum, p) => sum + (p.views ?? 0), 0),
-  };
+  const avgRating = reviews.length
+    ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length
+    : 0;
 
   const handleDelete = async (id: string) => {
     if (!confirm("Supprimer cette annonce ?")) return;
@@ -46,126 +55,196 @@ export function ListingsClient({ products: initial, userId }: Props) {
     setDeleting(null);
   };
 
+  const tabs: { id: Tab; label: string }[] = [
+    { id: "annonces",    label: "Annonces" },
+    { id: "evaluations", label: "Évaluations" },
+    { id: "apropos",     label: "À propos" },
+  ];
+
   return (
     <div className="animate-fadeIn">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-5 pb-4">
+      <div className="flex items-center px-4 pt-5 pb-3 gap-3">
         <button onClick={() => router.back()}
-          className="w-9 h-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
           <ArrowLeft className="w-4 h-4" />
         </button>
-        <div className="flex-1">
-          <h1 className="text-[18px] font-black text-white">Mes annonces</h1>
-          <p className="text-[12px] text-white/35">{stats.total} article{stats.total !== 1 ? "s" : ""}</p>
-        </div>
+        <h1 className="flex-1 text-center text-[17px] font-black text-white">
+          {profile?.full_name || profile?.username || "Mon profil"}
+        </h1>
         <Link href="/sell/ai"
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-[12px] font-bold text-white"
-          style={{ background: "linear-gradient(135deg, #8B5CF6, #A855F7)" }}>
-          <Plus className="w-3.5 h-3.5" />
-          Publier
+          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
+          <Plus className="w-4 h-4" />
         </Link>
       </div>
 
-      {/* Stats */}
-      <div className="px-4 mb-4 grid grid-cols-3 gap-2">
-        {[
-          { label: "En ligne",  value: stats.active,     color: "#10B981", icon: Package },
-          { label: "Vues",      value: stats.totalViews,  color: "#8B5CF6", icon: Eye },
-          { label: "J'aime",    value: stats.totalLikes,  color: "#EF4444", icon: Heart },
-        ].map(({ label, value, color, icon: Icon }) => (
-          <div key={label} className="rounded-xl border border-white/6 bg-white/3 px-3 py-2.5 text-center">
-            <Icon className="w-4 h-4 mx-auto mb-1" style={{ color }} />
-            <p className="text-[16px] font-black text-white">{value}</p>
-            <p className="text-[10px] text-white/35 font-medium">{label}</p>
-          </div>
+      {/* Tabs */}
+      <div className="flex border-b border-white/8 px-4">
+        {tabs.map((t) => (
+          <button key={t.id} onClick={() => setTab(t.id)}
+            className={`flex-1 py-3 text-[14px] font-semibold transition-colors relative ${
+              tab === t.id ? "text-white" : "text-white/35"
+            }`}>
+            {t.label}
+            {tab === t.id && (
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-[2px] rounded-full bg-[#8B5CF6]" />
+            )}
+          </button>
         ))}
       </div>
 
-      {/* Filter tabs */}
-      <div className="px-4 mb-4">
-        <div className="flex gap-1 p-1 rounded-2xl bg-white/4 border border-white/6">
-          {([["all", "Tout"], ["active", "En ligne"], ["sold", "Vendus"]] as const).map(([val, lbl]) => (
-            <button key={val} onClick={() => setFilter(val)}
-              className={`flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all ${
-                filter === val ? "bg-[#8B5CF6] text-white" : "text-white/40 hover:text-white/60"
-              }`}>
-              {lbl}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* List */}
-      <div className="px-4 flex flex-col gap-3">
-        {filtered.length === 0 ? (
-          <div className="text-center py-16">
-            <Package className="w-12 h-12 text-white/10 mx-auto mb-3" />
-            <p className="text-[14px] font-semibold text-white/30">Aucune annonce</p>
-            <Link href="/sell/ai"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2.5 rounded-2xl text-[13px] font-bold text-white"
-              style={{ background: "linear-gradient(135deg, #8B5CF6, #A855F7)" }}>
-              <Zap className="w-3.5 h-3.5" /> Créer avec l'IA
-            </Link>
-          </div>
-        ) : (
-          filtered.map((product) => {
-            const status = STATUS_LABEL[product.status ?? "active"] ?? STATUS_LABEL.active;
-            const firstImage = product.images?.[0];
-
-            return (
-              <div key={product.id}
-                className="flex gap-3 p-3 rounded-2xl border border-white/6 bg-white/2">
-                {/* Image */}
-                <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-white/5">
-                  {firstImage ? (
-                    <Image src={firstImage} alt={product.title} width={64} height={64}
-                      className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Package className="w-6 h-6 text-white/15" />
-                    </div>
-                  )}
-                </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
-                    <p className="text-[13px] font-bold text-white line-clamp-1">{product.title}</p>
-                    <span className="flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full"
-                      style={{ color: status.color, background: status.bg }}>
-                      {status.label}
-                    </span>
-                  </div>
-                  <p className="text-[14px] font-black text-white mt-0.5">{formatPrice(product.price)}</p>
-                  <div className="flex items-center gap-3 mt-1.5">
-                    <span className="flex items-center gap-1 text-[11px] text-white/30">
-                      <Eye className="w-3 h-3" />{product.views ?? 0}
-                    </span>
-                    <span className="flex items-center gap-1 text-[11px] text-white/30">
-                      <Heart className="w-3 h-3" />{product.likes_count ?? 0}
-                    </span>
-                    <span className="text-[11px] text-white/20">
-                      {timeAgo(product.created_at!)}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex flex-col gap-1.5 flex-shrink-0">
-                  <Link href={`/products/${product.id}`}
-                    className="w-7 h-7 rounded-lg border border-white/8 bg-white/4 flex items-center justify-center text-white/40 hover:text-white transition-colors">
-                    <Eye className="w-3 h-3" />
-                  </Link>
-                  <button onClick={() => handleDelete(product.id)}
-                    disabled={deleting === product.id}
-                    className="w-7 h-7 rounded-lg border border-red-500/20 bg-red-500/8 flex items-center justify-center text-red-400 hover:text-red-300 transition-colors disabled:opacity-40">
-                    <Trash2 className="w-3 h-3" />
-                  </button>
-                </div>
+      {/* ── ANNONCES ── */}
+      {tab === "annonces" && (
+        <div className="px-4 pt-4">
+          {active.length > 0 && (
+            <>
+              <p className="text-[10px] font-bold text-white/25 tracking-widest uppercase mb-3">
+                Mes annonces actives
+              </p>
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                {active.map((p) => <ProductTile key={p.id} product={p} onDelete={handleDelete} deleting={deleting} />)}
               </div>
-            );
-          })
+            </>
+          )}
+
+          {sold.length > 0 && (
+            <>
+              <p className="text-[10px] font-bold text-white/25 tracking-widest uppercase mb-3">
+                Vendus
+              </p>
+              <div className="grid grid-cols-2 gap-3 mb-5">
+                {sold.map((p) => <ProductTile key={p.id} product={p} onDelete={handleDelete} deleting={deleting} />)}
+              </div>
+            </>
+          )}
+
+          {products.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <Package className="w-12 h-12 text-white/10 mb-3" />
+              <p className="text-[14px] font-semibold text-white/30 mb-4">Aucune annonce</p>
+              <Link href="/sell/ai"
+                className="flex items-center gap-2 px-5 py-3 rounded-2xl text-[13px] font-bold text-white"
+                style={{ background: "linear-gradient(135deg, #8B5CF6, #A855F7)" }}>
+                <Plus className="w-3.5 h-3.5" /> Créer une annonce
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── ÉVALUATIONS ── */}
+      {tab === "evaluations" && (
+        <div className="px-4 pt-4">
+          {reviews.length > 0 && (
+            <div className="flex items-center gap-3 mb-5 p-4 rounded-2xl border border-white/8 bg-white/3">
+              <div className="text-center">
+                <p className="text-[32px] font-black text-white leading-none">{avgRating.toFixed(1)}</p>
+                <div className="flex gap-0.5 mt-1 justify-center">
+                  {[1,2,3,4,5].map((s) => (
+                    <Star key={s} className="w-3 h-3"
+                      style={{ color: s <= Math.round(avgRating) ? "#F59E0B" : "rgba(255,255,255,0.15)",
+                               fill: s <= Math.round(avgRating) ? "#F59E0B" : "transparent" }} />
+                  ))}
+                </div>
+                <p className="text-[11px] text-white/35 mt-1">{reviews.length} avis</p>
+              </div>
+            </div>
+          )}
+
+          {reviews.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center">
+              <Star className="w-12 h-12 text-white/10 mb-3" />
+              <p className="text-[14px] font-semibold text-white/30">Aucune évaluation</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {reviews.map((r) => (
+                <div key={r.id} className="p-4 rounded-2xl border border-white/8 bg-white/3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map((s) => (
+                        <Star key={s} className="w-3.5 h-3.5"
+                          style={{ color: s <= r.rating ? "#F59E0B" : "rgba(255,255,255,0.15)",
+                                   fill: s <= r.rating ? "#F59E0B" : "transparent" }} />
+                      ))}
+                    </div>
+                    <span className="text-[11px] text-white/25">{timeAgo(r.created_at)}</span>
+                  </div>
+                  {r.comment && <p className="text-[13px] text-white/70 leading-relaxed">{r.comment}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── À PROPOS ── */}
+      {tab === "apropos" && (
+        <div className="px-4 pt-4 flex flex-col gap-3">
+          {[
+            { label: "Nom", value: profile?.full_name },
+            { label: "Pseudo", value: profile?.username ? `@${profile.username}` : null },
+            { label: "Ville", value: (profile as any)?.city },
+            { label: "Téléphone", value: (profile as any)?.phone },
+          ].filter((r) => r.value).map((row) => (
+            <div key={row.label} className="flex items-center justify-between px-4 py-3.5 rounded-2xl border border-white/8 bg-white/3">
+              <span className="text-[13px] text-white/40">{row.label}</span>
+              <span className="text-[13px] font-semibold text-white">{row.value}</span>
+            </div>
+          ))}
+
+          <div className="flex items-center justify-between px-4 py-3.5 rounded-2xl border border-white/8 bg-white/3">
+            <span className="text-[13px] text-white/40">Ventes</span>
+            <span className="text-[13px] font-semibold text-white">{profile?.sales_count ?? 0}</span>
+          </div>
+          <div className="flex items-center justify-between px-4 py-3.5 rounded-2xl border border-white/8 bg-white/3">
+            <span className="text-[13px] text-white/40">Note moyenne</span>
+            <span className="text-[13px] font-semibold text-white flex items-center gap-1">
+              <Star className="w-3.5 h-3.5 text-[#F59E0B] fill-[#F59E0B]" />
+              {(profile?.rating ?? 0).toFixed(1)}
+            </span>
+          </div>
+
+          <Link href="/profile/edit"
+            className="mt-2 w-full flex items-center justify-center py-3.5 rounded-2xl border border-[#8B5CF6]/30 text-[13px] font-semibold text-[#A78BFA]">
+            Modifier mon profil
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProductTile({ product, onDelete, deleting }: {
+  product: Product;
+  onDelete: (id: string) => void;
+  deleting: string | null;
+}) {
+  const status = STATUS_LABEL[product.status ?? "active"] ?? STATUS_LABEL.active;
+  const img = product.images?.[0];
+
+  return (
+    <div className="rounded-2xl overflow-hidden border border-white/6 bg-white/2">
+      <div className="relative aspect-square bg-white/5">
+        {img ? (
+          <Image src={img} alt={product.title} fill className="object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <Package className="w-8 h-8 text-white/10" />
+          </div>
         )}
+        <button onClick={() => onDelete(product.id)} disabled={deleting === product.id}
+          className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 flex items-center justify-center text-white/60 hover:text-red-400 transition-colors">
+          <MoreVertical className="w-3.5 h-3.5" />
+        </button>
+        <span className="absolute bottom-2 left-2 text-[9px] font-bold px-2 py-0.5 rounded-full"
+          style={{ color: status.color, background: status.bg }}>
+          {status.label}
+        </span>
+      </div>
+      <div className="p-2.5">
+        <p className="text-[13px] font-black text-white">{formatPrice(product.price)}</p>
+        <p className="text-[11px] text-white/40 truncate mt-0.5">{product.title}</p>
       </div>
     </div>
   );
