@@ -175,8 +175,8 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
   if (pathname.startsWith("/admin")) return <>{children}</>;
   if (pathname.startsWith("/auth")) return <>{children}</>;
 
-  // Full-bleed pages (messages uses own layout)
-  const isFullBleed = pathname.startsWith("/messages");
+  // Full-bleed pages (messages uses own layout, profile/menu needs full width)
+  const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu");
 
   return (
     <div className="min-h-[100dvh]" style={{ background: "#07070A" }}>
