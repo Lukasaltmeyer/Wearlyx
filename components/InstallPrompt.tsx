@@ -54,6 +54,7 @@ export function InstallPrompt() {
   };
 
   if (!mode) return null;
+  if (typeof window !== "undefined" && window.innerWidth >= 1024) return null;
 
   return (
     <div className="fixed bottom-[80px] left-0 right-0 z-50 flex justify-center px-4 animate-fadeIn pointer-events-none">
