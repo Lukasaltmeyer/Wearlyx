@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import {
   Mail, Lock, Eye, EyeOff, Phone, ArrowRight,
-  Sparkles, Shield, Zap, Package, Users, CheckCircle, Star,
+  Sparkles, CheckCircle, Star,
 } from "lucide-react";
 import { signInWithProvider, signInWithEmail, sendPasswordReset, signInWithPhone, verifyPhoneOtp } from "@/lib/auth";
 import { GoogleIcon } from "../_components/AuthUI";
@@ -82,9 +82,9 @@ export function DesktopLoginPage() {
           from{opacity:0;transform:translateY(16px);}
           to{opacity:1;transform:translateY(0);}
         }
-        .orb1{animation:orb1 28s ease-in-out infinite;}
-        .orb2{animation:orb2 34s ease-in-out infinite;}
-        .orb3{animation:orb3 20s ease-in-out infinite;}
+        .orb1{animation:orb1 44s ease-in-out infinite;}
+        .orb2{animation:orb2 56s ease-in-out infinite;}
+        .orb3{animation:orb3 32s ease-in-out infinite;}
         .title-shimmer{animation:title-shimmer 6s ease-in-out infinite;}
         .fade-up{animation:fade-up .55s cubic-bezier(.22,1,.36,1) both;}
         .fade-up-1{animation-delay:.05s;}
@@ -117,16 +117,20 @@ export function DesktopLoginPage() {
           style={{ top:"50%", height:1,
             background:"linear-gradient(90deg,transparent,rgba(124,58,237,.07) 20%,rgba(167,139,250,.10) 50%,rgba(124,58,237,.07) 80%,transparent)" }} />
 
-        {/* Glowing micro dots */}
+        {/* Radial gradient behind center content */}
+        <div className="absolute pointer-events-none"
+          style={{ top:"30%", left:"50%", transform:"translateX(-50%)",
+            width:560, height:400,
+            background:"radial-gradient(ellipse at 50% 50%, rgba(88,28,220,.07) 0%, transparent 65%)",
+            filter:"blur(40px)" }} />
+
+        {/* Glowing micro dots — very subtle */}
         <div className="absolute rounded-full pointer-events-none"
-          style={{ top:"22%", left:"18%", width:4, height:4,
-            background:"rgba(167,139,250,.5)", boxShadow:"0 0 10px 3px rgba(124,58,237,.28)" }} />
+          style={{ top:"22%", left:"18%", width:3, height:3,
+            background:"rgba(167,139,250,.30)", boxShadow:"0 0 6px 2px rgba(124,58,237,.14)" }} />
         <div className="absolute rounded-full pointer-events-none"
-          style={{ top:"36%", right:"20%", width:3, height:3,
-            background:"rgba(139,92,246,.55)", boxShadow:"0 0 8px 2px rgba(109,40,217,.26)" }} />
-        <div className="absolute rounded-full pointer-events-none"
-          style={{ bottom:"28%", left:"28%", width:2, height:2,
-            background:"rgba(167,139,250,.4)", boxShadow:"0 0 6px 2px rgba(124,58,237,.20)" }} />
+          style={{ top:"36%", right:"20%", width:2, height:2,
+            background:"rgba(139,92,246,.32)", boxShadow:"0 0 5px 1px rgba(109,40,217,.14)" }} />
 
         {/* ── Main content — centred ── */}
         <div className="relative z-10 flex flex-col items-center flex-1 px-6"
@@ -177,23 +181,24 @@ export function DesktopLoginPage() {
 
           {/* Subtitle */}
           <p className="fade-up fade-up-2 text-center mb-10"
-            style={{ fontSize:16, maxWidth:420, color:"rgba(255,255,255,.48)", lineHeight:1.65 }}>
+            style={{ fontSize:15.5, maxWidth:400, color:"rgba(255,255,255,.58)", lineHeight:1.70, fontWeight:400 }}>
             Achète et vends des pièces de mode en quelques secondes grâce à l'intelligence artificielle.
           </p>
 
           {/* ── Login block ── */}
-          <div className="fade-up fade-up-3 w-full" style={{maxWidth:480}}>
-            <div className="rounded-3xl p-8 relative overflow-hidden"
+          <div className="fade-up fade-up-3 w-full" style={{maxWidth:460}}>
+            <div className="rounded-3xl relative overflow-hidden"
               style={{
-                background:"rgba(255,255,255,.032)",
-                border:"1px solid rgba(255,255,255,.075)",
-                backdropFilter:"blur(40px) saturate(160%)",
-                boxShadow:"0 24px 80px rgba(0,0,0,.55), 0 0 0 .5px rgba(255,255,255,.04) inset, 0 1px 0 rgba(255,255,255,.07) inset",
+                padding:"28px 32px",
+                background:"rgba(255,255,255,.022)",
+                border:"1px solid rgba(255,255,255,.052)",
+                backdropFilter:"blur(48px) saturate(180%)",
+                boxShadow:"0 20px 70px rgba(0,0,0,.50), 0 0 0 .5px rgba(255,255,255,.03) inset, 0 1px 0 rgba(255,255,255,.055) inset",
               }}>
 
-              {/* Inner top glow */}
+              {/* Inner top line — barely visible */}
               <div className="absolute top-0 inset-x-0 h-px pointer-events-none"
-                style={{ background:"linear-gradient(90deg,transparent 10%,rgba(167,139,250,.25) 50%,transparent 90%)" }} />
+                style={{ background:"linear-gradient(90deg,transparent 15%,rgba(167,139,250,.16) 50%,transparent 85%)" }} />
 
               {step !== "main" && (
                 <button onClick={()=>setStep("main")}
@@ -331,19 +336,23 @@ export function DesktopLoginPage() {
             </div>
           </div>
 
-          {/* ── Stats + perks bar ── */}
-          <div className="fade-up fade-up-4 w-full flex items-center justify-center gap-8 mt-8 flex-wrap"
-            style={{maxWidth:560}}>
+          {/* ── Stats bar ── */}
+          <div className="fade-up fade-up-4 flex items-center gap-1 mt-7">
             {[
-              {icon:Users,  value:"50K+", label:"membres"},
-              {icon:Zap,    value:"1.2K", label:"ventes/jour"},
-              {icon:Shield, value:"4.8★", label:"satisfaction"},
-              {icon:Package,value:"32K+", label:"articles"},
-            ].map(({icon:Icon,value,label})=>(
-              <div key={label} className="flex items-center gap-2">
-                <Icon className="w-3.5 h-3.5" style={{color:"rgba(139,92,246,.55)"}}/>
-                <span className="text-[13px] font-black" style={{color:"rgba(255,255,255,.50)"}}>{value}</span>
-                <span className="text-[12px]" style={{color:"rgba(255,255,255,.18)"}}>{label}</span>
+              {value:"50 000+", label:"membres"},
+              {value:"1 200",   label:"ventes / jour"},
+              {value:"4.8 ★",   label:"satisfaction"},
+            ].map(({value,label},i,arr)=>(
+              <div key={label} className="flex items-center gap-1">
+                <div className="flex items-baseline gap-1.5 px-4">
+                  <span className="text-[13px] font-bold tracking-tight"
+                    style={{color:"rgba(255,255,255,.55)"}}>{value}</span>
+                  <span className="text-[11px]"
+                    style={{color:"rgba(255,255,255,.22)"}}>{label}</span>
+                </div>
+                {i < arr.length-1 && (
+                  <div className="w-px h-3" style={{background:"rgba(255,255,255,.10)"}}/>
+                )}
               </div>
             ))}
           </div>
@@ -370,28 +379,31 @@ function StepHead({icon,title,sub}:{icon:React.ReactNode;title:string;sub:string
 function GlassBtn({children,onClick,loading}:{children:React.ReactNode;onClick?:()=>void;loading?:boolean}) {
   return (
     <button type="button" onClick={onClick} disabled={loading}
-      className="w-full flex items-center justify-center gap-3 rounded-2xl text-[14px] font-semibold transition-all active:scale-[0.98] disabled:opacity-50"
+      className="w-full flex items-center justify-center gap-3 rounded-2xl text-[13.5px] font-semibold transition-all active:scale-[0.98] disabled:opacity-50"
       style={{
-        padding:"13px 20px",
-        background:"rgba(255,255,255,.06)",
-        border:"1px solid rgba(255,255,255,.10)",
-        color:"rgba(255,255,255,.80)",
-        backdropFilter:"blur(8px)",
-        boxShadow:"inset 0 1px 0 rgba(255,255,255,.07)",
+        padding:"12px 20px",
+        background:"rgba(255,255,255,.055)",
+        border:"1px solid rgba(255,255,255,.09)",
+        color:"rgba(255,255,255,.75)",
+        backdropFilter:"blur(12px)",
+        boxShadow:"inset 0 1px 0 rgba(255,255,255,.08), 0 1px 3px rgba(0,0,0,.25)",
+        letterSpacing:"0.01em",
       }}
       onMouseEnter={e=>{
         const el=e.currentTarget as HTMLElement;
-        el.style.background="rgba(255,255,255,.095)";
-        el.style.borderColor="rgba(255,255,255,.16)";
+        el.style.background="rgba(255,255,255,.085)";
+        el.style.borderColor="rgba(255,255,255,.14)";
         el.style.transform="translateY(-1px)";
-        el.style.boxShadow="0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.09)";
+        el.style.boxShadow="inset 0 1px 0 rgba(255,255,255,.10), 0 12px 32px rgba(0,0,0,.40)";
+        el.style.color="rgba(255,255,255,.90)";
       }}
       onMouseLeave={e=>{
         const el=e.currentTarget as HTMLElement;
-        el.style.background="rgba(255,255,255,.06)";
-        el.style.borderColor="rgba(255,255,255,.10)";
+        el.style.background="rgba(255,255,255,.055)";
+        el.style.borderColor="rgba(255,255,255,.09)";
         el.style.transform="";
-        el.style.boxShadow="inset 0 1px 0 rgba(255,255,255,.07)";
+        el.style.boxShadow="inset 0 1px 0 rgba(255,255,255,.08), 0 1px 3px rgba(0,0,0,.25)";
+        el.style.color="rgba(255,255,255,.75)";
       }}>
       {loading ? <span className="rounded-full border-2 border-white/30 border-t-white animate-spin" style={{width:18,height:18}}/> : children}
     </button>
