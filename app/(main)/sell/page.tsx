@@ -1,14 +1,21 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { ArrowLeft, Zap, PenLine, Shield } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
+import { getDeviceType } from "@/lib/device";
+import { DesktopSellPage } from "@/components/desktop/DesktopSellPage";
 
 export default async function SellPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth");
+
+  const device = await getDeviceType();
+  if (device === "desktop") {
+    return <DesktopSellPage />;
+  }
 
   return (
     <>
@@ -24,7 +31,6 @@ export default async function SellPage() {
         </div>
 
         <div className="px-4 space-y-3">
-          {/* IA — recommandé */}
           <Link href="/sell/ai" className="block active:scale-[0.98] transition-transform">
             <div className="relative rounded-3xl overflow-hidden p-5"
               style={{ background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)" }}>
@@ -35,9 +41,7 @@ export default async function SellPage() {
                   <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
                     <Zap className="w-6 h-6 text-white fill-white" />
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-white/20 text-[11px] font-black text-white">
-                    ⚡ RECOMMANDÉ
-                  </span>
+                  <span className="px-3 py-1 rounded-full bg-white/20 text-[11px] font-black text-white">⚡ RECOMMANDÉ</span>
                 </div>
                 <p className="text-white font-black text-[20px] leading-tight mb-1">Vendre avec l'IA</p>
                 <p className="text-white/70 text-[13px] mb-4">Photo → annonce complète en 30 secondes</p>
@@ -50,7 +54,6 @@ export default async function SellPage() {
             </div>
           </Link>
 
-          {/* Manuel */}
           <Link href="/sell/manual" className="block active:scale-[0.98] transition-transform">
             <div className="rounded-3xl border border-white/8 p-5" style={{ background: "rgba(255,255,255,0.03)" }}>
               <div className="flex items-start gap-4">
@@ -70,7 +73,6 @@ export default async function SellPage() {
             </div>
           </Link>
 
-          {/* Sécurité */}
           <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-emerald-500/6 border border-emerald-500/12">
             <Shield className="w-4 h-4 text-emerald-400 flex-shrink-0" />
             <p className="text-[12px] text-emerald-300/60">Protection acheteur incluse · Paiement sécurisé</p>
