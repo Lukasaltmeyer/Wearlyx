@@ -72,30 +72,30 @@ export function DesktopLoginPage() {
       `}</style>
 
       <div
-        className="min-h-[100dvh] flex flex-col items-center justify-center relative overflow-hidden"
+        className="min-h-[100dvh] w-screen flex flex-col items-center justify-center relative overflow-hidden"
         style={{ background: "#020007" }}
       >
-        {/* Atmosphere orbs */}
+        {/* Atmosphere orbs — sized for full desktop screen */}
         <div className="absolute pointer-events-none aorb1"
-          style={{ top:"10%", left:"50%", transform:"translateX(-50%)", width:900, height:700,
-            background:"radial-gradient(ellipse at 50% 35%, rgba(88,28,220,.13) 0%, rgba(67,20,180,.04) 42%, transparent 68%)",
-            filter:"blur(70px)" }} />
-        <div className="absolute pointer-events-none aorb2"
-          style={{ top:"-10%", right:"-8%", width:500, height:500,
-            background:"radial-gradient(circle, rgba(109,40,217,.12) 0%, transparent 60%)",
+          style={{ top:"5%", left:"50%", transform:"translateX(-50%)", width:"80vw", height:"70vh",
+            background:"radial-gradient(ellipse at 50% 35%, rgba(88,28,220,.15) 0%, rgba(67,20,180,.05) 42%, transparent 68%)",
             filter:"blur(80px)" }} />
+        <div className="absolute pointer-events-none aorb2"
+          style={{ top:"-15%", right:"-5%", width:"40vw", height:"70vh",
+            background:"radial-gradient(circle, rgba(109,40,217,.12) 0%, transparent 60%)",
+            filter:"blur(100px)" }} />
         <div className="absolute pointer-events-none aorb3"
-          style={{ bottom:"5%", left:"-5%", width:400, height:400,
-            background:"radial-gradient(circle, rgba(76,29,149,.09) 0%, transparent 65%)",
-            filter:"blur(64px)" }} />
+          style={{ bottom:"0%", left:"-5%", width:"35vw", height:"60vh",
+            background:"radial-gradient(circle, rgba(76,29,149,.10) 0%, transparent 65%)",
+            filter:"blur(80px)" }} />
 
         {/* Subtle grid */}
         <div className="absolute inset-0 pointer-events-none"
           style={{ backgroundImage:"linear-gradient(rgba(124,58,237,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.025) 1px,transparent 1px)", backgroundSize:"80px 80px", maskImage:"radial-gradient(ellipse at 50% 30%, black 30%, transparent 70%)" }} />
 
-        {/* Content — centered column */}
-        <div className="relative z-10 flex flex-col items-center text-center w-full px-6"
-          style={{ maxWidth: 520 }}>
+        {/* Content — centered column, comfortably sized for desktop */}
+        <div className="relative z-10 flex flex-col items-center text-center w-full px-8"
+          style={{ maxWidth: 580 }}>
 
           {/* Logo */}
           <div className="flex items-center gap-2.5 mb-6">
