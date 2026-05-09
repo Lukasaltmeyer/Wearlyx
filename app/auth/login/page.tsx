@@ -1,8 +1,6 @@
 import { getDeviceType } from "@/lib/device";
-import dynamic from "next/dynamic";
 import { DesktopLoginPage } from "./DesktopLoginPage";
-
-const LoginClient = dynamic(() => import("./LoginClient"), { ssr: false });
+import LoginClient from "./LoginClient";
 
 export default async function LoginPage() {
   const device = await getDeviceType();

@@ -30,34 +30,34 @@ export function DesktopLoginPage() {
 
   const handleGoogle = async () => {
     setGoogleLoading(true); setError("");
-    const { error: e } = await signInWithProvider("google");
-    if (e) { setError(e.message); setGoogleLoading(false); }
+    try { await signInWithProvider("google"); }
+    catch (e: any) { setError(e?.message ?? "Erreur"); setGoogleLoading(false); }
   };
 
-  const handleEmail = async (e: React.FormEvent) => {
+  const handleEmail = async (e: React.SyntheticEvent) => {
     e.preventDefault(); setLoading(true); setError("");
-    const { error: e2 } = await signInWithEmail(email, password);
-    if (e2) { setError(e2.message); setLoading(false); }
+    try { await signInWithEmail(email, password); }
+    catch (e: any) { setError(e?.message ?? "Erreur"); setLoading(false); }
   };
 
-  const handleForgot = async (e: React.FormEvent) => {
+  const handleForgot = async (e: React.SyntheticEvent) => {
     e.preventDefault(); setLoading(true); setError("");
-    const { error: e2 } = await sendPasswordReset(forgotEmail);
-    if (e2) { setError(e2.message); setLoading(false); }
-    else { setStep("forgot-sent"); setLoading(false); }
+    try { await sendPasswordReset(forgotEmail); setStep("forgot-sent"); }
+    catch (e: any) { setError(e?.message ?? "Erreur"); }
+    finally { setLoading(false); }
   };
 
-  const handlePhone = async (e: React.FormEvent) => {
+  const handlePhone = async (e: React.SyntheticEvent) => {
     e.preventDefault(); setLoading(true); setError("");
-    const { error: e2 } = await signInWithPhone(phone);
-    if (e2) { setError(e2.message); setLoading(false); }
-    else { setStep("phone-otp"); setLoading(false); }
+    try { await signInWithPhone(phone); setStep("phone-otp"); }
+    catch (e: any) { setError(e?.message ?? "Erreur"); }
+    finally { setLoading(false); }
   };
 
-  const handleOtp = async (e: React.FormEvent) => {
+  const handleOtp = async (e: React.SyntheticEvent) => {
     e.preventDefault(); setLoading(true); setError("");
-    const { error: e2 } = await verifyPhoneOtp(phone, otpDigits.join(""));
-    if (e2) { setError(e2.message); setLoading(false); }
+    try { await verifyPhoneOtp(phone, otpDigits.join("")); }
+    catch (e: any) { setError(e?.message ?? "Erreur"); setLoading(false); }
   };
 
   const handleOtpChange = (i: number, v: string) => {
