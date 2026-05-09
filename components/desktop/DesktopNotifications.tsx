@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Bell, Heart, MessageCircle, ShoppingBag, Star, Zap, CheckCheck,
-  Package, Tag, UserPlus, Award, ArrowRight, TrendingUp,
-  Flame, Users
+  Package, Tag, UserPlus, Award, ArrowRight, TrendingUp, Flame, Users
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { timeAgo } from "@/lib/utils";
@@ -22,16 +21,16 @@ interface Notification {
 }
 
 const TYPE_CONFIG: Record<string, { icon: any; color: string; bg: string; label: string; labelColor: string }> = {
-  like:    { icon: Heart,         color: "#EF4444", bg: "rgba(239,68,68,0.12)",   label: "Favori",   labelColor: "#FCA5A5" },
-  message: { icon: MessageCircle, color: "#3B82F6", bg: "rgba(59,130,246,0.12)",  label: "Message",  labelColor: "#93C5FD" },
-  sale:    { icon: ShoppingBag,   color: "#10B981", bg: "rgba(16,185,129,0.12)",  label: "Vente",    labelColor: "#6EE7B7" },
-  review:  { icon: Star,          color: "#F59E0B", bg: "rgba(245,158,11,0.12)",  label: "Avis",     labelColor: "#FCD34D" },
-  boost:   { icon: Zap,           color: "#8B5CF6", bg: "rgba(139,92,246,0.12)",  label: "Boost",    labelColor: "#C4B5FD" },
-  order:   { icon: Package,       color: "#6366F1", bg: "rgba(99,102,241,0.12)",  label: "Commande", labelColor: "#A5B4FC" },
-  follow:  { icon: UserPlus,      color: "#EC4899", bg: "rgba(236,72,153,0.12)",  label: "Abonné",   labelColor: "#F9A8D4" },
-  promo:   { icon: Tag,           color: "#F97316", bg: "rgba(249,115,22,0.12)",  label: "Promo",    labelColor: "#FDBA74" },
-  badge:   { icon: Award,         color: "#F59E0B", bg: "rgba(245,158,11,0.12)",  label: "Badge",    labelColor: "#FCD34D" },
-  default: { icon: Bell,          color: "#A78BFA", bg: "rgba(167,139,250,0.12)", label: "Info",     labelColor: "#C4B5FD" },
+  like:    { icon: Heart,         color: "#EF4444", bg: "rgba(239,68,68,0.10)",   label: "Favori",   labelColor: "#FCA5A5" },
+  message: { icon: MessageCircle, color: "#3B82F6", bg: "rgba(59,130,246,0.10)",  label: "Message",  labelColor: "#93C5FD" },
+  sale:    { icon: ShoppingBag,   color: "#10B981", bg: "rgba(16,185,129,0.10)",  label: "Vente",    labelColor: "#6EE7B7" },
+  review:  { icon: Star,          color: "#F59E0B", bg: "rgba(245,158,11,0.10)",  label: "Avis",     labelColor: "#FCD34D" },
+  boost:   { icon: Zap,           color: "#8B5CF6", bg: "rgba(139,92,246,0.10)",  label: "Boost",    labelColor: "#C4B5FD" },
+  order:   { icon: Package,       color: "#6366F1", bg: "rgba(99,102,241,0.10)",  label: "Commande", labelColor: "#A5B4FC" },
+  follow:  { icon: UserPlus,      color: "#EC4899", bg: "rgba(236,72,153,0.10)",  label: "Abonné",   labelColor: "#F9A8D4" },
+  promo:   { icon: Tag,           color: "#F97316", bg: "rgba(249,115,22,0.10)",  label: "Promo",    labelColor: "#FDBA74" },
+  badge:   { icon: Award,         color: "#F59E0B", bg: "rgba(245,158,11,0.10)",  label: "Badge",    labelColor: "#FCD34D" },
+  default: { icon: Bell,          color: "#A78BFA", bg: "rgba(167,139,250,0.10)", label: "Info",     labelColor: "#C4B5FD" },
 };
 
 const FILTER_TABS = [
@@ -58,27 +57,47 @@ function NotifCard({ notif, onRead }: { notif: Notification; onRead: (id: string
 
   return (
     <div
-      className="flex items-start gap-4 px-5 py-4 rounded-2xl transition-all cursor-pointer group relative"
+      className="flex items-start gap-4 px-5 py-4 rounded-2xl transition-all cursor-pointer relative overflow-hidden"
       style={{
-        background: notif.read ? "rgba(255,255,255,0.02)" : `${cfg.color}07`,
-        border: `1px solid ${notif.read ? "rgba(255,255,255,0.05)" : `${cfg.color}20`}`,
+        background: notif.read
+          ? "linear-gradient(145deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%)"
+          : `linear-gradient(145deg, ${cfg.color}09 0%, ${cfg.color}04 100%)`,
+        border: `1px solid ${notif.read ? "rgba(255,255,255,0.06)" : `${cfg.color}22`}`,
+        boxShadow: notif.read ? "none" : `0 4px 20px ${cfg.color}08`,
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = notif.read ? "rgba(255,255,255,0.04)" : `${cfg.color}10`; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = notif.read ? "rgba(255,255,255,0.02)" : `${cfg.color}07`; }}
-      onClick={() => !notif.read && onRead(notif.id)}>
-
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLElement).style.background = notif.read
+          ? "rgba(255,255,255,0.04)"
+          : `${cfg.color}12`;
+        (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLElement).style.background = notif.read
+          ? "linear-gradient(145deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%)"
+          : `linear-gradient(145deg, ${cfg.color}09 0%, ${cfg.color}04 100%)`;
+        (e.currentTarget as HTMLElement).style.transform = "";
+      }}
+      onClick={() => !notif.read && onRead(notif.id)}
+    >
+      {/* Unread left accent */}
       {!notif.read && (
-        <div className="absolute left-0 top-3 bottom-3 w-0.5 rounded-full" style={{ background: cfg.color }} />
+        <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-r-full"
+          style={{ background: `linear-gradient(180deg, ${cfg.color}, ${cfg.color}55)` }} />
       )}
 
+      {/* Icon / Avatar */}
       <div className="relative flex-shrink-0 mt-0.5">
         {d.actor_avatar || d.actor_name ? (
           <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-[13px]"
-            style={{ background: `linear-gradient(135deg, ${cfg.color}50, ${cfg.color}28)`, border: `1px solid ${cfg.color}35` }}>
+            style={{
+              background: `linear-gradient(135deg, ${cfg.color}50, ${cfg.color}28)`,
+              border: `1px solid ${cfg.color}35`,
+            }}>
             {(d.actor_name ?? "?")[0]?.toUpperCase()}
           </div>
         ) : (
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: cfg.bg }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+            style={{ background: cfg.bg, border: `1px solid ${cfg.color}20` }}>
             <Icon style={{ color: cfg.color, width: 18, height: 18 }} />
           </div>
         )}
@@ -90,35 +109,60 @@ function NotifCard({ notif, onRead }: { notif: Notification; onRead: (id: string
         )}
       </div>
 
+      {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-3 mb-1">
           <p className="text-[13.5px] font-semibold text-white leading-snug">{notif.title || "Notification"}</p>
           <div className="flex items-center gap-2 flex-shrink-0">
-            <span className="text-[10.5px] text-white/25 whitespace-nowrap">{timeAgo(notif.created_at)}</span>
-            {!notif.read && <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: cfg.color }} />}
+            <span className="text-[10.5px] text-white/22 whitespace-nowrap">{timeAgo(notif.created_at)}</span>
+            {!notif.read && (
+              <span className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ background: cfg.color, boxShadow: `0 0 8px ${cfg.color}80` }} />
+            )}
           </div>
         </div>
-        {notif.body && <p className="text-[12px] text-white/38 leading-relaxed mb-2">{notif.body}</p>}
+        {notif.body && (
+          <p className="text-[12px] text-white/35 leading-relaxed mb-2">{notif.body}</p>
+        )}
         {d.product_image && (
           <div className="flex items-center gap-2.5 mt-2 p-2.5 rounded-xl"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.07)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
+            }}>
             <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
               <Image src={d.product_image} alt="" width={40} height={40} className="object-cover w-full h-full" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[11.5px] font-semibold text-white/65 truncate">{d.product_title}</p>
-              {d.product_price && <p className="text-[10.5px] font-black" style={{ color: cfg.color }}>{d.product_price}</p>}
+              {d.product_price && (
+                <p className="text-[10.5px] font-black" style={{ color: cfg.color }}>{d.product_price}</p>
+              )}
             </div>
           </div>
         )}
         <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold px-2 py-0.5 rounded-full"
-          style={{ background: cfg.bg, color: cfg.labelColor }}>
+          style={{ background: cfg.bg, color: cfg.labelColor, border: `1px solid ${cfg.color}20` }}>
           <Icon style={{ width: 9, height: 9 }} />{cfg.label}
         </span>
       </div>
     </div>
   );
 }
+
+const PanelCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div
+    className={`rounded-2xl p-5 ${className}`}
+    style={{
+      background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.018) 100%)",
+      border: "1px solid rgba(255,255,255,0.08)",
+      boxShadow: "0 4px 24px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.07) inset",
+    }}
+  >
+    {children}
+  </div>
+);
 
 export function DesktopNotifications({ notifications: initial, userId }: { notifications: Notification[]; userId: string }) {
   const [notifs, setNotifs] = useState(initial);
@@ -156,164 +200,236 @@ export function DesktopNotifications({ notifications: initial, userId }: { notif
   const groupOrder = ["Aujourd'hui", "Hier", "Cette semaine", "Plus tôt"];
 
   return (
-    <div className="min-h-[100dvh] px-8 py-7" style={{ background: "#07070A" }}>
-      <div className="flex gap-7">
+    <div className="min-h-[100dvh] relative overflow-hidden" style={{ background: "#07070A" }}>
+      {/* Ambient orbs */}
+      <div className="absolute pointer-events-none"
+        style={{ top: -200, left: "20%", width: 700, height: 700,
+          background: "radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%)", filter: "blur(80px)" }} />
+      <div className="absolute pointer-events-none"
+        style={{ bottom: -100, right: "10%", width: 500, height: 500,
+          background: "radial-gradient(circle, rgba(109,40,217,0.05) 0%, transparent 70%)", filter: "blur(100px)" }} />
 
-        {/* ════ MAIN — Notifications list ════ */}
-        <div className="flex-1 min-w-0">
+      <div className="relative z-10 px-8 py-7">
+        <div className="flex gap-7">
 
-          {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h1 className="text-[26px] font-black text-white flex items-center gap-3 mb-1">
-                Notifications
-                {unread > 0 && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[13px] font-bold text-white"
-                    style={{ background: "#8B5CF6" }}>{unread}</span>
-                )}
-              </h1>
-              <p className="text-[13px] text-white/28">
-                {notifs.length} notification{notifs.length !== 1 ? "s" : ""} · {unread} non lue{unread !== 1 ? "s" : ""}
-              </p>
+          {/* ── MAIN ── */}
+          <div className="flex-1 min-w-0">
+
+            {/* Header */}
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <h1 className="text-[28px] font-black text-white flex items-center gap-3 mb-1 tracking-tight"
+                  style={{ letterSpacing: "-0.02em" }}>
+                  Notifications
+                  {unread > 0 && (
+                    <span className="px-2.5 py-0.5 rounded-full text-[13px] font-bold text-white"
+                      style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                        boxShadow: "0 4px 12px rgba(139,92,246,0.4)" }}>
+                      {unread}
+                    </span>
+                  )}
+                </h1>
+                <p className="text-[13px]" style={{ color: "rgba(255,255,255,0.25)" }}>
+                  {notifs.length} notification{notifs.length !== 1 ? "s" : ""} · {unread} non lue{unread !== 1 ? "s" : ""}
+                </p>
+              </div>
+              {unread > 0 && (
+                <button onClick={markAllRead}
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-[12.5px] font-semibold transition-all"
+                  style={{
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    color: "rgba(255,255,255,0.4)",
+                    background: "rgba(255,255,255,0.03)",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)";
+                    (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.75)";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)";
+                    (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)";
+                  }}>
+                  <CheckCheck className="w-4 h-4" /> Tout lire
+                </button>
+              )}
             </div>
-            {unread > 0 && (
-              <button onClick={markAllRead}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-[12.5px] font-semibold text-white/40 hover:text-white transition-all hover:bg-white/5"
-                style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
-                <CheckCheck className="w-4 h-4" /> Tout lire
-              </button>
+
+            {/* Filter tabs */}
+            <div className="flex items-center gap-2 mb-6">
+              {FILTER_TABS.map(({ key, label }) => (
+                <button key={key} onClick={() => setFilter(key)}
+                  className="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all flex-shrink-0"
+                  style={{
+                    background: filter === key
+                      ? "linear-gradient(135deg, rgba(139,92,246,0.22), rgba(109,40,217,0.14))"
+                      : "rgba(255,255,255,0.04)",
+                    border: filter === key ? "1px solid rgba(139,92,246,0.4)" : "1px solid rgba(255,255,255,0.06)",
+                    color: filter === key ? "#C4B5FD" : "rgba(255,255,255,0.35)",
+                    boxShadow: filter === key ? "0 0 16px rgba(139,92,246,0.12)" : "none",
+                  }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Content */}
+            {notifs.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-28 text-center">
+                <div className="relative mb-6">
+                  <div className="absolute inset-0 rounded-3xl pointer-events-none"
+                    style={{ background: "radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 65%)", filter: "blur(20px)", transform: "scale(1.5)" }} />
+                  <div className="relative w-20 h-20 rounded-3xl flex items-center justify-center"
+                    style={{
+                      background: "linear-gradient(145deg, rgba(139,92,246,0.12), rgba(109,40,217,0.06))",
+                      border: "1px solid rgba(139,92,246,0.18)",
+                      boxShadow: "0 8px 32px rgba(139,92,246,0.12), 0 1px 0 rgba(255,255,255,0.08) inset",
+                    }}>
+                    <Bell className="w-9 h-9" style={{ color: "rgba(139,92,246,0.45)" }} />
+                  </div>
+                </div>
+                <p className="text-[18px] font-black text-white/25 mb-2" style={{ letterSpacing: "-0.01em" }}>
+                  Tout est calme
+                </p>
+                <p className="text-[13px] mb-8 max-w-[240px] leading-relaxed" style={{ color: "rgba(255,255,255,0.16)" }}>
+                  Tu seras notifié ici dès qu'il se passe quelque chose.
+                </p>
+                <Link href="/search"
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-[13px] font-bold text-white transition-all hover:-translate-y-0.5"
+                  style={{
+                    background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                    boxShadow: "0 6px 20px rgba(139,92,246,0.38), 0 1px 0 rgba(255,255,255,0.12) inset",
+                  }}>
+                  Explorer <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            ) : filtered.length === 0 ? (
+              <div className="flex flex-col items-center py-20">
+                <p className="text-[14px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+                  Aucune notification dans cette catégorie
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-8">
+                {groupOrder.filter(l => groups[l]?.length).map(label => (
+                  <div key={label}>
+                    <div className="flex items-center gap-3 mb-3">
+                      <p className="text-[10px] font-black uppercase tracking-widest"
+                        style={{ color: "rgba(255,255,255,0.2)" }}>{label}</p>
+                      <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
+                      <span className="text-[10px] font-semibold" style={{ color: "rgba(255,255,255,0.16)" }}>
+                        {groups[label].length}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      {groups[label].map(n => <NotifCard key={n.id} notif={n} onRead={markRead} />)}
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
 
-          {/* Filters */}
-          <div className="flex items-center gap-2 mb-6">
-            {FILTER_TABS.map(({ key, label }) => (
-              <button key={key} onClick={() => setFilter(key)}
-                className="px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all flex-shrink-0"
-                style={{
-                  background: filter === key ? "rgba(139,92,246,0.18)" : "rgba(255,255,255,0.04)",
-                  border: filter === key ? "1px solid rgba(139,92,246,0.4)" : "1px solid transparent",
-                  color: filter === key ? "#C4B5FD" : "rgba(255,255,255,0.38)",
-                }}>
-                {label}
-              </button>
-            ))}
-          </div>
+          {/* ── RIGHT PANEL ── */}
+          <div className="w-[280px] flex-shrink-0 flex flex-col gap-4">
 
-          {/* Content */}
-          {notifs.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-24 text-center">
-              <div className="w-18 h-18 rounded-3xl flex items-center justify-center mb-5"
-                style={{ width: 72, height: 72, background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.14)" }}>
-                <Bell className="w-8 h-8 text-[#8B5CF6]/35" />
+            {/* Live sales */}
+            <PanelCard>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"
+                  style={{ boxShadow: "0 0 8px rgba(52,211,153,0.7)" }} />
+                <p className="text-[11px] font-black uppercase tracking-widest"
+                  style={{ color: "rgba(255,255,255,0.35)" }}>Ventes en direct</p>
               </div>
-              <p className="text-[16px] font-black text-white/25 mb-2">Tout est calme</p>
-              <p className="text-[13px] text-white/18 mb-6 max-w-[240px] leading-relaxed">
-                Tu seras notifié ici dès qu'il se passe quelque chose.
-              </p>
-              <Link href="/search"
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-[13px] font-bold text-white"
-                style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 16px rgba(139,92,246,0.3)" }}>
-                Explorer <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          ) : filtered.length === 0 ? (
-            <div className="flex flex-col items-center py-20">
-              <p className="text-[14px] text-white/22">Aucune notification dans cette catégorie</p>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-7">
-              {groupOrder.filter(l => groups[l]?.length).map(label => (
-                <div key={label}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <p className="text-[10px] font-black text-white/22 uppercase tracking-widest">{label}</p>
-                    <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
-                    <span className="text-[10px] text-white/18 font-semibold">{groups[label].length}</span>
+              <div className="flex flex-col gap-3">
+                {LIVE_SALES.map(s => (
+                  <div key={s.user} className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-black text-white"
+                      style={{ background: `linear-gradient(135deg, ${s.color}55, ${s.color}28)`,
+                        boxShadow: `0 2px 8px ${s.color}25` }}>
+                      {s.user[0].toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[11px] font-semibold text-white/55 truncate">{s.item}</p>
+                      <p className="text-[9.5px]" style={{ color: "rgba(255,255,255,0.22)" }}>@{s.user}</p>
+                    </div>
+                    <span className="text-[11px] font-black flex-shrink-0" style={{ color: s.color }}>{s.price}</span>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    {groups[label].map(n => <NotifCard key={n.id} notif={n} onRead={markRead} />)}
-                  </div>
+                ))}
+              </div>
+            </PanelCard>
+
+            {/* Platform stats */}
+            <PanelCard>
+              <p className="text-[11px] font-black uppercase tracking-widest mb-4"
+                style={{ color: "rgba(255,255,255,0.3)" }}>Live · Wearlyx</p>
+              {[
+                { label: "Membres actifs",    value: "50 K+",  icon: Users },
+                { label: "Ventes aujourd'hui", value: "1 247", icon: ShoppingBag },
+                { label: "Articles en ligne",  value: "32 K",  icon: Package },
+                { label: "Note moyenne",       value: "4.8 ★", icon: Star },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex items-center justify-between py-2"
+                  style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                  <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.28)" }}>{label}</span>
+                  <span className="text-[12px] font-black text-white">{value}</span>
                 </div>
               ))}
-            </div>
-          )}
-        </div>
+            </PanelCard>
 
-        {/* ════ RIGHT PANEL ════ */}
-        <div className="w-[280px] flex-shrink-0">
-
-          {/* Live sales */}
-          <div className="rounded-2xl p-5 mb-4"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <p className="text-[11px] font-black text-white/40 uppercase tracking-widest">Ventes en direct</p>
-            </div>
-            <div className="flex flex-col gap-2.5">
-              {LIVE_SALES.map(s => (
-                <div key={s.user} className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-black text-white"
-                    style={{ background: `linear-gradient(135deg, ${s.color}50, ${s.color}28)` }}>
-                    {s.user[0].toUpperCase()}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[11px] font-semibold text-white/55 truncate">{s.item}</p>
-                    <p className="text-[9.5px] text-white/25">@{s.user}</p>
-                  </div>
-                  <span className="text-[11px] font-black flex-shrink-0" style={{ color: s.color }}>{s.price}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Platform stats */}
-          <div className="rounded-2xl p-5 mb-4"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <p className="text-[11px] font-black text-white/40 uppercase tracking-widest mb-3">Live · Wearlyx</p>
-            {[
-              { label: "Membres actifs",    value: "50 K+",  icon: Users },
-              { label: "Ventes aujourd'hui",value: "1 247",  icon: ShoppingBag },
-              { label: "Articles en ligne", value: "32 K",   icon: Package },
-              { label: "Note moyenne",      value: "4.8 ★",  icon: Star },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex items-center justify-between py-2"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
-                <span className="text-[11px] text-white/30">{label}</span>
-                <span className="text-[12px] font-black text-white">{value}</span>
+            {/* Trending */}
+            <PanelCard>
+              <div className="flex items-center gap-2 mb-3">
+                <Flame className="w-3.5 h-3.5 text-orange-400" />
+                <p className="text-[11px] font-black uppercase tracking-widest"
+                  style={{ color: "rgba(255,255,255,0.3)" }}>Tendances</p>
               </div>
-            ))}
-          </div>
+              {TRENDING_NOW.map((t, i) => (
+                <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
+                  className="flex items-center gap-2.5 px-2 py-2 rounded-xl transition-all group"
+                  style={{ background: "transparent" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+                  <span className="text-[10px] font-black w-3.5" style={{ color: "rgba(255,255,255,0.14)" }}>{i + 1}</span>
+                  <span className="text-[11.5px] font-medium flex-1 truncate transition-colors"
+                    style={{ color: "rgba(255,255,255,0.42)" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.72)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.42)"; }}>
+                    {t}
+                  </span>
+                  <TrendingUp className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ color: "#8B5CF6" }} />
+                </Link>
+              ))}
+            </PanelCard>
 
-          {/* Trending */}
-          <div className="rounded-2xl p-5 mb-4"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <div className="flex items-center gap-2 mb-3">
-              <Flame className="w-3.5 h-3.5 text-orange-400" />
-              <p className="text-[11px] font-black text-white/40 uppercase tracking-widest">Tendances</p>
-            </div>
-            {TRENDING_NOW.map((t, i) => (
-              <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
-                className="flex items-center gap-2.5 px-2 py-2 rounded-xl hover:bg-white/4 transition-all group">
-                <span className="text-[10px] font-black text-white/15 w-3.5">{i + 1}</span>
-                <span className="text-[11.5px] font-medium text-white/45 group-hover:text-white/75 transition-colors flex-1 truncate">{t}</span>
-                <TrendingUp className="w-3 h-3 text-white/12 group-hover:text-[#8B5CF6]/50 transition-colors" />
-              </Link>
-            ))}
+            {/* Boost CTA */}
+            <Link href="/promotion-tools"
+              className="flex items-center gap-3 p-4 rounded-2xl transition-all group"
+              style={{
+                background: "linear-gradient(135deg, rgba(139,92,246,0.12), rgba(109,40,217,0.06))",
+                border: "1px solid rgba(139,92,246,0.18)",
+                boxShadow: "0 4px 20px rgba(139,92,246,0.06)",
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.32)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px rgba(139,92,246,0.14)";
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLElement).style.transform = "";
+                (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.18)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(139,92,246,0.06)";
+              }}>
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: "rgba(139,92,246,0.2)", border: "1px solid rgba(139,92,246,0.25)" }}>
+                <Zap className="w-4 h-4 text-[#A78BFA]" />
+              </div>
+              <div>
+                <p className="text-[12px] font-bold text-white">Booster mes annonces</p>
+                <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.28)" }}>+300% de visibilité</p>
+              </div>
+            </Link>
           </div>
-
-          {/* CTA */}
-          <Link href="/promotion-tools"
-            className="flex items-center gap-3 p-4 rounded-2xl transition-all hover:-translate-y-0.5 group"
-            style={{ background: "linear-gradient(135deg, rgba(139,92,246,0.1), rgba(109,40,217,0.05))", border: "1px solid rgba(139,92,246,0.18)" }}>
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: "rgba(139,92,246,0.2)" }}>
-              <Zap className="w-4 h-4 text-[#A78BFA]" />
-            </div>
-            <div>
-              <p className="text-[12px] font-bold text-white">Booster mes annonces</p>
-              <p className="text-[10px] text-white/30">+300% de visibilité</p>
-            </div>
-          </Link>
         </div>
       </div>
     </div>

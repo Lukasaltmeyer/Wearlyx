@@ -126,11 +126,18 @@ export function DesktopExplorer({ products, currentUserId, initialQ, initialCate
     });
 
   return (
-    <div className="min-h-[100dvh] flex flex-col" style={{ background: "#07070A" }}>
+    <div className="min-h-[100dvh] flex flex-col relative overflow-hidden" style={{ background: "#07070A" }}>
+      {/* Ambient */}
+      <div className="absolute pointer-events-none"
+        style={{ top: -200, left: "30%", width: 700, height: 700,
+          background: "radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%)", filter: "blur(80px)" }} />
+      <div className="absolute pointer-events-none"
+        style={{ bottom: -80, right: "15%", width: 500, height: 500,
+          background: "radial-gradient(circle, rgba(109,40,217,0.05) 0%, transparent 70%)", filter: "blur(100px)" }} />
 
       {/* ── Sticky header ── */}
       <div className="sticky top-0 z-30 px-6 py-3 border-b flex-shrink-0"
-        style={{ background: "rgba(7,7,10,0.96)", backdropFilter: "blur(20px)", borderColor: "rgba(255,255,255,0.05)" }}>
+        style={{ background: "rgba(7,7,10,0.94)", backdropFilter: "blur(28px) saturate(180%)", borderColor: "rgba(255,255,255,0.06)" }}>
         <div className="flex items-center gap-3">
           {/* Search bar */}
           <div className="flex-1 flex items-center gap-3 px-4 py-2.5 rounded-2xl transition-all"
@@ -354,7 +361,7 @@ export function DesktopExplorer({ products, currentUserId, initialQ, initialCate
               <TrendingUp className="w-3 h-3 inline mr-1.5 text-[#8B5CF6]" />Recherches
             </p>
             <div className="flex flex-col gap-1">
-              {TRENDING_SEARCHES.slice(0, 5).map((t, i) => (
+              {TRENDING_SEARCHES.slice(0, 5).map((t) => (
                 <button key={t} onClick={() => setQ(t)}
                   className="flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all group"
                   style={{ background: "transparent" }}

@@ -19,92 +19,101 @@ export function BottomNav() {
   if (pathname.startsWith("/products/")) return null;
 
   return (
-    <nav
-      className="fixed bottom-0 left-0 right-0 z-40 safe-bottom lg:hidden"
-      style={{
-        background: "rgba(7,7,12,0.96)",
-        backdropFilter: "blur(40px) saturate(200%)",
-        WebkitBackdropFilter: "blur(40px) saturate(200%)",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        boxShadow: "0 -8px 32px rgba(0,0,0,0.4), 0 -1px 0 rgba(139,92,246,0.04)",
-      }}
-    >
-      <div className="h-[58px] flex items-center w-full px-1">
-        {navItems.map(({ href, icon: Icon, label, primary }) => {
-          const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+    <>
+      {/* Safe area spacer so content doesn't hide behind the nav */}
+      <div className="h-[84px] lg:hidden" />
 
-          if (primary) {
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-40 lg:hidden flex justify-center"
+        style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))", paddingLeft: 14, paddingRight: 14 }}
+      >
+        <div
+          className="w-full flex items-center"
+          style={{
+            maxWidth: 520,
+            height: 62,
+            background: "rgba(10,10,16,0.88)",
+            backdropFilter: "blur(48px) saturate(220%)",
+            WebkitBackdropFilter: "blur(48px) saturate(220%)",
+            borderRadius: 24,
+            border: "1px solid rgba(255,255,255,0.09)",
+            boxShadow: "0 -2px 0 rgba(255,255,255,0.04) inset, 0 8px 40px rgba(0,0,0,0.55), 0 0 0 0.5px rgba(139,92,246,0.08)",
+          }}
+        >
+          {navItems.map(({ href, icon: Icon, label, primary }) => {
+            const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+            if (primary) {
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className="flex flex-col items-center gap-1 flex-1 active:scale-90 transition-all duration-200"
+                >
+                  <div
+                    className="w-11 h-11 rounded-[18px] flex items-center justify-center relative overflow-hidden"
+                    style={{
+                      background: "linear-gradient(145deg, #9B6FF8 0%, #7C3AED 100%)",
+                      boxShadow: "0 4px 18px rgba(139,92,246,0.55), 0 0 0 1px rgba(167,139,250,0.2), 0 1px 0 rgba(255,255,255,0.18) inset",
+                    }}
+                  >
+                    {/* Inner shine */}
+                    <div className="absolute inset-0 rounded-[18px] pointer-events-none"
+                      style={{ background: "radial-gradient(circle at 40% 25%, rgba(255,255,255,0.18) 0%, transparent 55%)" }} />
+                    <Icon className="w-[21px] h-[21px] text-white relative z-10" strokeWidth={2.5} />
+                  </div>
+                </Link>
+              );
+            }
+
             return (
               <Link
                 key={href}
                 href={href}
-                className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-90 transition-all duration-150"
+                className="flex flex-col items-center gap-[3px] flex-1 active:scale-90 transition-all duration-200 relative py-1"
               >
                 <div
-                  className="w-11 h-11 rounded-[16px] flex items-center justify-center"
-                  style={{
-                    background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
-                    boxShadow: "0 4px 16px rgba(139,92,246,0.45), 0 0 0 1px rgba(167,139,250,0.15), inset 0 1px 0 rgba(255,255,255,0.15)",
-                  }}
+                  className={cn(
+                    "w-10 h-9 flex items-center justify-center rounded-[14px] transition-all duration-300",
+                  )}
+                  style={isActive ? {
+                    background: "rgba(139,92,246,0.14)",
+                    boxShadow: "0 0 20px rgba(139,92,246,0.18)",
+                  } : {}}
                 >
-                  <Icon className="w-[20px] h-[20px] text-white" strokeWidth={2.5} />
+                  <Icon
+                    className="transition-all duration-300"
+                    style={{
+                      width: 21, height: 21,
+                      color: isActive ? "#B09EFA" : "rgba(255,255,255,0.25)",
+                    }}
+                    strokeWidth={isActive ? 2.2 : 1.6}
+                  />
                 </div>
-                <span className="text-[9px] font-bold text-white/40">{label}</span>
+
+                <span
+                  className="text-[9px] font-bold transition-colors duration-300 leading-none"
+                  style={{ color: isActive ? "#A78BFA" : "rgba(255,255,255,0.2)" }}
+                >
+                  {label}
+                </span>
+
+                {/* Active pill indicator */}
+                {isActive && (
+                  <span
+                    className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full"
+                    style={{
+                      width: 20, height: 2,
+                      background: "linear-gradient(90deg, #8B5CF6, #A78BFA)",
+                      boxShadow: "0 0 8px rgba(139,92,246,0.7)",
+                    }}
+                  />
+                )}
               </Link>
             );
-          }
-
-          return (
-            <Link
-              key={href}
-              href={href}
-              className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-90 transition-all duration-150 relative"
-            >
-              {/* Active glow dot at top */}
-              {isActive && (
-                <span
-                  className="absolute top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                  style={{
-                    background: "#8B5CF6",
-                    boxShadow: "0 0 6px 2px rgba(139,92,246,0.6)",
-                  }}
-                />
-              )}
-
-              <div
-                className={cn(
-                  "w-10 h-10 flex items-center justify-center rounded-[14px] transition-all duration-250",
-                  isActive
-                    ? ""
-                    : "hover:bg-white/4"
-                )}
-                style={isActive ? {
-                  background: "rgba(139,92,246,0.12)",
-                  boxShadow: "0 0 16px rgba(139,92,246,0.12)",
-                } : {}}
-              >
-                <Icon
-                  className={cn(
-                    "transition-all duration-250",
-                    isActive ? "text-[#A78BFA]" : "text-white/28"
-                  )}
-                  style={{ width: 21, height: 21 }}
-                  strokeWidth={isActive ? 2.2 : 1.6}
-                />
-              </div>
-
-              <span
-                className={cn(
-                  "text-[9.5px] font-bold transition-colors duration-250",
-                  isActive ? "text-[#A78BFA]" : "text-white/22"
-                )}
-              >
-                {label}
-              </span>
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+          })}
+        </div>
+      </nav>
+    </>
   );
 }

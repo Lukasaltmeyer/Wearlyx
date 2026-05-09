@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Compass, Plus, MessageCircle, User, Zap, Crown, Heart, Bell, Settings, TrendingUp, Star } from "lucide-react";
+import { Home, Compass, Plus, MessageCircle, User, Zap, Crown, Heart, Bell, Settings, TrendingUp } from "lucide-react";
 
 const NAV = [
   { href: "/",              icon: Home,          label: "Accueil" },
@@ -17,17 +17,18 @@ function LeftSidebar() {
   const pathname = usePathname();
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[220px] flex flex-col z-40"
-      style={{ background: "#08080e", borderRight: "1px solid rgba(255,255,255,0.04)" }}>
+      style={{
+        background: "rgba(7,7,12,0.88)",
+        backdropFilter: "blur(28px) saturate(180%)",
+        WebkitBackdropFilter: "blur(28px) saturate(180%)",
+        borderRight: "1px solid rgba(255,255,255,0.06)",
+      }}>
 
       {/* Logo */}
       <div className="px-5 py-5 flex-shrink-0">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}>
-            <Star className="w-3.5 h-3.5 text-white fill-white" />
-          </div>
-          <span className="text-[20px] font-black text-white tracking-tight">
-            Wear<span style={{ color: "#8B5CF6" }}>lyx</span>
+          <span className="text-[20px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.02em" }}>
+            Wear<span style={{ color: "#A78BFA" }}>lyx</span>
           </span>
         </Link>
       </div>
@@ -95,12 +96,22 @@ function RightPanel() {
 
   return (
     <aside className="fixed right-0 top-0 bottom-0 w-[280px] overflow-y-auto"
-      style={{ background: "#08080e", borderLeft: "1px solid rgba(255,255,255,0.04)", scrollbarWidth: "none" }}>
+      style={{
+        background: "rgba(7,7,12,0.88)",
+        backdropFilter: "blur(28px) saturate(180%)",
+        WebkitBackdropFilter: "blur(28px) saturate(180%)",
+        borderLeft: "1px solid rgba(255,255,255,0.06)",
+        scrollbarWidth: "none",
+      }}>
       <div className="p-4 flex flex-col gap-4">
 
         {/* Stats card */}
         <div className="rounded-2xl p-4"
-          style={{ background: "linear-gradient(135deg, rgba(139,92,246,0.08), rgba(124,58,237,0.04))", border: "1px solid rgba(139,92,246,0.1)" }}>
+          style={{
+            background: "linear-gradient(145deg, rgba(139,92,246,0.10), rgba(109,40,217,0.05))",
+            border: "1px solid rgba(139,92,246,0.14)",
+            boxShadow: "0 4px 20px rgba(139,92,246,0.06), 0 1px 0 rgba(255,255,255,0.06) inset",
+          }}>
           <p className="text-[10px] font-black text-[#8B5CF6] uppercase tracking-widest mb-3">Live · Wearlyx</p>
           {[
             { label: "Membres", value: "50 K+" },
@@ -132,10 +143,14 @@ function RightPanel() {
 
         {/* Boost CTA */}
         <Link href="/promotion-tools"
-          className="flex items-center gap-3 p-3.5 rounded-2xl transition-all hover:scale-[1.02] group"
-          style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(109,40,217,0.08))", border: "1px solid rgba(139,92,246,0.15)" }}>
+          className="flex items-center gap-3 p-3.5 rounded-2xl transition-all hover:-translate-y-0.5 group"
+          style={{
+            background: "linear-gradient(145deg, rgba(124,58,237,0.14), rgba(109,40,217,0.07))",
+            border: "1px solid rgba(139,92,246,0.18)",
+            boxShadow: "0 4px 16px rgba(139,92,246,0.07)",
+          }}>
           <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: "rgba(139,92,246,0.18)" }}>
+            style={{ background: "rgba(139,92,246,0.2)", border: "1px solid rgba(139,92,246,0.22)" }}>
             <Zap className="w-4 h-4 text-[#A78BFA]" />
           </div>
           <div>
@@ -179,14 +194,22 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
   const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu");
 
   return (
-    <div className="min-h-[100dvh]" style={{ background: "#07070A" }}>
+    <div className="min-h-[100dvh] relative overflow-x-hidden" style={{ background: "#07070A" }}>
+      {/* Global ambient orbs */}
+      <div className="fixed pointer-events-none"
+        style={{ top: -200, left: "30%", width: 800, height: 800,
+          background: "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 65%)", filter: "blur(100px)", zIndex: 0 }} />
+      <div className="fixed pointer-events-none"
+        style={{ bottom: -100, right: "20%", width: 600, height: 600,
+          background: "radial-gradient(circle, rgba(109,40,217,0.04) 0%, transparent 70%)", filter: "blur(120px)", zIndex: 0 }} />
       <LeftSidebar />
       {!isFullBleed && <RightPanel />}
       <main
-        className="min-h-[100dvh]"
+        className="relative min-h-[100dvh]"
         style={{
           marginLeft: "220px",
           marginRight: isFullBleed ? "0" : "280px",
+          zIndex: 1,
         }}>
         {children}
       </main>

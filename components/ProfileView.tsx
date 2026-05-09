@@ -67,10 +67,10 @@ function CardMenu({ product, isPremium, onDelete }: {
         <div
           className="absolute right-0 top-9 w-44 rounded-2xl overflow-hidden z-30"
           style={{
-            background: "rgba(18,18,28,0.95)",
-            backdropFilter: "blur(24px)",
+            background: "rgba(14,14,22,0.96)",
+            backdropFilter: "blur(28px) saturate(180%)",
             border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow: "0 16px 40px rgba(0,0,0,0.6)",
+            boxShadow: "0 20px 48px rgba(0,0,0,0.65), 0 0 0 0.5px rgba(139,92,246,0.1)",
           }}
         >
           {isPremium && (
@@ -134,16 +134,22 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
 
   return (
     <div
-      className="min-h-[100dvh] pb-24"
-      style={{
-        background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 50%), #07070A",
-      }}
+      className="min-h-[100dvh] pb-8 relative overflow-hidden"
+      style={{ background: "#07070A" }}
     >
+      {/* Ambient orbs */}
+      <div className="absolute pointer-events-none"
+        style={{ top: -80, left: "50%", transform: "translateX(-50%)", width: 400, height: 400,
+          background: "radial-gradient(circle, rgba(139,92,246,0.13) 0%, transparent 65%)", filter: "blur(40px)" }} />
+      <div className="absolute pointer-events-none animate-orb-r"
+        style={{ bottom: 160, right: -60, width: 280, height: 280,
+          background: "radial-gradient(circle, rgba(109,40,217,0.09) 0%, transparent 70%)", filter: "blur(50px)" }} />
+
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-5 pb-4">
+      <div className="relative z-10 flex items-center gap-3 px-4 pt-5 pb-4">
         <button
           onClick={() => router.back()}
-          className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 flex-shrink-0 transition-colors active:scale-95"
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 flex-shrink-0 transition-all active:scale-90"
           style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)" }}
         >
           <ArrowLeft className="w-4 h-4" />
@@ -154,7 +160,7 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 transition-colors active:scale-95"
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 transition-all active:scale-90"
             style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)" }}
           >
             <MoreVertical className="w-4 h-4" />
@@ -163,10 +169,10 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
             <div
               className="absolute right-0 top-11 w-52 rounded-2xl overflow-hidden z-50"
               style={{
-                background: "rgba(18,18,28,0.96)",
-                backdropFilter: "blur(24px)",
+                background: "rgba(14,14,22,0.96)",
+                backdropFilter: "blur(28px) saturate(180%)",
                 border: "1px solid rgba(255,255,255,0.1)",
-                boxShadow: "0 16px 40px rgba(0,0,0,0.6)",
+                boxShadow: "0 20px 48px rgba(0,0,0,0.65), 0 0 0 0.5px rgba(139,92,246,0.1)",
               }}
             >
               {isOwner && (
@@ -189,26 +195,28 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
       </div>
 
       {/* Profile hero */}
-      <div className="px-4 pb-5">
+      <div className="relative z-10 px-4 pb-5">
         <div
-          className="rounded-3xl p-5 relative overflow-hidden"
+          className="rounded-[28px] p-5 relative overflow-hidden"
           style={{
-            background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+            background: "linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
             border: "1px solid rgba(255,255,255,0.09)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)",
+            boxShadow: "0 8px 40px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.08) inset",
           }}
         >
-          {/* Glow orb */}
-          <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full pointer-events-none"
-            style={{ background: "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)" }} />
+          {/* Card orb */}
+          <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(139,92,246,0.14) 0%, transparent 65%)", filter: "blur(20px)" }} />
+          <div className="absolute -bottom-8 -left-8 w-36 h-36 rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(109,40,217,0.09) 0%, transparent 70%)", filter: "blur(20px)" }} />
 
           <div className="relative z-10 flex items-start gap-4">
             {/* Avatar */}
             <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center text-[28px] font-black text-white flex-shrink-0 overflow-hidden"
+              className="w-[68px] h-[68px] rounded-[22px] flex items-center justify-center text-[30px] font-black text-white flex-shrink-0 overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
-                boxShadow: "0 8px 24px rgba(139,92,246,0.4)",
+                background: "linear-gradient(145deg, #9B6FF8, #7C3AED)",
+                boxShadow: "0 8px 28px rgba(139,92,246,0.45), 0 1px 0 rgba(255,255,255,0.15) inset",
               }}
             >
               {profile.avatar_url ? (
@@ -222,46 +230,51 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
             {/* Info */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="text-[18px] font-black text-white truncate">
+                <h2 className="text-[19px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.02em" }}>
                   {profile.full_name || profile.username}
                 </h2>
                 {isPremium && (
                   <span className="text-[9px] font-black px-2 py-0.5 rounded-full"
-                    style={{ background: "linear-gradient(135deg, #F59E0B, #D97706)", color: "#fff" }}>
+                    style={{ background: "linear-gradient(135deg, #F59E0B, #D97706)", color: "#fff",
+                      boxShadow: "0 2px 8px rgba(245,158,11,0.3)" }}>
                     ✦ PRO
                   </span>
                 )}
               </div>
-              <p className="text-[12px] text-white/40 mt-0.5">@{profile.username}</p>
+              <p className="text-[12px] font-medium mt-0.5" style={{ color: "rgba(167,139,250,0.5)" }}>
+                @{profile.username}
+              </p>
 
               {(profile as any).city && (
                 <div className="flex items-center gap-1 mt-1.5">
-                  <MapPin className="w-3 h-3 text-white/25" />
-                  <span className="text-[11px] text-white/30">{(profile as any).city}</span>
+                  <MapPin className="w-3 h-3" style={{ color: "rgba(255,255,255,0.2)" }} />
+                  <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.28)" }}>{(profile as any).city}</span>
                 </div>
               )}
 
               {/* Stats row */}
-              <div className="flex items-center gap-4 mt-3">
-                <div className="text-center">
-                  <p className="text-[16px] font-black text-white">{products.length}</p>
-                  <p className="text-[10px] text-white/30">annonces</p>
+              <div className="flex items-center gap-0 mt-3">
+                <div className="flex-1 text-center">
+                  <p className="text-[20px] font-black text-white leading-none" style={{ letterSpacing: "-0.02em" }}>
+                    {products.length}
+                  </p>
+                  <p className="text-[9.5px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>annonces</p>
                 </div>
-                <div className="w-px h-6 bg-white/8" />
-                <div className="text-center">
+                <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.07)" }} />
+                <div className="flex-1 text-center">
                   <div className="flex items-center gap-1 justify-center">
                     <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    <p className="text-[16px] font-black text-white">5.0</p>
+                    <p className="text-[20px] font-black text-white leading-none" style={{ letterSpacing: "-0.02em" }}>5.0</p>
                   </div>
-                  <p className="text-[10px] text-white/30">note</p>
+                  <p className="text-[9.5px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>note</p>
                 </div>
-                <div className="w-px h-6 bg-white/8" />
-                <div className="text-center">
+                <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.07)" }} />
+                <div className="flex-1 text-center">
                   <div className="flex items-center gap-1 justify-center">
-                    <Shield className="w-3 h-3 text-emerald-400" />
-                    <p className="text-[16px] font-black text-white">✓</p>
+                    <Shield className="w-3.5 h-3.5 text-emerald-400" />
+                    <p className="text-[20px] font-black text-white leading-none">✓</p>
                   </div>
-                  <p className="text-[10px] text-white/30">vérifié</p>
+                  <p className="text-[9.5px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>vérifié</p>
                 </div>
               </div>
             </div>
@@ -269,7 +282,8 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
 
           {/* Bio */}
           {profile.bio && (
-            <p className="relative z-10 text-[12.5px] text-white/40 mt-4 leading-relaxed border-t border-white/6 pt-4">
+            <p className="relative z-10 text-[12.5px] leading-relaxed mt-4 pt-4"
+              style={{ color: "rgba(255,255,255,0.42)", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
               {profile.bio}
             </p>
           )}
@@ -278,44 +292,50 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
 
       {/* Tabs */}
       <div
-        className="flex border-b mx-4 mb-1"
-        style={{ borderColor: "rgba(255,255,255,0.07)" }}
+        className="relative z-10 flex mx-4 mb-1"
+        style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
       >
         {tabs.map(({ id, label }) => (
           <button key={id} onClick={() => setTab(id)}
-            className={`flex-1 py-3 text-[14px] font-bold transition-colors relative ${tab === id ? "text-white" : "text-white/30"}`}>
+            className={`flex-1 py-3 text-[13.5px] font-bold transition-all duration-200 relative ${tab === id ? "text-white" : "text-white/28"}`}>
             {label}
             {tab === id && (
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-full"
-                style={{ background: "linear-gradient(90deg, #8B5CF6, #A78BFA)" }} />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-7 h-[2.5px] rounded-full animate-tab-in"
+                style={{ background: "linear-gradient(90deg, #8B5CF6, #C4B5FD)" }} />
             )}
           </button>
         ))}
       </div>
 
       {/* Tab content */}
-      <div className="px-3 pt-4">
+      <div className="relative z-10 px-3 pt-4">
         {tab === "annonces" && (
           <>
             {products.length > 0 && (
-              <p className="text-[10px] font-black text-white/25 uppercase tracking-widest mb-3 px-1">
+              <p className="text-[10px] font-black uppercase tracking-widest mb-3 px-1"
+                style={{ color: "rgba(255,255,255,0.2)" }}>
                 {isOwner ? "MES ANNONCES" : "ANNONCES"} · {products.length}
               </p>
             )}
             {products.length === 0 ? (
               <div
-                className="py-16 rounded-3xl flex flex-col items-center justify-center"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+                className="py-16 rounded-3xl flex flex-col items-center justify-center relative overflow-hidden"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
-                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <Package className="w-6 h-6 text-white/15" />
+                <div className="absolute inset-0 pointer-events-none"
+                  style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.06) 0%, transparent 60%)" }} />
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+                  style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.14)" }}>
+                  <Package className="w-6 h-6" style={{ color: "rgba(139,92,246,0.5)" }} />
                 </div>
-                <p className="text-[14px] font-bold text-white/30">Aucune annonce active</p>
+                <p className="relative z-10 text-[14px] font-bold" style={{ color: "rgba(255,255,255,0.32)" }}>
+                  Aucune annonce active
+                </p>
                 {isOwner && (
                   <Link href="/sell"
-                    className="mt-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white active:scale-95 transition-transform"
-                    style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 16px rgba(139,92,246,0.3)" }}>
+                    className="relative z-10 mt-4 px-5 py-2.5 rounded-xl text-[12.5px] font-bold text-white active:scale-95 transition-transform"
+                    style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                      boxShadow: "0 4px 18px rgba(139,92,246,0.35), 0 1px 0 rgba(255,255,255,0.12) inset" }}>
                     Publier une annonce
                   </Link>
                 )}
@@ -335,14 +355,18 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
 
         {tab === "evaluations" && (
           <div
-            className="py-16 rounded-3xl flex flex-col items-center justify-center"
-            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+            className="py-16 rounded-3xl flex flex-col items-center justify-center relative overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
           >
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <Star className="w-6 h-6 text-white/15" />
+            <div className="absolute inset-0 pointer-events-none"
+              style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(245,158,11,0.05) 0%, transparent 60%)" }} />
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 relative z-10"
+              style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.12)" }}>
+              <Star className="w-6 h-6" style={{ color: "rgba(245,158,11,0.45)" }} />
             </div>
-            <p className="text-[14px] font-bold text-white/30">Aucun avis pour l'instant</p>
+            <p className="relative z-10 text-[14px] font-bold" style={{ color: "rgba(255,255,255,0.32)" }}>
+              Aucun avis pour l'instant
+            </p>
           </div>
         )}
 
@@ -350,11 +374,14 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
           <div
             className="p-5 rounded-2xl"
             style={{
-              background: "rgba(255,255,255,0.03)",
+              background: "linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)",
               border: "1px solid rgba(255,255,255,0.07)",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.05) inset",
             }}
           >
-            <p className="text-[13.5px] text-white/40 leading-relaxed">{profile.bio || "Aucune description"}</p>
+            <p className="text-[13px] leading-relaxed" style={{ color: "rgba(255,255,255,0.42)" }}>
+              {profile.bio || "Aucune description"}
+            </p>
           </div>
         )}
       </div>

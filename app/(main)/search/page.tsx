@@ -7,10 +7,10 @@ const isSupabaseConfigured =
   !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
   !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("your_supabase");
 
-interface SearchParams { q?: string; category?: string; }
+interface SearchParams { q?: string; category?: string; sort?: string; }
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const { q, category } = await searchParams;
+  const { q, category, sort } = await searchParams;
 
   let products: any[] = [];
   let userId: string | undefined;
@@ -28,7 +28,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     if (q) query = query.or(`title.ilike.%${q}%,brand.ilike.%${q}%`);
     if (category && category !== "all") query = query.eq("category", category);
 
-    const { data } = await query.order("created_at", { ascending: false }).limit(40);
+    const { data } = await query
+      .order(sort === "ai" ? "likes_count" : "created_at", { ascending: false })
+      .limit(40);
 
     let likedIds = new Set<string>();
     if (user) {
@@ -51,5 +53,5 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     const { DesktopExplorer } = await import("@/components/desktop/DesktopExplorer");
     return <DesktopExplorer products={products} currentUserId={userId} initialQ={q} initialCategory={category} />;
   }
-  return <ExplorerClient products={products} currentUserId={userId} initialQ={q} initialCategory={category} />;
+  return <ExplorerClient products={products} currentUserId={userId} initialQ={q} initialCategory={category} initialSort={sort} />;
 }

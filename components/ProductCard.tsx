@@ -55,25 +55,31 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
   return (
     <Link href={`/products/${product.id}`} className="block group">
       <div
-        className="rounded-[18px] overflow-hidden transition-all duration-300 group-active:scale-[0.96]"
+        className="rounded-[20px] overflow-hidden transition-all duration-300 group-active:scale-[0.96] relative"
         style={{
-          background: "linear-gradient(160deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.018) 100%)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          boxShadow: "0 2px 16px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset",
+          background: "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.016) 100%)",
+          border: "1px solid rgba(255,255,255,0.09)",
+          boxShadow: "0 2px 20px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.07) inset",
           transform: "translateZ(0)",
         }}
       >
+        {/* Hover glow */}
+        <div
+          className="absolute inset-0 rounded-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+          style={{ boxShadow: "0 0 0 1px rgba(139,92,246,0.15) inset, 0 8px 32px rgba(139,92,246,0.08)" }}
+        />
+
         {/* Image */}
         <div
           className="relative overflow-hidden"
-          style={{ aspectRatio: "1/1", background: "linear-gradient(145deg, #0C0C18, #111122)" }}
+          style={{ aspectRatio: "1/1", background: "linear-gradient(145deg, #0C0C18, #0E0E1A)" }}
         >
           {firstImage ? (
             <Image
               src={firstImage}
               alt={product.title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.05] group-active:scale-[1.02]"
+              className="object-cover transition-transform duration-700 group-hover:scale-[1.06] group-active:scale-[1.02]"
               sizes="(max-width: 640px) 50vw, 33vw"
             />
           ) : (
@@ -91,7 +97,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
               className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-lg"
               style={{
                 background: "linear-gradient(135deg, #7C3AED, #6D28D9)",
-                boxShadow: "0 0 12px rgba(124,58,237,0.55)",
+                boxShadow: "0 0 14px rgba(124,58,237,0.6)",
                 backdropFilter: "blur(4px)",
               }}
             >
@@ -105,26 +111,24 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
             onClick={handleLike}
             className={cn(
               "absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200",
-              heartPop ? "scale-[1.4]" : "scale-100",
+              heartPop ? "scale-[1.45]" : "scale-100",
             )}
             style={liked ? {
               background: "linear-gradient(135deg, #EF4444, #DC2626)",
-              boxShadow: "0 4px 12px rgba(239,68,68,0.5)",
+              boxShadow: "0 4px 14px rgba(239,68,68,0.55)",
             } : {
-              background: "rgba(0,0,0,0.55)",
-              backdropFilter: "blur(8px)",
+              background: "rgba(0,0,0,0.6)",
+              backdropFilter: "blur(10px)",
               border: "1px solid rgba(255,255,255,0.12)",
             }}
           >
-            <Heart
-              className={cn("w-3.5 h-3.5 text-white transition-all", liked && "fill-white")}
-            />
+            <Heart className={cn("w-3.5 h-3.5 text-white transition-all", liked && "fill-white")} />
           </button>
 
           {/* Bottom gradient */}
           <div
-            className="absolute inset-x-0 bottom-0 h-14 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(7,7,15,0.88), transparent)" }}
+            className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(7,7,15,0.92), transparent)" }}
           />
         </div>
 
@@ -132,14 +136,14 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
         <div className="px-3 pt-2.5 pb-3 space-y-1.5">
           {/* Price */}
           <p
-            className="text-[18px] font-black text-white leading-none tracking-tight"
-            style={{ letterSpacing: "-0.01em" }}
+            className="text-[18px] font-black text-white leading-none"
+            style={{ letterSpacing: "-0.02em" }}
           >
             {formatPrice(product.price)}
           </p>
 
           {/* Title */}
-          <p className="text-[11.5px] text-white/35 line-clamp-1 leading-snug font-medium">
+          <p className="text-[11.5px] text-white/38 line-clamp-1 leading-snug font-medium">
             {product.title}
           </p>
 
@@ -150,7 +154,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
                 <span
                   className="text-[9px] font-bold px-1.5 py-[3px] rounded-md"
                   style={{
-                    background: "rgba(124,58,237,0.12)",
+                    background: "rgba(124,58,237,0.13)",
                     color: "#C4B5FD",
                     border: "1px solid rgba(124,58,237,0.18)",
                   }}
@@ -173,7 +177,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
               {product.condition && cond && (
                 <span
                   className="text-[9px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: cond.bg, color: cond.color, border: `1px solid ${cond.color}20` }}
+                  style={{ background: cond.bg, color: cond.color, border: `1px solid ${cond.color}22` }}
                 >
                   {cond.label}
                 </span>
