@@ -219,7 +219,7 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
     <div className="flex h-[100dvh]" style={{ background: "#07070A" }}>
 
       {/* ── Left: Conversation list ── */}
-      <div className="w-[300px] flex-shrink-0 flex flex-col"
+      <div className="w-[340px] flex-shrink-0 flex flex-col"
         style={{ background: "#08080e", borderRight: "1px solid rgba(255,255,255,0.05)" }}>
 
         {/* Header */}
@@ -417,7 +417,7 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
 
       {/* ── Right: User + product info ── */}
       {selected && other && (
-        <div className="w-[260px] flex-shrink-0 overflow-y-auto"
+        <div className="w-[300px] flex-shrink-0 overflow-y-auto"
           style={{ background: "#08080e", borderLeft: "1px solid rgba(255,255,255,0.05)", scrollbarWidth: "none" }}>
 
           {/* User card */}
