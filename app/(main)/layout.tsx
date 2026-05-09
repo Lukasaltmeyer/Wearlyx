@@ -26,7 +26,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           {mod.status === "warned" && (
             <div className="pt-[60px]">
               {children}
-              <BottomNavServer />
+              <BottomNav />
             </div>
           )}
         </>
@@ -37,7 +37,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   return (
     <>
       {children}
-      <BottomNavServer />
+      <BottomNav />
       <PushNotificationSetup />
     </>
   );
