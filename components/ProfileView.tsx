@@ -1,14 +1,13 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MoreVertical, Edit2, Share2, Star, Package, Zap, Trash2, X } from "lucide-react";
+import { ArrowLeft, MoreVertical, Edit2, Share2, Star, Package, Zap, Trash2, X, MapPin, Shield } from "lucide-react";
 import type { Profile, Product } from "@/types/database";
 import { ProductCard } from "@/components/ProductCard";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { createClient } from "@/lib/supabase/client";
-import { cn } from "@/lib/utils";
 
 interface Props {
   profile: Profile;
@@ -50,11 +49,7 @@ function CardMenu({ product, isPremium, onDelete }: {
     setDeleting(true);
     setDeleteError(false);
     const { error } = await supabase.from("products").delete().eq("id", product.id);
-    if (error) {
-      setDeleteError(true);
-      setDeleting(false);
-      return;
-    }
+    if (error) { setDeleteError(true); setDeleting(false); return; }
     onDelete(product.id);
   };
 
@@ -62,13 +57,22 @@ function CardMenu({ product, isPremium, onDelete }: {
     <div ref={ref} className="absolute top-2 right-2 z-20">
       <button
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); setOpen(!open); setShowConfirm(false); setDeleteError(false); }}
-        className="w-7 h-7 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center active:scale-95 transition-transform"
+        className="w-7 h-7 rounded-full flex items-center justify-center active:scale-95 transition-transform"
+        style={{ background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.12)" }}
       >
         <MoreVertical className="w-3.5 h-3.5 text-white" />
       </button>
 
       {open && (
-        <div className="absolute right-0 top-9 w-44 rounded-2xl border border-white/10 bg-[#1A1A26] shadow-2xl overflow-hidden z-30">
+        <div
+          className="absolute right-0 top-9 w-44 rounded-2xl overflow-hidden z-30"
+          style={{
+            background: "rgba(18,18,28,0.95)",
+            backdropFilter: "blur(24px)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            boxShadow: "0 16px 40px rgba(0,0,0,0.6)",
+          }}
+        >
           {isPremium && (
             <Link
               href="/promotion-tools"
@@ -94,7 +98,7 @@ function CardMenu({ product, isPremium, onDelete }: {
               className="w-full flex items-center gap-2.5 px-4 py-3 text-[13px] font-semibold text-red-400 bg-red-500/8 active:bg-red-500/15 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
-              {deleting ? "Suppression..." : deleteError ? "Erreur, réessaie" : "Confirmer la suppression"}
+              {deleting ? "Suppression..." : deleteError ? "Erreur, réessaie" : "Confirmer"}
             </button>
           )}
         </div>
@@ -129,33 +133,54 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
   ];
 
   return (
-    <div className="min-h-[100dvh] bg-[#07070A] pb-24">
+    <div
+      className="min-h-[100dvh] pb-24"
+      style={{
+        background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 50%), #07070A",
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-5 pb-3">
-        <button onClick={() => router.back()}
-          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 flex-shrink-0">
+      <div className="flex items-center gap-3 px-4 pt-5 pb-4">
+        <button
+          onClick={() => router.back()}
+          className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 flex-shrink-0 transition-colors active:scale-95"
+          style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)" }}
+        >
           <ArrowLeft className="w-4 h-4" />
         </button>
-        <h1 className="text-[17px] font-black text-white flex-1">{profile.full_name || profile.username}</h1>
+        <h1 className="text-[17px] font-black text-white flex-1 truncate">
+          {profile.full_name || profile.username}
+        </h1>
         <div className="relative" ref={menuRef}>
-          <button onClick={() => setMenuOpen(!menuOpen)}
-            className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-white/60 transition-colors active:scale-95"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)" }}
+          >
             <MoreVertical className="w-4 h-4" />
           </button>
           {menuOpen && (
-            <div className="absolute right-0 top-11 w-52 rounded-2xl border border-white/10 bg-[#1A1A26] shadow-2xl z-50 overflow-hidden">
+            <div
+              className="absolute right-0 top-11 w-52 rounded-2xl overflow-hidden z-50"
+              style={{
+                background: "rgba(18,18,28,0.96)",
+                backdropFilter: "blur(24px)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                boxShadow: "0 16px 40px rgba(0,0,0,0.6)",
+              }}
+            >
               {isOwner && (
                 <Link href="/profile/edit"
-                  className="flex items-center gap-3 px-4 py-3.5 text-[14px] text-white hover:bg-white/5 transition-colors"
+                  className="flex items-center gap-3 px-4 py-3.5 text-[14px] text-white active:bg-white/5 transition-colors"
                   onClick={() => setMenuOpen(false)}>
-                  <Edit2 className="w-4 h-4 text-white/50" />
+                  <Edit2 className="w-4 h-4 text-white/40" />
                   Modifier mon profil
                 </Link>
               )}
               <button
-                className="w-full flex items-center gap-3 px-4 py-3.5 text-[14px] text-white hover:bg-white/5 transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-3.5 text-[14px] text-white active:bg-white/5 transition-colors"
                 onClick={() => setMenuOpen(false)}>
-                <Share2 className="w-4 h-4 text-white/50" />
+                <Share2 className="w-4 h-4 text-white/40" />
                 Partager mon profil
               </button>
             </div>
@@ -163,39 +188,144 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
         </div>
       </div>
 
+      {/* Profile hero */}
+      <div className="px-4 pb-5">
+        <div
+          className="rounded-3xl p-5 relative overflow-hidden"
+          style={{
+            background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+            border: "1px solid rgba(255,255,255,0.09)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07)",
+          }}
+        >
+          {/* Glow orb */}
+          <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full pointer-events-none"
+            style={{ background: "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)" }} />
+
+          <div className="relative z-10 flex items-start gap-4">
+            {/* Avatar */}
+            <div
+              className="w-16 h-16 rounded-2xl flex items-center justify-center text-[28px] font-black text-white flex-shrink-0 overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                boxShadow: "0 8px 24px rgba(139,92,246,0.4)",
+              }}
+            >
+              {profile.avatar_url ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+              ) : (
+                (profile.full_name || profile.username || "?")[0].toUpperCase()
+              )}
+            </div>
+
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-[18px] font-black text-white truncate">
+                  {profile.full_name || profile.username}
+                </h2>
+                {isPremium && (
+                  <span className="text-[9px] font-black px-2 py-0.5 rounded-full"
+                    style={{ background: "linear-gradient(135deg, #F59E0B, #D97706)", color: "#fff" }}>
+                    ✦ PRO
+                  </span>
+                )}
+              </div>
+              <p className="text-[12px] text-white/40 mt-0.5">@{profile.username}</p>
+
+              {(profile as any).city && (
+                <div className="flex items-center gap-1 mt-1.5">
+                  <MapPin className="w-3 h-3 text-white/25" />
+                  <span className="text-[11px] text-white/30">{(profile as any).city}</span>
+                </div>
+              )}
+
+              {/* Stats row */}
+              <div className="flex items-center gap-4 mt-3">
+                <div className="text-center">
+                  <p className="text-[16px] font-black text-white">{products.length}</p>
+                  <p className="text-[10px] text-white/30">annonces</p>
+                </div>
+                <div className="w-px h-6 bg-white/8" />
+                <div className="text-center">
+                  <div className="flex items-center gap-1 justify-center">
+                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                    <p className="text-[16px] font-black text-white">5.0</p>
+                  </div>
+                  <p className="text-[10px] text-white/30">note</p>
+                </div>
+                <div className="w-px h-6 bg-white/8" />
+                <div className="text-center">
+                  <div className="flex items-center gap-1 justify-center">
+                    <Shield className="w-3 h-3 text-emerald-400" />
+                    <p className="text-[16px] font-black text-white">✓</p>
+                  </div>
+                  <p className="text-[10px] text-white/30">vérifié</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bio */}
+          {profile.bio && (
+            <p className="relative z-10 text-[12.5px] text-white/40 mt-4 leading-relaxed border-t border-white/6 pt-4">
+              {profile.bio}
+            </p>
+          )}
+        </div>
+      </div>
+
       {/* Tabs */}
-      <div className="flex border-b border-white/8 px-4">
+      <div
+        className="flex border-b mx-4 mb-1"
+        style={{ borderColor: "rgba(255,255,255,0.07)" }}
+      >
         {tabs.map(({ id, label }) => (
           <button key={id} onClick={() => setTab(id)}
-            className={`flex-1 py-3 text-[14px] font-semibold transition-colors relative ${tab === id ? "text-white" : "text-white/35"}`}>
+            className={`flex-1 py-3 text-[14px] font-bold transition-colors relative ${tab === id ? "text-white" : "text-white/30"}`}>
             {label}
-            {tab === id && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8B5CF6] rounded-full" />}
+            {tab === id && (
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-full"
+                style={{ background: "linear-gradient(90deg, #8B5CF6, #A78BFA)" }} />
+            )}
           </button>
         ))}
       </div>
 
       {/* Tab content */}
-      <div className="px-4 pt-4">
+      <div className="px-3 pt-4">
         {tab === "annonces" && (
           <>
             {products.length > 0 && (
-              <p className="text-[11px] font-black text-white/30 uppercase tracking-wider mb-3">
-                {isOwner ? "MES ANNONCES ACTIVES" : "ANNONCES ACTIVES"}
+              <p className="text-[10px] font-black text-white/25 uppercase tracking-widest mb-3 px-1">
+                {isOwner ? "MES ANNONCES" : "ANNONCES"} · {products.length}
               </p>
             )}
             {products.length === 0 ? (
-              <div className="text-center py-16">
-                <Package className="w-10 h-10 text-white/10 mx-auto mb-3" />
-                <p className="text-[14px] text-white/30">Aucune annonce active</p>
+              <div
+                className="py-16 rounded-3xl flex flex-col items-center justify-center"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+              >
+                <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <Package className="w-6 h-6 text-white/15" />
+                </div>
+                <p className="text-[14px] font-bold text-white/30">Aucune annonce active</p>
+                {isOwner && (
+                  <Link href="/sell"
+                    className="mt-4 px-4 py-2 rounded-xl text-[12px] font-bold text-white active:scale-95 transition-transform"
+                    style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 16px rgba(139,92,246,0.3)" }}>
+                    Publier une annonce
+                  </Link>
+                )}
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-2.5">
                 {products.map((p) => (
                   <div key={p.id} className="relative">
                     <ProductCard product={p} currentUserId={currentUserId} />
-                    {isOwner && (
-                      <CardMenu product={p} isPremium={isPremium} onDelete={handleDelete} />
-                    )}
+                    {isOwner && <CardMenu product={p} isPremium={isPremium} onDelete={handleDelete} />}
                   </div>
                 ))}
               </div>
@@ -204,15 +334,27 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
         )}
 
         {tab === "evaluations" && (
-          <div className="text-center py-16">
-            <Star className="w-10 h-10 text-white/10 mx-auto mb-3" />
-            <p className="text-[14px] text-white/30">Aucun avis pour l'instant</p>
+          <div
+            className="py-16 rounded-3xl flex flex-col items-center justify-center"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)" }}
+          >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <Star className="w-6 h-6 text-white/15" />
+            </div>
+            <p className="text-[14px] font-bold text-white/30">Aucun avis pour l'instant</p>
           </div>
         )}
 
         {tab === "apropos" && (
-          <div className="p-4 rounded-2xl border border-white/8 bg-white/3">
-            <p className="text-[14px] text-white/35 text-center">{profile.bio || "Aucune description"}</p>
+          <div
+            className="p-5 rounded-2xl"
+            style={{
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.07)",
+            }}
+          >
+            <p className="text-[13.5px] text-white/40 leading-relaxed">{profile.bio || "Aucune description"}</p>
           </div>
         )}
       </div>

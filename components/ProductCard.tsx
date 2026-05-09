@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, Zap } from "lucide-react";
 import { useState } from "react";
 import type { Product } from "@/types/database";
 import { formatPrice, cn } from "@/lib/utils";
@@ -55,21 +55,22 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
   return (
     <Link href={`/products/${product.id}`} className="block group">
       <div
-        className="rounded-2xl overflow-hidden border transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-[0_16px_40px_rgba(0,0,0,0.5)] group-active:scale-[0.97]"
+        className="rounded-2xl overflow-hidden transition-all duration-300 group-active:scale-[0.97]"
         style={{
-          background: "#111827",
-          borderColor: "rgba(255,255,255,0.06)",
-          boxShadow: "0 6px 20px rgba(0,0,0,0.4)",
+          background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07)",
         }}
       >
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-[#0D0D18]">
+        <div className="relative aspect-square overflow-hidden"
+          style={{ background: "linear-gradient(145deg, #0D0D1A, #111128)" }}>
           {firstImage ? (
             <Image
               src={firstImage}
               alt={product.title}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-[1.05]"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
               sizes="(max-width: 640px) 50vw, 33vw"
             />
           ) : (
@@ -84,32 +85,42 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
           {/* Boost badge */}
           {product.is_boosted && (
             <div className="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-lg"
-              style={{ background: "linear-gradient(135deg, #7C3AED, #6D28D9)", boxShadow: "0 0 12px rgba(124,58,237,0.5)" }}>
-              <span className="text-[9px] font-black text-white tracking-wide">🔥 Boosté</span>
+              style={{
+                background: "linear-gradient(135deg, #7C3AED, #6D28D9)",
+                boxShadow: "0 0 14px rgba(124,58,237,0.6)",
+              }}>
+              <Zap className="w-2.5 h-2.5 fill-white text-white" />
+              <span className="text-[9px] font-black text-white tracking-wide">BOOST</span>
             </div>
           )}
 
-          {/* Like */}
+          {/* Like button */}
           <button
             onClick={handleLike}
             className={cn(
-              "absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150",
+              "absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200",
               heartPop ? "scale-[1.4]" : "scale-100",
-              liked ? "bg-red-500 shadow-lg shadow-red-500/40" : "bg-black/60 backdrop-blur-md border border-white/10"
+              liked
+                ? "bg-red-500 shadow-lg shadow-red-500/50"
+                : "border border-white/15 backdrop-blur-md"
             )}
+            style={!liked ? { background: "rgba(0,0,0,0.55)" } : {}}
           >
             <Heart className={cn("w-3.5 h-3.5 text-white transition-all", liked && "fill-white")} />
           </button>
 
-          {/* Bottom gradient */}
-          <div className="absolute inset-x-0 bottom-0 h-12 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(13,13,24,0.7), transparent)" }} />
+          {/* Bottom gradient overlay */}
+          <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(7,7,12,0.85), transparent)" }} />
         </div>
 
         {/* Info */}
         <div className="px-2.5 pt-2.5 pb-3 space-y-1.5">
           {/* Price */}
-          <p className="text-[19px] font-bold text-white leading-none tracking-tight">{formatPrice(product.price)}</p>
+          <p className="text-[19px] font-black text-white leading-none tracking-tight"
+            style={{ textShadow: "0 0 20px rgba(167,139,250,0.3)" }}>
+            {formatPrice(product.price)}
+          </p>
 
           {/* Title */}
           <p className="text-[11.5px] text-white/40 line-clamp-1 leading-snug">{product.title}</p>
@@ -119,19 +130,27 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
             <div className="flex flex-wrap gap-1 pt-0.5">
               {product.size && (
                 <span className="text-[9px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: "rgba(124,58,237,0.12)", color: "#A78BFA", border: "1px solid rgba(124,58,237,0.2)" }}>
+                  style={{
+                    background: "rgba(124,58,237,0.14)",
+                    color: "#C4B5FD",
+                    border: "1px solid rgba(124,58,237,0.22)",
+                  }}>
                   {product.size}
                 </span>
               )}
               {product.brand && (
                 <span className="text-[9px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: "rgba(124,58,237,0.12)", color: "#A78BFA", border: "1px solid rgba(124,58,237,0.2)" }}>
+                  style={{
+                    background: "rgba(124,58,237,0.10)",
+                    color: "#A78BFA",
+                    border: "1px solid rgba(124,58,237,0.18)",
+                  }}>
                   {product.brand}
                 </span>
               )}
               {product.condition && cond && (
                 <span className="text-[9px] font-bold px-1.5 py-[3px] rounded-md"
-                  style={{ background: cond.bg, color: cond.color, border: `1px solid ${cond.color}25` }}>
+                  style={{ background: cond.bg, color: cond.color, border: `1px solid ${cond.color}22` }}>
                   {cond.label}
                 </span>
               )}
