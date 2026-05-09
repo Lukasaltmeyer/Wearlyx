@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -6,11 +6,11 @@ import { Home, Compass, Plus, MessageCircle, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/",              icon: Home,          label: "Accueil" },
-  { href: "/search",        icon: Compass,       label: "Explorer" },
-  { href: "/sell",          icon: Plus,          label: "Vendre",  primary: true },
-  { href: "/messages",      icon: MessageCircle, label: "Messages" },
-  { href: "/profile/menu",  icon: User,          label: "Profil" },
+  { href: "/",             icon: Home,          label: "Accueil" },
+  { href: "/search",       icon: Compass,       label: "Explorer" },
+  { href: "/sell",         icon: Plus,          label: "Vendre",  primary: true },
+  { href: "/messages",     icon: MessageCircle, label: "Messages" },
+  { href: "/profile/menu", icon: User,          label: "Profil" },
 ];
 
 export function BottomNav() {
@@ -22,29 +22,34 @@ export function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-40 safe-bottom lg:hidden"
       style={{
-        background: "rgba(8, 8, 12, 0.97)",
-        backdropFilter: "blur(32px)",
-        WebkitBackdropFilter: "blur(32px)",
-        borderTop: "1px solid rgba(255,255,255,0.05)",
+        background: "rgba(7,7,12,0.96)",
+        backdropFilter: "blur(40px) saturate(200%)",
+        WebkitBackdropFilter: "blur(40px) saturate(200%)",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        boxShadow: "0 -8px 32px rgba(0,0,0,0.4), 0 -1px 0 rgba(139,92,246,0.04)",
       }}
     >
-      <div className="h-[56px] flex items-center w-full px-2">
+      <div className="h-[58px] flex items-center w-full px-1">
         {navItems.map(({ href, icon: Icon, label, primary }) => {
           const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
 
           if (primary) {
             return (
-              <Link key={href} href={href} className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-95 transition-transform duration-100">
+              <Link
+                key={href}
+                href={href}
+                className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-90 transition-all duration-150"
+              >
                 <div
-                  className="w-10 h-10 rounded-[14px] flex items-center justify-center shadow-lg"
+                  className="w-11 h-11 rounded-[16px] flex items-center justify-center"
                   style={{
                     background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
-                    boxShadow: "0 4px 14px rgba(139,92,246,0.35)",
+                    boxShadow: "0 4px 16px rgba(139,92,246,0.45), 0 0 0 1px rgba(167,139,250,0.15), inset 0 1px 0 rgba(255,255,255,0.15)",
                   }}
                 >
-                  <Icon className="w-[19px] h-[19px] text-white" strokeWidth={2.5} />
+                  <Icon className="w-[20px] h-[20px] text-white" strokeWidth={2.5} />
                 </div>
-                <span className="text-[9.5px] font-semibold text-white/50">{label}</span>
+                <span className="text-[9px] font-bold text-white/40">{label}</span>
               </Link>
             );
           }
@@ -53,30 +58,49 @@ export function BottomNav() {
             <Link
               key={href}
               href={href}
-              className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-90 transition-all duration-100 relative"
+              className="flex flex-col items-center gap-1 flex-1 py-1 active:scale-90 transition-all duration-150 relative"
             >
-              <div className={cn(
-                "w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-200",
-                isActive ? "bg-[#8B5CF6]/15" : "hover:bg-white/5"
-              )}>
+              {/* Active glow dot at top */}
+              {isActive && (
+                <span
+                  className="absolute top-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+                  style={{
+                    background: "#8B5CF6",
+                    boxShadow: "0 0 6px 2px rgba(139,92,246,0.6)",
+                  }}
+                />
+              )}
+
+              <div
+                className={cn(
+                  "w-10 h-10 flex items-center justify-center rounded-[14px] transition-all duration-250",
+                  isActive
+                    ? ""
+                    : "hover:bg-white/4"
+                )}
+                style={isActive ? {
+                  background: "rgba(139,92,246,0.12)",
+                  boxShadow: "0 0 16px rgba(139,92,246,0.12)",
+                } : {}}
+              >
                 <Icon
                   className={cn(
-                    "w-[20px] h-[20px] transition-all duration-200",
-                    isActive ? "text-[#8B5CF6]" : "text-white/30"
+                    "transition-all duration-250",
+                    isActive ? "text-[#A78BFA]" : "text-white/28"
                   )}
-                  strokeWidth={isActive ? 2.5 : 1.6}
+                  style={{ width: 21, height: 21 }}
+                  strokeWidth={isActive ? 2.2 : 1.6}
                 />
               </div>
-              <span className={cn(
-                "text-[9.5px] font-bold transition-colors duration-200",
-                isActive ? "text-[#8B5CF6]" : "text-white/25"
-              )}>
+
+              <span
+                className={cn(
+                  "text-[9.5px] font-bold transition-colors duration-250",
+                  isActive ? "text-[#A78BFA]" : "text-white/22"
+                )}
+              >
                 {label}
               </span>
-              {isActive && (
-                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full animate-scaleX"
-                  style={{ background: "#8B5CF6" }} />
-              )}
             </Link>
           );
         })}

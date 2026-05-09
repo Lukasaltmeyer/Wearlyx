@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -18,7 +18,6 @@ const FILTER_CATEGORIES = [
   { value: "maison",         label: "Maison",        emoji: "🏠" },
   { value: "electronique",   label: "Électronique",  emoji: "📱" },
   { value: "divertissement", label: "Divertissement",emoji: "🎮" },
-  { value: "loisirs",        label: "Loisirs",       emoji: "⚽" },
   { value: "sport",          label: "Sport",         emoji: "🏃" },
 ];
 
@@ -41,8 +40,8 @@ export function FilterBar({ activeCategory }: FilterBarProps) {
   );
 
   return (
-    <div className="px-4 py-2">
-      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-0.5">
+    <div className="px-3 py-2.5">
+      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-0.5">
         {FILTER_CATEGORIES.map(({ value, label, emoji }) => {
           const isActive = value === "all"
             ? !activeCategory || activeCategory === "all"
@@ -52,16 +51,15 @@ export function FilterBar({ activeCategory }: FilterBarProps) {
               key={value}
               onClick={() => setParam("category", value)}
               className={cn(
-                "flex-shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12.5px] font-semibold transition-all duration-150 active:scale-95",
-                isActive ? "text-white" : "text-white/40 hover:text-white/60"
+                "flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[12.5px] font-semibold transition-all duration-200 active:scale-[0.93]",
+                isActive ? "text-white" : "text-white/35"
               )}
               style={isActive ? {
-                background: "#8B5CF6",
-                boxShadow: "0 0 0 1px rgba(139,92,246,0.4), 0 4px 12px rgba(139,92,246,0.2)",
-                color: "#fff",
+                background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
+                boxShadow: "0 4px 14px rgba(139,92,246,0.35), 0 0 0 1px rgba(167,139,250,0.2)",
               } : {
                 background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.07)",
               }}
             >
               <span className="text-[11px]">{emoji}</span>
