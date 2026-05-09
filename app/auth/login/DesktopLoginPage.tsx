@@ -337,21 +337,22 @@ export function DesktopLoginPage() {
           </div>
 
           {/* ── Stats bar ── */}
-          <div className="fade-up fade-up-4 flex items-center gap-1 mt-7">
+          <div className="fade-up fade-up-4 flex items-center gap-1 mt-7 flex-nowrap">
             {[
               {value:"50 000+", label:"membres"},
               {value:"1 200",   label:"ventes / jour"},
               {value:"4.8 ★",   label:"satisfaction"},
+              {value:"32 000+", label:"articles"},
             ].map(({value,label},i,arr)=>(
               <div key={label} className="flex items-center gap-1">
-                <div className="flex items-baseline gap-1.5 px-4">
+                <div className="flex items-baseline gap-1.5 px-4 whitespace-nowrap">
                   <span className="text-[13px] font-bold tracking-tight"
                     style={{color:"rgba(255,255,255,.55)"}}>{value}</span>
                   <span className="text-[11px]"
                     style={{color:"rgba(255,255,255,.22)"}}>{label}</span>
                 </div>
                 {i < arr.length-1 && (
-                  <div className="w-px h-3" style={{background:"rgba(255,255,255,.10)"}}/>
+                  <div className="w-px h-3 flex-shrink-0" style={{background:"rgba(255,255,255,.10)"}}/>
                 )}
               </div>
             ))}
