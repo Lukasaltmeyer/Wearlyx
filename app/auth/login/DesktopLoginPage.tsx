@@ -12,20 +12,20 @@ import { GoogleIcon } from "../_components/AuthUI";
 
 type Step = "main" | "email" | "phone" | "phone-otp" | "forgot" | "forgot-sent";
 
-/* ── Scattered product cards data ── */
-const CARDS = [
-  { title: "Nike Tech Fleece",   price: "89 €",  size: "M",   brand: "Nike",      color: "#8B5CF6", emoji: "🧥", rotate: "-6deg",  x: "8%",  y: "12%" },
-  { title: "Jordan 4 Retro OG",  price: "245 €", size: "42",  brand: "Jordan",    color: "#F59E0B", emoji: "👟", rotate: "4deg",   x: "52%", y: "6%"  },
-  { title: "Sac Jacquemus Mini", price: "145 €", size: "OS",  brand: "Jacquemus", color: "#EC4899", emoji: "👜", rotate: "-3deg",  x: "72%", y: "28%" },
-  { title: "Blazer Zara 2024",   price: "38 €",  size: "S",   brand: "Zara",      color: "#10B981", emoji: "🧣", rotate: "7deg",   x: "18%", y: "54%" },
-  { title: "Cap Supreme Box",    price: "62 €",  size: "OS",  brand: "Supreme",   color: "#EF4444", emoji: "🧢", rotate: "-5deg",  x: "60%", y: "58%" },
-  { title: "Vintage Levi's 501", price: "55 €",  size: "28",  brand: "Levi's",    color: "#3B82F6", emoji: "👖", rotate: "3deg",   x: "35%", y: "72%" },
-];
-
-const NOTIFS = [
-  { text: "Nike Tech vendue", sub: "il y a 2 min",    color: "#10B981", icon: "💚" },
-  { text: "+34 en ligne",      sub: "maintenant",      color: "#8B5CF6", icon: "👥" },
-  { text: "Offre reçue",       sub: "Jordan 4 · 200€", color: "#F59E0B", icon: "✨" },
+/* Product cards — structured showcase, not random scatter */
+const SHOWCASE = [
+  // Column 1 (left)
+  [
+    { title: "Nike Air Force 1",  price: "65 €",  brand: "Nike",      grad: ["#1a0533","#2d0f5e"], accent: "#8B5CF6", emoji: "👟" },
+    { title: "Veste Carhartt",    price: "42 €",  brand: "Carhartt",  grad: ["#0a1f0a","#0f3012"], accent: "#10B981", emoji: "🧥" },
+    { title: "Sac Jacquemus",     price: "145 €", brand: "Jacquemus", grad: ["#2a0f1a","#4a1228"], accent: "#EC4899", emoji: "👜" },
+  ],
+  // Column 2 (right, offset up)
+  [
+    { title: "Jordan 4 Retro",    price: "245 €", brand: "Jordan",    grad: ["#1a1200","#352400"], accent: "#F59E0B", emoji: "👟" },
+    { title: "Cap Supreme",       price: "55 €",  brand: "Supreme",   grad: ["#1a0000","#330000"], accent: "#EF4444", emoji: "🧢" },
+    { title: "Vintage Levi's",    price: "38 €",  brand: "Levi's",    grad: ["#001520","#002a3d"], accent: "#3B82F6", emoji: "👖" },
+  ],
 ];
 
 export function DesktopLoginPage() {
@@ -76,143 +76,117 @@ export function DesktopLoginPage() {
   };
 
   return (
-    <div className="min-h-[100dvh] w-full flex" style={{ background: "#050208" }}>
+    <div className="min-h-[100dvh] w-full flex" style={{ background: "#040110" }}>
 
       {/* ══════════════════════════════════════════
-          LEFT — Immersive visual stage
+          LEFT — Premium visual stage
       ══════════════════════════════════════════ */}
-      <div className="hidden lg:block flex-1 relative overflow-hidden">
+      <div className="hidden lg:flex flex-1 relative overflow-hidden flex-col">
 
-        {/* ── Deep cinematic background ── */}
-        <div className="absolute inset-0" style={{ background: "#050208" }} />
+        {/* ── Background — minimal, cinematic ── */}
+        {/* Single soft glow, top-right, very diffuse */}
+        <div className="absolute pointer-events-none"
+          style={{ top: "-15%", right: "-10%", width: 700, height: 700,
+            background: "radial-gradient(circle, rgba(88,28,220,0.13) 0%, transparent 60%)",
+            filter: "blur(100px)" }} />
+        {/* Accent bottom-left, barely visible */}
+        <div className="absolute pointer-events-none"
+          style={{ bottom: "-10%", left: "-5%", width: 500, height: 500,
+            background: "radial-gradient(circle, rgba(109,40,217,0.09) 0%, transparent 60%)",
+            filter: "blur(80px)" }} />
 
-        {/* Focused light sources — small & directional, NOT one giant blob */}
-        <div className="absolute pointer-events-none"
-          style={{ top: "-10%", left: "-5%", width: 480, height: 480,
-            background: "radial-gradient(circle, rgba(109,40,217,0.28) 0%, transparent 65%)",
-            filter: "blur(70px)" }} />
-        <div className="absolute pointer-events-none"
-          style={{ bottom: "5%", right: "10%", width: 360, height: 360,
-            background: "radial-gradient(circle, rgba(139,92,246,0.22) 0%, transparent 65%)",
-            filter: "blur(60px)" }} />
-        <div className="absolute pointer-events-none"
-          style={{ top: "40%", left: "55%", width: 280, height: 280,
-            background: "radial-gradient(circle, rgba(167,139,250,0.12) 0%, transparent 65%)",
-            filter: "blur(50px)" }} />
-        <div className="absolute pointer-events-none"
-          style={{ top: "15%", right: "5%", width: 200, height: 200,
-            background: "radial-gradient(circle, rgba(88,28,220,0.2) 0%, transparent 70%)",
-            filter: "blur(40px)" }} />
-
-        {/* Very fine dot texture */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.018]"
-          style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-
-        {/* ── Scattered product cards ── */}
-        <div className="absolute inset-0">
-          {CARDS.map((c) => (
-            <div
-              key={c.title}
-              className="absolute"
-              style={{
-                left: c.x, top: c.y,
-                transform: `rotate(${c.rotate})`,
-                width: 158,
-                filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.7))",
-              }}>
-              <div className="rounded-2xl overflow-hidden"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(12px)",
-                }}>
-                {/* Image area */}
-                <div className="relative flex items-center justify-center"
-                  style={{
-                    height: 130,
-                    background: `linear-gradient(145deg, ${c.color}20 0%, ${c.color}08 100%)`,
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  }}>
-                  <span style={{ fontSize: 44, opacity: 0.7 }}>{c.emoji}</span>
-                  {/* Brand badge */}
-                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-lg text-[9px] font-black"
-                    style={{ background: `${c.color}22`, color: c.color, border: `1px solid ${c.color}35` }}>
-                    {c.brand}
-                  </div>
-                  {/* Fav */}
-                  <div className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center"
-                    style={{ background: "rgba(0,0,0,0.4)", backdropFilter: "blur(4px)" }}>
-                    <Heart className="w-3 h-3 text-white/40" />
-                  </div>
-                </div>
-                {/* Info */}
-                <div className="px-3 py-2.5">
-                  <p className="text-[11px] font-bold text-white/80 truncate mb-0.5">{c.title}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[13px] font-black text-white">{c.price}</span>
-                    <span className="text-[9px] text-white/30 font-medium">{c.size}</span>
-                  </div>
-                </div>
-              </div>
+        {/* Logo — top left */}
+        <div className="relative z-10 px-12 pt-11 flex-shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg, #7C3AED, #5B21B6)", boxShadow: "0 0 14px rgba(124,58,237,0.35)" }}>
+              <Star className="w-4 h-4 text-white fill-white" />
             </div>
-          ))}
-        </div>
-
-        {/* ── Floating notification pills ── */}
-        <div className="absolute" style={{ bottom: "30%", left: "6%", zIndex: 10 }}>
-          {NOTIFS.map((n, i) => (
-            <div key={n.text}
-              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl mb-2"
-              style={{
-                background: "rgba(10,5,20,0.75)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                backdropFilter: "blur(14px)",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
-                transform: `translateX(${i * 8}px)`,
-              }}>
-              <span style={{ fontSize: 14 }}>{n.icon}</span>
-              <div>
-                <p className="text-[11.5px] font-bold text-white leading-none mb-0.5">{n.text}</p>
-                <p className="text-[9.5px]" style={{ color: n.color }}>{n.sub}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Logo ── */}
-        <div className="absolute top-10 left-10 z-20 flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #8B5CF6, #6D28D9)", boxShadow: "0 0 16px rgba(139,92,246,0.45)" }}>
-            <Star className="w-4 h-4 text-white fill-white" />
-          </div>
-          <span className="text-[20px] font-black text-white tracking-tight">
-            Wear<span style={{ color: "#C4B5FD" }}>lyx</span>
-          </span>
-        </div>
-
-        {/* ── Hero text — bottom left overlay ── */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 px-12 pb-12 pt-32"
-          style={{ background: "linear-gradient(to top, rgba(5,2,8,0.92) 0%, rgba(5,2,8,0.6) 60%, transparent 100%)" }}>
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/35 mb-3">
-            Marketplace mode · France
-          </p>
-          <h1 className="text-[44px] xl:text-[52px] font-black text-white tracking-tight leading-[1.08] mb-4">
-            Le futur de<br />
-            <span style={{
-              background: "linear-gradient(90deg, #E0D7FF 0%, #C4B5FD 40%, #A78BFA 80%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}>
-              la seconde main.
+            <span className="text-[20px] font-black text-white tracking-tight">
+              Wear<span style={{ color: "#A78BFA" }}>lyx</span>
             </span>
-          </h1>
-          <div className="flex items-center gap-6">
-            {[["50K+", "membres"], ["1.2K", "ventes/jour"], ["4.8★", "note"]].map(([v, l]) => (
-              <div key={l}>
-                <p className="text-[18px] font-black text-white">{v}</p>
-                <p className="text-[11px] text-white/30">{l}</p>
+          </div>
+        </div>
+
+        {/* ── Main stage: text left + cards right ── */}
+        <div className="relative z-10 flex-1 flex items-center px-12 gap-10 py-10">
+
+          {/* TEXT COLUMN */}
+          <div className="flex flex-col justify-center flex-shrink-0" style={{ width: 320 }}>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/28 mb-5">
+              Marketplace mode · France
+            </p>
+
+            <h1 className="font-black text-white tracking-tight leading-[1.1] mb-5"
+              style={{ fontSize: "clamp(34px, 3.2vw, 48px)" }}>
+              Le futur de<br />
+              <span style={{
+                background: "linear-gradient(90deg, #D4CAFE 0%, #B39DFF 45%, #9166FF 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}>
+                la seconde main.
+              </span>
+            </h1>
+
+            <p className="text-[15px] text-white/38 leading-relaxed mb-10">
+              Achète et vends des pièces de mode en quelques secondes grâce à l'intelligence artificielle.
+            </p>
+
+            {/* Perks — minimal */}
+            <div className="flex flex-col gap-2.5 mb-10">
+              {[
+                "Vends en 10 secondes avec l'IA",
+                "Paiements 100% sécurisés",
+                "+50 000 membres vérifiés",
+              ].map(text => (
+                <div key={text} className="flex items-center gap-2.5">
+                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "#7C3AED" }} />
+                  <span className="text-[13px] text-white/40">{text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <div className="flex items-center gap-6 pt-6"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+              {[["50K+", "membres"], ["1.2K", "ventes/jour"], ["4.8★", "note"]].map(([v, l]) => (
+                <div key={l}>
+                  <p className="text-[20px] font-black text-white leading-none">{v}</p>
+                  <p className="text-[11px] text-white/28 mt-0.5">{l}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CARDS COLUMN — structured 2-col showcase */}
+          <div className="flex-1 flex items-center justify-center">
+            <div className="flex gap-4 items-start">
+
+              {/* Column 1 — normal position */}
+              <div className="flex flex-col gap-4" style={{ marginTop: 32 }}>
+                {SHOWCASE[0].map((card) => (
+                  <ShowcaseCard key={card.title} card={card} />
+                ))}
               </div>
-            ))}
+
+              {/* Column 2 — offset up */}
+              <div className="flex flex-col gap-4" style={{ marginTop: -16 }}>
+                {SHOWCASE[1].map((card) => (
+                  <ShowcaseCard key={card.title} card={card} />
+                ))}
+              </div>
+            </div>
+
+            {/* Subtle fade on edges so cards blend into bg */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 pointer-events-none"
+              style={{ background: "linear-gradient(to right, #040110, transparent)" }} />
+            <div className="absolute right-0 top-0 bottom-0 w-20 pointer-events-none"
+              style={{ background: "linear-gradient(to left, #040110, transparent)" }} />
+            <div className="absolute top-0 inset-x-0 h-20 pointer-events-none"
+              style={{ background: "linear-gradient(to bottom, #040110, transparent)" }} />
+            <div className="absolute bottom-0 inset-x-0 h-20 pointer-events-none"
+              style={{ background: "linear-gradient(to top, #040110, transparent)" }} />
           </div>
         </div>
       </div>
@@ -221,19 +195,17 @@ export function DesktopLoginPage() {
           RIGHT — Auth panel
       ══════════════════════════════════════════ */}
       <div className="w-full lg:w-[460px] xl:w-[500px] flex-shrink-0 flex items-center justify-center relative"
-        style={{ background: "#07070A", borderLeft: "1px solid rgba(255,255,255,0.05)" }}>
+        style={{ background: "#06040f", borderLeft: "1px solid rgba(255,255,255,0.06)" }}>
 
-        {/* Ambient top glow */}
-        <div className="absolute top-0 inset-x-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.4), transparent)" }} />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-32 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(139,92,246,0.1) 0%, transparent 70%)", filter: "blur(20px)" }} />
+        {/* Top accent line */}
+        <div className="absolute top-0 inset-x-0 h-px pointer-events-none"
+          style={{ background: "linear-gradient(90deg, transparent 10%, rgba(124,58,237,0.35) 50%, transparent 90%)" }} />
 
-        <div className="relative z-10 w-full px-10 py-12 max-w-[420px]">
+        <div className="relative z-10 w-full px-10 py-12 max-w-[400px]">
 
           {step !== "main" && (
             <button onClick={() => setStep("main")}
-              className="flex items-center gap-1.5 text-[13px] text-white/30 hover:text-white/60 mb-8 transition-colors">
+              className="flex items-center gap-1.5 text-[13px] text-white/28 hover:text-white/60 mb-8 transition-colors">
               <ArrowRight className="w-3.5 h-3.5 rotate-180" /> Retour
             </button>
           )}
@@ -241,37 +213,37 @@ export function DesktopLoginPage() {
           {/* ── MAIN ── */}
           {step === "main" && (
             <div>
-              <div className="mb-9">
-                <h2 className="text-[30px] font-black text-white tracking-tight mb-1.5">Bon retour !</h2>
-                <p className="text-[14.5px] text-white/35 leading-relaxed">Connecte-toi pour accéder à ton compte.</p>
+              <div className="mb-8">
+                <h2 className="text-[28px] font-black text-white tracking-tight mb-1.5 leading-tight">Bon retour !</h2>
+                <p className="text-[14px] text-white/32 leading-relaxed">Connecte-toi pour accéder à ton compte.</p>
               </div>
 
               <div className="flex flex-col gap-2.5">
                 {/* Google */}
                 <button onClick={handleGoogle} disabled={googleLoading}
-                  className="w-full flex items-center justify-center gap-3 py-[14px] rounded-2xl text-[14.5px] font-semibold text-white/85 transition-all active:scale-[0.98] disabled:opacity-50"
-                  style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.11)" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.18)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.11)"; }}>
+                  className="w-full flex items-center justify-center gap-3 py-3.5 rounded-2xl text-[14px] font-semibold text-white/80 transition-all active:scale-[0.98] disabled:opacity-50"
+                  style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.16)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.1)"; }}>
                   {googleLoading
-                    ? <span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                    : <><GoogleIcon /><span>Continuer avec Google</span></>}
+                    ? <span className="w-4.5 h-4.5 rounded-full border-2 border-white/30 border-t-white animate-spin" style={{ width: 18, height: 18 }} />
+                    : <><GoogleIcon /> Continuer avec Google</>}
                 </button>
 
-                <div className="flex items-center gap-3 my-0.5">
+                <div className="flex items-center gap-3 my-1">
                   <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.07)" }} />
-                  <span className="text-[11px] text-white/20 font-bold tracking-widest">OU</span>
+                  <span className="text-[10.5px] text-white/18 font-bold tracking-widest uppercase">ou</span>
                   <div className="flex-1 h-px" style={{ background: "rgba(255,255,255,0.07)" }} />
                 </div>
 
-                <PrimaryMethodBtn icon={<Mail className="w-4 h-4 flex-shrink-0" />} label="Email" sub="Mot de passe ou magic link" onClick={() => setStep("email")} />
-                <PrimaryMethodBtn icon={<Phone className="w-4 h-4 flex-shrink-0" />} label="Téléphone" sub="Code SMS" onClick={() => setStep("phone")} />
+                <MethodBtn icon={<Mail className="w-4 h-4 flex-shrink-0" />} label="Email" sub="Connexion par mot de passe" onClick={() => setStep("email")} />
+                <MethodBtn icon={<Phone className="w-4 h-4 flex-shrink-0" />} label="Téléphone" sub="Connexion par SMS" onClick={() => setStep("phone")} />
               </div>
 
               {error && <p className="mt-4 text-[13px] text-red-400 text-center">{error}</p>}
 
-              {/* Perks strip */}
-              <div className="mt-8 grid grid-cols-2 gap-2">
+              {/* Benefits */}
+              <div className="mt-7 grid grid-cols-2 gap-2">
                 {[
                   { icon: Zap,     text: "Vends en 10s avec l'IA" },
                   { icon: Shield,  text: "Paiements sécurisés" },
@@ -279,14 +251,14 @@ export function DesktopLoginPage() {
                   { icon: Users,   text: "+50K membres" },
                 ].map(({ icon: Icon, text }) => (
                   <div key={text} className="flex items-center gap-2 px-3 py-2.5 rounded-xl"
-                    style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.055)" }}>
-                    <Icon className="w-3.5 h-3.5 flex-shrink-0 text-[#A78BFA]" />
-                    <span className="text-[11.5px] text-white/40 font-medium">{text}</span>
+                    style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <Icon className="w-3.5 h-3.5 text-[#7C3AED] flex-shrink-0" />
+                    <span className="text-[11px] text-white/35 font-medium">{text}</span>
                   </div>
                 ))}
               </div>
 
-              <p className="text-center text-[13px] text-white/22 mt-7">
+              <p className="text-center text-[12.5px] text-white/22 mt-6">
                 Pas encore de compte ?{" "}
                 <Link href="/auth/signup" className="text-[#A78BFA] font-semibold hover:text-[#C4B5FD] transition-colors">
                   Créer un compte
@@ -298,20 +270,20 @@ export function DesktopLoginPage() {
           {/* ── EMAIL ── */}
           {step === "email" && (
             <div>
-              <StepHeader icon={<Mail className="w-5 h-5 text-[#A78BFA]" />} title="Connexion par email" sub="Entre ton adresse et ton mot de passe." />
+              <StepHead icon={<Mail className="w-5 h-5 text-[#A78BFA]" />} title="Connexion par email" sub="Entre ton adresse et ton mot de passe." />
               <form onSubmit={handleEmail} className="flex flex-col gap-3">
-                <AuthInput type="email" placeholder="Adresse email" value={email} onChange={setEmail} icon={<Mail className="w-4 h-4" />} />
+                <Field type="email" placeholder="Adresse email" value={email} onChange={setEmail} icon={<Mail className="w-4 h-4" />} />
                 <div className="relative">
-                  <AuthInput type={showPwd ? "text" : "password"} placeholder="Mot de passe" value={password} onChange={setPassword} icon={<Lock className="w-4 h-4" />} />
+                  <Field type={showPwd ? "text" : "password"} placeholder="Mot de passe" value={password} onChange={setPassword} icon={<Lock className="w-4 h-4" />} />
                   <button type="button" onClick={() => setShowPwd(v => !v)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/55 transition-colors">
                     {showPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
                 {error && <p className="text-[13px] text-red-400">{error}</p>}
-                <AuthBtn loading={loading}>Se connecter</AuthBtn>
+                <Btn loading={loading}>Se connecter</Btn>
                 <button type="button" onClick={() => setStep("forgot")}
-                  className="text-[12.5px] text-white/25 hover:text-[#A78BFA] transition-colors text-center pt-1">
+                  className="text-[12px] text-white/25 hover:text-[#A78BFA] transition-colors text-center pt-1">
                   Mot de passe oublié ?
                 </button>
               </form>
@@ -321,11 +293,11 @@ export function DesktopLoginPage() {
           {/* ── PHONE ── */}
           {step === "phone" && (
             <div>
-              <StepHeader icon={<Phone className="w-5 h-5 text-[#A78BFA]" />} title="Par téléphone" sub="On t'envoie un code par SMS." />
+              <StepHead icon={<Phone className="w-5 h-5 text-[#A78BFA]" />} title="Par téléphone" sub="On t'envoie un code par SMS." />
               <form onSubmit={handlePhone} className="flex flex-col gap-3">
-                <AuthInput type="tel" placeholder="+33 6 00 00 00 00" value={phone} onChange={setPhone} icon={<Phone className="w-4 h-4" />} />
+                <Field type="tel" placeholder="+33 6 00 00 00 00" value={phone} onChange={setPhone} icon={<Phone className="w-4 h-4" />} />
                 {error && <p className="text-[13px] text-red-400">{error}</p>}
-                <AuthBtn loading={loading}>Envoyer le code</AuthBtn>
+                <Btn loading={loading}>Envoyer le code</Btn>
               </form>
             </div>
           )}
@@ -333,7 +305,7 @@ export function DesktopLoginPage() {
           {/* ── OTP ── */}
           {step === "phone-otp" && (
             <div>
-              <StepHeader icon={<Sparkles className="w-5 h-5 text-[#A78BFA]" />} title="Code de vérification" sub={`Code envoyé au ${phone}.`} />
+              <StepHead icon={<Sparkles className="w-5 h-5 text-[#A78BFA]" />} title="Code de vérification" sub={`Code envoyé au ${phone}.`} />
               <form onSubmit={handleOtp} className="flex flex-col gap-6">
                 <div className="flex gap-2">
                   {otpDigits.map((d, i) => (
@@ -342,12 +314,11 @@ export function DesktopLoginPage() {
                       onChange={e => handleOtpChange(i, e.target.value)}
                       onKeyDown={e => { if (e.key === "Backspace" && !d && i > 0) otpRefs.current[i - 1]?.focus(); }}
                       className="h-14 flex-1 rounded-2xl text-center text-xl font-black text-white outline-none transition-all caret-transparent"
-                      style={{ background: d ? "rgba(139,92,246,0.18)" : "rgba(255,255,255,0.05)", border: d ? "1px solid rgba(139,92,246,0.55)" : "1px solid rgba(255,255,255,0.1)" }}
-                    />
+                      style={{ background: d ? "rgba(124,58,237,0.18)" : "rgba(255,255,255,0.05)", border: d ? "1px solid rgba(124,58,237,0.5)" : "1px solid rgba(255,255,255,0.1)" }} />
                   ))}
                 </div>
                 {error && <p className="text-[13px] text-red-400 text-center">{error}</p>}
-                <AuthBtn loading={loading}>Vérifier</AuthBtn>
+                <Btn loading={loading}>Vérifier</Btn>
               </form>
             </div>
           )}
@@ -355,11 +326,11 @@ export function DesktopLoginPage() {
           {/* ── FORGOT ── */}
           {step === "forgot" && (
             <div>
-              <StepHeader icon={<Lock className="w-5 h-5 text-[#A78BFA]" />} title="Mot de passe oublié" sub="On t'envoie un lien de réinitialisation." />
+              <StepHead icon={<Lock className="w-5 h-5 text-[#A78BFA]" />} title="Mot de passe oublié" sub="On t'envoie un lien de réinitialisation." />
               <form onSubmit={handleForgot} className="flex flex-col gap-3">
-                <AuthInput type="email" placeholder="Ton adresse email" value={forgotEmail} onChange={setForgotEmail} icon={<Mail className="w-4 h-4" />} />
+                <Field type="email" placeholder="Ton adresse email" value={forgotEmail} onChange={setForgotEmail} icon={<Mail className="w-4 h-4" />} />
                 {error && <p className="text-[13px] text-red-400">{error}</p>}
-                <AuthBtn loading={loading}>Envoyer le lien</AuthBtn>
+                <Btn loading={loading}>Envoyer le lien</Btn>
               </form>
             </div>
           )}
@@ -367,16 +338,16 @@ export function DesktopLoginPage() {
           {/* ── FORGOT SENT ── */}
           {step === "forgot-sent" && (
             <div>
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center mb-6"
-                style={{ background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.25)", boxShadow: "0 0 24px rgba(16,185,129,0.1)" }}>
+              <div className="w-13 h-13 rounded-2xl flex items-center justify-center mb-6"
+                style={{ width: 52, height: 52, background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.22)" }}>
                 <CheckCircle className="w-6 h-6 text-emerald-400" />
               </div>
-              <h2 className="text-[28px] font-black text-white tracking-tight mb-2">Email envoyé !</h2>
-              <p className="text-[14px] text-white/35 mb-8 leading-relaxed">
+              <h2 className="text-[26px] font-black text-white tracking-tight mb-2">Email envoyé !</h2>
+              <p className="text-[14px] text-white/32 mb-8 leading-relaxed">
                 Vérifie ta boîte mail et clique sur le lien pour réinitialiser ton mot de passe.
               </p>
               <button onClick={() => setStep("main")}
-                className="flex items-center gap-1.5 text-[14px] text-[#A78BFA] font-semibold hover:text-[#C4B5FD] transition-colors">
+                className="flex items-center gap-1.5 text-[13.5px] text-[#A78BFA] font-semibold hover:text-[#C4B5FD] transition-colors">
                 Retour à la connexion <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -387,67 +358,106 @@ export function DesktopLoginPage() {
   );
 }
 
-/* ── Reusable sub-components ── */
-
-function StepHeader({ icon, title, sub }: { icon: React.ReactNode; title: string; sub: string }) {
+/* ── Showcase product card ── */
+function ShowcaseCard({ card }: { card: typeof SHOWCASE[0][0] }) {
   return (
-    <div className="mb-8">
-      <div className="w-11 h-11 rounded-2xl flex items-center justify-center mb-5"
-        style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)" }}>
-        {icon}
+    <div className="rounded-2xl overflow-hidden flex-shrink-0"
+      style={{
+        width: 152,
+        background: "rgba(255,255,255,0.035)",
+        border: "1px solid rgba(255,255,255,0.08)",
+        backdropFilter: "blur(16px)",
+        boxShadow: "0 24px 48px rgba(0,0,0,0.7), 0 0 0 0.5px rgba(255,255,255,0.06)",
+      }}>
+      {/* Image area */}
+      <div className="relative flex items-center justify-center"
+        style={{ height: 120, background: `linear-gradient(145deg, ${card.grad[0]}, ${card.grad[1]})` }}>
+        {/* Subtle inner glow */}
+        <div className="absolute inset-0 pointer-events-none"
+          style={{ background: `radial-gradient(ellipse at 50% 0%, ${card.accent}20 0%, transparent 70%)` }} />
+        <span style={{ fontSize: 38, opacity: 0.65, position: "relative", zIndex: 1 }}>{card.emoji}</span>
+        {/* Brand chip */}
+        <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md text-[9px] font-bold"
+          style={{ background: `${card.accent}18`, color: card.accent, border: `1px solid ${card.accent}28` }}>
+          {card.brand}
+        </div>
+        {/* Heart */}
+        <div className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center"
+          style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(4px)" }}>
+          <Heart className="w-3 h-3 text-white/30" />
+        </div>
       </div>
-      <h2 className="text-[27px] font-black text-white tracking-tight mb-1.5">{title}</h2>
-      <p className="text-[14px] text-white/35">{sub}</p>
+      {/* Info */}
+      <div className="px-3 py-2.5">
+        <p className="text-[10.5px] font-semibold text-white/65 truncate mb-1">{card.title}</p>
+        <div className="flex items-center justify-between">
+          <span className="text-[14px] font-black text-white">{card.price}</span>
+          {/* Size dot */}
+          <div className="w-1.5 h-1.5 rounded-full" style={{ background: card.accent }} />
+        </div>
+      </div>
     </div>
   );
 }
 
-function PrimaryMethodBtn({ icon, label, sub, onClick }: {
-  icon: React.ReactNode; label: string; sub: string; onClick: () => void;
-}) {
+/* ── Small reusables ── */
+function StepHead({ icon, title, sub }: { icon: React.ReactNode; title: string; sub: string }) {
+  return (
+    <div className="mb-8">
+      <div className="w-10 h-10 rounded-2xl flex items-center justify-center mb-5"
+        style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.18)" }}>
+        {icon}
+      </div>
+      <h2 className="text-[26px] font-black text-white tracking-tight mb-1.5">{title}</h2>
+      <p className="text-[13.5px] text-white/32">{sub}</p>
+    </div>
+  );
+}
+
+function MethodBtn({ icon, label, sub, onClick }: { icon: React.ReactNode; label: string; sub: string; onClick: () => void }) {
   return (
     <button onClick={onClick}
       className="w-full flex items-center gap-3.5 px-5 py-3.5 rounded-2xl text-left transition-all group"
       style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.055)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.3)"; }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.055)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(124,58,237,0.28)"; }}
       onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}>
-      <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 text-white/50"
-        style={{ background: "rgba(255,255,255,0.06)" }}>
+      <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-white/40"
+        style={{ background: "rgba(255,255,255,0.05)" }}>
         {icon}
       </div>
       <div className="flex-1">
-        <p className="text-[14px] font-semibold text-white/75">{label}</p>
-        <p className="text-[11px] text-white/30">{sub}</p>
+        <p className="text-[13.5px] font-semibold text-white/70">{label}</p>
+        <p className="text-[11px] text-white/28">{sub}</p>
       </div>
-      <ArrowRight className="w-4 h-4 text-white/15 group-hover:text-white/40 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+      <ArrowRight className="w-3.5 h-3.5 text-white/14 group-hover:text-white/38 group-hover:translate-x-0.5 transition-all" />
     </button>
   );
 }
 
-function AuthInput({ type = "text", placeholder, value, onChange, icon }: {
+function Field({ type = "text", placeholder, value, onChange, icon }: {
   type?: string; placeholder: string; value: string;
   onChange: (v: string) => void; icon?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-[14px] rounded-2xl transition-all"
+    <div className="flex items-center gap-3 px-4 py-[13px] rounded-2xl transition-all"
       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
-      onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.55)"; (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.05)"; }}
+      onFocus={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(124,58,237,0.55)"; (e.currentTarget as HTMLElement).style.background = "rgba(124,58,237,0.05)"; }}
       onBlur={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}>
       {icon && <span className="text-white/28 flex-shrink-0">{icon}</span>}
       <input type={type} placeholder={placeholder} value={value}
         onChange={e => onChange(e.target.value)}
-        className="flex-1 bg-transparent text-[15px] text-white placeholder-white/22 outline-none" />
+        className="flex-1 bg-transparent text-[14.5px] text-white placeholder-white/22 outline-none" />
     </div>
   );
 }
 
-function AuthBtn({ children, loading }: { children: React.ReactNode; loading?: boolean }) {
+function Btn({ children, loading }: { children: React.ReactNode; loading?: boolean }) {
   return (
     <button type="submit" disabled={loading}
-      className="w-full flex items-center justify-center gap-2 py-[14px] rounded-2xl text-[15px] font-bold text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-50 mt-1"
-      style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 20px rgba(139,92,246,0.3)" }}
-      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px rgba(139,92,246,0.45)"; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 20px rgba(139,92,246,0.3)"; }}>
+      className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[14.5px] font-bold text-white transition-all hover:scale-[1.01] active:scale-[0.98] disabled:opacity-50 mt-1"
+      style={{ background: "linear-gradient(135deg, #7C3AED, #5B21B6)", boxShadow: "0 4px 18px rgba(124,58,237,0.28)" }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 28px rgba(124,58,237,0.42)"; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 18px rgba(124,58,237,0.28)"; }}>
       {loading
         ? <span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
         : children}
