@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Home, Compass, Plus, MessageCircle, User, Zap, Crown, Heart, Bell, Settings, TrendingUp, ShoppingBag, Star } from "lucide-react";
+import { Home, Compass, Plus, MessageCircle, User, Zap, Crown, Heart, Bell, Settings, TrendingUp, Star } from "lucide-react";
 
 const NAV = [
   { href: "/",              icon: Home,          label: "Accueil" },
@@ -10,7 +10,6 @@ const NAV = [
   { href: "/messages",      icon: MessageCircle, label: "Messages" },
   { href: "/notifications", icon: Bell,          label: "Notifications" },
   { href: "/favorites",     icon: Heart,         label: "Favoris" },
-  { href: "/listings",      icon: ShoppingBag,   label: "Mes annonces" },
   { href: "/profile/menu",  icon: User,          label: "Profil" },
 ];
 

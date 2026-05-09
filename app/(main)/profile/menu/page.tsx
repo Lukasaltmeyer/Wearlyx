@@ -1,19 +1,28 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { isAdminUser } from "@/lib/admin";
 import { Navbar } from "@/components/layout/Navbar";
 import { ProfileMenuClient } from "@/components/ProfileMenuClient";
+import { DesktopProfile } from "@/components/desktop/DesktopProfile";
 
 export default async function ProfileMenuPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth");
 
-  const [{ data: profile }, { data: products }, ] = await Promise.all([
+  const [{ data: profile }, { data: products }, { data: reviews }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
-    supabase.from("products").select("id").eq("seller_id", user.id).neq("status", "deleted"),
+    supabase.from("products").select("*").eq("seller_id", user.id).neq("status", "deleted"),
+    supabase.from("reviews").select("*").eq("seller_id", user.id).order("created_at", { ascending: false }),
   ]);
+
+  const device = await getDeviceType();
+
+  if (device === "desktop") {
+    return <DesktopProfile profile={profile} products={products ?? []} reviews={reviews ?? []} isOwnProfile />;
+  }
 
   const productsCount = products?.length ?? 0;
   const salesCount = profile?.sales_count ?? 0;

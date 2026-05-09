@@ -1,8 +1,10 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { Navbar } from "@/components/layout/Navbar";
 import { FavoritesClient } from "@/components/FavoritesClient";
+import { DesktopFavorites } from "@/components/desktop/DesktopFavorites";
 
 export default async function FavoritesPage() {
   const supabase = await createClient();
@@ -16,6 +18,11 @@ export default async function FavoritesPage() {
     .order("created_at", { ascending: false });
 
   const products = (likes ?? []).map((l: any) => l.products).filter(Boolean);
+  const device = await getDeviceType();
+
+  if (device === "desktop") {
+    return <DesktopFavorites products={products} currentUserId={user.id} />;
+  }
 
   return (
     <>
