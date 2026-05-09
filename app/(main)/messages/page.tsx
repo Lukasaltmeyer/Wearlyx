@@ -2,7 +2,9 @@ export const dynamic = "force-dynamic";
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { MessagesPageClient } from "@/components/MessagesPageClient";
+import { DesktopMessages } from "@/components/desktop/DesktopMessages";
 
 export default async function MessagesPage() {
   const supabase = await createClient();
@@ -20,5 +22,9 @@ export default async function MessagesPage() {
     .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
     .order("last_message_at", { ascending: false });
 
+  const device = await getDeviceType();
+  if (device === "desktop") {
+    return <DesktopMessages conversations={conversations ?? []} currentUserId={user.id} />;
+  }
   return <MessagesPageClient conversations={conversations ?? []} currentUserId={user.id} />;
 }

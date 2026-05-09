@@ -45,5 +45,11 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     }));
   }
 
+  const { getDeviceType } = await import("@/lib/device");
+  const device = await getDeviceType();
+  if (device === "desktop") {
+    const { DesktopExplorer } = await import("@/components/desktop/DesktopExplorer");
+    return <DesktopExplorer products={products} currentUserId={userId} initialQ={q} initialCategory={category} />;
+  }
   return <ExplorerClient products={products} currentUserId={userId} initialQ={q} initialCategory={category} />;
 }
