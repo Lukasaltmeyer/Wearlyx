@@ -20,7 +20,7 @@ export function Navbar() {
 
   return (
     <header
-      className="relative z-10"
+      className="relative z-10 lg:hidden"
       style={{
         background: "#0A0A0A",
       }}

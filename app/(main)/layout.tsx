@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserModeration } from "@/lib/moderation";
-import { BottomNav } from "@/components/layout/BottomNav";
+import { BottomNavServer } from "@/components/layout/BottomNavServer";
 import { ModerationBanner } from "@/components/ModerationBanner";
 import { PushNotificationSetup } from "@/components/PushNotificationSetup";
 
@@ -26,7 +26,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
           {mod.status === "warned" && (
             <div className="pt-[60px]">
               {children}
-              <BottomNav />
+              <BottomNavServer />
             </div>
           )}
         </>
@@ -37,7 +37,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   return (
     <>
       {children}
-      <BottomNav />
+      <BottomNavServer />
       <PushNotificationSetup />
     </>
   );

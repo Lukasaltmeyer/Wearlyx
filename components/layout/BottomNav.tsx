@@ -20,7 +20,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 safe-bottom"
+      className="fixed bottom-0 left-0 right-0 z-40 safe-bottom lg:hidden"
       style={{
         background: "rgba(8, 8, 12, 0.97)",
         backdropFilter: "blur(32px)",
