@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getDeviceType } from "@/lib/device";
 import { Navbar } from "@/components/layout/Navbar";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { StayLoggedInBanner } from "@/components/StayLoggedInBanner";
 import { HomePageRouter } from "@/components/HomePageRouter";
 import type { Product } from "@/types/database";
@@ -108,6 +109,7 @@ export default async function HomePage({
       )}
 
       <StayLoggedInBanner />
+      {isMobile && <BottomNav />}
     </>
   );
 }
