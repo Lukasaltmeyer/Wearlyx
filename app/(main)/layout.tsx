@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getUserModeration } from "@/lib/moderation";
-import { BottomNavServer } from "@/components/layout/BottomNavServer";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { ModerationBanner } from "@/components/ModerationBanner";
 import { PushNotificationSetup } from "@/components/PushNotificationSetup";
 
