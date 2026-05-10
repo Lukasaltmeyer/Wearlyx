@@ -18,72 +18,123 @@ function LeftSidebar() {
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[220px] flex flex-col z-40"
       style={{
-        background: "rgba(7,7,12,0.88)",
-        backdropFilter: "blur(28px) saturate(180%)",
-        WebkitBackdropFilter: "blur(28px) saturate(180%)",
-        borderRight: "1px solid rgba(255,255,255,0.06)",
+        background: "rgba(7,7,10,0.92)",
+        backdropFilter: "blur(32px) saturate(200%)",
+        WebkitBackdropFilter: "blur(32px) saturate(200%)",
+        borderRight: "1px solid rgba(255,255,255,0.05)",
+        boxShadow: "1px 0 0 rgba(255,255,255,0.03)",
       }}>
 
       {/* Logo */}
-      <div className="px-5 py-5 flex-shrink-0">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-[20px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.02em" }}>
-            Wear<span style={{ color: "#A78BFA" }}>lyx</span>
+      <div className="px-5 pt-6 pb-5 flex-shrink-0">
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="text-[19px] font-black tracking-tight select-none" style={{ letterSpacing: "-0.03em" }}>
+            <span className="text-white">Wear</span><span style={{
+              background: "linear-gradient(135deg, #A78BFA, #7C3AED)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>lyx</span>
           </span>
         </Link>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2.5 flex flex-col gap-0.5 overflow-y-auto">
+      <nav className="flex-1 px-3 flex flex-col gap-[2px] overflow-y-auto pb-2" style={{ scrollbarWidth: "none" }}>
         {NAV.map(({ href, icon: Icon, label }) => {
           const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
             <Link key={href} href={href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13.5px] font-semibold transition-all duration-150 group relative"
+              className="flex items-center gap-3 px-3 py-[9px] rounded-[11px] text-[13px] font-medium transition-all duration-150 relative overflow-hidden group"
               style={{
-                background: active ? "rgba(139,92,246,0.14)" : "transparent",
-                color: active ? "#C4B5FD" : "rgba(255,255,255,0.4)",
+                background: active ? "rgba(139,92,246,0.12)" : "transparent",
+                color: active ? "#C4B5FD" : "rgba(255,255,255,0.38)",
+                boxShadow: active ? "inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(139,92,246,0.15)" : "none",
               }}
-              onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.75)"; }}
-              onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)"; } }}>
-              {active && <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 rounded-full bg-[#8B5CF6]" />}
-              <Icon className="w-[18px] h-[18px] flex-shrink-0"
-                style={{ color: active ? "#8B5CF6" : "inherit" }}
-                strokeWidth={active ? 2.5 : 1.8} />
-              {label}
+              onMouseEnter={e => {
+                if (!active) {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "rgba(255,255,255,0.04)";
+                  el.style.color = "rgba(255,255,255,0.72)";
+                }
+              }}
+              onMouseLeave={e => {
+                if (!active) {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "transparent";
+                  el.style.color = "rgba(255,255,255,0.38)";
+                }
+              }}>
+              {/* Active left accent */}
+              {active && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[18px] rounded-r-full"
+                  style={{ background: "linear-gradient(180deg, #A78BFA, #7C3AED)", boxShadow: "2px 0 8px rgba(139,92,246,0.5)" }} />
+              )}
+              {/* Icon container */}
+              <span className="flex-shrink-0 w-[26px] h-[26px] flex items-center justify-center rounded-[8px]"
+                style={{
+                  background: active ? "rgba(139,92,246,0.22)" : "transparent",
+                  transition: "background 0.15s",
+                }}>
+                <Icon className="w-[15px] h-[15px]"
+                  style={{ color: active ? "#A78BFA" : "inherit" }}
+                  strokeWidth={active ? 2.2 : 1.8} />
+              </span>
+              <span className="font-semibold">{label}</span>
             </Link>
           );
         })}
 
-        <div className="my-2.5 h-px mx-2" style={{ background: "rgba(255,255,255,0.05)" }} />
+        <div className="my-3 h-px mx-1" style={{ background: "rgba(255,255,255,0.04)" }} />
 
+        {/* Sell CTA */}
         <Link href="/sell/ai"
-          className="flex items-center gap-3 px-3 py-3 rounded-xl text-[13.5px] font-bold text-white transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]"
-          style={{ background: "linear-gradient(135deg, #7C3AED, #5b21b6)", boxShadow: "0 4px 20px rgba(124,58,237,0.2)" }}>
-          <Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />
+          className="flex items-center gap-2.5 px-3 py-[10px] rounded-[11px] text-[13px] font-bold text-white transition-all duration-150 relative overflow-hidden hover:brightness-110 active:scale-[0.98]"
+          style={{
+            background: "linear-gradient(135deg, #7C3AED 0%, #5b21b6 100%)",
+            boxShadow: "0 4px 24px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.12)",
+          }}>
+          <span className="w-[26px] h-[26px] flex items-center justify-center rounded-[8px] flex-shrink-0"
+            style={{ background: "rgba(255,255,255,0.12)" }}>
+            <Plus className="w-[15px] h-[15px]" strokeWidth={2.5} />
+          </span>
           Vendre un article
         </Link>
 
+        {/* Premium */}
         <Link href="/premium"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all mt-1 hover:brightness-110"
-          style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.12)", color: "#F59E0B" }}>
-          <Crown className="w-[18px] h-[18px] flex-shrink-0" strokeWidth={1.8} />
+          className="flex items-center gap-2.5 px-3 py-[9px] rounded-[11px] text-[12.5px] font-semibold transition-all mt-0.5 hover:brightness-110"
+          style={{
+            background: "rgba(245,158,11,0.07)",
+            border: "1px solid rgba(245,158,11,0.14)",
+            color: "#F59E0B",
+            boxShadow: "inset 0 1px 0 rgba(245,158,11,0.08)",
+          }}>
+          <span className="w-[26px] h-[26px] flex items-center justify-center rounded-[8px] flex-shrink-0"
+            style={{ background: "rgba(245,158,11,0.1)" }}>
+            <Crown className="w-[14px] h-[14px]" strokeWidth={2} />
+          </span>
           Plan Premium
         </Link>
       </nav>
 
-      {/* Bottom */}
-      <div className="px-2.5 py-3 flex-shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+      {/* Bottom profile */}
+      <div className="px-3 py-3 flex-shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
         <Link href="/profile/menu"
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-all hover:bg-white/5">
-          <div className="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #8B5CF6, #6D28D9)" }}>
-            <User className="w-4 h-4 text-white" />
+          className="flex items-center gap-2.5 px-2.5 py-2 rounded-[11px] transition-all duration-150 group"
+          style={{ background: "transparent" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+          <div className="w-[30px] h-[30px] rounded-[10px] flex-shrink-0 flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, #8B5CF6, #6D28D9)",
+              boxShadow: "0 2px 8px rgba(139,92,246,0.35)",
+            }}>
+            <User className="w-[14px] h-[14px] text-white" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[12px] font-semibold text-white/70 truncate">Mon compte</p>
+            <p className="text-[12px] font-semibold truncate" style={{ color: "rgba(255,255,255,0.65)" }}>Mon compte</p>
           </div>
-          <Settings className="w-3.5 h-3.5 text-white/20 flex-shrink-0" />
+          <Settings className="w-3 h-3 flex-shrink-0" style={{ color: "rgba(255,255,255,0.18)" }} />
         </Link>
       </div>
     </aside>

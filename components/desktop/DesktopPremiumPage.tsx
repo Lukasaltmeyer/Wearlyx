@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Check, X, Sparkles, Zap, Crown, Star, Shield, ArrowRight, TrendingUp } from "lucide-react";
+import { Check, X, Sparkles, Zap, Crown, Star, Shield, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { getUsage, type UsageData } from "@/lib/usage";
 
@@ -133,7 +133,9 @@ export function DesktopPremiumPage() {
   };
 
   return (
-    <div className="min-h-[100dvh] flex flex-col pb-16" style={{ background: "#07070A" }}>
+    <div className="min-h-[100dvh] flex flex-col pb-16 relative" style={{ background: "#07070A" }}>
+      <div className="fixed pointer-events-none" style={{ top: -200, left: "25%", width: 900, height: 900, background: "radial-gradient(circle, rgba(88,28,220,0.07) 0%, transparent 60%)", filter: "blur(120px)", zIndex: 0 }} />
+      <div className="fixed pointer-events-none" style={{ bottom: -100, right: "10%", width: 600, height: 600, background: "radial-gradient(circle, rgba(245,158,11,0.03) 0%, transparent 65%)", filter: "blur(130px)", zIndex: 0 }} />
 
       {/* ── HERO ── */}
       <div className="relative overflow-hidden px-10 py-16 text-center flex-shrink-0"

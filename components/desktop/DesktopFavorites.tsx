@@ -50,7 +50,7 @@ function ProductCard({ product, onUnlike }: { product: Product; onUnlike: (id: s
     <Link href={`/products/${product.id}`} className="block group"
       style={{ opacity: removing ? 0 : 1, transition: "opacity 0.3s, transform 0.3s", transform: removing ? "scale(0.95)" : "scale(1)" }}>
       <div className="rounded-2xl overflow-hidden transition-all duration-300 group-hover:-translate-y-1.5 group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
-        style={{ background: "#0f0f1a", border: "1px solid rgba(255,255,255,0.05)" }}>
+        style={{ background: "rgba(14,10,26,0.92)", border: "1px solid rgba(255,255,255,0.07)", backdropFilter: "blur(8px)", boxShadow: "0 2px 20px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.07) inset" }}>
         <div className="relative overflow-hidden" style={{ aspectRatio: "3/4" }}>
           {img
             ? <Image src={img} alt={product.title} fill sizes="20vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.06]" />
@@ -232,7 +232,9 @@ export function DesktopFavorites({ products: initial }: { products: Product[]; c
   );
 
   return (
-    <div className="min-h-[100dvh] px-8 py-7" style={{ background: "#07070A" }}>
+    <div className="min-h-[100dvh] px-8 py-7 relative" style={{ background: "#07070A" }}>
+      <div className="fixed pointer-events-none" style={{ top: -150, left: "25%", width: 700, height: 700, background: "radial-gradient(circle, rgba(139,92,246,0.055) 0%, transparent 65%)", filter: "blur(90px)", zIndex: 0 }} />
+      <div className="fixed pointer-events-none" style={{ bottom: -80, right: "15%", width: 500, height: 500, background: "radial-gradient(circle, rgba(109,40,217,0.04) 0%, transparent 70%)", filter: "blur(110px)", zIndex: 0 }} />
 
       {/* Header */}
       <div className="flex items-center justify-between mb-6">

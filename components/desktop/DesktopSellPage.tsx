@@ -28,10 +28,12 @@ const STEPS = [
 
 export function DesktopSellPage() {
   return (
-    <div className="min-h-[100dvh] flex flex-col" style={{ background: "#07070A" }}>
+    <div className="min-h-[100dvh] flex flex-col relative" style={{ background: "#07070A" }}>
+      <div className="fixed pointer-events-none" style={{ top: -100, left: "20%", width: 750, height: 750, background: "radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 65%)", filter: "blur(100px)", zIndex: 0 }} />
+      <div className="fixed pointer-events-none" style={{ bottom: -80, right: "10%", width: 500, height: 500, background: "radial-gradient(circle, rgba(91,33,182,0.05) 0%, transparent 70%)", filter: "blur(120px)", zIndex: 0 }} />
 
       {/* Header */}
-      <div className="px-10 pt-10 pb-8 flex-shrink-0">
+      <div className="px-10 pt-10 pb-8 flex-shrink-0 relative z-10">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(255,255,255,.28)" }}>
           Vendre · Wearlyx
         </p>
@@ -44,7 +46,7 @@ export function DesktopSellPage() {
       </div>
 
       {/* Main 2-col area */}
-      <div className="flex flex-1 gap-6 px-10 pb-10">
+      <div className="flex flex-1 gap-6 px-10 pb-10 relative z-10">
 
         {/* LEFT — IA card (large) */}
         <Link href="/sell/ai" className="flex-1 group block">
