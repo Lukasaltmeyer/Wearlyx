@@ -57,9 +57,9 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
       <div
         className="rounded-[20px] overflow-hidden transition-all duration-300 group-active:scale-[0.96] relative"
         style={{
-          background: "linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.016) 100%)",
-          border: "1px solid rgba(255,255,255,0.09)",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.07) inset",
+          background: "linear-gradient(160deg, rgba(255,255,255,0.065) 0%, rgba(255,255,255,0.014) 100%)",
+          border: "1px solid rgba(255,255,255,0.10)",
+          boxShadow: "0 3px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.10) inset",
           transform: "translateZ(0)",
         }}
       >
@@ -143,7 +143,7 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
           </p>
 
           {/* Title */}
-          <p className="text-[11.5px] text-white/38 line-clamp-1 leading-snug font-medium">
+          <p className="text-[11.5px] text-white/44 line-clamp-1 leading-snug font-medium">
             {product.title}
           </p>
 

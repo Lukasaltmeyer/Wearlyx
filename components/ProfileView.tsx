@@ -199,9 +199,11 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
         <div
           className="rounded-[28px] p-5 relative overflow-hidden"
           style={{
-            background: "linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%)",
-            border: "1px solid rgba(255,255,255,0.09)",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.08) inset",
+            background: "linear-gradient(145deg, rgba(255,255,255,0.065) 0%, rgba(255,255,255,0.018) 100%)",
+            border: "1px solid rgba(255,255,255,0.10)",
+            boxShadow: "0 10px 48px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.09) inset, 0 -1px 0 rgba(0,0,0,0.12) inset",
+            backdropFilter: "blur(12px) saturate(150%)",
+            WebkitBackdropFilter: "blur(12px) saturate(150%)",
           }}
         >
           {/* Card orb */}
@@ -213,10 +215,10 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
           <div className="relative z-10 flex items-start gap-4">
             {/* Avatar */}
             <div
-              className="w-[68px] h-[68px] rounded-[22px] flex items-center justify-center text-[30px] font-black text-white flex-shrink-0 overflow-hidden"
+              className="w-[72px] h-[72px] rounded-[22px] flex items-center justify-center text-[30px] font-black text-white flex-shrink-0 overflow-hidden"
               style={{
-                background: "linear-gradient(145deg, #9B6FF8, #7C3AED)",
-                boxShadow: "0 8px 28px rgba(139,92,246,0.45), 0 1px 0 rgba(255,255,255,0.15) inset",
+                background: "linear-gradient(145deg, #9B6FF8 0%, #7C3AED 60%, #6D28D9 100%)",
+                boxShadow: "0 10px 32px rgba(139,92,246,0.50), 0 0 0 1px rgba(167,139,250,0.22), 0 1px 0 rgba(255,255,255,0.18) inset",
               }}
             >
               {profile.avatar_url ? (
@@ -253,28 +255,28 @@ export function ProfileView({ profile, products: initialProducts, isOwner, curre
               )}
 
               {/* Stats row */}
-              <div className="flex items-center gap-0 mt-3">
+              <div className="flex items-center gap-0 mt-3.5">
                 <div className="flex-1 text-center">
-                  <p className="text-[20px] font-black text-white leading-none" style={{ letterSpacing: "-0.02em" }}>
+                  <p className="text-[22px] font-black text-white leading-none" style={{ letterSpacing: "-0.025em" }}>
                     {products.length}
                   </p>
-                  <p className="text-[9.5px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>annonces</p>
+                  <p className="text-[10px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.30)" }}>annonces</p>
                 </div>
-                <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.07)" }} />
+                <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.06)" }} />
                 <div className="flex-1 text-center">
                   <div className="flex items-center gap-1 justify-center">
                     <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    <p className="text-[20px] font-black text-white leading-none" style={{ letterSpacing: "-0.02em" }}>5.0</p>
+                    <p className="text-[22px] font-black text-white leading-none" style={{ letterSpacing: "-0.025em" }}>5.0</p>
                   </div>
-                  <p className="text-[9.5px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>note</p>
+                  <p className="text-[10px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.30)" }}>note</p>
                 </div>
-                <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.07)" }} />
+                <div className="w-px h-8" style={{ background: "rgba(255,255,255,0.06)" }} />
                 <div className="flex-1 text-center">
                   <div className="flex items-center gap-1 justify-center">
                     <Shield className="w-3.5 h-3.5 text-emerald-400" />
                     <p className="text-[20px] font-black text-white leading-none">✓</p>
                   </div>
-                  <p className="text-[9.5px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>vérifié</p>
+                  <p className="text-[10px] font-semibold mt-0.5" style={{ color: "rgba(255,255,255,0.30)" }}>vérifié</p>
                 </div>
               </div>
             </div>

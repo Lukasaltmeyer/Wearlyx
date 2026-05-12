@@ -86,14 +86,20 @@ body::after {
 /* Cards levitating */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  33%       { transform: translateY(-4px) rotate(0.3deg); }
-  66%       { transform: translateY(-2px) rotate(-0.2deg); }
+  33%       { transform: translateY(-5px) rotate(0.25deg); }
+  66%       { transform: translateY(-2px) rotate(-0.15deg); }
+}
+
+/* Plus button breathe */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(139,92,246,0.55), 0 0 0 1px rgba(167,139,250,0.2), 0 1px 0 rgba(255,255,255,0.18) inset; }
+  50%       { box-shadow: 0 6px 30px rgba(139,92,246,0.80), 0 0 0 2px rgba(167,139,250,0.28), 0 1px 0 rgba(255,255,255,0.22) inset; }
 }
 
 /* Breathing glow */
 @keyframes glow-breathe {
-  0%, 100% { box-shadow: 0 0 16px rgba(139,92,246,0.12), 0 4px 24px rgba(0,0,0,0.5); }
-  50%       { box-shadow: 0 0 32px rgba(139,92,246,0.28), 0 8px 32px rgba(0,0,0,0.5); }
+  0%, 100% { box-shadow: 0 0 20px rgba(139,92,246,0.14), 0 4px 28px rgba(0,0,0,0.5); }
+  50%       { box-shadow: 0 0 40px rgba(139,92,246,0.32), 0 8px 36px rgba(0,0,0,0.5); }
 }
 
 /* Orb drift — very slow ambient movement */
@@ -158,6 +164,7 @@ body::after {
 
 /* ─── Animation Classes ──────────────────────────────────────── */
 
+.animate-glow-pulse{ animation: glow-pulse 3s ease-in-out infinite; }
 .animate-fadeIn    { animation: fadeIn    0.38s cubic-bezier(0.22,1,0.36,1) both; }
 .animate-slideUp   { animation: slideUp   0.42s cubic-bezier(0.22,1,0.36,1) both; }
 .animate-scaleIn   { animation: scaleIn   0.30s cubic-bezier(0.22,1,0.36,1) both; }
@@ -182,12 +189,12 @@ body::after {
 /* ─── Premium Card ───────────────────────────────────────────── */
 
 .card-premium {
-  background: linear-gradient(145deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.018) 100%);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.07) inset;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: transform 0.28s cubic-bezier(0.22,1,0.36,1), box-shadow 0.28s ease;
+  background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.016) 100%);
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow: 0 4px 28px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.12) inset;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  transition: transform 0.30s cubic-bezier(0.22,1,0.36,1), box-shadow 0.30s ease;
   position: relative;
   overflow: hidden;
 }
@@ -197,8 +204,8 @@ body::after {
 }
 @media (hover: hover) {
   .card-premium:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 36px rgba(0,0,0,0.55), 0 0 24px rgba(139,92,246,0.09), 0 1px 0 rgba(255,255,255,0.09) inset;
+    transform: translateY(-3px);
+    box-shadow: 0 16px 44px rgba(0,0,0,0.60), 0 0 28px rgba(139,92,246,0.10), 0 1px 0 rgba(255,255,255,0.10) inset;
   }
 }
 
@@ -273,20 +280,29 @@ body::after {
 /* ─── Premium button ─────────────────────────────────────────── */
 
 .btn-primary {
-  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
   color: white;
   font-weight: 800;
   border-radius: 16px;
   transition: all 0.22s cubic-bezier(0.22,1,0.36,1);
-  box-shadow: 0 6px 22px rgba(139,92,246,0.38), 0 1px 0 rgba(255,255,255,0.14) inset;
+  box-shadow: 0 8px 28px rgba(139,92,246,0.42), 0 1px 0 rgba(255,255,255,0.16) inset, 0 -1px 0 rgba(0,0,0,0.18) inset;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.14) 0%, transparent 65%);
+  pointer-events: none;
 }
 .btn-primary:active {
   transform: scale(0.96);
-  box-shadow: 0 2px 10px rgba(139,92,246,0.25);
+  box-shadow: 0 2px 12px rgba(139,92,246,0.28);
 }
 @media (hover: hover) {
   .btn-primary:hover {
-    box-shadow: 0 10px 32px rgba(139,92,246,0.52), 0 1px 0 rgba(255,255,255,0.16) inset;
+    box-shadow: 0 12px 36px rgba(139,92,246,0.55), 0 1px 0 rgba(255,255,255,0.18) inset;
     transform: translateY(-1px);
   }
 }

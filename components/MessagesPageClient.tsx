@@ -92,27 +92,36 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
         <div className="relative z-10">
           {conversations.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 px-8 text-center">
-              {/* Icon */}
-              <div
-                className="w-[84px] h-[84px] rounded-[26px] flex items-center justify-center mb-7 relative"
-                style={{
-                  background: "linear-gradient(145deg, rgba(139,92,246,0.14) 0%, rgba(109,40,217,0.07) 100%)",
-                  border: "1px solid rgba(139,92,246,0.2)",
-                  boxShadow: "0 0 48px rgba(139,92,246,0.14), 0 1px 0 rgba(255,255,255,0.08) inset",
-                }}
-              >
-                <div className="absolute inset-0 rounded-[26px] pointer-events-none"
-                  style={{ background: "radial-gradient(circle at 50% 25%, rgba(167,139,250,0.14) 0%, transparent 60%)" }} />
-                <MessageCircle
-                  style={{ width: 36, height: 36, color: "#8B5CF6", position: "relative", zIndex: 1 }}
-                  strokeWidth={1.5}
-                />
+              {/* Icon with ambient halo */}
+              <div className="relative mb-7">
+                {/* Ambient behind icon */}
+                <div className="absolute inset-0 pointer-events-none"
+                  style={{ background: "radial-gradient(circle, rgba(139,92,246,0.28) 0%, transparent 65%)", filter: "blur(28px)", transform: "scale(1.7)" }} />
+                <div
+                  className="relative w-[88px] h-[88px] rounded-[28px] flex items-center justify-center overflow-hidden"
+                  style={{
+                    background: "linear-gradient(145deg, rgba(139,92,246,0.16) 0%, rgba(109,40,217,0.07) 100%)",
+                    border: "1px solid rgba(139,92,246,0.22)",
+                    boxShadow: [
+                      "0 12px 48px rgba(139,92,246,0.18)",
+                      "0 1px 0 rgba(255,255,255,0.09) inset",
+                      "0 -1px 0 rgba(0,0,0,0.12) inset",
+                    ].join(", "),
+                  }}
+                >
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: "radial-gradient(circle at 42% 28%, rgba(167,139,250,0.18) 0%, transparent 58%)" }} />
+                  <MessageCircle
+                    style={{ width: 38, height: 38, color: "rgba(167,139,250,0.75)", position: "relative", zIndex: 1 }}
+                    strokeWidth={1.5}
+                  />
+                </div>
               </div>
 
-              <p className="text-[19px] font-black text-white mb-2 tracking-tight" style={{ letterSpacing: "-0.02em" }}>
+              <p className="text-[20px] font-black text-white mb-2.5 tracking-tight" style={{ letterSpacing: "-0.025em" }}>
                 Aucun message
               </p>
-              <p className="text-[13px] leading-relaxed mb-8" style={{ color: "rgba(255,255,255,0.28)", maxWidth: 240 }}>
+              <p className="text-[13px] leading-relaxed mb-9" style={{ color: "rgba(255,255,255,0.28)", maxWidth: 240 }}>
                 Contacte un vendeur ou fais une offre pour démarrer une conversation.
               </p>
 
@@ -120,15 +129,17 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
               <div className="flex flex-col gap-2.5 w-full" style={{ maxWidth: 268 }}>
                 <Link
                   href="/search"
-                  className="flex items-center justify-center gap-2 py-3.5 rounded-2xl text-[13.5px] font-bold text-white transition-all active:scale-[0.97]"
+                  className="flex items-center justify-center gap-2 py-3.5 rounded-[16px] text-[13.5px] font-bold text-white transition-all active:scale-[0.97] relative overflow-hidden"
                   style={{
-                    background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
-                    boxShadow: "0 6px 24px rgba(139,92,246,0.42), 0 1px 0 rgba(255,255,255,0.14) inset",
+                    background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
+                    boxShadow: "0 8px 28px rgba(139,92,246,0.45), 0 1px 0 rgba(255,255,255,0.16) inset",
                   }}
                 >
-                  <Search style={{ width: 15, height: 15 }} />
-                  Explorer les articles
-                  <ArrowRight style={{ width: 15, height: 15 }} />
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.14) 0%, transparent 60%)" }} />
+                  <Search style={{ width: 15, height: 15, position: "relative", zIndex: 1 }} />
+                  <span className="relative z-10">Explorer les articles</span>
+                  <ArrowRight style={{ width: 15, height: 15, position: "relative", zIndex: 1 }} />
                 </Link>
                 <div className="flex items-center justify-center gap-1.5 mt-1">
                   <Lock style={{ width: 10, height: 10, color: "rgba(255,255,255,0.18)" }} />

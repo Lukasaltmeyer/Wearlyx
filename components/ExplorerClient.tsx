@@ -46,16 +46,19 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
     >
       {/* Ambient orbs */}
       <div className="absolute pointer-events-none animate-orb"
-        style={{ top: -120, left: "25%", width: 400, height: 400,
-          background: "radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 65%)", filter: "blur(60px)" }} />
+        style={{ top: -140, left: "20%", width: 480, height: 480,
+          background: "radial-gradient(circle, rgba(100,40,220,0.13) 0%, transparent 62%)", filter: "blur(70px)" }} />
       <div className="absolute pointer-events-none animate-orb-r"
-        style={{ top: "45%", right: -80, width: 300, height: 300,
-          background: "radial-gradient(circle, rgba(109,40,217,0.07) 0%, transparent 70%)", filter: "blur(70px)" }} />
+        style={{ top: "42%", right: -100, width: 340, height: 340,
+          background: "radial-gradient(circle, rgba(109,40,217,0.08) 0%, transparent 68%)", filter: "blur(80px)" }} />
+      <div className="absolute pointer-events-none"
+        style={{ bottom: 80, left: -60, width: 280, height: 280,
+          background: "radial-gradient(circle, rgba(76,29,149,0.07) 0%, transparent 70%)", filter: "blur(70px)" }} />
 
       {/* Header */}
       <div className="relative z-10 px-4 pt-7 pb-3">
-        <h1 className="text-[26px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.02em" }}>Explorer</h1>
-        <p className="text-[12.5px] font-medium mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>
+        <h1 className="text-[28px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.025em" }}>Explorer</h1>
+        <p className="text-[13px] font-medium mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>
           Découvrez des articles uniques
         </p>
       </div>
@@ -122,46 +125,48 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
       <div className="relative z-10 px-3 mb-5">
         <button
           onClick={() => router.push(isAI ? "/search" : "/search?sort=ai")}
-          className="w-full flex items-center gap-3 px-4 py-3.5 rounded-[20px] active:scale-[0.98] transition-all duration-200 relative overflow-hidden"
+          className="w-full flex items-center gap-3 px-4 py-4 rounded-[22px] active:scale-[0.98] transition-all duration-200 relative overflow-hidden"
           style={isAI ? {
-            background: "linear-gradient(135deg, rgba(139,92,246,0.22) 0%, rgba(109,40,217,0.14) 100%)",
-            border: "1px solid rgba(139,92,246,0.38)",
-            boxShadow: "0 6px 24px rgba(139,92,246,0.22), 0 1px 0 rgba(255,255,255,0.08) inset",
+            background: "linear-gradient(135deg, rgba(124,58,237,0.24) 0%, rgba(109,40,217,0.16) 100%)",
+            border: "1px solid rgba(139,92,246,0.40)",
+            boxShadow: "0 8px 32px rgba(139,92,246,0.26), 0 1px 0 rgba(255,255,255,0.10) inset",
           } : {
-            background: "linear-gradient(135deg, rgba(139,92,246,0.10) 0%, rgba(109,40,217,0.05) 100%)",
-            border: "1px solid rgba(139,92,246,0.16)",
-            boxShadow: "0 4px 20px rgba(139,92,246,0.07)",
+            background: "linear-gradient(135deg, rgba(139,92,246,0.11) 0%, rgba(109,40,217,0.05) 100%)",
+            border: "1px solid rgba(139,92,246,0.20)",
+            boxShadow: "0 4px 24px rgba(139,92,246,0.09), 0 1px 0 rgba(255,255,255,0.06) inset",
           }}
         >
-          {/* Inner shine */}
+          {/* Top-left ambient glow */}
           <div className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse at 20% 50%, rgba(167,139,250,0.08) 0%, transparent 60%)" }} />
+            style={{ background: "radial-gradient(ellipse at 15% 50%, rgba(167,139,250,0.10) 0%, transparent 58%)" }} />
           <div
-            className="w-9 h-9 rounded-[14px] flex items-center justify-center flex-shrink-0 relative"
+            className="w-10 h-10 rounded-[16px] flex items-center justify-center flex-shrink-0 relative overflow-hidden"
             style={{
-              background: "linear-gradient(145deg, #9B6FF8, #7C3AED)",
-              boxShadow: isAI ? "0 0 22px rgba(139,92,246,0.7)" : "0 0 16px rgba(139,92,246,0.5)",
+              background: "linear-gradient(145deg, #A78BFA 0%, #7C3AED 60%, #6D28D9 100%)",
+              boxShadow: isAI ? "0 0 28px rgba(139,92,246,0.75), 0 4px 12px rgba(124,58,237,0.4)" : "0 0 18px rgba(139,92,246,0.55), 0 2px 8px rgba(124,58,237,0.3)",
             }}
           >
-            <div className="absolute inset-0 rounded-[14px]"
-              style={{ background: "radial-gradient(circle at 40% 30%, rgba(255,255,255,0.2) 0%, transparent 60%)" }} />
-            <Sparkles style={{ width: 15, height: 15, color: "white", position: "relative", zIndex: 1 }} />
+            <div className="absolute inset-0 rounded-[16px]"
+              style={{ background: "radial-gradient(circle at 38% 28%, rgba(255,255,255,0.22) 0%, transparent 58%)" }} />
+            <Sparkles style={{ width: 16, height: 16, color: "white", position: "relative", zIndex: 1 }} />
           </div>
           <div className="flex-1 text-left relative z-10">
-            <p className="text-[13px] font-bold text-white">Sélection IA pour toi</p>
-            <p className="text-[11px] mt-0.5" style={{ color: isAI ? "#A78BFA" : "rgba(255,255,255,0.32)" }}>
+            <p className="text-[13.5px] font-bold text-white" style={{ letterSpacing: "-0.01em" }}>Sélection IA pour toi</p>
+            <p className="text-[11px] mt-0.5" style={{ color: isAI ? "rgba(196,181,253,0.85)" : "rgba(255,255,255,0.32)" }}>
               {isAI ? "Mode IA actif · Articles les plus aimés" : "Basée sur tes préférences"}
             </p>
           </div>
           <span
-            className="relative z-10 text-[11px] font-bold px-2.5 py-1 rounded-lg"
+            className="relative z-10 text-[11px] font-bold px-2.5 py-1 rounded-[10px]"
             style={isAI ? {
-              background: "rgba(139,92,246,0.28)",
+              background: "rgba(139,92,246,0.26)",
               color: "#E9D5FF",
-              border: "1px solid rgba(139,92,246,0.35)",
+              border: "1px solid rgba(139,92,246,0.38)",
+              boxShadow: "0 1px 0 rgba(255,255,255,0.08) inset",
             } : {
-              background: "rgba(139,92,246,0.16)",
+              background: "rgba(139,92,246,0.14)",
               color: "#C4B5FD",
+              border: "1px solid rgba(139,92,246,0.20)",
             }}
           >
             {isAI ? "Actif ✦" : "Voir →"}
@@ -189,28 +194,31 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
               className="relative rounded-[22px] overflow-hidden flex flex-col justify-between"
               style={{
                 background: `linear-gradient(150deg, ${cat.from} 0%, ${cat.to} 100%)`,
-                height: 120,
+                height: 128,
                 padding: "15px 14px 13px 15px",
-                boxShadow: `0 6px 24px ${cat.glow}, 0 1px 0 rgba(255,255,255,0.12) inset`,
-                border: "1px solid rgba(255,255,255,0.10)",
+                boxShadow: `0 8px 28px ${cat.glow}, 0 1px 0 rgba(255,255,255,0.14) inset, 0 -1px 0 rgba(0,0,0,0.16) inset`,
+                border: "1px solid rgba(255,255,255,0.12)",
               }}
             >
-              {/* Top-right reflet */}
-              <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full pointer-events-none"
-                style={{ background: "radial-gradient(circle, rgba(255,255,255,0.13) 0%, transparent 65%)" }} />
+              {/* Top-right lens flare */}
+              <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 62%)" }} />
+              {/* Centre glow */}
+              <div className="absolute inset-0 pointer-events-none"
+                style={{ background: "radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.06) 0%, transparent 60%)" }} />
 
               {/* Grid texture */}
               <div
-                className="absolute inset-0 pointer-events-none opacity-[0.07]"
+                className="absolute inset-0 pointer-events-none opacity-[0.06]"
                 style={{
-                  backgroundImage: "linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)",
-                  backgroundSize: "20px 20px",
+                  backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+                  backgroundSize: "22px 22px",
                 }}
               />
 
               {/* Bottom vignette */}
-              <div className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
-                style={{ background: `linear-gradient(to top, ${cat.to}cc, transparent)` }} />
+              <div className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
+                style={{ background: `linear-gradient(to top, ${cat.to}e0, transparent)` }} />
 
               <p className="relative z-10 text-[14.5px] font-black text-white leading-tight pr-10"
                 style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>
