@@ -239,29 +239,29 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
 
         <div className="relative z-10 flex flex-col h-full">
           {/* Header */}
-          <div className="px-5 pt-6 pb-4 flex-shrink-0">
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-[17px] font-black text-white" style={{ letterSpacing: "-0.02em" }}>
+          <div className="px-4 pt-4 pb-3 flex-shrink-0">
+            <div className="flex items-center justify-between mb-3">
+              <h1 className="text-[13px] font-semibold" style={{ color: "rgba(255,255,255,0.75)", letterSpacing: "-0.01em" }}>
                 Messages
               </h1>
               {conversations.length > 0 && (
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full"
-                  style={{ background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.22)", border: "1px solid rgba(255,255,255,0.07)" }}>
+                <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-[4px]"
+                  style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.28)" }}>
                   {conversations.length}
                 </span>
               )}
             </div>
 
             {/* Search */}
-            <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-[12px] transition-all"
+            <div className="flex items-center gap-2 px-2.5 py-[6px] rounded-[7px] transition-all"
               style={{
                 background: "rgba(255,255,255,0.04)",
                 border: "1px solid rgba(255,255,255,0.07)",
               }}>
-              <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
+              <Search style={{ width: 12, height: 12, flexShrink: 0, color: "rgba(255,255,255,0.22)" }} />
               <input value={search} onChange={e => setSearch(e.target.value)}
                 placeholder="Rechercher…"
-                className="flex-1 bg-transparent text-[12.5px] text-white outline-none"
+                className="flex-1 bg-transparent text-[12px] text-white outline-none"
                 style={{ caretColor: "#8B5CF6" }}
               />
             </div>
