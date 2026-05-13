@@ -57,96 +57,55 @@ function NotifCard({ notif, onRead }: { notif: Notification; onRead: (id: string
 
   return (
     <div
-      className="flex items-start gap-4 px-5 py-4 rounded-2xl transition-all cursor-pointer relative overflow-hidden"
+      className="flex items-center gap-3.5 px-4 py-3 transition-all cursor-pointer relative"
       style={{
-        background: notif.read
-          ? "linear-gradient(145deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%)"
-          : `linear-gradient(145deg, ${cfg.color}09 0%, ${cfg.color}04 100%)`,
-        border: `1px solid ${notif.read ? "rgba(255,255,255,0.06)" : `${cfg.color}22`}`,
-        boxShadow: notif.read ? "none" : `0 4px 20px ${cfg.color}08`,
+        borderBottom: "1px solid rgba(255,255,255,0.04)",
+        background: !notif.read ? `${cfg.color}05` : "transparent",
       }}
-      onMouseEnter={e => {
-        (e.currentTarget as HTMLElement).style.background = notif.read
-          ? "rgba(255,255,255,0.04)"
-          : `${cfg.color}12`;
-        (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
-      }}
-      onMouseLeave={e => {
-        (e.currentTarget as HTMLElement).style.background = notif.read
-          ? "linear-gradient(145deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.01) 100%)"
-          : `linear-gradient(145deg, ${cfg.color}09 0%, ${cfg.color}04 100%)`;
-        (e.currentTarget as HTMLElement).style.transform = "";
-      }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = !notif.read ? `${cfg.color}05` : "transparent"; }}
       onClick={() => !notif.read && onRead(notif.id)}
     >
-      {/* Unread left accent */}
+      {/* Unread dot */}
       {!notif.read && (
-        <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-r-full"
-          style={{ background: `linear-gradient(180deg, ${cfg.color}, ${cfg.color}55)` }} />
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[28px] rounded-r-full"
+          style={{ background: cfg.color }} />
       )}
 
-      {/* Icon / Avatar */}
-      <div className="relative flex-shrink-0 mt-0.5">
-        {d.actor_avatar || d.actor_name ? (
-          <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-white text-[13px]"
-            style={{
-              background: `linear-gradient(135deg, ${cfg.color}50, ${cfg.color}28)`,
-              border: `1px solid ${cfg.color}35`,
-            }}>
+      {/* Icon */}
+      <div className="w-8 h-8 rounded-[10px] flex items-center justify-center flex-shrink-0"
+        style={{ background: cfg.bg }}>
+        {d.actor_name ? (
+          <span className="text-[11px] font-black" style={{ color: cfg.color }}>
             {(d.actor_name ?? "?")[0]?.toUpperCase()}
-          </div>
+          </span>
         ) : (
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ background: cfg.bg, border: `1px solid ${cfg.color}20` }}>
-            <Icon style={{ color: cfg.color, width: 18, height: 18 }} />
-          </div>
-        )}
-        {(d.actor_avatar || d.actor_name) && (
-          <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center"
-            style={{ background: cfg.bg, border: "1.5px solid #07070A" }}>
-            <Icon style={{ color: cfg.color, width: 10, height: 10 }} />
-          </div>
+          <Icon style={{ color: cfg.color, width: 14, height: 14 }} />
         )}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-3 mb-1">
-          <p className="text-[13.5px] font-semibold text-white leading-snug">{notif.title || "Notification"}</p>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <span className="text-[10.5px] text-white/22 whitespace-nowrap">{timeAgo(notif.created_at)}</span>
-            {!notif.read && (
-              <span className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ background: cfg.color, boxShadow: `0 0 8px ${cfg.color}80` }} />
-            )}
-          </div>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-[12.5px] font-semibold truncate" style={{ color: notif.read ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.85)" }}>
+            {notif.title || "Notification"}
+          </p>
+          <span className="text-[10px] flex-shrink-0" style={{ color: "rgba(255,255,255,0.20)" }}>
+            {timeAgo(notif.created_at)}
+          </span>
         </div>
         {notif.body && (
-          <p className="text-[12px] text-white/35 leading-relaxed mb-2">{notif.body}</p>
+          <p className="text-[11.5px] truncate mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>{notif.body}</p>
         )}
-        {d.product_image && (
-          <div className="flex items-center gap-2.5 mt-2 p-2.5 rounded-xl"
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-            }}>
-            <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
-              <Image src={d.product_image} alt="" width={40} height={40} className="object-cover w-full h-full" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[11.5px] font-semibold text-white/65 truncate">{d.product_title}</p>
-              {d.product_price && (
-                <p className="text-[10.5px] font-black" style={{ color: cfg.color }}>{d.product_price}</p>
-              )}
-            </div>
-          </div>
-        )}
-        <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold px-2 py-0.5 rounded-full"
-          style={{ background: cfg.bg, color: cfg.labelColor, border: `1px solid ${cfg.color}20` }}>
-          <Icon style={{ width: 9, height: 9 }} />{cfg.label}
-        </span>
       </div>
+
+      {/* Product thumb */}
+      {d.product_image && (
+        <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0"
+          style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+          <Image src={d.product_image} alt="" width={32} height={32} className="object-cover w-full h-full" />
+        </div>
+      )}
     </div>
   );
 }
@@ -313,7 +272,8 @@ export function DesktopNotifications({ notifications: initial, userId }: { notif
                         {groups[label].length}
                       </span>
                     </div>
-                    <div className="flex flex-col gap-2">
+                    <div className="rounded-[14px] overflow-hidden"
+                      style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
                       {groups[label].map(n => <NotifCard key={n.id} notif={n} onRead={markRead} />)}
                     </div>
                   </div>

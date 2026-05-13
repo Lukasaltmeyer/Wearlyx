@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Search, Send, MoreHorizontal, Phone, Video, Info,
-  Image as ImageIcon, Smile, MessageSquare,
+  Image as ImageIcon, Smile,
   ShoppingBag, ArrowRight, Star, Package, Lock
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -67,30 +67,19 @@ function Avatar({ user, size = 36, online = false }: {
 
 function EmptyConversations() {
   return (
-    <div className="flex flex-col items-center justify-center h-full px-6 text-center py-16">
-      <div className="relative mb-5">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.22) 0%, transparent 70%)", filter: "blur(20px)", transform: "scale(1.5)" }} />
-        <div className="relative w-12 h-12 rounded-[14px] flex items-center justify-center"
-          style={{
-            background: "linear-gradient(145deg, rgba(139,92,246,0.15), rgba(109,40,217,0.06))",
-            border: "1px solid rgba(139,92,246,0.22)",
-            boxShadow: "0 4px 16px rgba(139,92,246,0.12), 0 1px 0 rgba(255,255,255,0.07) inset",
-          }}>
-          <MessageSquare className="w-5 h-5" style={{ color: "rgba(139,92,246,0.6)" }} />
-        </div>
-      </div>
-      <p className="text-[13px] font-bold mb-1.5" style={{ color: "rgba(255,255,255,0.38)" }}>Aucune conversation</p>
-      <p className="text-[11.5px] leading-relaxed mb-5 max-w-[160px]" style={{ color: "rgba(255,255,255,0.18)" }}>
+    <div className="flex flex-col items-center justify-center h-full px-4">
+      <p className="text-[12px] font-medium mb-1" style={{ color: "rgba(255,255,255,0.22)" }}>Aucune conversation</p>
+      <p className="text-[11px] text-center mb-4" style={{ color: "rgba(255,255,255,0.12)", maxWidth: 160 }}>
         Contacte un vendeur depuis une annonce
       </p>
       <Link href="/search"
-        className="flex items-center gap-1.5 px-4 py-2 rounded-[11px] text-[12px] font-bold text-white transition-all hover:-translate-y-0.5"
+        className="text-[11.5px] font-semibold px-3 py-1.5 rounded-[9px] transition-all"
         style={{
-          background: "linear-gradient(135deg, #7C3AED, #5B21B6)",
-          boxShadow: "0 6px 20px rgba(124,58,237,0.35), 0 1px 0 rgba(255,255,255,0.12) inset",
+          background: "rgba(139,92,246,0.12)",
+          border: "1px solid rgba(139,92,246,0.18)",
+          color: "#A78BFA",
         }}>
-        <ShoppingBag className="w-3.5 h-3.5" /> Explorer
+        Explorer →
       </Link>
     </div>
   );
@@ -161,62 +150,13 @@ function EmptyChat({ other, product }: {
 function NoConvSelected() {
   return (
     <div className="flex-1 flex flex-col items-center justify-center h-full relative overflow-hidden">
-      <div className="absolute pointer-events-none"
-        style={{ top: "30%", left: "50%", transform: "translateX(-50%)", width: 360, height: 360,
-          background: "radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 65%)", filter: "blur(60px)" }} />
-
-      <div className="relative z-10 flex flex-col items-center text-center" style={{ maxWidth: 260 }}>
-        <div className="w-11 h-11 rounded-[14px] flex items-center justify-center mb-5"
-          style={{
-            background: "linear-gradient(145deg, rgba(139,92,246,0.11), rgba(109,40,217,0.05))",
-            border: "1px solid rgba(139,92,246,0.16)",
-            boxShadow: "0 2px 14px rgba(139,92,246,0.08), 0 1px 0 rgba(255,255,255,0.06) inset",
-          }}>
-          <MessageSquare className="w-[18px] h-[18px]" style={{ color: "rgba(167,139,250,0.52)" }} />
-        </div>
-
-        <p className="text-[14px] font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.38)", letterSpacing: "-0.01em" }}>
-          Tes messages
+      <div className="relative z-10 flex flex-col items-center text-center gap-1">
+        <p className="text-[13px] font-medium" style={{ color: "rgba(255,255,255,0.22)", letterSpacing: "-0.01em" }}>
+          Sélectionne une conversation
         </p>
-        <p className="text-[12px] leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.18)", maxWidth: 210 }}>
-          Sélectionne une conversation ou contacte un vendeur depuis une annonce.
+        <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.12)" }}>
+          ou contacte un vendeur depuis une annonce
         </p>
-
-        <div className="flex flex-col gap-1.5 w-full">
-          {[
-            { icon: ShoppingBag, label: "Trouver des articles", href: "/search",   color: "#8B5CF6" },
-            { icon: Package,     label: "Mes annonces",         href: "/listings", color: "#10B981" },
-          ].map(({ icon: Icon, label, href, color }) => (
-            <Link key={label} href={href}
-              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[11px] text-[12px] font-medium transition-all"
-              style={{
-                background: "rgba(255,255,255,0.025)",
-                border: "1px solid rgba(255,255,255,0.055)",
-                color: "rgba(255,255,255,0.35)",
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = `${color}09`;
-                el.style.borderColor = `${color}22`;
-                el.style.color = "rgba(255,255,255,0.65)";
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.background = "rgba(255,255,255,0.025)";
-                el.style.borderColor = "rgba(255,255,255,0.055)";
-                el.style.color = "rgba(255,255,255,0.35)";
-              }}>
-              <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color }} />
-              <span className="flex-1">{label}</span>
-              <ArrowRight className="w-3 h-3 opacity-18" />
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-1.5 mt-5">
-          <Lock style={{ width: 9, height: 9, color: "rgba(255,255,255,0.12)" }} />
-          <p className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.12)" }}>Messages chiffrés de bout en bout</p>
-        </div>
       </div>
     </div>
   );
