@@ -16,13 +16,13 @@ const NAV = [
 function LeftSidebar() {
   const pathname = usePathname();
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-[220px] flex flex-col z-40"
+    <aside className="fixed left-0 top-0 bottom-0 w-[200px] flex flex-col z-40"
       style={{
-        background: "rgba(7,7,10,0.92)",
-        backdropFilter: "blur(32px) saturate(200%)",
-        WebkitBackdropFilter: "blur(32px) saturate(200%)",
-        borderRight: "1px solid rgba(255,255,255,0.05)",
-        boxShadow: "1px 0 0 rgba(255,255,255,0.03)",
+        background: "rgba(7,7,10,0.88)",
+        backdropFilter: "blur(36px) saturate(180%)",
+        WebkitBackdropFilter: "blur(36px) saturate(180%)",
+        borderRight: "1px solid rgba(255,255,255,0.04)",
+        boxShadow: "1px 0 0 rgba(255,255,255,0.02)",
       }}>
 
       {/* Logo */}
@@ -118,7 +118,7 @@ function LeftSidebar() {
       </nav>
 
       {/* Bottom profile */}
-      <div className="px-3 py-3 flex-shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+      <div className="px-3 py-3 flex-shrink-0" style={{ borderTop: "1px solid rgba(255,255,255,0.035)" }}>
         <Link href="/profile/menu"
           className="flex items-center gap-2.5 px-2.5 py-2 rounded-[11px] transition-all duration-150 group"
           style={{ background: "transparent" }}
@@ -146,12 +146,12 @@ function RightPanel() {
   const TRENDING = ["Nike Air Force 1", "Zara 2024", "Jacquemus", "Vintage Levi's", "Jordan 1 Retro"];
 
   return (
-    <aside className="fixed right-0 top-0 bottom-0 w-[280px] overflow-y-auto"
+    <aside className="fixed right-0 top-0 bottom-0 w-[255px] overflow-y-auto"
       style={{
-        background: "rgba(7,7,12,0.88)",
-        backdropFilter: "blur(28px) saturate(180%)",
-        WebkitBackdropFilter: "blur(28px) saturate(180%)",
-        borderLeft: "1px solid rgba(255,255,255,0.06)",
+        background: "rgba(7,6,11,0.82)",
+        backdropFilter: "blur(32px) saturate(170%)",
+        WebkitBackdropFilter: "blur(32px) saturate(170%)",
+        borderLeft: "1px solid rgba(255,255,255,0.04)",
         scrollbarWidth: "none",
       }}>
       <div className="p-4 flex flex-col gap-4">
@@ -159,9 +159,9 @@ function RightPanel() {
         {/* Stats card */}
         <div className="rounded-2xl p-4"
           style={{
-            background: "linear-gradient(145deg, rgba(139,92,246,0.10), rgba(109,40,217,0.05))",
-            border: "1px solid rgba(139,92,246,0.14)",
-            boxShadow: "0 4px 20px rgba(139,92,246,0.06), 0 1px 0 rgba(255,255,255,0.06) inset",
+            background: "linear-gradient(145deg, rgba(139,92,246,0.07), rgba(109,40,217,0.03))",
+            border: "1px solid rgba(139,92,246,0.10)",
+            boxShadow: "0 2px 12px rgba(139,92,246,0.04), 0 1px 0 rgba(255,255,255,0.04) inset",
           }}>
           <p className="text-[10px] font-black text-[#8B5CF6] uppercase tracking-widest mb-3">Live · Wearlyx</p>
           {[
@@ -196,9 +196,9 @@ function RightPanel() {
         <Link href="/promotion-tools"
           className="flex items-center gap-3 p-3.5 rounded-2xl transition-all hover:-translate-y-0.5 group"
           style={{
-            background: "linear-gradient(145deg, rgba(124,58,237,0.14), rgba(109,40,217,0.07))",
-            border: "1px solid rgba(139,92,246,0.18)",
-            boxShadow: "0 4px 16px rgba(139,92,246,0.07)",
+            background: "linear-gradient(145deg, rgba(124,58,237,0.09), rgba(109,40,217,0.04))",
+            border: "1px solid rgba(139,92,246,0.12)",
+            boxShadow: "0 2px 10px rgba(139,92,246,0.05)",
           }}>
           <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
             style={{ background: "rgba(139,92,246,0.2)", border: "1px solid rgba(139,92,246,0.22)" }}>
@@ -242,24 +242,28 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
   if (pathname.startsWith("/auth")) return <>{children}</>;
 
   // Full-bleed pages (messages uses own layout, profile/menu needs full width)
-  const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu");
+  const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu") || pathname.startsWith("/notifications");
 
   return (
-    <div className="min-h-[100dvh] relative overflow-x-hidden" style={{ background: "#07070A" }}>
+    <div className="min-h-[100dvh] relative overflow-x-hidden"
+      style={{ background: "radial-gradient(ellipse at 52% 0%, #0e0820 0%, #080612 38%, #050409 100%)" }}>
       {/* Global ambient orbs */}
       <div className="fixed pointer-events-none"
-        style={{ top: -200, left: "30%", width: 800, height: 800,
-          background: "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 65%)", filter: "blur(100px)", zIndex: 0 }} />
+        style={{ top: -160, left: "50%", transform: "translateX(-50%)", width: 900, height: 700,
+          background: "radial-gradient(ellipse, rgba(124,58,237,0.07) 0%, transparent 62%)", filter: "blur(90px)", zIndex: 0 }} />
       <div className="fixed pointer-events-none"
-        style={{ bottom: -100, right: "20%", width: 600, height: 600,
-          background: "radial-gradient(circle, rgba(109,40,217,0.04) 0%, transparent 70%)", filter: "blur(120px)", zIndex: 0 }} />
+        style={{ top: -200, left: "15%", width: 600, height: 600,
+          background: "radial-gradient(circle, rgba(109,40,217,0.04) 0%, transparent 65%)", filter: "blur(110px)", zIndex: 0 }} />
+      <div className="fixed pointer-events-none"
+        style={{ bottom: -80, right: "18%", width: 500, height: 500,
+          background: "radial-gradient(circle, rgba(109,40,217,0.03) 0%, transparent 70%)", filter: "blur(120px)", zIndex: 0 }} />
       <LeftSidebar />
       {!isFullBleed && <RightPanel />}
       <main
         className="relative min-h-[100dvh]"
         style={{
-          marginLeft: "220px",
-          marginRight: isFullBleed ? "0" : "280px",
+          marginLeft: "200px",
+          marginRight: isFullBleed ? "0" : "255px",
           zIndex: 1,
         }}>
         {children}

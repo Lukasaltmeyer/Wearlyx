@@ -153,11 +153,11 @@ function NotifCard({ notif, onRead }: { notif: Notification; onRead: (id: string
 
 const PanelCard = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div
-    className={`rounded-2xl p-5 ${className}`}
+    className={`rounded-2xl p-4 ${className}`}
     style={{
-      background: "linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.018) 100%)",
-      border: "1px solid rgba(255,255,255,0.08)",
-      boxShadow: "0 4px 24px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.07) inset",
+      background: "linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+      border: "1px solid rgba(255,255,255,0.055)",
+      boxShadow: "0 2px 16px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.05) inset",
     }}
   >
     {children}
@@ -200,14 +200,7 @@ export function DesktopNotifications({ notifications: initial, userId }: { notif
   const groupOrder = ["Aujourd'hui", "Hier", "Cette semaine", "Plus tôt"];
 
   return (
-    <div className="min-h-[100dvh] relative overflow-hidden" style={{ background: "#07070A" }}>
-      {/* Ambient orbs */}
-      <div className="absolute pointer-events-none"
-        style={{ top: -200, left: "20%", width: 700, height: 700,
-          background: "radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%)", filter: "blur(80px)" }} />
-      <div className="absolute pointer-events-none"
-        style={{ bottom: -100, right: "10%", width: 500, height: 500,
-          background: "radial-gradient(circle, rgba(109,40,217,0.05) 0%, transparent 70%)", filter: "blur(100px)" }} />
+    <div className="min-h-[100dvh] relative overflow-hidden">
 
       <div className="relative z-10 px-8 py-7">
         <div className="flex gap-7">
@@ -218,7 +211,7 @@ export function DesktopNotifications({ notifications: initial, userId }: { notif
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h1 className="text-[28px] font-black text-white flex items-center gap-3 mb-1 tracking-tight"
+                <h1 className="text-[22px] font-black text-white flex items-center gap-3 mb-1 tracking-tight"
                   style={{ letterSpacing: "-0.02em" }}>
                   Notifications
                   {unread > 0 && (

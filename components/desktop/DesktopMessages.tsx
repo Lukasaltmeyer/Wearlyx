@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Search, Send, MoreHorizontal, Phone, Video, Info,
-  Image as ImageIcon, Smile, MessageSquare, Sparkles,
-  ShoppingBag, ArrowRight, Star, Package, Users, Lock
+  Image as ImageIcon, Smile, MessageSquare,
+  ShoppingBag, ArrowRight, Star, Package, Lock
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { timeAgo } from "@/lib/utils";
@@ -160,98 +160,63 @@ function EmptyChat({ other, product }: {
 
 function NoConvSelected() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center text-center px-10 py-12 relative overflow-hidden h-full">
-      {/* Ambient layers */}
+    <div className="flex-1 flex flex-col items-center justify-center h-full relative overflow-hidden">
       <div className="absolute pointer-events-none"
-        style={{ top: "15%", left: "50%", transform: "translateX(-50%)", width: 520, height: 520,
-          background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 62%)", filter: "blur(70px)" }} />
-      <div className="absolute pointer-events-none"
-        style={{ bottom: "10%", right: "15%", width: 300, height: 300,
-          background: "radial-gradient(circle, rgba(109,40,217,0.05) 0%, transparent 65%)", filter: "blur(60px)" }} />
+        style={{ top: "30%", left: "50%", transform: "translateX(-50%)", width: 360, height: 360,
+          background: "radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 65%)", filter: "blur(60px)" }} />
 
-      {/* Icon */}
-      <div className="relative mb-8">
-        <div className="absolute inset-0 pointer-events-none rounded-[28px]"
-          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.28) 0%, transparent 65%)", filter: "blur(32px)", transform: "scale(1.8)" }} />
-        <div className="relative w-[96px] h-[96px] rounded-[28px] flex items-center justify-center"
+      <div className="relative z-10 flex flex-col items-center text-center" style={{ maxWidth: 260 }}>
+        <div className="w-11 h-11 rounded-[14px] flex items-center justify-center mb-5"
           style={{
-            background: "linear-gradient(145deg, rgba(139,92,246,0.16), rgba(109,40,217,0.07))",
-            border: "1px solid rgba(139,92,246,0.22)",
-            boxShadow: [
-              "0 12px 48px rgba(139,92,246,0.14)",
-              "0 1px 0 rgba(255,255,255,0.09) inset",
-              "0 -1px 0 rgba(0,0,0,0.15) inset",
-            ].join(", "),
+            background: "linear-gradient(145deg, rgba(139,92,246,0.11), rgba(109,40,217,0.05))",
+            border: "1px solid rgba(139,92,246,0.16)",
+            boxShadow: "0 2px 14px rgba(139,92,246,0.08), 0 1px 0 rgba(255,255,255,0.06) inset",
           }}>
-          {/* Inner radial highlight */}
-          <div className="absolute inset-0 rounded-[28px] pointer-events-none"
-            style={{ background: "radial-gradient(circle at 40% 30%, rgba(255,255,255,0.08) 0%, transparent 60%)" }} />
-          <MessageSquare className="w-10 h-10 relative z-10" style={{ color: "rgba(167,139,250,0.65)" }} />
+          <MessageSquare className="w-[18px] h-[18px]" style={{ color: "rgba(167,139,250,0.52)" }} />
         </div>
-        <div className="absolute -top-2 -right-2 w-7 h-7 rounded-full flex items-center justify-center"
-          style={{
-            background: "rgba(16,185,129,0.14)",
-            border: "1px solid rgba(16,185,129,0.28)",
-            boxShadow: "0 0 12px rgba(16,185,129,0.15)",
-          }}>
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+
+        <p className="text-[14px] font-semibold mb-1.5" style={{ color: "rgba(255,255,255,0.38)", letterSpacing: "-0.01em" }}>
+          Tes messages
+        </p>
+        <p className="text-[12px] leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.18)", maxWidth: 210 }}>
+          Sélectionne une conversation ou contacte un vendeur depuis une annonce.
+        </p>
+
+        <div className="flex flex-col gap-1.5 w-full">
+          {[
+            { icon: ShoppingBag, label: "Trouver des articles", href: "/search",   color: "#8B5CF6" },
+            { icon: Package,     label: "Mes annonces",         href: "/listings", color: "#10B981" },
+          ].map(({ icon: Icon, label, href, color }) => (
+            <Link key={label} href={href}
+              className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-[11px] text-[12px] font-medium transition-all"
+              style={{
+                background: "rgba(255,255,255,0.025)",
+                border: "1px solid rgba(255,255,255,0.055)",
+                color: "rgba(255,255,255,0.35)",
+              }}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = `${color}09`;
+                el.style.borderColor = `${color}22`;
+                el.style.color = "rgba(255,255,255,0.65)";
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "rgba(255,255,255,0.025)";
+                el.style.borderColor = "rgba(255,255,255,0.055)";
+                el.style.color = "rgba(255,255,255,0.35)";
+              }}>
+              <Icon className="w-3.5 h-3.5 flex-shrink-0" style={{ color }} />
+              <span className="flex-1">{label}</span>
+              <ArrowRight className="w-3 h-3 opacity-18" />
+            </Link>
+          ))}
         </div>
-      </div>
 
-      {/* Text */}
-      <h2 className="text-[26px] font-black text-white mb-3 relative z-10 tracking-tight"
-        style={{ letterSpacing: "-0.025em" }}>
-        Tes messages
-      </h2>
-      <p className="text-[14px] mb-10 leading-relaxed relative z-10 max-w-[340px]"
-        style={{ color: "rgba(255,255,255,0.28)" }}>
-        Sélectionne une conversation à gauche, ou contacte un vendeur depuis une annonce.
-      </p>
-
-      {/* Quick links */}
-      <div className="relative z-10 flex flex-col gap-2.5 w-full max-w-[300px]">
-        {[
-          { icon: ShoppingBag, label: "Trouver des articles", href: "/search",   color: "#8B5CF6" },
-          { icon: Package,     label: "Mes annonces",         href: "/listings", color: "#10B981" },
-          { icon: Users,       label: "Vendeurs populaires",  href: "/search",   color: "#F59E0B" },
-        ].map(({ icon: Icon, label, href, color }) => (
-          <Link key={label} href={href}
-            className="flex items-center gap-3.5 px-4 py-3.5 rounded-[14px] text-[13px] font-semibold transition-all"
-            style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              color: "rgba(255,255,255,0.48)",
-            }}
-            onMouseEnter={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.borderColor = `${color}28`;
-              el.style.background = `${color}07`;
-              el.style.color = "rgba(255,255,255,0.78)";
-              el.style.transform = "translateX(3px)";
-              el.style.boxShadow = "0 8px 28px rgba(0,0,0,0.28)";
-            }}
-            onMouseLeave={e => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.borderColor = "rgba(255,255,255,0.07)";
-              el.style.background = "rgba(255,255,255,0.03)";
-              el.style.color = "rgba(255,255,255,0.48)";
-              el.style.transform = "";
-              el.style.boxShadow = "";
-            }}>
-            <div className="w-8 h-8 rounded-[10px] flex items-center justify-center flex-shrink-0"
-              style={{ background: `${color}13`, border: `1px solid ${color}1e` }}>
-              <Icon className="w-4 h-4" style={{ color }} />
-            </div>
-            <span className="flex-1">{label}</span>
-            <ArrowRight className="w-3.5 h-3.5 opacity-25" />
-          </Link>
-        ))}
-      </div>
-
-      {/* Encryption note */}
-      <div className="relative z-10 flex items-center gap-1.5 mt-8">
-        <Lock style={{ width: 10, height: 10, color: "rgba(255,255,255,0.14)" }} />
-        <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.14)" }}>Tous les messages sont chiffrés</p>
+        <div className="flex items-center gap-1.5 mt-5">
+          <Lock style={{ width: 9, height: 9, color: "rgba(255,255,255,0.12)" }} />
+          <p className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.12)" }}>Messages chiffrés de bout en bout</p>
+        </div>
       </div>
     </div>
   );
