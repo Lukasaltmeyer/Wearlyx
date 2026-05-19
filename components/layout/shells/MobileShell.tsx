@@ -28,6 +28,8 @@ export function MobileShell({ children }: { children: React.ReactNode }) {
         filter: "blur(90px)", zIndex: 0,
       }} />
       <div className="w-full max-w-[560px] min-h-[100dvh] relative" style={{ zIndex: 1 }}>
+        {/* Spacer for fixed Navbar */}
+        <div className="h-[50px] lg:hidden" />
         {children}
       </div>
     </div>

@@ -20,7 +20,7 @@ export function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-30 lg:hidden"
+      className="fixed top-0 inset-x-0 z-30 lg:hidden"
       style={{
         background: "rgba(6,6,10,0.82)",
         backdropFilter: "blur(44px) saturate(180%)",
