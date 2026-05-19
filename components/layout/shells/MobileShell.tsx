@@ -18,8 +18,16 @@ export function MobileShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="w-full min-h-[100dvh] flex justify-center" style={{ background: "#0A0A0A" }}>
-      <div className="w-full max-w-[560px] min-h-[100dvh] relative" style={{ background: "#0A0A0A" }}>
+    <div className="w-full min-h-[100dvh] flex justify-center"
+      style={{ background: "radial-gradient(ellipse at 50% -10%, rgba(109,40,217,0.11) 0%, #07070A 48%, #06060A 100%)" }}>
+      {/* Global ambient orb */}
+      <div className="fixed pointer-events-none" style={{
+        top: -180, left: "50%", transform: "translateX(-50%)",
+        width: 600, height: 600,
+        background: "radial-gradient(circle, rgba(109,40,217,0.07) 0%, transparent 65%)",
+        filter: "blur(90px)", zIndex: 0,
+      }} />
+      <div className="w-full max-w-[560px] min-h-[100dvh] relative" style={{ zIndex: 1 }}>
         {children}
       </div>
     </div>

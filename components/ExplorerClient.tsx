@@ -42,7 +42,6 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
   return (
     <div
       className="min-h-[100dvh] pb-8 relative overflow-hidden"
-      style={{ background: "#07070A" }}
     >
       {/* Ambient orbs */}
       <div className="absolute pointer-events-none animate-orb"
@@ -56,9 +55,9 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
           background: "radial-gradient(circle, rgba(76,29,149,0.07) 0%, transparent 70%)", filter: "blur(70px)" }} />
 
       {/* Header */}
-      <div className="relative z-10 px-4 pt-7 pb-3">
-        <h1 className="text-[28px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.025em" }}>Explorer</h1>
-        <p className="text-[13px] font-medium mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>
+      <div className="relative z-10 px-4 pt-6 pb-3">
+        <h1 className="text-[26px] font-black text-white tracking-tight" style={{ letterSpacing: "-0.03em" }}>Explorer</h1>
+        <p className="text-[12.5px] font-medium mt-0.5" style={{ color: "rgba(255,255,255,0.25)" }}>
           Découvrez des articles uniques
         </p>
       </div>
@@ -67,13 +66,13 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
       <div className="relative z-10 px-3 pb-4">
         <form onSubmit={handleSearch}>
           <div
-            className="flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300"
+            className="flex items-center gap-3 px-4 py-3 rounded-[18px] transition-all duration-300"
             style={{
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.09)",
-              backdropFilter: "blur(24px) saturate(160%)",
-              WebkitBackdropFilter: "blur(24px) saturate(160%)",
-              boxShadow: "0 4px 28px rgba(0,0,0,0.32), 0 1px 0 rgba(255,255,255,0.06) inset",
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              backdropFilter: "blur(28px) saturate(170%)",
+              WebkitBackdropFilter: "blur(28px) saturate(170%)",
+              boxShadow: "0 4px 24px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.05) inset",
             }}
           >
             <Search style={{ width: 16, height: 16, color: "rgba(167,139,250,0.5)", flexShrink: 0 }} />
@@ -108,11 +107,11 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
             <button
               key={t}
               onClick={() => router.push(`/search?q=${encodeURIComponent(t)}`)}
-              className="flex-shrink-0 px-3 py-1.5 rounded-full text-[12px] font-semibold active:scale-95 transition-all duration-150"
+              className="flex-shrink-0 px-3 py-1.5 rounded-full text-[11.5px] font-medium active:scale-95 transition-all duration-150"
               style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                color: "rgba(255,255,255,0.48)",
+                background: "rgba(255,255,255,0.035)",
+                border: "1px solid rgba(255,255,255,0.07)",
+                color: "rgba(255,255,255,0.42)",
               }}
             >
               {t}
@@ -191,13 +190,13 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
             style={{ WebkitTapHighlightColor: "transparent" }}
           >
             <div
-              className="relative rounded-[22px] overflow-hidden flex flex-col justify-between"
+              className="relative rounded-[18px] overflow-hidden flex flex-col justify-between"
               style={{
-                background: `linear-gradient(150deg, ${cat.from} 0%, ${cat.to} 100%)`,
-                height: 128,
-                padding: "15px 14px 13px 15px",
-                boxShadow: `0 8px 28px ${cat.glow}, 0 1px 0 rgba(255,255,255,0.14) inset, 0 -1px 0 rgba(0,0,0,0.16) inset`,
-                border: "1px solid rgba(255,255,255,0.12)",
+                background: `linear-gradient(155deg, ${cat.from} 0%, ${cat.to} 100%)`,
+                height: 120,
+                padding: "14px 13px 12px 14px",
+                boxShadow: `0 6px 24px ${cat.glow}, 0 1px 0 rgba(255,255,255,0.12) inset`,
+                border: "1px solid rgba(255,255,255,0.10)",
               }}
             >
               {/* Top-right lens flare */}
@@ -220,14 +219,14 @@ export function ExplorerClient({ initialQ, initialCategory, initialSort }: Props
               <div className="absolute inset-x-0 bottom-0 h-20 pointer-events-none"
                 style={{ background: `linear-gradient(to top, ${cat.to}e0, transparent)` }} />
 
-              <p className="relative z-10 text-[14.5px] font-black text-white leading-tight pr-10"
-                style={{ textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>
+              <p className="relative z-10 text-[13.5px] font-black text-white leading-tight pr-8"
+                style={{ textShadow: "0 1px 6px rgba(0,0,0,0.35)", letterSpacing: "-0.01em" }}>
                 {cat.label}
               </p>
 
               <div
-                className="absolute bottom-2 right-2.5 text-[44px] leading-none select-none"
-                style={{ filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.5))" }}
+                className="absolute bottom-1.5 right-2 text-[40px] leading-none select-none"
+                style={{ filter: "drop-shadow(0 3px 10px rgba(0,0,0,0.45))" }}
                 aria-hidden
               >
                 {cat.emoji}

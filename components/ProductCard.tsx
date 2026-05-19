@@ -55,24 +55,24 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
   return (
     <Link href={`/products/${product.id}`} className="block group">
       <div
-        className="rounded-[20px] overflow-hidden transition-all duration-300 group-active:scale-[0.96] relative"
+        className="rounded-[18px] overflow-hidden transition-all duration-300 group-active:scale-[0.96] relative"
         style={{
-          background: "linear-gradient(160deg, rgba(255,255,255,0.065) 0%, rgba(255,255,255,0.014) 100%)",
-          border: "1px solid rgba(255,255,255,0.10)",
-          boxShadow: "0 3px 22px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.08) inset, 0 -1px 0 rgba(0,0,0,0.10) inset",
+          background: "linear-gradient(160deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.010) 100%)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          boxShadow: "0 2px 24px rgba(0,0,0,0.60), 0 1px 0 rgba(255,255,255,0.07) inset",
           transform: "translateZ(0)",
         }}
       >
         {/* Hover glow */}
         <div
-          className="absolute inset-0 rounded-[20px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{ boxShadow: "0 0 0 1px rgba(139,92,246,0.15) inset, 0 8px 32px rgba(139,92,246,0.08)" }}
+          className="absolute inset-0 rounded-[18px] opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none"
+          style={{ boxShadow: "0 0 0 1px rgba(124,58,237,0.12) inset" }}
         />
 
         {/* Image */}
         <div
           className="relative overflow-hidden"
-          style={{ aspectRatio: "1/1", background: "linear-gradient(145deg, #0C0C18, #0E0E1A)" }}
+          style={{ aspectRatio: "1/1", background: "linear-gradient(145deg, #0A0A14, #0D0D19)" }}
         >
           {firstImage ? (
             <Image
@@ -127,23 +127,23 @@ export function ProductCard({ product, currentUserId, onLikeToggle }: ProductCar
 
           {/* Bottom gradient */}
           <div
-            className="absolute inset-x-0 bottom-0 h-16 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(7,7,15,0.92), transparent)" }}
+            className="absolute inset-x-0 bottom-0 h-14 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(6,6,12,0.88), transparent)" }}
           />
         </div>
 
         {/* Info */}
-        <div className="px-3 pt-2.5 pb-3 space-y-1.5">
+        <div className="px-3 pt-2.5 pb-3 space-y-1">
           {/* Price */}
           <p
-            className="text-[18px] font-black text-white leading-none"
-            style={{ letterSpacing: "-0.02em" }}
+            className="text-[17px] font-black text-white leading-none"
+            style={{ letterSpacing: "-0.025em" }}
           >
             {formatPrice(product.price)}
           </p>
 
           {/* Title */}
-          <p className="text-[11.5px] text-white/44 line-clamp-1 leading-snug font-medium">
+          <p className="text-[11px] line-clamp-1 leading-snug font-medium" style={{ color: "rgba(255,255,255,0.38)" }}>
             {product.title}
           </p>
 

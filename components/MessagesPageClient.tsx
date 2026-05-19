@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle, Bell, ArrowRight, Search, Lock } from "lucide-react";
+import { MessageCircle, Bell, Search, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { timeAgo } from "@/lib/utils";
 
@@ -19,7 +19,6 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
   return (
     <div
       className="min-h-[100dvh] pb-8 relative overflow-hidden"
-      style={{ background: "#07070A" }}
     >
       {/* Ambient orbs */}
       <div className="absolute pointer-events-none animate-orb"
@@ -91,62 +90,53 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
       {tab === "messages" && (
         <div className="relative z-10">
           {conversations.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 px-8 text-center">
-              {/* Icon with ambient halo */}
-              <div className="relative mb-7">
-                {/* Ambient behind icon */}
+            <div className="flex flex-col items-center justify-center py-16 px-8 text-center">
+              {/* Icon */}
+              <div className="relative mb-6">
                 <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: "radial-gradient(circle, rgba(139,92,246,0.28) 0%, transparent 65%)", filter: "blur(28px)", transform: "scale(1.7)" }} />
+                  style={{ background: "radial-gradient(circle, rgba(109,40,217,0.20) 0%, transparent 70%)", filter: "blur(32px)", transform: "scale(2)" }} />
                 <div
-                  className="relative w-[88px] h-[88px] rounded-[28px] flex items-center justify-center overflow-hidden"
+                  className="relative w-[72px] h-[72px] rounded-[22px] flex items-center justify-center overflow-hidden"
                   style={{
-                    background: "linear-gradient(145deg, rgba(139,92,246,0.16) 0%, rgba(109,40,217,0.07) 100%)",
-                    border: "1px solid rgba(139,92,246,0.22)",
-                    boxShadow: [
-                      "0 12px 48px rgba(139,92,246,0.18)",
-                      "0 1px 0 rgba(255,255,255,0.09) inset",
-                      "0 -1px 0 rgba(0,0,0,0.12) inset",
-                    ].join(", "),
+                    background: "linear-gradient(145deg, rgba(124,58,237,0.13) 0%, rgba(109,40,217,0.06) 100%)",
+                    border: "1px solid rgba(124,58,237,0.18)",
+                    boxShadow: "0 8px 36px rgba(109,40,217,0.14), 0 1px 0 rgba(255,255,255,0.07) inset",
                   }}
                 >
                   <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: "radial-gradient(circle at 42% 28%, rgba(167,139,250,0.18) 0%, transparent 58%)" }} />
+                    style={{ background: "radial-gradient(circle at 42% 28%, rgba(167,139,250,0.12) 0%, transparent 58%)" }} />
                   <MessageCircle
-                    style={{ width: 38, height: 38, color: "rgba(167,139,250,0.75)", position: "relative", zIndex: 1 }}
+                    style={{ width: 30, height: 30, color: "rgba(167,139,250,0.60)", position: "relative", zIndex: 1 }}
                     strokeWidth={1.5}
                   />
                 </div>
               </div>
 
-              <p className="text-[20px] font-black text-white mb-2.5 tracking-tight" style={{ letterSpacing: "-0.025em" }}>
+              <p className="text-[18px] font-black text-white mb-2 tracking-tight" style={{ letterSpacing: "-0.03em" }}>
                 Aucun message
               </p>
-              <p className="text-[13px] leading-relaxed mb-9" style={{ color: "rgba(255,255,255,0.28)", maxWidth: 240 }}>
+              <p className="text-[12.5px] leading-relaxed mb-8" style={{ color: "rgba(255,255,255,0.25)", maxWidth: 230 }}>
                 Contacte un vendeur ou fais une offre pour démarrer une conversation.
               </p>
 
-              {/* CTAs */}
-              <div className="flex flex-col gap-2.5 w-full" style={{ maxWidth: 268 }}>
-                <Link
-                  href="/search"
-                  className="flex items-center justify-center gap-2 py-3.5 rounded-[16px] text-[13.5px] font-bold text-white transition-all active:scale-[0.97] relative overflow-hidden"
-                  style={{
-                    background: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
-                    boxShadow: "0 8px 28px rgba(139,92,246,0.45), 0 1px 0 rgba(255,255,255,0.16) inset",
-                  }}
-                >
-                  <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.14) 0%, transparent 60%)" }} />
-                  <Search style={{ width: 15, height: 15, position: "relative", zIndex: 1 }} />
-                  <span className="relative z-10">Explorer les articles</span>
-                  <ArrowRight style={{ width: 15, height: 15, position: "relative", zIndex: 1 }} />
-                </Link>
-                <div className="flex items-center justify-center gap-1.5 mt-1">
-                  <Lock style={{ width: 10, height: 10, color: "rgba(255,255,255,0.18)" }} />
-                  <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.18)" }}>
-                    Tous les messages sont chiffrés
-                  </p>
-                </div>
+              {/* CTA */}
+              <Link
+                href="/search"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-[14px] text-[13px] font-semibold text-white transition-all active:scale-[0.97] relative overflow-hidden"
+                style={{
+                  background: "linear-gradient(135deg, rgba(124,58,237,0.85) 0%, rgba(109,40,217,0.85) 100%)",
+                  boxShadow: "0 6px 24px rgba(109,40,217,0.30), 0 1px 0 rgba(255,255,255,0.12) inset",
+                  border: "1px solid rgba(167,139,250,0.18)",
+                }}
+              >
+                <Search style={{ width: 14, height: 14, position: "relative", zIndex: 1 }} />
+                <span className="relative z-10">Explorer les articles</span>
+              </Link>
+              <div className="flex items-center justify-center gap-1.5 mt-4">
+                <Lock style={{ width: 9, height: 9, color: "rgba(255,255,255,0.15)" }} />
+                <p className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.15)" }}>
+                  Messages chiffrés de bout en bout
+                </p>
               </div>
             </div>
           ) : (
@@ -236,7 +226,7 @@ export function MessagesPageClient({ conversations, currentUserId }: Props) {
                         className="w-2 h-2 rounded-full flex-shrink-0"
                         style={{
                           background: "#8B5CF6",
-                          boxShadow: "0 0 10px rgba(139,92,246,0.8)",
+                          boxShadow: "0 0 6px rgba(139,92,246,0.45)",
                         }}
                       />
                     )}

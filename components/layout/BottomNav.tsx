@@ -20,28 +20,26 @@ export function BottomNav() {
 
   return (
     <>
-      {/* Safe area spacer so content doesn't hide behind the nav */}
-      <div className="h-[84px] lg:hidden" />
+      <div className="h-[80px] lg:hidden" />
 
       <nav
         className="fixed bottom-0 left-0 right-0 z-40 lg:hidden flex justify-center"
-        style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))", paddingLeft: 14, paddingRight: 14 }}
+        style={{ paddingBottom: "max(10px, env(safe-area-inset-bottom))", paddingLeft: 12, paddingRight: 12 }}
       >
         <div
           className="w-full flex items-center"
           style={{
             maxWidth: 520,
-            height: 64,
-            background: "rgba(8,8,14,0.90)",
-            backdropFilter: "blur(52px) saturate(240%)",
-            WebkitBackdropFilter: "blur(52px) saturate(240%)",
-            borderRadius: 26,
-            border: "1px solid rgba(255,255,255,0.09)",
+            height: 62,
+            background: "rgba(7,7,11,0.88)",
+            backdropFilter: "blur(60px) saturate(220%)",
+            WebkitBackdropFilter: "blur(60px) saturate(220%)",
+            borderRadius: 24,
+            border: "1px solid rgba(255,255,255,0.07)",
             boxShadow: [
-              "0 -1px 0 rgba(255,255,255,0.05) inset",
-              "0 1px 0 rgba(0,0,0,0.18) inset",
-              "0 12px 48px rgba(0,0,0,0.60)",
-              "0 0 0 0.5px rgba(139,92,246,0.10)",
+              "0 -1px 0 rgba(255,255,255,0.04) inset",
+              "0 16px 56px rgba(0,0,0,0.65)",
+              "0 0 0 0.5px rgba(109,40,217,0.08)",
             ].join(", "),
           }}
         >
@@ -53,21 +51,18 @@ export function BottomNav() {
                 <Link
                   key={href}
                   href={href}
-                  className="flex flex-col items-center gap-1 flex-1 active:scale-90 transition-all duration-200"
+                  className="flex flex-col items-center gap-1 flex-1 active:scale-90 transition-transform duration-150"
                 >
                   <div
-                    className="w-12 h-12 rounded-[20px] flex items-center justify-center relative overflow-hidden animate-glow-pulse"
+                    className="w-11 h-11 rounded-[18px] flex items-center justify-center relative overflow-hidden"
                     style={{
-                      background: "linear-gradient(145deg, #A78BFA 0%, #7C3AED 55%, #6D28D9 100%)",
+                      background: "linear-gradient(150deg, #9D71F8 0%, #7C3AED 50%, #6527CC 100%)",
+                      boxShadow: "0 4px 18px rgba(109,40,217,0.40), 0 1px 0 rgba(255,255,255,0.18) inset",
                     }}
                   >
-                    {/* Inner radial highlight */}
-                    <div className="absolute inset-0 rounded-[20px] pointer-events-none"
-                      style={{ background: "radial-gradient(circle at 38% 22%, rgba(255,255,255,0.22) 0%, transparent 52%)" }} />
-                    {/* Bottom inner shadow */}
-                    <div className="absolute inset-0 rounded-[20px] pointer-events-none"
-                      style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.18) 100%)" }} />
-                    <Icon className="w-[22px] h-[22px] text-white relative z-10" strokeWidth={2.5} />
+                    <div className="absolute inset-0 rounded-[18px] pointer-events-none"
+                      style={{ background: "radial-gradient(circle at 38% 20%, rgba(255,255,255,0.18) 0%, transparent 55%)" }} />
+                    <Icon className="w-[20px] h-[20px] text-white relative z-10" strokeWidth={2.5} />
                   </div>
                 </Link>
               );
@@ -77,45 +72,44 @@ export function BottomNav() {
               <Link
                 key={href}
                 href={href}
-                className="flex flex-col items-center gap-[3px] flex-1 active:scale-90 transition-all duration-200 relative py-1"
+                className="flex flex-col items-center gap-[3px] flex-1 active:scale-90 transition-transform duration-150 relative py-1"
               >
+                {/* Active top indicator */}
+                {isActive && (
+                  <span
+                    className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full"
+                    style={{
+                      width: 20, height: 2,
+                      background: "linear-gradient(90deg, rgba(124,58,237,0.0), #9D71F8, rgba(124,58,237,0.0))",
+                      boxShadow: "0 0 6px rgba(157,113,248,0.55)",
+                    }}
+                  />
+                )}
+
                 <div
                   className={cn(
-                    "w-10 h-9 flex items-center justify-center rounded-[14px] transition-all duration-300",
+                    "w-10 h-8 flex items-center justify-center rounded-[12px] transition-all duration-250",
                   )}
                   style={isActive ? {
-                    background: "rgba(139,92,246,0.14)",
-                    boxShadow: "0 0 20px rgba(139,92,246,0.18)",
+                    background: "rgba(124,58,237,0.12)",
                   } : {}}
                 >
                   <Icon
-                    className="transition-all duration-300"
+                    className="transition-all duration-250"
                     style={{
-                      width: 21, height: 21,
-                      color: isActive ? "#B09EFA" : "rgba(255,255,255,0.25)",
+                      width: 20, height: 20,
+                      color: isActive ? "#B09EFA" : "rgba(255,255,255,0.22)",
                     }}
-                    strokeWidth={isActive ? 2.2 : 1.6}
+                    strokeWidth={isActive ? 2.1 : 1.5}
                   />
                 </div>
 
                 <span
-                  className="text-[10px] font-bold transition-colors duration-300 leading-none"
-                  style={{ color: isActive ? "#B09EFA" : "rgba(255,255,255,0.18)" }}
+                  className="text-[9.5px] font-semibold transition-colors duration-250 leading-none"
+                  style={{ color: isActive ? "rgba(196,181,253,0.85)" : "rgba(255,255,255,0.15)" }}
                 >
                   {label}
                 </span>
-
-                {/* Active pill indicator */}
-                {isActive && (
-                  <span
-                    className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full animate-tab-in"
-                    style={{
-                      width: 22, height: 2.5,
-                      background: "linear-gradient(90deg, #7C3AED, #C4B5FD, #8B5CF6)",
-                      boxShadow: "0 0 10px rgba(139,92,246,0.8)",
-                    }}
-                  />
-                )}
               </Link>
             );
           })}
