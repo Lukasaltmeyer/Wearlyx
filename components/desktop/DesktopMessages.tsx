@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   Search, Send, MoreHorizontal, Phone, Video,
   Image as ImageIcon, Smile, ShoppingBag,
-  Lock, ArrowRight, Plus, Zap, MessageSquare
+  Lock, ArrowRight, Plus, MessageSquare, ChevronRight
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { timeAgo } from "@/lib/utils";
@@ -28,122 +28,145 @@ interface Message {
   created_at: string;
 }
 
-const QUICK_REPLIES = ["Toujours disponible ?", "C'est votre dernier prix ?", "Livraison possible ?", "Vous faites les échanges ?"];
+const QUICK_REPLIES = ["Toujours disponible ?", "C'est votre dernier prix ?", "Livraison possible ?", "Échange possible ?"];
 
-function Avatar({ user, size = 36, ring = false }: {
+const SUGGESTED_SELLERS = [
+  { name: "Léa Martin",   username: "stylebylea",    items: 42, rating: "4.9", status: "En ligne",    color: "#8B5CF6" },
+  { name: "Kevin V.",     username: "vintageking",   items: 28, rating: "4.8", status: "Il y a 1h",   color: "#10B981" },
+  { name: "Lux Mode",     username: "luxmode_paris", items: 35, rating: "4.7", status: "Il y a 3h",   color: "#F59E0B" },
+  { name: "Sneaker FR",   username: "sneaker_fr",    items: 19, rating: "4.6", status: "Il y a 1j",   color: "#EF4444" },
+];
+
+function Avatar({ user, size = 36, online = false }: {
   user: { username?: string | null; full_name?: string | null; avatar_url?: string | null } | null | undefined;
-  size?: number; ring?: boolean;
+  size?: number; online?: boolean;
 }) {
   const name = user?.username || user?.full_name || "?";
-  return user?.avatar_url ? (
-    <img src={user.avatar_url} alt={name} className="rounded-full object-cover flex-shrink-0"
-      style={{ width: size, height: size, boxShadow: ring ? "0 0 0 2px rgba(139,92,246,0.4)" : "none" }} />
-  ) : (
-    <div className="rounded-full flex items-center justify-center font-bold text-white flex-shrink-0"
-      style={{
-        width: size, height: size,
-        background: "linear-gradient(145deg, #9B6FF8, #7C3AED)",
-        fontSize: size * 0.36,
-        boxShadow: ring ? "0 0 0 2px rgba(139,92,246,0.4), 0 4px 12px rgba(124,58,237,0.3)" : "none",
-      }}>
-      {name[0]?.toUpperCase()}
+  return (
+    <div className="relative flex-shrink-0">
+      {user?.avatar_url ? (
+        <img src={user.avatar_url} alt={name} className="rounded-full object-cover" style={{ width: size, height: size }} />
+      ) : (
+        <div className="rounded-full flex items-center justify-center font-semibold text-white"
+          style={{ width: size, height: size, background: "linear-gradient(145deg, #9B6FF8, #7C3AED)", fontSize: size * 0.36 }}>
+          {name[0]?.toUpperCase()}
+        </div>
+      )}
+      {online && (
+        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2"
+          style={{ background: "#34D399", borderColor: "#07070A" }} />
+      )}
     </div>
   );
 }
 
-/* ─── Welcome center (no conversation selected) ─── */
-function WelcomeCenter() {
-  const FEATURED = [
-    { title: "Nike Air Force 1", price: "85 €", seller: "@style_lea", color: "#8B5CF6" },
-    { title: "Veste Carhartt WIP", price: "120 €", seller: "@king_v", color: "#10B981" },
-    { title: "Sac Jacquemus", price: "180 €", seller: "@luxmode", color: "#F59E0B" },
-    { title: "Jordan 1 Retro High", price: "210 €", seller: "@sneaker_fr", color: "#EF4444" },
-  ];
-
+/* ─── Welcome screen (no conversation selected) ─── */
+function WelcomeScreen() {
   return (
     <div className="flex-1 flex flex-col h-full overflow-y-auto" style={{ scrollbarWidth: "none" }}>
-      {/* Header zone */}
-      <div className="px-8 pt-8 pb-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <h2 className="text-[20px] font-bold text-white mb-1" style={{ letterSpacing: "-0.02em" }}>
-              Messagerie
-            </h2>
-            <p className="text-[13px]" style={{ color: "rgba(255,255,255,0.32)" }}>
-              Contacte un vendeur depuis une annonce pour démarrer
-            </p>
-          </div>
-          <Link href="/search"
-            className="flex items-center gap-2 px-4 py-2 rounded-[8px] text-[12.5px] font-medium text-white transition-all"
-            style={{
-              background: "linear-gradient(135deg, #7C3AED, #5b21b6)",
-              boxShadow: "0 2px 12px rgba(124,58,237,0.28), inset 0 1px 0 rgba(255,255,255,0.10)",
-            }}>
-            <ShoppingBag style={{ width: 13, height: 13 }} />
-            Explorer les articles
-          </Link>
-        </div>
-      </div>
 
-      {/* Stats bar */}
-      <div className="mx-8 mb-7 grid grid-cols-3 gap-4">
-        {[
-          { label: "Membres actifs",      value: "50K+",  color: "#8B5CF6" },
-          { label: "Transactions/jour",   value: "1 247", color: "#10B981" },
-          { label: "Articles en ligne",   value: "32K",   color: "#F59E0B" },
-        ].map(({ label, value, color }) => (
-          <div key={label} className="px-4 py-3 rounded-[10px]"
-            style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <p className="text-[18px] font-bold mb-0.5" style={{ color }}>{value}</p>
-            <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.30)" }}>{label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Featured articles to contact */}
-      <div className="px-8">
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-[12px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.22)" }}>
-            Articles populaires — contacte un vendeur
+      {/* Top section */}
+      <div className="flex items-start justify-between px-10 pt-10 pb-8">
+        <div>
+          <h1 className="text-[24px] font-bold text-white mb-2" style={{ letterSpacing: "-0.025em" }}>
+            Messagerie
+          </h1>
+          <p className="text-[13.5px]" style={{ color: "rgba(255,255,255,0.35)" }}>
+            Retrouve toutes tes conversations avec les vendeurs
           </p>
-          <Link href="/search" className="text-[11.5px] font-medium transition-colors"
+        </div>
+        <Link href="/search"
+          className="flex items-center gap-2 px-4 py-2 rounded-[7px] text-[13px] font-medium text-white transition-all"
+          style={{
+            background: "linear-gradient(135deg, #7C3AED, #5b21b6)",
+            boxShadow: "0 2px 12px rgba(124,58,237,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
+          }}>
+          <ShoppingBag style={{ width: 14, height: 14 }} />
+          Trouver des articles
+        </Link>
+      </div>
+
+      {/* Divider */}
+      <div className="mx-10 mb-8" style={{ height: 1, background: "rgba(255,255,255,0.06)" }} />
+
+      {/* Suggested sellers — table layout */}
+      <div className="px-10">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.28)" }}>
+            Vendeurs actifs
+          </p>
+          <Link href="/search"
+            className="text-[12px] transition-colors flex items-center gap-1"
             style={{ color: "rgba(139,92,246,0.55)" }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#A78BFA"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(139,92,246,0.55)"; }}>
-            Voir tout →
+            Voir tout <ChevronRight style={{ width: 12, height: 12 }} />
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3">
-          {FEATURED.map(({ title, price, seller, color }) => (
-            <Link key={title} href="/search"
-              className="flex items-center gap-3.5 p-4 rounded-[10px] transition-all group"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.055)"; (e.currentTarget as HTMLElement).style.borderColor = `${color}28`; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)"; }}>
-              <div className="w-10 h-10 rounded-[8px] flex-shrink-0 flex items-center justify-center"
-                style={{ background: `${color}14` }}>
-                <ShoppingBag style={{ width: 16, height: 16, color }} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-medium truncate mb-0.5" style={{ color: "rgba(255,255,255,0.72)" }}>{title}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.28)" }}>{seller}</span>
-                  <span className="text-[12.5px] font-semibold" style={{ color }}>{price}</span>
+
+        {/* Table header */}
+        <div className="grid gap-3" style={{ gridTemplateColumns: "1fr auto auto auto" }}>
+          <div className="text-[10.5px] font-semibold uppercase tracking-widest px-1 pb-2 col-span-1"
+            style={{ color: "rgba(255,255,255,0.18)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            Vendeur
+          </div>
+          <div className="text-[10.5px] font-semibold uppercase tracking-widest pb-2 text-right"
+            style={{ color: "rgba(255,255,255,0.18)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            Articles
+          </div>
+          <div className="text-[10.5px] font-semibold uppercase tracking-widest pb-2 text-right"
+            style={{ color: "rgba(255,255,255,0.18)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            Note
+          </div>
+          <div className="text-[10.5px] font-semibold uppercase tracking-widest pb-2 text-right"
+            style={{ color: "rgba(255,255,255,0.18)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            Statut
+          </div>
+
+          {SUGGESTED_SELLERS.map(({ name, username, items, rating, status, color }) => (
+            <div key={username} className="contents">
+              {/* Seller column */}
+              <div className="flex items-center gap-3 py-3 cursor-pointer group"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.045)" }}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center font-semibold text-white text-[12px] flex-shrink-0"
+                  style={{ background: `linear-gradient(145deg, ${color}60, ${color}30)` }}>
+                  {name[0]}
+                </div>
+                <div>
+                  <p className="text-[13.5px] font-medium group-hover:text-white/90 transition-colors"
+                    style={{ color: "rgba(255,255,255,0.72)" }}>{name}</p>
+                  <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.28)" }}>@{username}</p>
                 </div>
               </div>
-              <MessageSquare style={{ width: 13, height: 13, color: "rgba(255,255,255,0.18)", flexShrink: 0 }}
-                className="opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
+              {/* Items */}
+              <div className="flex items-center justify-end py-3 text-[13px] font-medium"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.045)", color: "rgba(255,255,255,0.45)" }}>
+                {items}
+              </div>
+              {/* Rating */}
+              <div className="flex items-center justify-end py-3 text-[13px] font-medium"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.045)", color: "#F59E0B" }}>
+                {rating} ★
+              </div>
+              {/* Status */}
+              <div className="flex items-center justify-end gap-2 py-3"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.045)" }}>
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                  style={{ background: status === "En ligne" ? "#34D399" : "rgba(255,255,255,0.20)" }} />
+                <span className="text-[12px]" style={{ color: status === "En ligne" ? "rgba(52,211,153,0.75)" : "rgba(255,255,255,0.28)" }}>
+                  {status}
+                </span>
+              </div>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Tip */}
-      <div className="mx-8 mt-6 mb-8 flex items-center gap-3 px-4 py-3 rounded-[8px]"
-        style={{ background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.12)" }}>
-        <Zap style={{ width: 13, height: 13, color: "#A78BFA", flexShrink: 0 }} />
-        <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.35)" }}>
-          Tous les messages sont chiffrés de bout en bout. Vos conversations sont privées.
+      {/* Bottom note */}
+      <div className="px-10 mt-auto pt-8 pb-8 flex items-center gap-2">
+        <Lock style={{ width: 11, height: 11, color: "rgba(255,255,255,0.14)" }} />
+        <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.18)" }}>
+          Tous les messages Wearlyx sont chiffrés de bout en bout.
         </p>
       </div>
     </div>
@@ -202,112 +225,96 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
     <div className="flex h-[100dvh] overflow-hidden"
       style={{ background: "radial-gradient(ellipse at 45% 0%, #0d0820 0%, #070510 45%, #040309 100%)" }}>
 
-      {/* ── Conversations panel (400px) ── */}
-      <div className="flex flex-col flex-shrink-0 h-full" style={{ width: 400, borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+      {/* ── Conversations panel ── */}
+      <div className="flex flex-col flex-shrink-0 h-full"
+        style={{ width: 320, borderRight: "1px solid rgba(255,255,255,0.06)" }}>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 h-[52px] flex-shrink-0"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <span className="text-[14px] font-semibold" style={{ color: "rgba(255,255,255,0.72)", letterSpacing: "-0.01em" }}>
+        <div className="flex items-center justify-between px-5 flex-shrink-0" style={{ height: 52, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <span className="text-[14px] font-semibold" style={{ color: "rgba(255,255,255,0.70)", letterSpacing: "-0.01em" }}>
             Messages
           </span>
           <div className="flex items-center gap-2">
             {conversations.length > 0 && (
-              <span className="text-[11px] px-2 py-0.5 rounded-[5px] font-medium"
-                style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.30)" }}>
+              <span className="text-[10.5px] px-1.5 py-0.5 rounded-[4px]"
+                style={{ background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.28)" }}>
                 {conversations.length}
               </span>
             )}
-            <button className="w-7 h-7 rounded-[6px] flex items-center justify-center transition-colors"
-              style={{ color: "rgba(255,255,255,0.28)" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.28)"; }}>
-              <Plus style={{ width: 14, height: 14 }} />
+            <button className="w-6 h-6 rounded-[5px] flex items-center justify-center transition-colors"
+              style={{ color: "rgba(255,255,255,0.25)" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.25)"; }}>
+              <Plus style={{ width: 13, height: 13 }} />
             </button>
           </div>
         </div>
 
         {/* Search */}
-        <div className="px-4 py-3 flex-shrink-0">
-          <div className="flex items-center gap-2.5 px-3 py-2 rounded-[7px]"
+        <div className="px-3 py-2.5 flex-shrink-0">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-[6px]"
             style={{ background: "rgba(255,255,255,0.055)", border: "1px solid rgba(255,255,255,0.07)" }}>
-            <Search style={{ width: 13, height: 13, flexShrink: 0, color: "rgba(255,255,255,0.28)" }} />
+            <Search style={{ width: 12, height: 12, flexShrink: 0, color: "rgba(255,255,255,0.25)" }} />
             <input value={search} onChange={e => setSearch(e.target.value)}
-              placeholder="Rechercher une conversation…"
+              placeholder="Rechercher…"
               className="flex-1 bg-transparent text-[12.5px] text-white outline-none placeholder:text-white/22"
               style={{ caretColor: "#8B5CF6" }} />
           </div>
         </div>
 
-        {/* List */}
+        {/* Conversation items */}
         <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 px-6 text-center">
-              <div className="w-12 h-12 rounded-[12px] flex items-center justify-center"
-                style={{ background: "rgba(139,92,246,0.10)", border: "1px solid rgba(139,92,246,0.16)" }}>
-                <MessageSquare style={{ width: 20, height: 20, color: "rgba(167,139,250,0.45)" }} />
-              </div>
+              <MessageSquare style={{ width: 24, height: 24, color: "rgba(139,92,246,0.30)" }} strokeWidth={1.5} />
               <div>
-                <p className="text-[13px] font-medium mb-1" style={{ color: "rgba(255,255,255,0.35)" }}>
+                <p className="text-[13px] font-medium mb-1" style={{ color: "rgba(255,255,255,0.30)" }}>
                   Aucune conversation
                 </p>
-                <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.18)" }}>
+                <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.16)" }}>
                   Contacte un vendeur depuis une annonce
                 </p>
               </div>
               <Link href="/search"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-[7px] text-[12px] font-medium transition-all"
-                style={{
-                  background: "rgba(139,92,246,0.12)",
-                  border: "1px solid rgba(139,92,246,0.20)",
-                  color: "#C4B5FD",
-                }}>
-                <ShoppingBag style={{ width: 12, height: 12 }} />
-                Explorer les articles
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-[6px] text-[12px] font-medium transition-all"
+                style={{ background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.20)", color: "#C4B5FD" }}>
+                Explorer →
               </Link>
             </div>
           ) : (
-            <div className="py-1.5">
+            <div className="py-1">
               {filtered.map(c => {
                 const o = getOther(c);
                 const isSelected = selected?.id === c.id;
                 const hasUnread = (c.unread_count ?? 0) > 0;
                 return (
                   <button key={c.id} onClick={() => setSelected(c)}
-                    className="w-full flex items-start gap-3.5 px-4 py-3 text-left transition-all relative"
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors relative"
                     style={{
                       background: isSelected ? "rgba(139,92,246,0.10)" : "transparent",
-                      borderLeft: isSelected ? "2px solid rgba(139,92,246,0.75)" : "2px solid transparent",
+                      borderLeft: `2px solid ${isSelected ? "rgba(139,92,246,0.70)" : "transparent"}`,
                     }}
                     onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
                     onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-
-                    <Avatar user={o} size={38} ring={isSelected} />
-
+                    <Avatar user={o} size={36} online={isSelected} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2 mb-0.5">
-                        <span className="text-[13px] truncate"
-                          style={{ color: hasUnread ? "rgba(255,255,255,0.92)" : isSelected ? "rgba(255,255,255,0.80)" : "rgba(255,255,255,0.52)", fontWeight: hasUnread ? 600 : 400 }}>
+                        <span className="text-[13.5px] truncate"
+                          style={{ color: hasUnread ? "rgba(255,255,255,0.90)" : isSelected ? "rgba(255,255,255,0.80)" : "rgba(255,255,255,0.52)", fontWeight: hasUnread ? 600 : 400 }}>
                           {o?.username || o?.full_name || "Utilisateur"}
                         </span>
-                        <span className="text-[10px] flex-shrink-0" style={{ color: hasUnread ? "rgba(167,139,250,0.65)" : "rgba(255,255,255,0.18)" }}>
+                        <span className="text-[10px] flex-shrink-0" style={{ color: hasUnread ? "rgba(167,139,250,0.60)" : "rgba(255,255,255,0.18)" }}>
                           {c.last_message_at ? timeAgo(c.last_message_at) : ""}
                         </span>
                       </div>
-                      {c.product && (
-                        <p className="text-[11px] truncate mb-0.5" style={{ color: "rgba(167,139,250,0.42)" }}>
-                          {c.product.title}
-                        </p>
-                      )}
                       <p className="text-[12px] truncate"
-                        style={{ color: hasUnread ? "rgba(255,255,255,0.48)" : "rgba(255,255,255,0.22)" }}>
-                        {c.last_message || "Nouvelle conversation"}
+                        style={{ color: hasUnread ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.20)" }}>
+                        {c.last_message || c.product?.title || "Nouvelle conversation"}
                       </p>
                     </div>
-
                     {hasUnread && (
-                      <span className="w-[18px] h-[18px] rounded-full flex items-center justify-center text-[8.5px] font-bold text-white flex-shrink-0 mt-1"
-                        style={{ background: "#7C3AED", boxShadow: "0 2px 8px rgba(124,58,237,0.5)" }}>
+                      <span className="w-[18px] h-[18px] rounded-full flex items-center justify-center text-[8.5px] font-bold text-white flex-shrink-0"
+                        style={{ background: "#7C3AED" }}>
                         {c.unread_count}
                       </span>
                     )}
@@ -319,35 +326,32 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
         </div>
       </div>
 
-      {/* ── Center — chat or welcome ── */}
+      {/* ── Center chat or welcome ── */}
       {selected && other ? (
         <div className="flex-1 flex flex-col min-w-0 h-full">
 
-          {/* Chat header */}
-          <div className="flex items-center justify-between px-6 h-[52px] flex-shrink-0"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          {/* Header */}
+          <div className="flex items-center justify-between px-6 flex-shrink-0"
+            style={{ height: 52, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
             <div className="flex items-center gap-3">
-              <Avatar user={other} size={28} />
-              <div className="flex items-center gap-2.5">
+              <Avatar user={other} size={28} online />
+              <div>
                 <span className="text-[14px] font-semibold" style={{ color: "rgba(255,255,255,0.85)", letterSpacing: "-0.01em" }}>
                   {other.username || other.full_name}
                 </span>
                 {selected.product && (
-                  <>
-                    <span style={{ color: "rgba(255,255,255,0.18)" }}>·</span>
-                    <span className="text-[12px] truncate max-w-[220px]" style={{ color: "rgba(167,139,250,0.50)" }}>
-                      {selected.product.title}
-                    </span>
-                  </>
+                  <span className="ml-2.5 text-[12px]" style={{ color: "rgba(167,139,250,0.48)" }}>
+                    · {selected.product.title}
+                  </span>
                 )}
               </div>
             </div>
             <div className="flex items-center gap-0.5">
               {[Phone, Video, MoreHorizontal].map((Icon, i) => (
                 <button key={i} className="w-8 h-8 rounded-[6px] flex items-center justify-center transition-colors"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
+                  style={{ color: "rgba(255,255,255,0.22)" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.60)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.25)"; }}>
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.22)"; }}>
                   <Icon style={{ width: 15, height: 15 }} />
                 </button>
               ))}
@@ -355,44 +359,43 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-1" style={{ scrollbarWidth: "none" }}>
+          <div className="flex-1 overflow-y-auto px-8 py-6 flex flex-col gap-1" style={{ scrollbarWidth: "none" }}>
             {messages.length === 0 ? (
-              <div className="flex-1 flex flex-col justify-center items-center text-center py-16">
-                <Avatar user={other} size={56} ring />
-                <p className="text-[17px] font-semibold mt-4 mb-1" style={{ color: "rgba(255,255,255,0.72)", letterSpacing: "-0.02em" }}>
+              <div className="flex-1 flex flex-col justify-center items-start px-4 max-w-xl">
+                <Avatar user={other} size={60} online />
+                <h2 className="text-[20px] font-bold mt-5 mb-1 text-white" style={{ letterSpacing: "-0.02em" }}>
                   {other.username || other.full_name}
-                </p>
+                </h2>
                 {other.username && (
-                  <p className="text-[12.5px] mb-2" style={{ color: "rgba(167,139,250,0.40)" }}>@{other.username}</p>
+                  <p className="text-[13px] mb-1" style={{ color: "rgba(167,139,250,0.45)" }}>@{other.username}</p>
                 )}
                 {selected.product && (
-                  <div className="flex items-center gap-2 px-3 py-2 rounded-[8px] mb-5 mt-2"
-                    style={{ background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.14)" }}>
+                  <div className="flex items-center gap-2 mt-2 mb-5">
                     {selected.product.images?.[0] && (
-                      <div className="w-8 h-8 rounded-[6px] overflow-hidden flex-shrink-0">
-                        <Image src={selected.product.images[0]} alt="" width={32} height={32} className="object-cover w-full h-full" />
+                      <div className="w-7 h-7 rounded-[5px] overflow-hidden flex-shrink-0">
+                        <Image src={selected.product.images[0]} alt="" width={28} height={28} className="object-cover w-full h-full" />
                       </div>
                     )}
-                    <span className="text-[12px] font-medium" style={{ color: "rgba(255,255,255,0.55)" }}>
+                    <span className="text-[12.5px]" style={{ color: "rgba(255,255,255,0.38)" }}>
                       {selected.product.title}
                     </span>
                     {selected.product.price && (
-                      <span className="text-[12.5px] font-semibold ml-1" style={{ color: "#A78BFA" }}>
-                        {selected.product.price} €
+                      <span className="text-[12.5px] font-semibold" style={{ color: "#A78BFA" }}>
+                        · {selected.product.price} €
                       </span>
                     )}
                   </div>
                 )}
-                <p className="text-[12.5px] mb-4" style={{ color: "rgba(255,255,255,0.22)" }}>
-                  Commence la conversation
+                <p className="text-[13px] mt-2 mb-5" style={{ color: "rgba(255,255,255,0.25)" }}>
+                  Début de la conversation — envoie un premier message
                 </p>
-                <div className="flex flex-wrap gap-2 justify-center max-w-md">
+                <div className="flex flex-wrap gap-2">
                   {QUICK_REPLIES.map(s => (
                     <button key={s} onClick={() => send(s)}
-                      className="px-3.5 py-1.5 rounded-[7px] text-[12px] transition-all"
-                      style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.40)" }}
+                      className="px-3.5 py-1.5 rounded-[6px] text-[12.5px] transition-all"
+                      style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.42)" }}
                       onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.10)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.22)"; (e.currentTarget as HTMLElement).style.color = "#C4B5FD"; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.045)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.40)"; }}>
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.045)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.42)"; }}>
                       {s}
                     </button>
                   ))}
@@ -405,23 +408,23 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
                   const prevSame = idx > 0 && messages[idx - 1].sender_id === m.sender_id;
                   return (
                     <div key={m.id} className={`flex ${isMe ? "justify-end" : "justify-start"} ${prevSame ? "mt-0.5" : "mt-4"}`}>
-                      {!isMe && !prevSame && <div className="mr-2.5 mt-0.5"><Avatar user={other} size={24} /></div>}
-                      {!isMe && prevSame && <div style={{ width: 34 }} />}
-                      <div style={{ maxWidth: "58%" }}>
+                      {!isMe && !prevSame && <div className="mr-3 mt-0.5 flex-shrink-0"><Avatar user={other} size={26} /></div>}
+                      {!isMe && prevSame && <div style={{ width: 38 }} />}
+                      <div style={{ maxWidth: "62%" }}>
                         <div className="px-4 py-2.5 text-[13.5px] leading-relaxed"
                           style={{
-                            background: isMe ? "linear-gradient(135deg, #7C3AED, #6D28D9)" : "rgba(255,255,255,0.07)",
-                            border: isMe ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(255,255,255,0.06)",
+                            background: isMe ? "linear-gradient(135deg, #7C3AED, #6D28D9)" : "rgba(255,255,255,0.075)",
+                            border: isMe ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(255,255,255,0.07)",
                             color: isMe ? "#fff" : "rgba(255,255,255,0.82)",
                             borderRadius: isMe
                               ? (prevSame ? "16px 5px 5px 16px" : "16px 16px 5px 16px")
                               : (prevSame ? "5px 16px 16px 5px" : "5px 16px 16px 16px"),
-                            boxShadow: isMe ? "0 4px 14px rgba(109,40,217,0.32)" : "none",
+                            boxShadow: isMe ? "0 4px 16px rgba(109,40,217,0.30)" : "none",
                           }}>
                           {m.content}
                         </div>
                         {idx === messages.length - 1 && (
-                          <p className={`text-[9.5px] mt-1.5 px-1 ${isMe ? "text-right" : "text-left"}`}
+                          <p className={`text-[9.5px] mt-1.5 px-1 ${isMe ? "text-right" : ""}`}
                             style={{ color: "rgba(255,255,255,0.16)" }}>
                             {timeAgo(m.created_at)}
                           </p>
@@ -435,118 +438,120 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
             )}
           </div>
 
-          {/* Input bar */}
-          <div className="px-5 pb-5 pt-3 flex-shrink-0">
-            <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-[10px]"
-              style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.09)",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05)",
-              }}>
+          {/* Input */}
+          <div className="px-6 pb-5 pt-2 flex-shrink-0">
+            <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-[9px]"
+              style={{ background: "rgba(255,255,255,0.065)", border: "1px solid rgba(255,255,255,0.09)", boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)" }}>
               <button className="flex-shrink-0 transition-colors" style={{ color: "rgba(255,255,255,0.22)" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.22)"; }}>
-                <Smile style={{ width: 18, height: 18 }} />
+                <Smile style={{ width: 17, height: 17 }} />
               </button>
               <input value={input} onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
-                placeholder="Envoyer un message…"
-                className="flex-1 bg-transparent text-[13.5px] text-white outline-none placeholder:text-white/20"
+                placeholder={`Message à ${other.username || other.full_name}…`}
+                className="flex-1 bg-transparent text-[13.5px] text-white outline-none placeholder:text-white/22"
                 style={{ caretColor: "#8B5CF6" }} />
               <button className="flex-shrink-0 transition-colors" style={{ color: "rgba(255,255,255,0.22)" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.55)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.22)"; }}>
-                <ImageIcon style={{ width: 18, height: 18 }} />
+                <ImageIcon style={{ width: 17, height: 17 }} />
               </button>
               <button onClick={() => send()} disabled={!input.trim()}
                 className="w-8 h-8 rounded-[7px] flex items-center justify-center transition-all disabled:opacity-20 flex-shrink-0"
-                style={{
-                  background: input.trim() ? "linear-gradient(135deg, #8B5CF6, #7C3AED)" : "rgba(255,255,255,0.07)",
-                  boxShadow: input.trim() ? "0 3px 10px rgba(139,92,246,0.42)" : "none",
-                }}>
+                style={{ background: input.trim() ? "linear-gradient(135deg, #8B5CF6, #7C3AED)" : "rgba(255,255,255,0.07)", boxShadow: input.trim() ? "0 2px 10px rgba(139,92,246,0.40)" : "none" }}>
                 <Send style={{ width: 13, height: 13, color: "white" }} />
               </button>
             </div>
             <div className="flex items-center justify-center gap-1.5 mt-2">
               <Lock style={{ width: 9, height: 9, color: "rgba(255,255,255,0.10)" }} />
-              <span className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.10)" }}>Messages chiffrés de bout en bout</span>
+              <span className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.10)" }}>Chiffré de bout en bout</span>
             </div>
           </div>
         </div>
       ) : (
-        <WelcomeCenter />
+        <WelcomeScreen />
       )}
 
-      {/* ── Right panel — conversation details ── */}
+      {/* ── Right panel — only when conversation active ── */}
       {selected && other && (
         <div className="flex-shrink-0 flex flex-col overflow-y-auto h-full"
           style={{ width: 280, borderLeft: "1px solid rgba(255,255,255,0.06)", scrollbarWidth: "none" }}>
 
           {/* Header */}
-          <div className="flex items-center h-[52px] px-5 flex-shrink-0"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <span className="text-[11.5px] font-medium uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.22)" }}>
-              Détails
+          <div className="flex items-center px-5 flex-shrink-0"
+            style={{ height: 52, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            <span className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.22)" }}>
+              Informations
             </span>
           </div>
 
-          {/* User */}
-          <div className="p-5 flex flex-col items-center text-center"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <Avatar user={other} size={52} ring />
-            <p className="text-[14.5px] font-semibold mt-3.5 mb-0.5" style={{ color: "rgba(255,255,255,0.82)", letterSpacing: "-0.015em" }}>
-              {other.username || other.full_name}
-            </p>
-            {other.username && (
-              <p className="text-[12px] mb-4" style={{ color: "rgba(167,139,250,0.38)" }}>@{other.username}</p>
-            )}
-            <div className="flex items-center gap-1.5 mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="text-[11.5px]" style={{ color: "rgba(52,211,153,0.60)" }}>En ligne</span>
+          {/* Seller profile */}
+          <div className="px-5 pt-6 pb-5" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="flex items-start gap-3.5 mb-5">
+              <Avatar user={other} size={44} online />
+              <div className="flex-1 min-w-0">
+                <p className="text-[14.5px] font-semibold truncate" style={{ color: "rgba(255,255,255,0.82)", letterSpacing: "-0.01em" }}>
+                  {other.username || other.full_name}
+                </p>
+                {other.username && (
+                  <p className="text-[12px]" style={{ color: "rgba(167,139,250,0.40)" }}>@{other.username}</p>
+                )}
+                <div className="flex items-center gap-1.5 mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-[11.5px]" style={{ color: "rgba(52,211,153,0.60)" }}>En ligne</span>
+                </div>
+              </div>
             </div>
+
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {[
+                { label: "Note", value: "4.8★", color: "#F59E0B" },
+                { label: "Ventes", value: "24", color: "#10B981" },
+                { label: "Annonces", value: "12", color: "#8B5CF6" },
+              ].map(({ label, value, color }) => (
+                <div key={label} className="px-2 py-2.5 rounded-[7px] text-center"
+                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <p className="text-[13.5px] font-semibold mb-0.5" style={{ color }}>{value}</p>
+                  <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.28)" }}>{label}</p>
+                </div>
+              ))}
+            </div>
+
             <Link href={`/profile/${other.id}`}
-              className="w-full flex items-center justify-center gap-2 py-2 rounded-[7px] text-[12.5px] font-medium transition-colors"
-              style={{ border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.42)" }}
+              className="w-full flex items-center justify-center gap-2 py-2 rounded-[7px] text-[12.5px] font-medium transition-all"
+              style={{ border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.40)" }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.25)"; (e.currentTarget as HTMLElement).style.color = "#A78BFA"; (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.07)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.42)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-              Voir le profil <ArrowRight style={{ width: 12, height: 12 }} />
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.09)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.40)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
+              Voir le profil <ArrowRight style={{ width: 13, height: 13 }} />
             </Link>
           </div>
 
-          {/* Stats */}
-          <div className="px-5 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.18)" }}>Vendeur</p>
-            {[
-              { label: "Note moyenne", value: "4.8 ★", color: "#F59E0B" },
-              { label: "Ventes totales", value: "24",    color: "#10B981" },
-              { label: "Annonces actives", value: "12", color: "#8B5CF6" },
-            ].map(({ label, value, color }) => (
-              <div key={label} className="flex items-center justify-between py-2"
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.045)" }}>
-                <span className="text-[12px]" style={{ color: "rgba(255,255,255,0.32)" }}>{label}</span>
-                <span className="text-[12px] font-semibold" style={{ color }}>{value}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Product */}
+          {/* Article */}
           {selected.product && (
-            <div className="px-5 py-4">
-              <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.18)" }}>Article</p>
+            <div className="px-5 pt-5 pb-4">
+              <p className="text-[10.5px] font-semibold uppercase tracking-widest mb-3" style={{ color: "rgba(255,255,255,0.20)" }}>
+                Article concerné
+              </p>
               <Link href={`/products/${selected.product.id}`}
-                className="block rounded-[10px] overflow-hidden transition-all"
-                style={{ border: "1px solid rgba(255,255,255,0.08)" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.22)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)"; }}>
+                className="block rounded-[9px] overflow-hidden transition-all"
+                style={{ border: "1px solid rgba(255,255,255,0.09)" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.28)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.09)"; }}>
                 {selected.product.images?.[0] && (
                   <div className="relative" style={{ aspectRatio: "16/9" }}>
                     <Image src={selected.product.images[0]} alt={selected.product.title} fill className="object-cover" />
                   </div>
                 )}
-                <div className="px-3 py-2.5" style={{ background: "rgba(255,255,255,0.03)" }}>
-                  <p className="text-[12.5px] font-medium text-white/65 truncate mb-0.5">{selected.product.title}</p>
+                <div className="flex items-center justify-between px-3 py-2.5"
+                  style={{ background: "rgba(255,255,255,0.03)", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                  <p className="text-[12.5px] font-medium truncate flex-1 mr-2" style={{ color: "rgba(255,255,255,0.65)" }}>
+                    {selected.product.title}
+                  </p>
                   {selected.product.price && (
-                    <p className="text-[13.5px] font-semibold" style={{ color: "#A78BFA" }}>{selected.product.price} €</p>
+                    <p className="text-[13.5px] font-semibold flex-shrink-0" style={{ color: "#A78BFA" }}>
+                      {selected.product.price} €
+                    </p>
                   )}
                 </div>
               </Link>
