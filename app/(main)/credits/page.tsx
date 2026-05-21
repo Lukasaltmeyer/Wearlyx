@@ -1,6 +1,7 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { Navbar } from "@/components/layout/Navbar";
 import { CreditsClient } from "@/components/CreditsClient";
 import { isAdminUser } from "@/lib/admin";
@@ -29,6 +30,25 @@ export default async function CreditsPage() {
     .neq("status", "deleted");
 
   const adminUser = isAdminUser(user);
+
+  const device = await getDeviceType();
+
+  if (device === "desktop") {
+    return (
+      <main className="min-h-[100dvh] px-10 py-10">
+        <div className="max-w-[720px] mx-auto">
+          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Crédits & plan</h1>
+          <CreditsClient
+            salesCount={adminUser ? 2495 : (profile?.sales_count ?? 0)}
+            productsCount={adminUser ? 9 : (products?.length ?? 0)}
+            aiPhotosUsed={0}
+            rating={adminUser ? 5 : (profile?.rating ?? 0)}
+            isPremium={adminUser ? true : usageRow?.plan === "premium"}
+          />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <>

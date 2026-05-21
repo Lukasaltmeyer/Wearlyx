@@ -1,6 +1,7 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { Navbar } from "@/components/layout/Navbar";
 import { ReferralClient } from "@/components/ReferralClient";
 
@@ -16,6 +17,19 @@ export default async function ReferralPage() {
     .single();
 
   const referralCode = profile?.username ?? user.id.slice(0, 8);
+
+  const device = await getDeviceType();
+
+  if (device === "desktop") {
+    return (
+      <main className="min-h-[100dvh] px-10 py-10">
+        <div className="max-w-[720px] mx-auto">
+          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Parrainage</h1>
+          <ReferralClient referralCode={referralCode} />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <>
