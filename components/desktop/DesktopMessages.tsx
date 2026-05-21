@@ -348,19 +348,18 @@ export function DesktopMessages({ conversations, currentUserId }: Props) {
         {/* Conversation items */}
         <div className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "none" }}>
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full gap-4 px-8 text-center">
-              <MessageSquare style={{ width: 28, height: 28, color: "rgba(139,92,246,0.28)" }} strokeWidth={1.4} />
-              <div>
-                <p className="text-[13.5px] font-medium mb-1.5" style={{ color: "rgba(255,255,255,0.28)" }}>
-                  Aucune conversation
-                </p>
-                <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.14)" }}>
-                  Contacte un vendeur depuis une annonce
-                </p>
-              </div>
+            <div className="flex flex-col justify-center h-full px-6 gap-3">
+              <p className="text-[13px]" style={{ color: "rgba(255,255,255,0.22)" }}>
+                Aucune conversation
+              </p>
+              <p className="text-[12px] leading-relaxed" style={{ color: "rgba(255,255,255,0.12)" }}>
+                Contacte un vendeur depuis une annonce pour démarrer.
+              </p>
               <Link href="/search"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-[7px] text-[12.5px] font-medium transition-all"
-                style={{ background: "rgba(139,92,246,0.11)", border: "1px solid rgba(139,92,246,0.18)", color: "#C4B5FD" }}>
+                className="text-[12px] font-medium transition-colors w-fit mt-1"
+                style={{ color: "rgba(139,92,246,0.50)" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#A78BFA"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(139,92,246,0.50)"; }}>
                 Explorer les articles →
               </Link>
             </div>
