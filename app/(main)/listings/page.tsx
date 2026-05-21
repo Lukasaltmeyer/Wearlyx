@@ -1,13 +1,18 @@
 export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { ListingsClient } from "@/components/ListingsClient";
+import { DesktopProfile } from "@/components/desktop/DesktopProfile";
 import { Navbar } from "@/components/layout/Navbar";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 export default async function ListingsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth");
+
+  const device = await getDeviceType();
 
   const [{ data: profile }, { data: products }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
@@ -19,7 +24,6 @@ export default async function ListingsPage() {
       .order("created_at", { ascending: false }),
   ]);
 
-  // Reviews optional — table may not exist yet
   const { data: reviews } = await supabase
     .from("reviews")
     .select("*")
@@ -33,6 +37,17 @@ export default async function ListingsPage() {
     likes: undefined,
   }));
 
+  if (device === "desktop") {
+    return (
+      <DesktopProfile
+        profile={profile}
+        products={enriched}
+        reviews={reviews ?? []}
+        isOwnProfile
+      />
+    );
+  }
+
   return (
     <>
       <Navbar />
@@ -44,6 +59,7 @@ export default async function ListingsPage() {
           userId={user.id}
         />
       </main>
+      <BottomNav />
     </>
   );
 }
