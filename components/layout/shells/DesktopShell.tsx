@@ -20,24 +20,14 @@ const NAV = [
 
 function Logo() {
   return (
-    <div className="flex items-center gap-2.5">
-      {/* Icon mark */}
-      <div className="w-[28px] h-[28px] rounded-[8px] flex items-center justify-center flex-shrink-0"
-        style={{
-          background: "linear-gradient(135deg, #7C3AED, #5B21B6)",
-          boxShadow: "0 4px 14px rgba(124,58,237,0.45), inset 0 1px 0 rgba(255,255,255,0.18)",
-        }}>
-        <span className="text-white font-black text-[13px]" style={{ letterSpacing: "-0.04em" }}>W</span>
-      </div>
-      <span className="text-[15px] font-black tracking-tight select-none" style={{ letterSpacing: "-0.035em" }}>
-        <span className="text-white/88">Wear</span>
-        <span style={{
-          background: "linear-gradient(135deg, #C4B5FD, #8B5CF6)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}>lyx</span>
-      </span>
-    </div>
+    <span className="text-[16px] font-black tracking-tight select-none" style={{ letterSpacing: "-0.035em" }}>
+      <span className="text-white/90">Wear</span>
+      <span style={{
+        background: "linear-gradient(135deg, #C4B5FD, #8B5CF6)",
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+      }}>lyx</span>
+    </span>
   );
 }
 
