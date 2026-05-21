@@ -25,7 +25,7 @@ export default async function ReferralPage() {
       <main className="min-h-[100dvh] px-10 py-10">
         <div className="max-w-[720px] mx-auto">
           <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Parrainage</h1>
-          <ReferralClient referralCode={referralCode} />
+          <ReferralClient referralCode={referralCode} isDesktop />
         </div>
       </main>
     );

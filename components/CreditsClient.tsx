@@ -137,7 +137,7 @@ const BADGE_TIERS = [
   },
 ];
 
-export function CreditsClient({ salesCount, productsCount, aiPhotosUsed, rating, isPremium }: Props) {
+export function CreditsClient({ salesCount, productsCount, isDesktop }: Pick<Props, "salesCount" | "productsCount"> & { aiPhotosUsed?: number; rating?: number; isPremium?: boolean; isDesktop?: boolean }) {
   const router = useRouter();
 
   // Crédits calculés (500 de base comme dans le screenshot)
@@ -161,24 +161,20 @@ export function CreditsClient({ salesCount, productsCount, aiPhotosUsed, rating,
     sales:     salesCount,
   };
 
-  return (
-    <div className="pb-6">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 pt-5 pb-5">
-        <button
-          onClick={() => router.back()}
-          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60"
-        >
-          <ArrowLeft className="w-4 h-4" />
-        </button>
-        <h1 className="text-[17px] font-bold text-white">Crédits & Badges</h1>
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#4CAF50]/30 bg-[#4CAF50]/10">
-          <Zap className="w-3 h-3 text-[#4CAF50]" />
-          <span className="text-[12px] font-bold text-[#4CAF50]">{credits.toLocaleString()} crédits</span>
-        </div>
-      </div>
+  const creditsChip = (
+    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#4CAF50]/30 bg-[#4CAF50]/10">
+      <Zap className="w-3 h-3 text-[#4CAF50]" />
+      <span className="text-[12px] font-bold text-[#4CAF50]">{credits.toLocaleString()} crédits</span>
+    </div>
+  );
 
-      <div className="px-4 flex flex-col gap-4">
+  if (isDesktop) {
+    return (
+      <div className="flex flex-col gap-4 pb-6">
+        <div className="flex items-center justify-between">
+          {creditsChip}
+        </div>
+        <div className="flex flex-col gap-4">
         {/* Hero card */}
         <div className="p-4 rounded-2xl border border-[#4CAF50]/20 bg-[#4CAF50]/8">
           <div className="flex items-center gap-3 mb-3">
@@ -329,6 +325,34 @@ export function CreditsClient({ salesCount, productsCount, aiPhotosUsed, rating,
               );
             })}
           </div>
+        </div>
+      </div>
+    </div>
+  );
+  }
+
+  return (
+    <div className="pb-6">
+      <div className="flex items-center justify-between px-4 pt-5 pb-5">
+        <button onClick={() => router.back()}
+          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+        <h1 className="text-[17px] font-bold text-white">Crédits & Badges</h1>
+        {creditsChip}
+      </div>
+      <div className="px-4 flex flex-col gap-4">
+        <div className="p-4 rounded-2xl border border-[#4CAF50]/20 bg-[#4CAF50]/8">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-xl bg-[#4CAF50]/20 flex items-center justify-center">
+              <Star className="w-5 h-5 text-[#4CAF50] fill-[#4CAF50]" />
+            </div>
+            <div>
+              <p className="text-[28px] font-black text-white leading-none">{credits.toLocaleString()}</p>
+              <p className="text-[13px] text-white/50">crédits gagnés</p>
+            </div>
+          </div>
+          <p className="text-[12px] text-white/30">{credits.toLocaleString()} / 799 000 crédits max</p>
         </div>
       </div>
     </div>

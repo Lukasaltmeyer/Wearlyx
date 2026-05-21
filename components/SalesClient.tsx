@@ -1075,11 +1075,56 @@ const TABS: { id: Tab; label: string; icon: any }[] = [
   { id: "bugs",    label: "Bugs",     icon: Bug },
 ];
 
-export function SalesClient({ userId }: Props) {
+export function SalesClient({ userId, isDesktop }: Props & { isDesktop?: boolean }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialTab = (searchParams.get("tab") as Tab) ?? "achats";
   const [tab, setTab] = useState<Tab>(initialTab);
+
+  const tabContent = (
+    <>
+      {tab === "achats"  && <AchatsTab  userId={userId} />}
+      {tab === "ventes"  && <VentesTab  userId={userId} />}
+      {tab === "offres"  && <OffresTab  userId={userId} />}
+      {tab === "avis"    && <AvisTab    userId={userId} />}
+      {tab === "litiges" && <LitigesTab userId={userId} />}
+      {tab === "support" && <SupportTab userId={userId} />}
+      {tab === "bugs"    && <BugTab     userId={userId} />}
+    </>
+  );
+
+  if (isDesktop) {
+    return (
+      <div className="flex gap-0 min-h-[80vh]">
+        {/* Left nav */}
+        <div className="w-[180px] flex-shrink-0 pr-6">
+          <div className="flex flex-col gap-0.5">
+            {TABS.map(({ id, label, icon: Icon }) => {
+              const active = tab === id;
+              return (
+                <button key={id} onClick={() => setTab(id as Tab)}
+                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13px] font-medium transition-all text-left"
+                  style={{
+                    background: active ? "rgba(139,92,246,0.10)" : "transparent",
+                    color: active ? "rgba(196,181,253,0.95)" : "rgba(255,255,255,0.35)",
+                  }}
+                  onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.60)"; } }}
+                  onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)"; } }}>
+                  <Icon style={{ width: 14, height: 14, flexShrink: 0, color: active ? "#A78BFA" : "inherit" }} strokeWidth={active ? 2 : 1.6} />
+                  {label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0" style={{ borderLeft: "1px solid rgba(255,255,255,0.05)", paddingLeft: 32 }}>
+          {tabContent}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[100dvh] bg-[#07070A]">
@@ -1093,7 +1138,6 @@ export function SalesClient({ userId }: Props) {
           <p className="text-[11px] text-white/30">Achats · Ventes · Offres · Avis · Litiges</p>
         </div>
       </div>
-
       <div className="flex overflow-x-auto scrollbar-hide border-b border-white/[0.06] sticky top-0 bg-[#07070A] z-10">
         {TABS.map(({ id, label, icon: Icon }) => {
           const active = tab === id;
@@ -1110,16 +1154,7 @@ export function SalesClient({ userId }: Props) {
           );
         })}
       </div>
-
-      <div className="pb-24">
-        {tab === "achats"  && <AchatsTab  userId={userId} />}
-        {tab === "ventes"  && <VentesTab  userId={userId} />}
-        {tab === "offres"  && <OffresTab  userId={userId} />}
-        {tab === "avis"    && <AvisTab    userId={userId} />}
-        {tab === "litiges" && <LitigesTab userId={userId} />}
-        {tab === "support" && <SupportTab userId={userId} />}
-        {tab === "bugs"    && <BugTab     userId={userId} />}
-      </div>
+      <div className="pb-24">{tabContent}</div>
     </div>
   );
 }

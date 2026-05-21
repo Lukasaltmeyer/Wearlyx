@@ -24,7 +24,7 @@ export default async function PromotionToolsPage() {
       <main className="min-h-[100dvh] px-10 py-10">
         <div className="max-w-[860px] mx-auto">
           <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Outils de promotion</h1>
-          <PromotionToolsClient products={products ?? []} />
+          <PromotionToolsClient products={products ?? []} isDesktop />
         </div>
       </main>
     );

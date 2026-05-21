@@ -46,7 +46,7 @@ const FAQ_SECTIONS = [
   },
 ];
 
-export function GuideClient() {
+export function GuideClient({ isDesktop }: { isDesktop?: boolean }) {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [openKey, setOpenKey] = useState<string | null>(null);
@@ -63,77 +63,76 @@ export function GuideClient() {
     ),
   })).filter((s) => s.items.length > 0);
 
+  const searchBar = (
+    <div className="flex items-center gap-2.5 px-4 py-3 rounded-[12px] border border-white/8 bg-white/[0.03]">
+      <Search className="w-4 h-4 text-white/30 flex-shrink-0" />
+      <input type="text" placeholder="Rechercher une question..."
+        value={search} onChange={(e) => setSearch(e.target.value)}
+        className="flex-1 bg-transparent text-[14px] text-white placeholder-white/30 outline-none" />
+    </div>
+  );
+
+  const faqList = (
+    <div className="flex flex-col gap-5">
+      {filtered.map((section) => (
+        <div key={section.title}>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[15px]">{section.emoji}</span>
+            <p className="text-[13px] font-bold text-white/60 uppercase tracking-wide">{section.title}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            {section.items.map((item) => {
+              const key = `${section.title}-${item.q}`;
+              const open = openKey === key;
+              return (
+                <div key={key} className="rounded-[12px] border border-white/6 bg-white/[0.02] overflow-hidden">
+                  <button onClick={() => toggle(key)}
+                    className="w-full flex items-center justify-between px-4 py-3.5 text-left">
+                    <span className="text-[13px] text-white/80 flex-1 pr-3">{item.q}</span>
+                    {open ? <ChevronUp className="w-4 h-4 text-white/25 flex-shrink-0" />
+                           : <ChevronDown className="w-4 h-4 text-white/25 flex-shrink-0" />}
+                  </button>
+                  {open && (
+                    <div className="px-4 pb-4">
+                      <p className="text-[12.5px] text-white/45 leading-relaxed">{item.a}</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  if (isDesktop) {
+    return (
+      <div className="flex flex-col gap-6">
+        {searchBar}
+        {faqList}
+        <button className="py-3 px-5 rounded-[12px] font-semibold text-[13px] text-white self-start flex items-center gap-2"
+          style={{ background: "linear-gradient(135deg, #A855F7, #8B5CF6)" }}>
+          💬 Chat avec l'IA →
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div>
-      {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-5 pb-5">
-        <button
-          onClick={() => router.back()}
-          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60"
-        >
+        <button onClick={() => router.back()}
+          className="w-9 h-9 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60">
           <ArrowLeft className="w-4 h-4" />
         </button>
         <h1 className="text-[17px] font-bold text-white">Guide Wearlyx</h1>
       </div>
-
-      {/* Search */}
-      <div className="px-4 mb-5">
-        <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl border border-white/8 bg-white/4">
-          <Search className="w-4 h-4 text-white/30 flex-shrink-0" />
-          <input
-            type="text"
-            placeholder="Rechercher une question..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 bg-transparent text-[14px] text-white placeholder-white/30 outline-none"
-          />
-        </div>
-      </div>
-
-      {/* FAQ sections */}
-      <div className="px-4 flex flex-col gap-4 mb-5">
-        {filtered.map((section) => (
-          <div key={section.title}>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[16px]">{section.emoji}</span>
-              <p className="text-[14px] font-bold text-white">{section.title}</p>
-            </div>
-            <div className="flex flex-col gap-1">
-              {section.items.map((item) => {
-                const key = `${section.title}-${item.q}`;
-                const open = openKey === key;
-                return (
-                  <div key={key} className="rounded-2xl border border-white/8 bg-white/2 overflow-hidden">
-                    <button
-                      onClick={() => toggle(key)}
-                      className="w-full flex items-center justify-between px-4 py-4 text-left"
-                    >
-                      <span className="text-[14px] text-white flex-1 pr-3">{item.q}</span>
-                      {open ? (
-                        <ChevronUp className="w-4 h-4 text-white/30 flex-shrink-0" />
-                      ) : (
-                        <ChevronDown className="w-4 h-4 text-white/30 flex-shrink-0" />
-                      )}
-                    </button>
-                    {open && (
-                      <div className="px-4 pb-4">
-                        <p className="text-[13px] text-white/50 leading-relaxed">{item.a}</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* CTA */}
+      <div className="px-4 mb-5">{searchBar}</div>
+      <div className="px-4 mb-5">{faqList}</div>
       <div className="px-4 pb-4">
-        <button
-          className="w-full py-4 rounded-2xl font-bold text-[14px] text-white flex items-center justify-center gap-2"
-          style={{ background: "linear-gradient(135deg, #A855F7, #8B5CF6)" }}
-        >
+        <button className="w-full py-4 rounded-2xl font-bold text-[14px] text-white flex items-center justify-center gap-2"
+          style={{ background: "linear-gradient(135deg, #A855F7, #8B5CF6)" }}>
           💬 Tu as une autre question ? Chat avec l'IA →
         </button>
       </div>

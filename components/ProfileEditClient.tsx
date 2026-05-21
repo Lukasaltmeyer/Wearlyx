@@ -9,6 +9,7 @@ import type { Profile } from "@/types/database";
 interface Props {
   profile: Profile | null;
   userId: string;
+  isDesktop?: boolean;
 }
 
 function Field({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
@@ -20,7 +21,7 @@ function Field({ icon, children }: { icon: React.ReactNode; children: React.Reac
   );
 }
 
-export function ProfileEditClient({ profile, userId }: Props) {
+export function ProfileEditClient({ profile, userId, isDesktop }: Props) {
   const router = useRouter();
   const supabase = createClient();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -84,9 +85,94 @@ export function ProfileEditClient({ profile, userId }: Props) {
     setLoading(false);
   };
 
+  const avatarBlock = (size: number) => (
+    <button type="button" onClick={() => fileRef.current?.click()} className="relative group flex-shrink-0">
+      <div className="rounded-full overflow-hidden border-2 border-[#8B5CF6]/40 bg-gradient-to-br from-[#8B5CF6] to-[#7C3AED]"
+        style={{ width: size, height: size }}>
+        {avatarPreview
+          ? <img src={avatarPreview} alt="avatar" className="w-full h-full object-cover" />
+          : <div className="w-full h-full flex items-center justify-center">
+              <span className="text-white font-bold" style={{ fontSize: size * 0.35 }}>{initials}</span>
+            </div>}
+      </div>
+      <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+        {uploadingAvatar ? <Loader2 className="w-5 h-5 text-white animate-spin" /> : <Camera className="w-5 h-5 text-white" />}
+      </div>
+      <div className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#8B5CF6] border-2 border-[#07070A] flex items-center justify-center">
+        <Camera className="w-3.5 h-3.5 text-white" />
+      </div>
+    </button>
+  );
+
+  if (isDesktop) {
+    return (
+      <div className="flex gap-10">
+        {/* Left — avatar */}
+        <div className="flex flex-col items-center gap-3 w-[160px] flex-shrink-0 pt-1">
+          {avatarBlock(120)}
+          <button type="button" onClick={() => fileRef.current?.click()}
+            className="text-[12px] text-[#A78BFA] font-semibold">
+            {uploadingAvatar ? "Upload en cours…" : "Changer la photo"}
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+        </div>
+
+        {/* Right — form */}
+        <form onSubmit={handleSave} className="flex-1 flex flex-col gap-3">
+          <Field icon={<User className="w-4 h-4" />}>
+            <input type="text" placeholder="Prénom Nom" value={fullName} onChange={(e) => setFullName(e.target.value)}
+              className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none" />
+          </Field>
+
+          <Field icon={<AtSign className="w-4 h-4" />}>
+            <input type="text" placeholder="pseudo" value={username}
+              onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9._]/g, ""))}
+              className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none" />
+          </Field>
+
+          <div className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 focus-within:border-[#8B5CF6]/40 transition-colors">
+            <FileText className="w-4 h-4 text-white/35 flex-shrink-0 mt-0.5" />
+            <textarea placeholder="À propos de moi…" value={bio} onChange={(e) => setBio(e.target.value)}
+              rows={3} className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none resize-none" />
+          </div>
+
+          <p className="text-[11px] font-bold text-white/25 uppercase tracking-widest mt-1">Localisation</p>
+
+          <div className="grid grid-cols-2 gap-3">
+            <Field icon={<MapPin className="w-4 h-4" />}>
+              <input type="text" placeholder="Ville (ex: Paris)" value={city} onChange={(e) => setCity(e.target.value)}
+                className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none" />
+            </Field>
+            <Field icon={<Globe className="w-4 h-4" />}>
+              <input type="text" placeholder="Pays (ex: France)" value={country} onChange={(e) => setCountry(e.target.value)}
+                className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none" />
+            </Field>
+          </div>
+
+          <div className="flex items-center justify-between px-4 py-3.5 rounded-2xl border border-white/10 bg-white/[0.04]">
+            <span className="text-[14px] text-white/70">Afficher la ville dans le profil</span>
+            <button type="button" onClick={() => setShowCity((v: boolean) => !v)}
+              className={`relative flex-shrink-0 w-12 h-7 rounded-full transition-colors duration-200 ${showCity ? "bg-[#8B5CF6]" : "bg-white/15"}`}>
+              <span className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-200 ${showCity ? "translate-x-5" : "translate-x-0"}`} />
+            </button>
+          </div>
+
+          {error && <p className="text-[12px] text-red-400 px-1">{error}</p>}
+
+          <button type="submit" disabled={loading || uploadingAvatar}
+            className="w-full py-3.5 rounded-[14px] text-[14px] font-bold text-white transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-2"
+            style={{ background: success ? "#10B981" : "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 20px rgba(139,92,246,0.25)" }}>
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" />
+              : success ? <><Check className="w-4 h-4" /> Sauvegardé !</>
+              : "Sauvegarder les modifications"}
+          </button>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 pt-4 pb-8">
-      {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <button onClick={() => router.back()}
           className="w-9 h-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white/50">
@@ -95,21 +181,8 @@ export function ProfileEditClient({ profile, userId }: Props) {
         <h1 className="text-[20px] font-black text-white">Modifier mon profil</h1>
       </div>
 
-      {/* Avatar */}
       <div className="flex flex-col items-center mb-6">
-        <button type="button" onClick={() => fileRef.current?.click()} className="relative group">
-          <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#8B5CF6]/40 bg-gradient-to-br from-[#8B5CF6] to-[#7C3AED]">
-            {avatarPreview
-              ? <img src={avatarPreview} alt="avatar" className="w-full h-full object-cover" />
-              : <div className="w-full h-full flex items-center justify-center"><span className="text-white font-bold text-3xl">{initials}</span></div>}
-          </div>
-          <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
-            {uploadingAvatar ? <Loader2 className="w-5 h-5 text-white animate-spin" /> : <Camera className="w-5 h-5 text-white" />}
-          </div>
-          <div className="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#8B5CF6] border-2 border-[#07070A] flex items-center justify-center">
-            <Camera className="w-3.5 h-3.5 text-white" />
-          </div>
-        </button>
+        {avatarBlock(96)}
         <button type="button" onClick={() => fileRef.current?.click()}
           className="mt-2.5 text-[13px] text-[#A78BFA] font-semibold">
           {uploadingAvatar ? "Upload en cours…" : "Changer la photo"}
@@ -118,7 +191,6 @@ export function ProfileEditClient({ profile, userId }: Props) {
       </div>
 
       <form onSubmit={handleSave} className="flex flex-col gap-3">
-
         <Field icon={<User className="w-4 h-4" />}>
           <input type="text" placeholder="Prénom Nom" value={fullName} onChange={(e) => setFullName(e.target.value)}
             className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none" />
@@ -148,7 +220,6 @@ export function ProfileEditClient({ profile, userId }: Props) {
             className="flex-1 bg-transparent text-[15px] text-white placeholder-white/25 outline-none" />
         </Field>
 
-        {/* Toggle afficher la ville */}
         <div className="flex items-center justify-between px-4 py-3.5 rounded-2xl border border-white/10 bg-white/[0.04]">
           <span className="text-[14px] text-white/70">Afficher la ville dans le profil</span>
           <button type="button" onClick={() => setShowCity((v: boolean) => !v)}

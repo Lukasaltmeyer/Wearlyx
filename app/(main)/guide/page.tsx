@@ -17,7 +17,7 @@ export default async function GuidePage() {
       <main className="min-h-[100dvh] px-10 py-10">
         <div className="max-w-[800px] mx-auto">
           <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Guide vendeur</h1>
-          <GuideClient />
+          <GuideClient isDesktop />
         </div>
       </main>
     );

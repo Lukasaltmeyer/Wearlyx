@@ -44,6 +44,7 @@ export default async function CreditsPage() {
             aiPhotosUsed={0}
             rating={adminUser ? 5 : (profile?.rating ?? 0)}
             isPremium={adminUser ? true : usageRow?.plan === "premium"}
+            isDesktop
           />
         </div>
       </main>

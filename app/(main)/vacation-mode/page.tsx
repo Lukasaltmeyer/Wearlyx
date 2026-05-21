@@ -17,7 +17,7 @@ export default async function VacationModePage() {
       <main className="min-h-[100dvh] px-10 py-10">
         <div className="max-w-[640px] mx-auto">
           <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Mode vacances</h1>
-          <VacationModeClient />
+          <VacationModeClient isDesktop />
         </div>
       </main>
     );

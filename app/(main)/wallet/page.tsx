@@ -17,7 +17,7 @@ export default async function WalletPage() {
       <main className="min-h-[100dvh] px-10 py-10">
         <div className="max-w-[720px] mx-auto">
           <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Portefeuille</h1>
-          <WalletPageClient userId={user.id} />
+          <WalletPageClient userId={user.id} isDesktop />
         </div>
       </main>
     );
