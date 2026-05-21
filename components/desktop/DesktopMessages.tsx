@@ -5,7 +5,7 @@ import {
   Search, Send, MoreHorizontal,
   Image as ImageIcon, Smile, ShoppingBag,
   Lock, ArrowRight, Plus, MessageSquare, ChevronRight,
-  Sparkles, TrendingUp, Clock
+  Sparkles, TrendingUp
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { timeAgo } from "@/lib/utils";
@@ -188,66 +188,76 @@ function WelcomeScreen() {
           </div>
         </div>
 
-        {/* Right column — contextual info */}
-        <div className="flex-shrink-0 flex flex-col py-8 px-8 gap-7 overflow-y-auto"
-          style={{ width: 280, borderLeft: "1px solid rgba(255,255,255,0.05)", scrollbarWidth: "none" }}>
+        {/* Right column */}
+        <div className="flex-shrink-0 flex flex-col overflow-y-auto"
+          style={{ width: 268, borderLeft: "1px solid rgba(255,255,255,0.05)", scrollbarWidth: "none" }}>
 
-          {/* How it works */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Clock style={{ width: 12, height: 12, color: "#A78BFA" }} />
-              <p className="text-[10.5px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.24)" }}>
-                Comment ça marche
+          {/* Live stats strip */}
+          <div className="px-6 pt-8 pb-6" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+            <div className="flex items-center gap-2 mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0"
+                style={{ boxShadow: "0 0 6px rgba(52,211,153,0.7)" }} />
+              <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.22)" }}>
+                Live
               </p>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {[
-                { step: "1", label: "Trouve un article", desc: "Explore ou recherche sur Wearlyx" },
-                { step: "2", label: "Contacte le vendeur", desc: "Pose tes questions directement" },
-                { step: "3", label: "Finalise l'achat", desc: "Paye en toute sécurité via la plateforme" },
-              ].map(({ step, label, desc }) => (
-                <div key={step} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.22)" }}>
-                    <span className="text-[9px] font-bold" style={{ color: "#A78BFA" }}>{step}</span>
-                  </div>
-                  <div>
-                    <p className="text-[12.5px] font-medium mb-0.5" style={{ color: "rgba(255,255,255,0.62)" }}>{label}</p>
-                    <p className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.25)" }}>{desc}</p>
-                  </div>
+                { value: "50 K+",  label: "Membres",        color: "#8B5CF6" },
+                { value: "1 247",  label: "Ventes / jour",  color: "#10B981" },
+                { value: "32 K",   label: "Articles",       color: "#3B82F6" },
+                { value: "4.8 ★",  label: "Note moy.",      color: "#F59E0B" },
+              ].map(({ value, label, color }) => (
+                <div key={label} className="px-3 py-3 rounded-[10px]"
+                  style={{ background: `${color}0d`, border: `1px solid ${color}18` }}>
+                  <p className="text-[16px] font-black mb-0.5" style={{ color, letterSpacing: "-0.02em" }}>{value}</p>
+                  <p className="text-[10.5px]" style={{ color: "rgba(255,255,255,0.28)" }}>{label}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Trending searches */}
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <TrendingUp style={{ width: 12, height: 12, color: "#A78BFA" }} />
-              <p className="text-[10.5px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.24)" }}>
-                Recherches tendance
+          <div className="px-6 pt-6 pb-6" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp style={{ width: 11, height: 11, color: "#A78BFA" }} />
+              <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.22)" }}>
+                Tendances
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {TRENDING_SEARCHES.map(t => (
-                <Link key={t}
-                  href={`/search?q=${encodeURIComponent(t)}`}
-                  className="text-[11.5px] font-medium px-3 py-1.5 rounded-[6px] transition-colors"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.38)" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.22)"; (e.currentTarget as HTMLElement).style.color = "#C4B5FD"; (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.08)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}>
-                  {t}
+            <div className="flex flex-col gap-px">
+              {TRENDING_SEARCHES.slice(0, 5).map((t, i) => (
+                <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
+                  className="flex items-center gap-3 px-2 py-2.5 rounded-[7px] transition-all group"
+                  style={{ color: "rgba(255,255,255,0.38)" }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.70)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)"; }}>
+                  <span className="text-[9.5px] font-bold w-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.14)" }}>{i + 1}</span>
+                  <span className="text-[12.5px] font-medium truncate flex-1 transition-colors">{t}</span>
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Encryption note */}
-          <div className="mt-auto flex items-center gap-2 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            <Lock style={{ width: 10, height: 10, color: "rgba(255,255,255,0.14)", flexShrink: 0 }} />
-            <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.16)" }}>
-              Messages chiffrés de bout en bout
-            </p>
+          {/* Boost CTA */}
+          <div className="px-6 pt-6 pb-6 mt-auto">
+            <Link href="/promotion-tools"
+              className="flex items-center gap-3.5 px-4 py-3.5 rounded-[12px] transition-all"
+              style={{
+                background: "rgba(124,58,237,0.09)",
+                border: "1px solid rgba(139,92,246,0.14)",
+              }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.28)"; (e.currentTarget as HTMLElement).style.background = "rgba(124,58,237,0.14)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.14)"; (e.currentTarget as HTMLElement).style.background = "rgba(124,58,237,0.09)"; }}>
+              <div className="w-9 h-9 rounded-[10px] flex items-center justify-center flex-shrink-0"
+                style={{ background: "rgba(139,92,246,0.18)", border: "1px solid rgba(139,92,246,0.22)" }}>
+                <Sparkles style={{ width: 15, height: 15, color: "#A78BFA" }} />
+              </div>
+              <div>
+                <p className="text-[13px] font-semibold" style={{ color: "rgba(255,255,255,0.72)" }}>Booster mes annonces</p>
+                <p className="text-[11px]" style={{ color: "rgba(255,255,255,0.28)" }}>+300% de visibilité</p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
