@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { redirect, notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getDeviceType } from "@/lib/device";
 import { OrderDetailClient } from "@/components/marketplace/OrderDetailClient";
 
 export default async function OrderPage({ params }: { params: Promise<{ id: string }> }) {
@@ -17,5 +18,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
 
   if (!order || (order.buyer_id !== user.id && order.seller_id !== user.id)) notFound();
 
-  return <OrderDetailClient order={order} currentUserId={user.id} />;
+  const device = await getDeviceType();
+
+  return <OrderDetailClient order={order} currentUserId={user.id} isDesktop={device === "desktop"} />;
 }

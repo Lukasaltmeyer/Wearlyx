@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { ArrowLeft, Upload, Sparkles, Download, RefreshCw, Sliders, ChevronDown, ChevronUp } from "lucide-react";
 import Link from "next/link";
 import { BeforeAfterSlider } from "@/components/ai/BeforeAfterSlider";
@@ -145,6 +145,9 @@ function ResultCard({ item, onReenhance }: { item: ResultItem; onReenhance: () =
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 export default function EnhancePage() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => { setIsDesktop(window.innerWidth >= 1024); }, []);
+
   const [photos, setPhotos] = useState<File[]>([]);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [opts, setOpts] = useState<EnhanceOptions>(DEFAULT_OPTIONS);
@@ -206,7 +209,7 @@ export default function EnhancePage() {
   return (
     <div className="min-h-[100dvh] bg-[#0A0A10] flex flex-col pb-24">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 pt-5 pb-4">
+      <div className={`flex items-center gap-3 pt-5 pb-4 ${isDesktop ? "px-8 max-w-[860px] mx-auto w-full" : "px-4"}`}>
         <Link href="/sell"
           className="w-9 h-9 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white transition-colors">
           <ArrowLeft className="w-4 h-4" />
@@ -231,7 +234,7 @@ export default function EnhancePage() {
         <UpgradePopup currentPlan={usage.plan} onClose={() => setShowUpgrade(false)} />
       )}
 
-      <div className="flex-1 px-4 flex flex-col gap-4">
+      <div className={`flex-1 flex flex-col gap-4 ${isDesktop ? "px-8 max-w-[860px] mx-auto w-full" : "px-4"}`}>
 
         {/* Usage counter */}
         <UsageCounter onUsageLoaded={setUsage} />

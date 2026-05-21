@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft, Sparkles, Zap, RefreshCw, Check, ChevronRight,
@@ -149,6 +149,9 @@ function Field({ label, value, onChange, multiline, onRegenerate, regenerating }
 export default function AISellerPage() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => { setIsDesktop(window.innerWidth >= 1024); }, []);
 
   const [step, setStep] = useState(0);
   const [photos, setPhotos] = useState<File[]>([]);
@@ -316,7 +319,7 @@ export default function AISellerPage() {
 
       {/* Header */}
       <div className="sticky top-0 z-20 bg-[#07070A]/95 backdrop-blur-sm border-b border-white/[0.06]">
-        <div className="flex items-center gap-3 px-4 py-3">
+        <div className={`flex items-center gap-3 py-3 ${isDesktop ? "px-8 max-w-[860px]" : "px-4"}`}>
           <button onClick={() => step > 0 && step !== 2 ? setStep(step - 1) : router.push("/sell")}
             className="w-9 h-9 rounded-xl bg-white/6 border border-white/8 flex items-center justify-center text-white/50 hover:text-white transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -341,7 +344,7 @@ export default function AISellerPage() {
       )}
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className={`flex-1 overflow-y-auto ${isDesktop ? "[&>div]:max-w-[860px] [&>div]:mx-auto" : ""}`}>
 
         {/* ── Step 0: Upload photo ──────────────────────────────────────────── */}
         {step === 0 && (
