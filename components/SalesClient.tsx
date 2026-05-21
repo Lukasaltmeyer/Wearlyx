@@ -1097,20 +1097,22 @@ export function SalesClient({ userId, isDesktop }: Props & { isDesktop?: boolean
     return (
       <div className="flex gap-0 min-h-[80vh]">
         {/* Left nav */}
-        <div className="w-[180px] flex-shrink-0 pr-6">
+        <div className="w-[200px] flex-shrink-0 pr-8">
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-3 px-3" style={{ color: "rgba(255,255,255,0.20)" }}>Mon activité</p>
           <div className="flex flex-col gap-0.5">
             {TABS.map(({ id, label, icon: Icon }) => {
               const active = tab === id;
               return (
                 <button key={id} onClick={() => setTab(id as Tab)}
-                  className="flex items-center gap-2.5 px-3 py-2.5 rounded-[9px] text-[13px] font-medium transition-all text-left"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-[10px] text-[13px] font-semibold transition-all text-left w-full"
                   style={{
-                    background: active ? "rgba(139,92,246,0.10)" : "transparent",
-                    color: active ? "rgba(196,181,253,0.95)" : "rgba(255,255,255,0.35)",
+                    background: active ? "rgba(139,92,246,0.12)" : "transparent",
+                    color: active ? "rgba(196,181,253,1)" : "rgba(255,255,255,0.38)",
+                    borderLeft: active ? "2px solid rgba(139,92,246,0.7)" : "2px solid transparent",
                   }}
-                  onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.60)"; } }}
-                  onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.35)"; } }}>
-                  <Icon style={{ width: 14, height: 14, flexShrink: 0, color: active ? "#A78BFA" : "inherit" }} strokeWidth={active ? 2 : 1.6} />
+                  onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.65)"; } }}
+                  onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)"; } }}>
+                  <Icon style={{ width: 14, height: 14, flexShrink: 0, color: active ? "#A78BFA" : "currentColor" }} strokeWidth={active ? 2.2 : 1.6} />
                   {label}
                 </button>
               );

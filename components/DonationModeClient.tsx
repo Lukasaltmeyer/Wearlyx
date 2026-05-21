@@ -2,45 +2,67 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Gift, Heart } from "lucide-react";
+import { ArrowLeft, Gift, Heart, Zap, Users } from "lucide-react";
 
 export function DonationModeClient({ isDesktop }: { isDesktop?: boolean }) {
   const router = useRouter();
   const [enabled, setEnabled] = useState(false);
 
-  const feature = (
-    <div className="rounded-[14px] border border-white/8 bg-white/[0.025]">
-      <div className="flex items-start gap-3 px-5 py-4">
-        <Heart className="w-4 h-4 text-white/40 mt-0.5 flex-shrink-0" />
-        <div>
-          <p className="text-[14px] font-semibold text-white">Propose à 0 €</p>
-          <p className="text-[12px] text-white/35 mt-0.5">Seuls les frais de port peuvent s'appliquer</p>
-        </div>
-      </div>
-    </div>
-  );
-
   if (isDesktop) {
     return (
-      <div className="flex flex-col gap-4">
-        <div className="p-6 rounded-[16px] border border-white/8 bg-white/[0.025] flex items-center gap-5">
-          <div className="w-12 h-12 rounded-[12px] flex items-center justify-center flex-shrink-0"
-            style={{ background: enabled ? "rgba(139,92,246,0.12)" : "rgba(255,255,255,0.05)" }}>
-            <Gift className="w-6 h-6" style={{ color: enabled ? "#A78BFA" : "rgba(255,255,255,0.3)" }} />
-          </div>
-          <div>
-            <p className="text-[16px] font-bold text-white/80">{enabled ? "Mode don activé" : "Mode don désactivé"}</p>
-            <p className="text-[13px] text-white/35 mt-0.5">
-              {enabled ? "Tes articles sont proposés gratuitement." : "Active ce mode pour offrir tes articles à 0 €."}
-            </p>
+      <div className="flex flex-col gap-5">
+        {/* Status hero */}
+        <div className="relative overflow-hidden rounded-[20px] p-8"
+          style={{
+            background: enabled
+              ? "linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(244,63,94,0.07) 100%)"
+              : "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
+            border: enabled ? "1px solid rgba(139,92,246,0.22)" : "1px solid rgba(255,255,255,0.07)",
+            transition: "all 0.4s ease",
+          }}>
+          <div className="flex items-center gap-5">
+            <div className="w-14 h-14 rounded-[14px] flex items-center justify-center flex-shrink-0"
+              style={{ background: enabled ? "rgba(139,92,246,0.15)" : "rgba(255,255,255,0.05)" }}>
+              <Gift className="w-7 h-7" style={{ color: enabled ? "#A78BFA" : "rgba(255,255,255,0.25)", transition: "color 0.3s" }} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <p className="text-[20px] font-black text-white/90">{enabled ? "Mode don activé" : "Mode don désactivé"}</p>
+                {enabled && <span className="px-2 py-0.5 rounded-full text-[10px] font-bold text-purple-300" style={{ background: "rgba(139,92,246,0.15)" }}>ACTIF</span>}
+              </div>
+              <p className="text-[13px] text-white/35">
+                {enabled ? "Tes articles sont proposés gratuitement à la communauté." : "Active ce mode pour offrir tes articles à 0 €."}
+              </p>
+            </div>
           </div>
         </div>
-        {feature}
+
+        {/* Features */}
+        <div className="rounded-[16px] overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
+          {[
+            { icon: Heart,  title: "Propose à 0 €",       desc: "Seuls les frais de port peuvent s'appliquer selon le transporteur choisi" },
+            { icon: Users,  title: "Impact communauté",   desc: "Tes articles profitent directement à d'autres membres de la communauté" },
+            { icon: Zap,    title: "+50 crédits par don", desc: "Chaque article donné te rapporte des crédits pour booster tes annonces" },
+          ].map(({ icon: Icon, title, desc }, i) => (
+            <div key={title} className="flex items-start gap-4 px-5 py-4"
+              style={{ background: "rgba(255,255,255,0.02)", borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+              <div className="w-8 h-8 rounded-[8px] flex items-center justify-center flex-shrink-0 mt-0.5"
+                style={{ background: "rgba(255,255,255,0.05)" }}>
+                <Icon className="w-4 h-4 text-white/35" />
+              </div>
+              <div>
+                <p className="text-[13.5px] font-semibold text-white/80">{title}</p>
+                <p className="text-[12px] text-white/30 mt-0.5 leading-relaxed">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
         <button onClick={() => setEnabled(!enabled)}
-          className="py-3.5 px-6 rounded-[14px] font-bold text-[14px] text-white transition-all self-start"
+          className="py-3.5 px-7 rounded-[14px] font-bold text-[14px] text-white transition-all self-start hover:scale-[1.02]"
           style={{
-            background: enabled ? "rgba(239,68,68,0.8)" : "linear-gradient(135deg, #8B5CF6, #F43F5E)",
-            boxShadow: enabled ? "none" : "0 4px 20px rgba(236,72,153,0.3)",
+            background: enabled ? "rgba(239,68,68,0.75)" : "linear-gradient(135deg, #8B5CF6, #F43F5E)",
+            boxShadow: enabled ? "none" : "0 6px 24px rgba(139,92,246,0.3)",
           }}>
           {enabled ? "Désactiver le mode don" : "Activer le mode don 🎁"}
         </button>
@@ -65,7 +87,15 @@ export function DonationModeClient({ isDesktop }: { isDesktop?: boolean }) {
             {enabled ? "Tes articles sont proposés gratuitement." : "Active ce mode pour offrir tes articles à 0 €."}
           </p>
         </div>
-        {feature}
+        <div className="rounded-2xl border border-white/8 bg-white/3">
+          <div className="flex items-start gap-3 px-4 py-3.5">
+            <Heart className="w-4 h-4 text-white/40 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="text-[14px] font-semibold text-white">Propose à 0 €</p>
+              <p className="text-[12px] text-white/35 mt-0.5">Seuls les frais de port peuvent s'appliquer</p>
+            </div>
+          </div>
+        </div>
         <button onClick={() => setEnabled(!enabled)}
           className="w-full py-4 rounded-2xl font-bold text-[15px] text-white transition-all active:scale-[0.98] mt-1"
           style={{
