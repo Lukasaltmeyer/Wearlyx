@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   Home, Compass, Plus, MessageCircle, User, Zap, Crown,
-  Heart, Bell, Settings, TrendingUp, Search,
+  Heart, Bell, Settings, TrendingUp,
 } from "lucide-react";
 import { CommandPalette } from "@/components/desktop/CommandPalette";
 
@@ -31,7 +31,7 @@ function Logo() {
   );
 }
 
-function LeftSidebar({ onOpenPalette }: { onOpenPalette: () => void }) {
+function LeftSidebar() {
   const pathname = usePathname();
 
   return (
@@ -49,29 +49,6 @@ function LeftSidebar({ onOpenPalette }: { onOpenPalette: () => void }) {
         <Link href="/" className="block mb-4">
           <Logo />
         </Link>
-        {/* Search shortcut pill */}
-        <button
-          onClick={onOpenPalette}
-          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-[8px] transition-all text-left group"
-          style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.07)",
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.06)";
-            (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.2)";
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)";
-            (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)";
-          }}>
-          <Search className="w-3.5 h-3.5 flex-shrink-0" style={{ color: "rgba(255,255,255,0.25)" }} />
-          <span className="flex-1 text-[12px]" style={{ color: "rgba(255,255,255,0.28)" }}>Rechercher…</span>
-          <kbd className="text-[9px] font-semibold px-1.5 py-0.5 rounded-[4px] flex-shrink-0"
-            style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.22)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            ⌘K
-          </kbd>
-        </button>
       </div>
 
       {/* Nav */}
@@ -350,7 +327,7 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
         style={{ bottom: -80, right: "18%", width: 500, height: 500,
           background: "radial-gradient(circle, rgba(109,40,217,0.03) 0%, transparent 70%)", filter: "blur(120px)", zIndex: 0 }} />
 
-      <LeftSidebar onOpenPalette={() => setPaletteOpen(true)} />
+      <LeftSidebar />
       {!isFullBleed && <RightPanel />}
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
 
