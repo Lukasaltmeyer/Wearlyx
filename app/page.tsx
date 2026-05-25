@@ -30,7 +30,7 @@ export default async function HomePage({
   // Visiteur non connecté → page d'accueil/auth
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) redirect("/auth/login");
+  if (!user) redirect("/landing");
 
   const device = await getDeviceType();
 
