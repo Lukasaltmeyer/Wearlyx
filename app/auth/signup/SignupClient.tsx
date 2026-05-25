@@ -199,9 +199,8 @@ export default function SignupClient() {
   };
 
   return (
-    <>
-    <div className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden bg-black"
-      style={{ opacity: visible ? 1 : 0, transition: "opacity 0.4s ease" }}>
+    <div style={{ opacity: visible ? 1 : 0, transition: "opacity 0.4s ease" }}>
+    <div className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden bg-black">
       <AuthBackground idx={idx} />
 
       <div className="relative z-10 flex flex-1 flex-col justify-end px-4 pb-5">
@@ -427,6 +426,6 @@ export default function SignupClient() {
       </div>
     </div>
     <LandingSections />
-    </>
+    </div>
   );
 }
