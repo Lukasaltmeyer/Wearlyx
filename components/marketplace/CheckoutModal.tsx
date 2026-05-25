@@ -1,14 +1,14 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { X, ShieldCheck, Truck, Package, MapPin, ChevronDown, ChevronUp } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { ShippingMode } from "@/types/database";
 import { cn } from "@/lib/utils";
+import { getCommissionRate } from "@/lib/usage";
 
-const BUYER_PROTECTION_RATE = 0.02;  // 2%
-const PLATFORM_FEE_RATE = 0.05;       // 5%
+const BUYER_PROTECTION_RATE = 0.02; // 2% — always applied
 
 const SHIPPING_OPTIONS: { mode: ShippingMode; label: string; sublabel: string; price: number; icon: typeof Truck }[] = [
   { mode: "relay",  label: "Point relais",    sublabel: "Livraison en 2–4 jours",    price: 3.49, icon: MapPin  },
@@ -39,10 +39,13 @@ export function CheckoutModal({
   const [showShippingOptions, setShowShippingOptions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [commissionRate, setCommissionRate] = useState(0.05);
+
+  useEffect(() => { getCommissionRate(sellerId).then(setCommissionRate); }, [sellerId]);
 
   const shippingFee = SHIPPING_OPTIONS.find((o) => o.mode === shippingMode)!.price;
   const buyerProtection = parseFloat((amount * BUYER_PROTECTION_RATE).toFixed(2));
-  const platformFee = parseFloat((amount * PLATFORM_FEE_RATE).toFixed(2));
+  const platformFee = parseFloat((amount * commissionRate).toFixed(2));
   const total = parseFloat((amount + shippingFee + buyerProtection + platformFee).toFixed(2));
 
   const placeOrder = async () => {

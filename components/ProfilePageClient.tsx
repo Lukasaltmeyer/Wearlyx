@@ -55,7 +55,9 @@ export function ProfilePageClient({ profile, products, savedProducts, usageRow, 
     boost_used: usageRow?.boost_used ?? 0,
     reset_date: usageRow?.reset_date ?? "",
     limit: limit as number | null,
+    boost_limit: null as number | null,
     remaining: remaining as number,
+    boost_remaining: null as number | null,
     pct,
   };
 

@@ -9,6 +9,7 @@ import {
 
 import { createClient } from "@/lib/supabase/client";
 import { enhanceWithBackground } from "@/lib/ai-enhance-photo";
+import { canUseBackgroundRemoval } from "@/lib/usage";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -151,7 +152,11 @@ export default function AISellerPage() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [isDesktop, setIsDesktop] = useState(false);
-  useEffect(() => { setIsDesktop(window.innerWidth >= 1024); }, []);
+  const [canBgRemoval, setCanBgRemoval] = useState(false);
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 1024);
+    canUseBackgroundRemoval().then(setCanBgRemoval);
+  }, []);
 
   const [step, setStep] = useState(0);
   const [photos, setPhotos] = useState<File[]>([]);
@@ -203,15 +208,17 @@ export default function AISellerPage() {
     setStep(2);
     setError("");
     try {
-      // Amélioration IA : suppression fond + fond style choisi
+      // Suppression fond + style — pro/premium uniquement
       let processedPhotos = photos;
-      try {
-        const enhanced = await Promise.all(
-          photos.map(f => enhanceWithBackground(f, style).catch(() => f))
-        );
-        setEnhancedPhotos(enhanced);
-        processedPhotos = enhanced;
-      } catch { /* garde les originaux */ }
+      if (canBgRemoval) {
+        try {
+          const enhanced = await Promise.all(
+            photos.map(f => enhanceWithBackground(f, style).catch(() => f))
+          );
+          setEnhancedPhotos(enhanced);
+          processedPhotos = enhanced;
+        } catch { /* garde les originaux */ }
+      }
 
       const fd = new FormData();
       fd.append("photo", processedPhotos[0]);
@@ -432,9 +439,9 @@ export default function AISellerPage() {
             )}
 
             {/* Style grid */}
-            <div className="grid grid-cols-3 gap-2">
-              {STYLES.map(s => {
-                return (
+            <div className="relative">
+              <div className={`grid grid-cols-3 gap-2 ${!canBgRemoval ? "opacity-40 pointer-events-none select-none" : ""}`}>
+                {STYLES.map(s => (
                   <button key={s.id} onClick={() => setStyle(s.id)}
                     className={`relative rounded-2xl overflow-hidden border transition-all active:scale-[0.97] ${
                       style === s.id ? "border-[#8B5CF6] shadow-lg shadow-[#8B5CF6]/20" : "border-white/8"
@@ -452,8 +459,20 @@ export default function AISellerPage() {
                       <p className="text-[9px] text-white/35">{s.desc}</p>
                     </div>
                   </button>
-                );
-              })}
+                ))}
+              </div>
+              {!canBgRemoval && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl"
+                  style={{ background: "rgba(7,7,10,0.75)", backdropFilter: "blur(4px)" }}>
+                  <span className="text-xl mb-2">🔒</span>
+                  <p className="text-[13px] font-bold text-white/80">Suppression fond IA</p>
+                  <p className="text-[11px] text-white/40 mb-3">Disponible à partir de Vendeur Pro</p>
+                  <a href="/premium" className="px-4 py-2 rounded-xl text-[12px] font-bold text-white"
+                    style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)" }}>
+                    Voir les plans
+                  </a>
+                </div>
+              )}
             </div>
 
             <button onClick={generate}
