@@ -14,11 +14,9 @@ export default async function GuidePage() {
 
   if (device === "desktop") {
     return (
-      <main className="min-h-[100dvh] px-10 py-10">
-        <div className="max-w-[800px] mx-auto">
-          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Guide vendeur</h1>
-          <GuideClient isDesktop />
-        </div>
+      <main className="min-h-[100dvh] px-8 py-8">
+        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Guide vendeur</h1>
+        <GuideClient isDesktop />
       </main>
     );
   }

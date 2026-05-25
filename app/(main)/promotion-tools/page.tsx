@@ -21,11 +21,9 @@ export default async function PromotionToolsPage() {
 
   if (device === "desktop") {
     return (
-      <main className="min-h-[100dvh] px-10 py-10">
-        <div className="max-w-[860px] mx-auto">
-          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Outils de promotion</h1>
-          <PromotionToolsClient products={products ?? []} isDesktop />
-        </div>
+      <main className="min-h-[100dvh] px-8 py-8">
+        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Outils de promotion</h1>
+        <PromotionToolsClient products={products ?? []} isDesktop />
       </main>
     );
   }

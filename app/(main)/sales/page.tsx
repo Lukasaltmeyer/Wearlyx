@@ -14,11 +14,9 @@ export default async function SalesPage() {
 
   if (device === "desktop") {
     return (
-      <main className="min-h-[100dvh] px-10 py-10">
-        <div className="max-w-[900px] mx-auto">
-          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Mes ventes & achats</h1>
+      <main className="min-h-[100dvh] px-8 py-8">
+          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Mes ventes &amp; achats</h1>
           <SalesClient userId={user.id} isDesktop />
-        </div>
       </main>
     );
   }

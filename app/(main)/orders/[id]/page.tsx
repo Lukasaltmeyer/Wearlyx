@@ -19,6 +19,15 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   if (!order || (order.buyer_id !== user.id && order.seller_id !== user.id)) notFound();
 
   const device = await getDeviceType();
+  const isDesktop = device === "desktop";
 
-  return <OrderDetailClient order={order} currentUserId={user.id} isDesktop={device === "desktop"} />;
+  if (isDesktop) {
+    return (
+      <main className="min-h-[100dvh] px-8 py-8">
+        <OrderDetailClient order={order} currentUserId={user.id} isDesktop />
+      </main>
+    );
+  }
+
+  return <OrderDetailClient order={order} currentUserId={user.id} />;
 }

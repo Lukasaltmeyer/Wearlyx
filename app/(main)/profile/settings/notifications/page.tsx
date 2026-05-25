@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getDeviceType } from "@/lib/device";
@@ -15,6 +15,19 @@ export default async function NotificationsPage() {
     getDeviceType(),
   ]);
 
+  if (device === "desktop") {
+    return (
+      <main className="min-h-[100dvh] px-8 py-8">
+        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Notifications</h1>
+        <NotificationsSettingsClient
+          initialEmailEnabled={profile?.email_notifications_enabled ?? true}
+          initialMarketingConsent={profile?.marketing_consent ?? false}
+          isDesktop
+        />
+      </main>
+    );
+  }
+
   return (
     <>
       <Navbar />
@@ -22,7 +35,6 @@ export default async function NotificationsPage() {
         <NotificationsSettingsClient
           initialEmailEnabled={profile?.email_notifications_enabled ?? true}
           initialMarketingConsent={profile?.marketing_consent ?? false}
-          isDesktop={device === "desktop"}
         />
       </main>
     </>

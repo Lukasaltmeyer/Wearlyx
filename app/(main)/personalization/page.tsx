@@ -14,11 +14,9 @@ export default async function PersonalizationPage() {
 
   if (device === "desktop") {
     return (
-      <main className="min-h-[100dvh] px-10 py-10">
-        <div className="max-w-[720px] mx-auto">
-          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Personnalisation</h1>
-          <PersonalizationClient isDesktop />
-        </div>
+      <main className="min-h-[100dvh] px-8 py-8">
+        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Personnalisation</h1>
+        <PersonalizationClient isDesktop />
       </main>
     );
   }
