@@ -32,44 +32,57 @@ export function SettingsClient({ isDesktop }: { isDesktop?: boolean }) {
 
   if (isDesktop) {
     return (
-      <div className="flex flex-col gap-10">
-        {GROUPS.map(({ label, items }) => (
-          <div key={label}>
-            <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(255,255,255,0.22)" }}>{label}</p>
-            <div className="rounded-[16px] overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
-              {items.map(({ label: itemLabel, icon: Icon, href, bg, desc }, i) => (
-                <Link key={href} href={href}
-                  className="flex items-center gap-4 px-5 py-4 transition-all group"
-                  style={{
-                    background: "rgba(255,255,255,0.02)",
-                    borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none",
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.02)"; }}>
-                  <div className="w-9 h-9 rounded-[9px] flex items-center justify-center flex-shrink-0"
-                    style={{ background: bg + "18", border: `1px solid ${bg}28` }}>
-                    <Icon className="w-4 h-4" style={{ color: bg }} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[13.5px] font-semibold text-white/85">{itemLabel}</p>
-                    <p className="text-[11.5px] text-white/28 mt-0.5">{desc}</p>
-                  </div>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-white/12 group-hover:text-white/35 transition-colors flex-shrink-0" />
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="flex gap-8 items-start">
 
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }} className="pt-4">
+        {/* Left — sticky sub-nav */}
+        <div className="w-[200px] flex-shrink-0 sticky top-8 flex flex-col gap-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] mb-2 px-3" style={{ color: "rgba(255,255,255,0.2)" }}>Paramètres</p>
+          {GROUPS.map(({ label }) => (
+            <a key={label} href={`#${label}`}
+              className="px-3 py-2 rounded-[8px] text-[13px] font-medium transition-colors"
+              style={{ color: "rgba(255,255,255,0.38)" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.75)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.38)"; }}>
+              {label}
+            </a>
+          ))}
+          <div className="mt-4 h-px" style={{ background: "rgba(255,255,255,0.05)" }} />
           <button onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 rounded-[12px] transition-all group"
-            style={{ border: "1px solid rgba(239,68,68,0.12)" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(239,68,68,0.05)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(239,68,68,0.22)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(239,68,68,0.12)"; }}>
-            <LogOut className="w-4 h-4 text-red-400/60 group-hover:text-red-400 transition-colors" />
-            <span className="text-[13px] font-semibold text-red-400/60 group-hover:text-red-400 transition-colors">Déconnexion</span>
+            className="flex items-center gap-2.5 px-3 py-2 rounded-[8px] text-[13px] font-medium transition-colors mt-1 text-left"
+            style={{ color: "rgba(239,68,68,0.5)" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(239,68,68,0.06)"; (e.currentTarget as HTMLElement).style.color = "rgba(239,68,68,0.9)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(239,68,68,0.5)"; }}>
+            <LogOut className="w-3.5 h-3.5 flex-shrink-0" />
+            Déconnexion
           </button>
+        </div>
+
+        {/* Right — content */}
+        <div className="flex-1 min-w-0 flex flex-col gap-8">
+          {GROUPS.map(({ label, items }) => (
+            <div key={label} id={label}>
+              <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(255,255,255,0.22)" }}>{label}</p>
+              <div className="grid gap-3" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))" }}>
+                {items.map(({ label: itemLabel, icon: Icon, href, bg, desc }) => (
+                  <Link key={href} href={href}
+                    className="flex items-center gap-4 px-5 py-4 rounded-[16px] transition-all group"
+                    style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.05)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.1)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.025)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}>
+                    <div className="w-10 h-10 rounded-[11px] flex items-center justify-center flex-shrink-0"
+                      style={{ background: bg + "18", border: `1px solid ${bg}30` }}>
+                      <Icon className="w-4.5 h-4.5" style={{ color: bg }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[13.5px] font-semibold text-white/85">{itemLabel}</p>
+                      <p className="text-[11.5px] text-white/30 mt-0.5 truncate">{desc}</p>
+                    </div>
+                    <ArrowUpRight className="w-3.5 h-3.5 flex-shrink-0 text-white/10 group-hover:text-white/40 transition-colors" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
