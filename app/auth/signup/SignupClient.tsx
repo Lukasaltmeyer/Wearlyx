@@ -26,6 +26,7 @@ import {
   OtpGrid,
   useCarousel,
 } from "../_components/AuthUI";
+import { LandingSections } from "../_components/LandingSections";
 
 type Step = "main" | "form-1" | "form-2" | "otp" | "phone-contact" | "phone-otp" | "phone-profile";
 
@@ -198,6 +199,7 @@ export default function SignupClient() {
   };
 
   return (
+    <>
     <div className="relative flex min-h-[100dvh] w-full flex-col overflow-hidden bg-black"
       style={{ opacity: visible ? 1 : 0, transition: "opacity 0.4s ease" }}>
       <AuthBackground idx={idx} />
@@ -424,5 +426,7 @@ export default function SignupClient() {
         </AuthCard>
       </div>
     </div>
+    <LandingSections />
+    </>
   );
 }

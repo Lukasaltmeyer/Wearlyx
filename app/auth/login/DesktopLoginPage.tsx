@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { signInWithProvider, signInWithEmail, sendPasswordReset, signInWithPhone, verifyPhoneOtp } from "@/lib/auth";
 import { GoogleIcon } from "../_components/AuthUI";
+import { LandingSections } from "../_components/LandingSections";
 
 type Step = "main" | "email" | "phone" | "phone-otp" | "forgot" | "forgot-sent";
 
@@ -522,6 +523,7 @@ export function DesktopLoginPage() {
           </div>
         </div>
       </div>
+      <LandingSections />
     </>
   );
 }
