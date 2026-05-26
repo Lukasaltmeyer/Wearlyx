@@ -243,14 +243,57 @@ export function LandingSections() {
       </div>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
-      <div className="py-8 px-6 text-center" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-        <span className="text-[18px] font-black">
-          Wear
-          <span style={{ background: "linear-gradient(135deg,#8B5CF6,#C4B5FD)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-            lyx
-          </span>
-        </span>
-        <p className="text-[12px] text-white/18 mt-1.5">© 2025 Wearlyx · Mode seconde main, propulsée par l&apos;IA</p>
+      <div className="px-6 pt-16 pb-10" style={{ borderTop: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.35)" }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
+
+            {/* Brand */}
+            <div>
+              <span className="text-[22px] font-black tracking-tight block mb-3">
+                Wear<span style={{ background:"linear-gradient(135deg,#8B5CF6,#C4B5FD)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>lyx</span>
+              </span>
+              <p className="text-[13px] text-white/35 leading-relaxed">
+                La marketplace mode seconde main propulsée par l&apos;intelligence artificielle. Vends en 10 secondes.
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color:"#8B5CF6" }}>Navigation</p>
+              <div className="flex flex-col gap-2.5">
+                {["Accueil","Parcourir les articles","Vendre un article","Comment ça marche"].map(l=>(
+                  <span key={l} className="text-[13px] text-white/40 hover:text-white/70 transition-colors cursor-pointer">{l}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Vendeurs */}
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color:"#8B5CF6" }}>Vendeurs</p>
+              <div className="flex flex-col gap-2.5">
+                {["Créer une annonce","Booster mes articles","Plans Premium","Guide du vendeur"].map(l=>(
+                  <span key={l} className="text-[13px] text-white/40 hover:text-white/70 transition-colors cursor-pointer">{l}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Légal */}
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color:"#8B5CF6" }}>Informations</p>
+              <div className="flex flex-col gap-2.5">
+                {["CGU","Politique de confidentialité","Mentions légales","Aide & contact"].map(l=>(
+                  <span key={l} className="text-[13px] text-white/40 hover:text-white/70 transition-colors cursor-pointer">{l}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6" style={{ borderTop:"1px solid rgba(255,255,255,0.06)" }}>
+            <p className="text-[12px] text-white/20">© 2025 Wearlyx · Tous droits réservés</p>
+            <p className="text-[12px] text-white/20">0% de frais pour les vendeurs · Paiement sécurisé</p>
+          </div>
+        </div>
       </div>
     </div>
   );
