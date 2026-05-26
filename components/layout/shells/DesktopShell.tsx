@@ -319,6 +319,7 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
 
   if (pathname.startsWith("/admin")) return <>{children}</>;
   if (pathname.startsWith("/auth")) return <>{children}</>;
+  if (pathname.startsWith("/landing")) return <>{children}</>;
 
   const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu") || pathname.startsWith("/notifications");
 

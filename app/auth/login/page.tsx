@@ -4,6 +4,6 @@ import LoginClient from "./LoginClient";
 
 export default async function LoginPage() {
   const device = await getDeviceType();
-  if (device === "desktop") return <DesktopLoginPage />;
-  return <LoginClient />;
+  if (device === "mobile") return <LoginClient />;
+  return <DesktopLoginPage />;
 }

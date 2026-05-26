@@ -34,7 +34,7 @@ const PLANS = [
     name: "Gratuit",
     price: "0€",
     note: "Pour toujours",
-    perks: ["5 annonces IA / mois", "Commission 5% sur les ventes", "Messagerie intégrée", "Protection acheteur"],
+    perks: ["5 annonces IA / mois", "0% de frais vendeur", "Messagerie intégrée", "Protection acheteur"],
     highlight: false,
   },
   {
@@ -56,15 +56,15 @@ const PLANS = [
 
 export function LandingSections() {
   return (
-    <div style={{ background: "#07070A" }}>
+    <div style={{ background: "#07070A", overflowX: "hidden" }}>
 
       {/* ── STATS ──────────────────────────────────────────────────────────── */}
       <div className="py-14 px-6" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
             { value: "10s",   label: "Pour créer une annonce" },
-            { value: "5%",    label: "Commission seulement" },
-            { value: "100%",  label: "Gratuit pour acheter" },
+            { value: "0%",    label: "Frais pour les vendeurs" },
+            { value: "7%",    label: "Frais acheteur (5%+2%)" },
             { value: "IA",    label: "Photos & descriptions" },
           ].map(({ value, label }) => (
             <div key={label}>
@@ -195,7 +195,7 @@ export function LandingSections() {
               Simple et transparent
             </h2>
             <p className="text-[15px] text-white/35">
-              Gratuit pour démarrer. Seulement 5% de commission sur tes ventes.
+              Gratuit pour démarrer. 0% de frais pour les vendeurs.
             </p>
           </div>
 
@@ -237,7 +237,7 @@ export function LandingSections() {
             ))}
           </div>
           <p className="text-center text-[12px] text-white/20 mt-8">
-            Aucun frais cachés · Pas de frais d&apos;inscription · Pas de frais pour acheter
+            0% pour les vendeurs · 5% commission + 2% protection pour les acheteurs · Sans frais d&apos;inscription
           </p>
         </div>
       </div>

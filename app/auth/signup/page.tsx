@@ -1,8 +1,9 @@
-"use client";
-import dynamic from "next/dynamic";
+import { getDeviceType } from "@/lib/device";
+import SignupClient from "./SignupClient";
+import SignupForm from "./SignupForm";
 
-const SignupClient = dynamic(() => import("./SignupClient"), { ssr: false });
-
-export default function SignupPage() {
+export default async function SignupPage() {
+  const device = await getDeviceType();
+  if (device === "mobile") return <SignupForm />;
   return <SignupClient />;
 }
