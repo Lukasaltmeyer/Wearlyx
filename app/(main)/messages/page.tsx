@@ -6,7 +6,8 @@ import { getDeviceType } from "@/lib/device";
 import { MessagesPageClient } from "@/components/MessagesPageClient";
 import { DesktopMessages } from "@/components/desktop/DesktopMessages";
 
-export default async function MessagesPage() {
+export default async function MessagesPage({ searchParams }: { searchParams: Promise<{ conv?: string; user?: string }> }) {
+  const params = await searchParams;
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login?next=/messages");
@@ -24,7 +25,7 @@ export default async function MessagesPage() {
 
   const device = await getDeviceType();
   if (device === "desktop") {
-    return <DesktopMessages conversations={conversations ?? []} currentUserId={user.id} />;
+    return <DesktopMessages conversations={conversations ?? []} currentUserId={user.id} initialConvId={params.conv} />;
   }
   return <MessagesPageClient conversations={conversations ?? []} currentUserId={user.id} />;
 }

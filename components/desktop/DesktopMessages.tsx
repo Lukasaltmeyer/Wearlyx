@@ -375,10 +375,13 @@ function RightPanel({ other, product }: {
 interface Props {
   conversations: Conversation[];
   currentUserId: string;
+  initialConvId?: string;
 }
 
-export function DesktopMessages({ conversations, currentUserId }: Props) {
-  const [selected, setSelected] = useState<Conversation | null>(conversations[0] ?? null);
+export function DesktopMessages({ conversations, currentUserId, initialConvId }: Props) {
+  const [selected, setSelected] = useState<Conversation | null>(
+    (initialConvId ? conversations.find(c => c.id === initialConvId) : null) ?? conversations[0] ?? null
+  );
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [search, setSearch] = useState("");
