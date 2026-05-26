@@ -33,23 +33,34 @@ const PLANS = [
   {
     name: "Gratuit",
     price: "0€",
+    firstMonth: null,
     note: "Pour toujours",
     perks: ["5 annonces IA / mois", "0% de frais vendeur", "Messagerie intégrée", "Protection acheteur"],
     highlight: false,
   },
   {
+    name: "Starter",
+    price: "10€",
+    firstMonth: "8€",
+    note: "/ mois",
+    perks: ["30 annonces IA / mois", "0% de frais vendeur", "5 boosts / mois", "Stats de base"],
+    highlight: false,
+  },
+  {
     name: "Vendeur Pro",
-    price: "9.99€",
+    price: "25€",
+    firstMonth: "18€",
     note: "/ mois",
     badge: "Le plus populaire",
-    perks: ["60 annonces IA / mois", "Suppression fond IA", "15 boosts / mois", "Stats avancées", "Relance acheteurs"],
+    perks: ["100 annonces IA / mois", "Suppression fond IA", "20 boosts / mois", "Stats avancées", "Relance acheteurs"],
     highlight: true,
   },
   {
     name: "Premium",
-    price: "19.99€",
+    price: "50€",
+    firstMonth: "25€",
     note: "/ mois",
-    perks: ["Annonces IA illimitées", "Commission 0% !", "Boosts illimités", "Boutique personnalisée", "Support prioritaire"],
+    perks: ["Annonces IA illimitées", "0% de frais vendeur", "Boosts illimités", "Boutique personnalisée", "Support prioritaire"],
     highlight: false,
   },
 ] as const;
@@ -199,7 +210,7 @@ export function LandingSections() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {PLANS.map((plan) => (
               <div key={plan.name} className="relative p-6 rounded-3xl flex flex-col"
                 style={{
@@ -216,7 +227,12 @@ export function LandingSections() {
                   </div>
                 )}
                 <p className="text-[12px] font-bold text-white/40 mb-1">{plan.name}</p>
-                <p className="text-[32px] font-black text-white mb-0.5">{plan.price}</p>
+                <div className="flex items-end gap-2 mb-0.5">
+                  <p className="text-[32px] font-black text-white leading-none">{plan.price}</p>
+                  {plan.firstMonth && (
+                    <p className="text-[12px] text-purple-400 font-bold mb-1">{plan.firstMonth} le 1er mois</p>
+                  )}
+                </div>
                 <p className="text-[12px] text-white/25 mb-5">{plan.note}</p>
                 <div className="flex flex-col gap-2.5 flex-1">
                   {plan.perks.map((perk) => (
@@ -231,7 +247,7 @@ export function LandingSections() {
                   style={plan.highlight
                     ? { background: "linear-gradient(135deg,#8B5CF6,#7C3AED)", color: "white" }
                     : { background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.65)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  Commencer gratuitement
+                  Commencer
                 </Link>
               </div>
             ))}
