@@ -421,7 +421,7 @@ export function DesktopMessages({ conversations, currentUserId, initialConvId }:
   const other = selected ? getOther(selected) : null;
 
   return (
-    <div className="flex h-[100dvh] overflow-hidden"
+    <div className="flex w-full h-[100dvh] overflow-hidden"
       style={{ background: "radial-gradient(ellipse at 45% 0%, #0d0820 0%, #070510 50%, #040309 100%)" }}>
 
       {/* ══ LEFT — conversation list ══ */}

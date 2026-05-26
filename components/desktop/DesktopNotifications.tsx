@@ -198,7 +198,7 @@ export function DesktopNotifications({ notifications: initial, userId }: { notif
   const groupOrder = ["Aujourd'hui", "Hier", "Cette semaine", "Plus tôt"];
 
   return (
-    <div className="flex h-[100dvh] overflow-hidden"
+    <div className="flex w-full h-[100dvh] overflow-hidden"
       style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.07) 0%, transparent 50%), #07070A" }}>
 
       {/* ══ MAIN ══ */}
