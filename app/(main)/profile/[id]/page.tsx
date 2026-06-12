@@ -20,6 +20,11 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   const isOwner = user?.id === id;
 
   if (device === "desktop") {
+    let isFollowing = false;
+    if (user && !isOwner) {
+      const { data } = await supabase.from("follows").select("id").match({ follower_id: user.id, following_id: id }).maybeSingle();
+      isFollowing = !!data;
+    }
     const { DesktopProfile } = await import("@/components/desktop/DesktopProfile");
     return (
       <DesktopProfile
@@ -27,6 +32,8 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
         products={products ?? []}
         reviews={[]}
         isOwnProfile={isOwner}
+        currentUserId={user?.id}
+        isFollowing={isFollowing}
       />
     );
   }

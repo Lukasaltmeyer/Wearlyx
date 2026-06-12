@@ -13,12 +13,8 @@ export default async function SalesPage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
-    return (
-      <main className="min-h-[100dvh] px-8 py-8">
-          <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Mes ventes &amp; achats</h1>
-          <SalesClient userId={user.id} isDesktop />
-      </main>
-    );
+    const { DesktopSales } = await import("@/components/desktop/DesktopSales");
+    return <DesktopSales userId={user.id} />;
   }
 
   return (

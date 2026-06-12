@@ -2,21 +2,58 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Home, Compass, Plus, MessageCircle, User, Zap, Crown,
   Heart, Bell, Settings, TrendingUp, Search,
 } from "lucide-react";
 import { CommandPalette } from "@/components/desktop/CommandPalette";
+import { createClient } from "@/lib/supabase/client";
 
-const NAV = [
-  { href: "/",              icon: Home,          label: "Accueil",        shortcut: "G H" },
-  { href: "/search",        icon: Compass,       label: "Explorer",       shortcut: "G E" },
-  { href: "/messages",      icon: MessageCircle, label: "Messages",       shortcut: "G M",  badge: 3 },
-  { href: "/notifications", icon: Bell,          label: "Notifications",  shortcut: "G N",  badge: 7 },
-  { href: "/favorites",     icon: Heart,         label: "Favoris",        shortcut: "G F" },
-  { href: "/profile/menu",  icon: User,          label: "Profil",         shortcut: "G P" },
+const BASE_NAV: { href: string; icon: React.ElementType; label: string; badgeKey?: string }[] = [
+  { href: "/",              icon: Home,          label: "Accueil"       },
+  { href: "/search",        icon: Compass,       label: "Explorer"      },
+  { href: "/messages",      icon: MessageCircle, label: "Messages",      badgeKey: "messages"      },
+  { href: "/notifications", icon: Bell,          label: "Notifications", badgeKey: "notifications" },
+  { href: "/favorites",     icon: Heart,         label: "Favoris"       },
+  { href: "/profile/menu",  icon: User,          label: "Profil"        },
 ];
+
+function useNavBadges() {
+  const [badges, setBadges] = useState<Record<string, number>>({ messages: 0, notifications: 0 });
+
+  useEffect(() => {
+    const supabase = createClient();
+    let userId: string | null = null;
+
+    const load = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      userId = user.id;
+
+      const [notifRes, msgRes] = await Promise.all([
+        supabase.from("notifications").select("id", { count: "exact", head: true }).eq("user_id", user.id).eq("read", false),
+        supabase.from("messages").select("id", { count: "exact", head: true }).eq("read", false)
+          .neq("sender_id", user.id)
+          .in("conversation_id",
+            (await supabase.from("conversations").select("id").or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`))
+              .data?.map((c: any) => c.id) ?? []
+          ),
+      ]);
+      setBadges({ notifications: notifRes.count ?? 0, messages: msgRes.count ?? 0 });
+    };
+    load();
+
+    const channel = supabase.channel("nav-badges")
+      .on("postgres_changes", { event: "*", schema: "public", table: "notifications" }, load)
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, load)
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
+  return badges;
+}
 
 function Logo() {
   return (
@@ -33,6 +70,8 @@ function Logo() {
 
 function LeftSidebar({ onOpenPalette }: { onOpenPalette: () => void }) {
   const pathname = usePathname();
+  const badges = useNavBadges();
+  const NAV = BASE_NAV.map(n => ({ ...n, badge: n.badgeKey ? badges[n.badgeKey] ?? 0 : 0 }));
 
   return (
     <aside className="fixed left-0 top-0 bottom-0 w-[220px] flex flex-col z-40"
@@ -321,7 +360,7 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
   if (pathname.startsWith("/auth")) return <>{children}</>;
   if (pathname.startsWith("/landing")) return <>{children}</>;
 
-  const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu") || pathname.startsWith("/notifications");
+  const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu") || pathname.startsWith("/notifications") || pathname.startsWith("/sales") || pathname.startsWith("/search");
 
   return (
     <div className="min-h-[100dvh] relative overflow-x-hidden"

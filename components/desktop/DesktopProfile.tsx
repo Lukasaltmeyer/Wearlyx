@@ -3,12 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Package, MapPin, Edit3, Zap, ShoppingBag, Heart, Crown, Shield, Calendar, ArrowRight, MessageCircle } from "lucide-react";
+import { Star, Package, MapPin, Edit3, Zap, ShoppingBag, Heart, Crown, Shield, Calendar, ArrowRight, MessageCircle, UserCheck } from "lucide-react";
 import type { Product, Profile } from "@/types/database";
 import { formatPrice, timeAgo } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 interface Review { id: string; rating: number; comment: string | null; created_at: string; }
-interface Props { profile: Profile | null; products: Product[]; reviews: Review[]; isOwnProfile?: boolean; }
+interface Props { profile: Profile | null; products: Product[]; reviews: Review[]; isOwnProfile?: boolean; currentUserId?: string; isFollowing?: boolean; }
 
 type Tab = "annonces" | "evaluations" | "apropos";
 
@@ -46,8 +47,26 @@ function ProductCard({ product }: { product: Product }) {
   );
 }
 
-export function DesktopProfile({ profile, products, reviews, isOwnProfile }: Props) {
+export function DesktopProfile({ profile, products, reviews, isOwnProfile, currentUserId, isFollowing: initialFollowing }: Props) {
   const [tab, setTab] = useState<Tab>("annonces");
+  const [following, setFollowing] = useState(initialFollowing ?? false);
+  const [followLoading, setFollowLoading] = useState(false);
+  const [followersCount, setFollowersCount] = useState((profile as any)?.followers_count ?? 0);
+  const supabase = createClient();
+
+  const toggleFollow = async () => {
+    if (!currentUserId || !profile) return;
+    setFollowLoading(true);
+    if (following) {
+      await supabase.from("follows").delete().match({ follower_id: currentUserId, following_id: profile.id });
+      setFollowersCount((n: number) => Math.max(0, n - 1));
+    } else {
+      await supabase.from("follows").insert({ follower_id: currentUserId, following_id: profile.id });
+      setFollowersCount((n: number) => n + 1);
+    }
+    setFollowing(!following);
+    setFollowLoading(false);
+  };
   const avgRating = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : 0;
   const active = products.filter(p => p.status === "active");
   const sold = products.filter(p => p.status === "sold");
@@ -170,13 +189,15 @@ export function DesktopProfile({ profile, products, reviews, isOwnProfile }: Pro
                 }}>
                 <MessageCircle className="w-4 h-4" /> Contacter
               </button>
-              <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold transition-all hover:-translate-y-0.5"
+              <button onClick={toggleFollow} disabled={followLoading || !currentUserId}
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold transition-all hover:-translate-y-0.5"
                 style={{
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(255,255,255,0.09)",
-                  color: "rgba(255,255,255,0.6)",
+                  background: following ? "rgba(139,92,246,0.12)" : "rgba(255,255,255,0.05)",
+                  border: following ? "1px solid rgba(139,92,246,0.3)" : "1px solid rgba(255,255,255,0.09)",
+                  color: following ? "#A78BFA" : "rgba(255,255,255,0.6)",
+                  opacity: followLoading ? 0.7 : 1,
                 }}>
-                Suivre
+                {following ? <><UserCheck className="w-4 h-4" /> Abonné</> : "Suivre"}
               </button>
             </div>
           )}
