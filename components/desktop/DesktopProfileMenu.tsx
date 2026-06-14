@@ -32,6 +32,7 @@ const MENU_CARDS = [
       { label: "Mes annonces",      icon: Package,    href: "/listings",         color: "#8B5CF6", desc: "Gérer mes articles" },
       { label: "Favoris",           icon: Heart,      href: "/favorites",        color: "#EF4444", desc: "Articles sauvegardés" },
       { label: "Ventes & achats",   icon: ShoppingBag,href: "/sales",            color: "#10B981", desc: "Mes transactions" },
+      { label: "Analytiques",       icon: BarChart2,  href: "/analytics",        color: "#8B5CF6", desc: "Stats de ma boutique" },
       { label: "Porte-monnaie",     icon: Wallet,     href: "/wallet",           color: "#3B82F6", desc: "Solde et retraits" },
     ],
   },

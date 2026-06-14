@@ -182,13 +182,14 @@ export function DesktopProfile({ profile, products, reviews, isOwnProfile, curre
             </div>
           ) : (
             <div className="flex items-center gap-2 pb-1 flex-shrink-0">
-              <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold text-white transition-all hover:-translate-y-0.5"
+              <Link href={`/api/messages/start?to=${profile?.id}`} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold text-white transition-all hover:-translate-y-0.5"
                 style={{
                   background: "linear-gradient(135deg, #8B5CF6, #7C3AED)",
                   boxShadow: "0 6px 20px rgba(139,92,246,0.38)",
+                  textDecoration: "none",
                 }}>
                 <MessageCircle className="w-4 h-4" /> Contacter
-              </button>
+              </Link>
               <button onClick={toggleFollow} disabled={followLoading || !currentUserId}
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-[13px] font-bold transition-all hover:-translate-y-0.5"
                 style={{
@@ -364,10 +365,10 @@ export function DesktopProfile({ profile, products, reviews, isOwnProfile, curre
               }}>
               <p className="text-[11px] font-black uppercase tracking-widest mb-3"
                 style={{ color: "rgba(255,255,255,0.28)" }}>Contacter</p>
-              <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-bold text-white mb-2 transition-all hover:-translate-y-0.5"
-                style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 16px rgba(139,92,246,0.38)" }}>
+              <Link href={`/api/messages/start?to=${profile?.id}`} className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-bold text-white mb-2 transition-all hover:-translate-y-0.5"
+                style={{ background: "linear-gradient(135deg, #8B5CF6, #7C3AED)", boxShadow: "0 4px 16px rgba(139,92,246,0.38)", textDecoration: "none" }}>
                 <MessageCircle className="w-4 h-4" /> Envoyer un message
-              </button>
+              </Link>
               <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-semibold transition-all hover:bg-white/8"
                 style={{ border: "1px solid rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.55)" }}>
                 Voir les annonces <ArrowRight className="w-3.5 h-3.5" />

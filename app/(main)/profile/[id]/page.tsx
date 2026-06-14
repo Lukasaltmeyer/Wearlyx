@@ -9,9 +9,10 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const [{ data: profile }, { data: products }] = await Promise.all([
+  const [{ data: profile }, { data: products }, { data: reviews }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", id).single(),
     supabase.from("products").select("*").eq("seller_id", id).eq("status", "active").order("created_at", { ascending: false }),
+    supabase.from("reviews").select("*, reviewer:profiles!reviews_reviewer_id_fkey(id, username, full_name, avatar_url)").eq("reviewed_id", id).order("created_at", { ascending: false }).limit(50),
   ]);
 
   if (!profile) notFound();
@@ -30,7 +31,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
       <DesktopProfile
         profile={profile}
         products={products ?? []}
-        reviews={[]}
+        reviews={reviews ?? []}
         isOwnProfile={isOwner}
         currentUserId={user?.id}
         isFollowing={isFollowing}

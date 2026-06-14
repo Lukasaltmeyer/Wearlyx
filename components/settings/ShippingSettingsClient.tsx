@@ -50,6 +50,7 @@ export function ShippingSettingsClient({ fullName, location }: Props) {
   const [zip, setZip] = useState("");
   const [country, setCountry] = useState("France");
   const [carriers, setCarriers] = useState<string[]>(["colissimo", "mondialrelay"]);
+  const [packaging, setPackaging] = useState<Record<string, boolean>>({ recycled: false, gift: false, note: false });
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -114,16 +115,16 @@ export function ShippingSettingsClient({ fullName, location }: Props) {
       </SettingCard>
 
       <SettingCard title="Préférences d'emballage">
-        {[
+        {([
           { label: "Utiliser des emballages recyclés", key: "recycled" },
           { label: "Proposer l'emballage cadeau", key: "gift" },
           { label: "Inclure un mot personnalisé", key: "note" },
-        ].map(({ label, key }) => {
-          const [on, setOn] = useState(false);
+        ] as { label: string; key: string }[]).map(({ label, key }) => {
+          const on = packaging[key] ?? false;
           return (
             <div key={key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
               <span style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)" }}>{label}</span>
-              <button onClick={() => setOn(!on)} style={{
+              <button onClick={() => setPackaging(prev => ({ ...prev, [key]: !prev[key] }))} style={{
                 width: 44, height: 24, borderRadius: 12, border: "none", cursor: "pointer", flexShrink: 0,
                 background: on ? "#8B5CF6" : "rgba(255,255,255,0.12)", position: "relative", transition: "background 0.2s",
               }}>
