@@ -364,6 +364,30 @@ export function DesktopMessages({ conversations, currentUserId, initialConvId }:
     if (!selected) return;
     supabase.from("messages").select("*").eq("conversation_id", selected.id)
       .order("created_at", { ascending: true }).then(({ data }) => setMessages(data ?? []));
+
+    // Mark conversation messages as read
+    supabase.from("messages").update({ read: true })
+      .eq("conversation_id", selected.id)
+      .neq("sender_id", currentUserId)
+      .then(() => {});
+
+    // Realtime subscription for incoming messages
+    const channel = supabase.channel(`messages:${selected.id}`)
+      .on("postgres_changes", {
+        event: "INSERT",
+        schema: "public",
+        table: "messages",
+        filter: `conversation_id=eq.${selected.id}`,
+      }, (payload) => {
+        setMessages(prev => {
+          // Avoid duplicates (our own sent messages are already added optimistically)
+          if (prev.some(m => m.id === payload.new.id)) return prev;
+          return [...prev, payload.new as Message];
+        });
+      })
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
   }, [selected?.id]);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
