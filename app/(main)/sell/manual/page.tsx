@@ -15,17 +15,8 @@ export default async function SellManualPage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
-    return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <div className="relative overflow-hidden rounded-[20px] px-7 py-6 mb-8"
-          style={{ background: "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(167,139,250,0.04) 100%)", border: "1px solid rgba(139,92,246,0.14)" }}>
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1.5" style={{ color: "rgba(167,139,250,0.5)" }}>Vendre</p>
-          <p className="text-[22px] font-black text-white tracking-tight mb-1">Nouvelle annonce</p>
-          <p className="text-[12.5px] text-white/35 leading-relaxed">Remplis les informations de l&apos;article pour publier ton annonce.</p>
-        </div>
-        <SellForm userId={user.id} />
-      </main>
-    );
+    const { DesktopSellManual } = await import("@/components/desktop/DesktopSellManual");
+    return <DesktopSellManual userId={user.id} />;
   }
 
   return (
