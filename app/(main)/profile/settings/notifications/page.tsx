@@ -16,15 +16,15 @@ export default async function NotificationsPage() {
   ]);
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Notifications</h1>
+      <DesktopPageShell title="Notifications" subtitle="Gérer tes préférences de notification" backHref="/profile/settings">
         <NotificationsSettingsClient
           initialEmailEnabled={profile?.email_notifications_enabled ?? true}
           initialMarketingConsent={profile?.marketing_consent ?? false}
           isDesktop
         />
-      </main>
+      </DesktopPageShell>
     );
   }
 

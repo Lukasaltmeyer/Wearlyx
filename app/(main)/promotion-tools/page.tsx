@@ -20,11 +20,11 @@ export default async function PromotionToolsPage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Outils de promotion</h1>
+      <DesktopPageShell title="Outils de promotion" subtitle="Booste tes annonces" backHref="/profile/menu">
         <PromotionToolsClient products={products ?? []} isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 

@@ -13,11 +13,11 @@ export default async function VacationModePage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Mode vacances</h1>
+      <DesktopPageShell title="Mode vacances" subtitle="Mets en pause ta boutique" backHref="/profile/menu">
         <VacationModeClient isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 

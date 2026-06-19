@@ -13,11 +13,11 @@ export default async function GuidePage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Guide vendeur</h1>
+      <DesktopPageShell title="Guide vendeur" subtitle="Conseils pour bien vendre sur Wearlyx" backHref="/profile/menu">
         <GuideClient isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 

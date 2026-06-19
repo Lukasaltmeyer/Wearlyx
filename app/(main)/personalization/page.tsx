@@ -13,11 +13,11 @@ export default async function PersonalizationPage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Personnalisation</h1>
+      <DesktopPageShell title="Personnalisation" subtitle="Adapte ton expérience Wearlyx" backHref="/profile/menu">
         <PersonalizationClient isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 

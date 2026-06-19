@@ -21,11 +21,11 @@ export default async function ReferralPage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Parrainage</h1>
+      <DesktopPageShell title="Parrainage" subtitle="Invite tes amis, gagne des crédits" backHref="/profile/menu">
         <ReferralClient referralCode={referralCode} isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 

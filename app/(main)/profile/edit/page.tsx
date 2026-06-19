@@ -19,11 +19,11 @@ export default async function ProfileEditPage() {
   const device = await getDeviceType();
 
   if (device === "desktop") {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
-        <h1 className="text-[28px] font-black tracking-tight text-white/90 mb-8">Modifier le profil</h1>
+      <DesktopPageShell title="Modifier le profil" subtitle="Mets à jour tes informations" backHref="/profile/menu">
         <ProfileEditClient profile={profile} userId={user.id} isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 

@@ -22,10 +22,11 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   const isDesktop = device === "desktop";
 
   if (isDesktop) {
+    const { DesktopPageShell } = await import("@/components/desktop/DesktopPageShell");
     return (
-      <main className="min-h-[100dvh] px-8 py-8">
+      <DesktopPageShell title={`Commande #${order.id.slice(0, 8).toUpperCase()}`} subtitle={order.status === "delivered" ? "Livré" : order.status === "shipped" ? "En transit" : "En cours"} backHref="/sales">
         <OrderDetailClient order={order} currentUserId={user.id} isDesktop />
-      </main>
+      </DesktopPageShell>
     );
   }
 
