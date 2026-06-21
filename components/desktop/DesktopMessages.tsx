@@ -748,13 +748,6 @@ export function DesktopMessages({ conversations, currentUserId, initialConvId }:
         </div>
       )}
 
-      {/* ══ RIGHT — info panel ══ */}
-      {selected && selectedOther && (
-        <InfoPanel
-          other={selectedOther as { id: string; username: string | null; full_name: string | null; avatar_url: string | null }}
-          product={selected.product}
-        />
-      )}
     </div>
   );
 }

@@ -4,8 +4,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import {
-  Home, Compass, Plus, MessageCircle, User, Zap, Crown,
-  Heart, Bell, Settings, TrendingUp, Search,
+  Home, Compass, Plus, MessageCircle, User, Crown,
+  Heart, Bell, Settings, Search,
 } from "lucide-react";
 import { CommandPalette } from "@/components/desktop/CommandPalette";
 import { createClient } from "@/lib/supabase/client";
@@ -191,160 +191,10 @@ function LeftSidebar({ onOpenPalette }: { onOpenPalette: () => void }) {
   );
 }
 
-function LiveDot() {
-  return (
-    <span className="relative inline-flex w-2 h-2 flex-shrink-0">
-      <span className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping"
-        style={{ background: "#10B981" }} />
-      <span className="relative inline-flex rounded-full w-2 h-2" style={{ background: "#10B981" }} />
-    </span>
-  );
-}
-
-function RightPanel() {
-  const TRENDING = ["Nike Air Force 1", "Zara 2024", "Jacquemus", "Vintage Levi's", "Jordan 1 Retro"];
-  const [tick, setTick] = useState(0);
-
-  // Simulate live sales ticking up
-  useEffect(() => {
-    const id = setInterval(() => setTick(t => t + 1), 4200);
-    return () => clearInterval(id);
-  }, []);
-
-  const sales = 1247 + tick;
-
-  return (
-    <aside className="fixed right-0 top-0 bottom-0 w-[272px] overflow-y-auto"
-      style={{
-        background: "rgba(6,6,10,0.88)",
-        backdropFilter: "blur(40px) saturate(180%)",
-        WebkitBackdropFilter: "blur(40px) saturate(180%)",
-        borderLeft: "1px solid rgba(255,255,255,0.04)",
-        scrollbarWidth: "none",
-      }}>
-      <div className="p-4 flex flex-col gap-5">
-
-        {/* Live stats */}
-        <div>
-          <div className="flex items-center gap-2 mb-2.5 px-1">
-            <LiveDot />
-            <p className="text-[9.5px] font-bold uppercase tracking-widest" style={{ color: "rgba(16,185,129,0.7)" }}>
-              Live · Wearlyx
-            </p>
-          </div>
-          <div className="rounded-[12px] overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.05)" }}>
-            {[
-              { label: "Membres",           value: "50 K+",          stable: true },
-              { label: "Ventes aujourd'hui", value: sales.toLocaleString("fr"), stable: false },
-              { label: "Articles en ligne",  value: "32 K",           stable: true },
-              { label: "Note moyenne",       value: "4.8 ★",          stable: true },
-            ].map(({ label, value, stable }, i, arr) => (
-              <div key={label} className="flex items-center justify-between px-3.5 py-2.5"
-                style={{
-                  background: "rgba(255,255,255,0.015)",
-                  borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
-                }}>
-                <span className="text-[11.5px]" style={{ color: "rgba(255,255,255,0.26)" }}>{label}</span>
-                <span className="text-[11.5px] font-semibold flex items-center gap-1.5"
-                  style={{ color: stable ? "rgba(255,255,255,0.72)" : "#10B981" }}>
-                  {!stable && <span className="w-1.5 h-1.5 rounded-full animate-pulse inline-block" style={{ background: "#10B981" }} />}
-                  {value}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Trending */}
-        <div>
-          <div className="flex items-center gap-1.5 mb-2 px-1">
-            <TrendingUp style={{ width: 11, height: 11, color: "#8B5CF6" }} />
-            <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: "rgba(255,255,255,0.20)" }}>Tendances</p>
-          </div>
-          <div className="flex flex-col gap-px">
-            {TRENDING.map((t, i) => (
-              <Link key={t} href={`/search?q=${encodeURIComponent(t)}`}
-                className="flex items-center gap-2.5 px-2.5 py-2 transition-colors rounded-[7px]"
-                style={{ color: "rgba(255,255,255,0.36)" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.72)"; (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.04)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.36)"; (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-                <span className="text-[9.5px] font-black w-4 flex-shrink-0 text-center"
-                  style={{ color: i < 3 ? "rgba(139,92,246,0.55)" : "rgba(255,255,255,0.14)" }}>
-                  {i + 1}
-                </span>
-                <span className="text-[12px] flex-1 truncate">{t}</span>
-                <span className="text-[9.5px] font-semibold flex-shrink-0"
-                  style={{ color: i < 3 ? "rgba(167,139,250,0.5)" : "rgba(255,255,255,0.14)" }}>
-                  {["↑12%", "↑8%", "↑5%", "", ""][i]}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Boost CTA */}
-        <Link href="/promotion-tools"
-          className="flex items-center gap-3 px-3.5 py-3.5 rounded-[12px] transition-all"
-          style={{
-            background: "rgba(124,58,237,0.07)",
-            border: "1px solid rgba(139,92,246,0.13)",
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.24)"; (e.currentTarget as HTMLElement).style.background = "rgba(124,58,237,0.12)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(139,92,246,0.13)"; (e.currentTarget as HTMLElement).style.background = "rgba(124,58,237,0.07)"; }}>
-          <div className="w-8 h-8 rounded-[9px] flex items-center justify-center flex-shrink-0"
-            style={{ background: "linear-gradient(135deg, #7C3AED, #5B21B6)", boxShadow: "0 3px 10px rgba(124,58,237,0.3)" }}>
-            <Zap style={{ width: 14, height: 14, color: "white" }} />
-          </div>
-          <div>
-            <p className="text-[12px] font-semibold text-white/75">Booster mes annonces</p>
-            <p className="text-[10.5px] mt-px" style={{ color: "rgba(255,255,255,0.26)" }}>+300% de visibilité</p>
-          </div>
-        </Link>
-
-        {/* Popular sellers */}
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2 px-1" style={{ color: "rgba(255,255,255,0.16)" }}>
-            Vendeurs actifs
-          </p>
-          {[
-            { handle: "@stylebylea",    gradient: "#8B5CF6,#7C3AED" },
-            { handle: "@vintageking",   gradient: "#EC4899,#DB2777" },
-            { handle: "@luxmode_paris", gradient: "#F59E0B,#D97706" },
-          ].map(({ handle, gradient }) => (
-            <div key={handle} className="flex items-center justify-between px-1 py-[6px] rounded-[6px] transition-colors cursor-pointer"
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.03)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-              <div className="flex items-center gap-2.5">
-                <div className="w-[22px] h-[22px] rounded-full flex-shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${gradient})` }} />
-                <span className="text-[12px]" style={{ color: "rgba(255,255,255,0.48)" }}>{handle}</span>
-              </div>
-              <button className="text-[10px] font-semibold px-2 py-0.5 rounded-[5px] transition-colors"
-                style={{ border: "1px solid rgba(139,92,246,0.2)", color: "rgba(167,139,250,0.65)" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(139,92,246,0.1)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}>
-                + Suivre
-              </button>
-            </div>
-          ))}
-        </div>
-
-        {/* App version */}
-        <div className="text-center pt-1">
-          <span className="text-[10px] font-semibold tracking-wider" style={{ color: "rgba(255,255,255,0.08)" }}>
-            WEARLYX v2.0
-          </span>
-        </div>
-      </div>
-    </aside>
-  );
-}
-
 export function DesktopShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [paletteOpen, setPaletteOpen] = useState(false);
 
-  // ⌘K / Ctrl+K to open palette
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -360,12 +210,9 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
   if (pathname.startsWith("/auth")) return <>{children}</>;
   if (pathname.startsWith("/landing")) return <>{children}</>;
 
-  const isFullBleed = pathname.startsWith("/messages") || pathname.startsWith("/profile/menu") || pathname.startsWith("/notifications") || pathname.startsWith("/sales") || pathname.startsWith("/search");
-
   return (
     <div className="min-h-[100dvh] relative overflow-x-hidden"
       style={{ background: "radial-gradient(ellipse at 52% 0%, #0e0820 0%, #080612 38%, #050409 100%)" }}>
-      {/* Ambient orbs */}
       <div className="fixed pointer-events-none"
         style={{ top: -160, left: "50%", transform: "translateX(-50%)", width: 900, height: 700,
           background: "radial-gradient(ellipse, rgba(124,58,237,0.07) 0%, transparent 62%)", filter: "blur(90px)", zIndex: 0 }} />
@@ -377,16 +224,11 @@ export function DesktopShell({ children }: { children: React.ReactNode }) {
           background: "radial-gradient(circle, rgba(109,40,217,0.03) 0%, transparent 70%)", filter: "blur(120px)", zIndex: 0 }} />
 
       <LeftSidebar onOpenPalette={() => setPaletteOpen(true)} />
-      {!isFullBleed && <RightPanel />}
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} />
 
       <main
         className="relative min-h-[100dvh]"
-        style={{
-          marginLeft: "220px",
-          marginRight: isFullBleed ? "0" : "272px",
-          zIndex: 1,
-        }}>
+        style={{ marginLeft: "220px", zIndex: 1 }}>
         {children}
       </main>
     </div>
