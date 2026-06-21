@@ -10,79 +10,58 @@ export function DonationModeClient({ isDesktop }: { isDesktop?: boolean }) {
 
   if (isDesktop) {
     return (
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 28, alignItems: "start" }}>
-        {/* LEFT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{
-            padding: "32px 36px", borderRadius: 20,
-            background: enabled
-              ? "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(244,63,94,0.05) 100%)"
-              : "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
-            border: enabled ? "1px solid rgba(139,92,246,0.22)" : "1px solid rgba(255,255,255,0.07)",
-            transition: "all 0.4s ease",
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 28 }}>
-              <div style={{ width: 60, height: 60, borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: enabled ? "rgba(139,92,246,0.15)" : "rgba(255,255,255,0.06)" }}>
-                <Gift style={{ width: 28, height: 28, color: enabled ? "#A78BFA" : "rgba(255,255,255,0.25)", transition: "color 0.3s" }} />
-              </div>
-              <div>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                  <p style={{ fontSize: 22, fontWeight: 800, color: "white", margin: 0, letterSpacing: "-0.02em" }}>
-                    {enabled ? "Mode don activé" : "Mode don désactivé"}
-                  </p>
-                  {enabled && <span style={{ padding: "3px 10px", borderRadius: 20, fontSize: 10, fontWeight: 800, color: "#DDD6FE", background: "rgba(139,92,246,0.2)", letterSpacing: "0.06em" }}>ACTIF</span>}
-                </div>
-                <p style={{ fontSize: 14, color: "rgba(255,255,255,0.38)", margin: 0 }}>
-                  {enabled ? "Tes articles sont proposés gratuitement à la communauté." : "Active ce mode pour offrir tes articles à 0 €."}
-                </p>
-              </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        {/* Hero row */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "36px 44px", borderRadius: 24,
+          background: enabled
+            ? "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(244,63,94,0.05) 100%)"
+            : "linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)",
+          border: enabled ? "1px solid rgba(139,92,246,0.2)" : "1px solid rgba(255,255,255,0.06)",
+          transition: "all 0.4s ease",
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
+            <div style={{ width: 68, height: 68, borderRadius: 18, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: enabled ? "rgba(139,92,246,0.15)" : "rgba(255,255,255,0.05)" }}>
+              <Gift style={{ width: 32, height: 32, color: enabled ? "#A78BFA" : "rgba(255,255,255,0.2)", transition: "color 0.3s" }} />
             </div>
-            <button onClick={() => setEnabled(!enabled)} style={{
-              padding: "14px 32px", borderRadius: 14, fontWeight: 700, fontSize: 15, color: "white",
-              border: "none", cursor: "pointer",
-              background: enabled ? "rgba(239,68,68,0.75)" : "linear-gradient(135deg, #8B5CF6, #F43F5E)",
-              boxShadow: enabled ? "none" : "0 8px 28px rgba(139,92,246,0.32)",
-            }}>
-              {enabled ? "Désactiver le mode don" : "Activer le mode don 🎁"}
-            </button>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 14 }}>
-            {[
-              { icon: Heart, title: "Propose à 0 €", desc: "Seuls les frais de port s'appliquent selon le transporteur", color: "#F43F5E" },
-              { icon: Users, title: "Impact communauté", desc: "Tes articles profitent directement à d'autres membres", color: "#8B5CF6" },
-              { icon: Zap, title: "+50 crédits/don", desc: "Chaque article donné te rapporte des crédits Wearlyx", color: "#F59E0B" },
-            ].map(({ icon: Icon, title, desc, color }) => (
-              <div key={title} style={{ padding: "22px 20px", borderRadius: 16, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <div style={{ width: 40, height: 40, borderRadius: 11, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14, background: `${color}18` }}>
-                  <Icon style={{ width: 18, height: 18, color }} />
-                </div>
-                <p style={{ fontSize: 14, fontWeight: 700, color: "rgba(255,255,255,0.85)", margin: "0 0 6px" }}>{title}</p>
-                <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", margin: 0, lineHeight: 1.5 }}>{desc}</p>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                <p style={{ fontSize: 26, fontWeight: 800, color: "white", margin: 0, letterSpacing: "-0.02em" }}>
+                  {enabled ? "Mode don activé" : "Mode don désactivé"}
+                </p>
+                {enabled && <span style={{ padding: "4px 12px", borderRadius: 20, fontSize: 10, fontWeight: 800, color: "#DDD6FE", background: "rgba(139,92,246,0.2)", letterSpacing: "0.08em" }}>ACTIF</span>}
               </div>
-            ))}
+              <p style={{ fontSize: 15, color: "rgba(255,255,255,0.35)", margin: 0 }}>
+                {enabled ? "Tes articles sont proposés gratuitement à la communauté." : "Active ce mode pour offrir tes articles à 0 €."}
+              </p>
+            </div>
           </div>
+          <button onClick={() => setEnabled(!enabled)} style={{
+            padding: "16px 40px", borderRadius: 14, fontWeight: 700, fontSize: 15, color: "white",
+            border: "none", cursor: "pointer", flexShrink: 0,
+            background: enabled ? "rgba(239,68,68,0.75)" : "linear-gradient(135deg, #8B5CF6, #F43F5E)",
+            boxShadow: enabled ? "none" : "0 8px 28px rgba(139,92,246,0.32)",
+          }}>
+            {enabled ? "Désactiver le mode don" : "Activer le mode don 🎁"}
+          </button>
         </div>
 
-        {/* RIGHT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ padding: "24px", borderRadius: 18, background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.15)" }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(139,92,246,0.7)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 16px" }}>Impact communauté</p>
-            {[
-              { label: "Articles donnés ce mois", value: "2 340" },
-              { label: "Membres aidés", value: "1 890" },
-              { label: "Crédits distribués", value: "117 000" },
-            ].map(({ label, value }) => (
-              <div key={label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.4)" }}>{label}</span>
-                <span style={{ fontSize: 15, fontWeight: 800, color: "#C4B5FD" }}>{value}</span>
+        {/* Features — full width grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 }}>
+          {[
+            { icon: Heart, title: "Propose à 0 €", desc: "Seuls les frais de port s'appliquent selon le transporteur choisi", color: "#F43F5E" },
+            { icon: Users, title: "Impact communauté", desc: "Tes articles profitent directement à d'autres membres Wearlyx", color: "#8B5CF6" },
+            { icon: Zap, title: "+50 crédits par don", desc: "Chaque article donné te rapporte des crédits utilisables sur la plateforme", color: "#F59E0B" },
+          ].map(({ icon: Icon, title, desc, color }) => (
+            <div key={title} style={{ padding: "28px 24px", borderRadius: 18, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, background: `${color}15` }}>
+                <Icon style={{ width: 20, height: 20, color }} />
               </div>
-            ))}
-          </div>
-          <div style={{ padding: "20px", borderRadius: 16, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.7)", margin: "0 0 8px" }}>Bon à savoir</p>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", margin: 0, lineHeight: 1.6 }}>Le mode don peut être activé sur tout ou partie de tes articles. Tu gardes le contrôle à tout moment et tu accumules des crédits.</p>
-          </div>
+              <p style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.88)", margin: "0 0 8px" }}>{title}</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", margin: 0, lineHeight: 1.6 }}>{desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     );

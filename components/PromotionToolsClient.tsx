@@ -86,109 +86,85 @@ export function PromotionToolsClient({ products, isDesktop }: Props) {
 
   if (isDesktop) {
     return (
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 28, alignItems: "start" }}>
-        {/* LEFT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-              <div>
-                <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.22)", letterSpacing: "0.16em", textTransform: "uppercase", margin: "0 0 4px" }}>Booster une annonce</p>
-                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", margin: 0 }}>Mets ton article en tête des résultats pendant 24h</p>
-              </div>
-              <BoostBadge />
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        {/* Boost section */}
+        <div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+            <div>
+              <p style={{ fontSize: 20, fontWeight: 800, color: "white", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Booster une annonce</p>
+              <p style={{ fontSize: 14, color: "rgba(255,255,255,0.35)", margin: 0 }}>Mets ton article en tête des résultats pendant 24h</p>
             </div>
-            <LimitBanner />
-            {products.length === 0 ? (
-              <div style={{ padding: "48px 0", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderRadius: 16, background: "rgba(255,255,255,0.015)", border: "1px dashed rgba(255,255,255,0.06)" }}>
-                <Package style={{ width: 32, height: 32, color: "rgba(255,255,255,0.1)", marginBottom: 12 }} />
-                <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.25)", margin: "0 0 4px" }}>Aucune annonce active</p>
-                <p style={{ fontSize: 12, color: "rgba(255,255,255,0.15)", margin: 0 }}>Publie un article pour le booster</p>
-              </div>
-            ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {products.map((p) => {
-                  const isBoosted = !!boosted[p.id];
-                  const isLoading = loadingId === p.id;
-                  const blocked = !canBoostMore && !isBoosted;
-                  return (
-                    <div key={p.id} style={{
-                      display: "flex", alignItems: "center", gap: 16, padding: "14px 16px", borderRadius: 14,
-                      background: isBoosted ? "rgba(59,130,246,0.06)" : "rgba(255,255,255,0.025)",
-                      border: isBoosted ? "1px solid rgba(59,130,246,0.2)" : "1px solid rgba(255,255,255,0.06)",
-                    }}>
-                      <div style={{ width: 52, height: 52, borderRadius: 10, overflow: "hidden", flexShrink: 0, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {p.images?.[0]
-                          ? <Image src={p.images[0]} alt={p.title} width={52} height={52} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                          : <Package style={{ width: 20, height: 20, color: "rgba(255,255,255,0.15)" }} />}
-                      </div>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.85)", margin: "0 0 3px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</p>
-                        <p style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", margin: 0 }}>{formatPrice(p.price)}</p>
-                      </div>
-                      {isBoosted && (
-                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginRight: 8 }}>
-                          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#60A5FA" }} />
-                          <span style={{ fontSize: 11, fontWeight: 700, color: "#60A5FA" }}>Boosté · 24h</span>
-                        </div>
-                      )}
-                      <button onClick={() => handleBoost(p.id)} disabled={isBoosted || isLoading || blocked}
-                        style={{
-                          display: "flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 10,
-                          fontSize: 13, fontWeight: 700, flexShrink: 0, border: "none",
-                          background: isBoosted ? "rgba(59,130,246,0.15)" : blocked ? "rgba(255,255,255,0.05)" : "rgba(59,130,246,0.85)",
-                          color: isBoosted ? "#93C5FD" : blocked ? "rgba(255,255,255,0.25)" : "white",
-                          boxShadow: isBoosted || blocked ? "none" : "0 4px 14px rgba(59,130,246,0.3)",
-                          cursor: isBoosted || blocked ? "not-allowed" : "pointer",
-                        }}>
-                        <Zap style={{ width: 14, height: 14 }} />
-                        {isLoading ? "…" : isBoosted ? "Actif" : blocked ? "Limite" : "Booster"}
-                      </button>
+            <BoostBadge />
+          </div>
+          <LimitBanner />
+          {products.length === 0 ? (
+            <div style={{ padding: "56px 0", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", borderRadius: 18, background: "rgba(255,255,255,0.015)", border: "1px dashed rgba(255,255,255,0.06)" }}>
+              <Package style={{ width: 36, height: 36, color: "rgba(255,255,255,0.1)", marginBottom: 14 }} />
+              <p style={{ fontSize: 15, fontWeight: 600, color: "rgba(255,255,255,0.22)", margin: "0 0 4px" }}>Aucune annonce active</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.12)", margin: 0 }}>Publie un article pour le booster</p>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {products.map((p) => {
+                const isBoosted = !!boosted[p.id];
+                const isLoading = loadingId === p.id;
+                const blocked = !canBoostMore && !isBoosted;
+                return (
+                  <div key={p.id} style={{
+                    display: "flex", alignItems: "center", gap: 16, padding: "16px 20px", borderRadius: 16,
+                    background: isBoosted ? "rgba(59,130,246,0.06)" : "rgba(255,255,255,0.025)",
+                    border: isBoosted ? "1px solid rgba(59,130,246,0.2)" : "1px solid rgba(255,255,255,0.06)",
+                  }}>
+                    <div style={{ width: 56, height: 56, borderRadius: 12, overflow: "hidden", flexShrink: 0, background: "rgba(255,255,255,0.05)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      {p.images?.[0]
+                        ? <Image src={p.images[0]} alt={p.title} width={56} height={56} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        : <Package style={{ width: 22, height: 22, color: "rgba(255,255,255,0.15)" }} />}
                     </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          <div style={{ height: 1, background: "rgba(255,255,255,0.05)" }} />
-
-          <div>
-            <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.22)", letterSpacing: "0.16em", textTransform: "uppercase", margin: "0 0 14px" }}>Offres groupées</p>
-            <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "18px 20px", borderRadius: 14, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)", cursor: "pointer" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(16,185,129,0.05)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(16,185,129,0.18)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.025)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}>
-              <div style={{ width: 44, height: 44, borderRadius: 11, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: "rgba(16,185,129,0.12)" }}>
-                <Percent style={{ width: 20, height: 20, color: "#10B981" }} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 14, fontWeight: 600, color: "rgba(255,255,255,0.85)", margin: "0 0 3px" }}>Réduction sur les lots</p>
-                <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", margin: 0 }}>Offre un rabais si l'acheteur prend plusieurs articles</p>
-              </div>
-              <ChevronRight style={{ width: 16, height: 16, color: "rgba(255,255,255,0.2)" }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: 15, fontWeight: 600, color: "rgba(255,255,255,0.88)", margin: "0 0 4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.title}</p>
+                      <p style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", margin: 0 }}>{formatPrice(p.price)}</p>
+                    </div>
+                    {isBoosted && (
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginRight: 8 }}>
+                        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#60A5FA" }} />
+                        <span style={{ fontSize: 12, fontWeight: 700, color: "#60A5FA" }}>Boosté · 24h</span>
+                      </div>
+                    )}
+                    <button onClick={() => handleBoost(p.id)} disabled={isBoosted || isLoading || blocked}
+                      style={{
+                        display: "flex", alignItems: "center", gap: 6, padding: "10px 22px", borderRadius: 11,
+                        fontSize: 14, fontWeight: 700, flexShrink: 0, border: "none",
+                        background: isBoosted ? "rgba(59,130,246,0.15)" : blocked ? "rgba(255,255,255,0.05)" : "rgba(59,130,246,0.85)",
+                        color: isBoosted ? "#93C5FD" : blocked ? "rgba(255,255,255,0.25)" : "white",
+                        boxShadow: isBoosted || blocked ? "none" : "0 4px 14px rgba(59,130,246,0.3)",
+                        cursor: isBoosted || blocked ? "not-allowed" : "pointer",
+                      }}>
+                      <Zap style={{ width: 15, height: 15 }} />
+                      {isLoading ? "…" : isBoosted ? "Actif" : blocked ? "Limite" : "Booster"}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
-          </div>
+          )}
         </div>
 
-        {/* RIGHT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ padding: "24px", borderRadius: 18, background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.15)" }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: "rgba(59,130,246,0.8)", letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 16px" }}>Pourquoi booster ?</p>
-            {[
-              { label: "+300% de visibilité", icon: TrendingUp, color: "#3B82F6" },
-              { label: "Tête des résultats 24h", icon: Zap, color: "#F59E0B" },
-              { label: "Plus de messages reçus", icon: Crown, color: "#10B981" },
-            ].map(({ label, icon: Icon, color }) => (
-              <div key={label} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-                <div style={{ width: 30, height: 30, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: `${color}18` }}>
-                  <Icon style={{ width: 14, height: 14, color }} />
-                </div>
-                <span style={{ fontSize: 13, color: "rgba(255,255,255,0.55)" }}>{label}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ padding: "20px", borderRadius: 16, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: "rgba(255,255,255,0.6)", margin: "0 0 8px" }}>Conseil</p>
-            <p style={{ fontSize: 12.5, color: "rgba(255,255,255,0.32)", margin: 0, lineHeight: 1.6 }}>Booste tes articles avec de belles photos et un prix compétitif pour maximiser l'impact.</p>
+        <div style={{ height: 1, background: "rgba(255,255,255,0.05)" }} />
+
+        {/* Offres groupées */}
+        <div>
+          <p style={{ fontSize: 20, fontWeight: 800, color: "white", margin: "0 0 16px", letterSpacing: "-0.01em" }}>Offres groupées</p>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, padding: "20px 24px", borderRadius: 16, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)", cursor: "pointer" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(16,185,129,0.05)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(16,185,129,0.18)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.025)"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.06)"; }}>
+            <div style={{ width: 48, height: 48, borderRadius: 13, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: "rgba(16,185,129,0.12)" }}>
+              <Percent style={{ width: 22, height: 22, color: "#10B981" }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: "rgba(255,255,255,0.88)", margin: "0 0 4px" }}>Réduction sur les lots</p>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.32)", margin: 0 }}>Offre un rabais si l'acheteur prend plusieurs articles d'un coup</p>
+            </div>
+            <ChevronRight style={{ width: 18, height: 18, color: "rgba(255,255,255,0.2)" }} />
           </div>
         </div>
       </div>
