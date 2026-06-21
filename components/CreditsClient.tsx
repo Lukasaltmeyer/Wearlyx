@@ -170,165 +170,146 @@ export function CreditsClient({ salesCount, productsCount, isDesktop }: Pick<Pro
 
   if (isDesktop) {
     return (
-      <div className="flex flex-col gap-4 pb-6">
-        <div className="flex items-center justify-between">
-          {creditsChip}
-        </div>
-        <div className="flex flex-col gap-4">
-        {/* Hero card */}
-        <div className="p-4 rounded-2xl border border-[#4CAF50]/20 bg-[#4CAF50]/8">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-[#4CAF50]/20 flex items-center justify-center">
-              <Star className="w-5 h-5 text-[#4CAF50] fill-[#4CAF50]" />
-            </div>
-            <div>
-              <p className="text-[28px] font-black text-white leading-none">{credits.toLocaleString()}</p>
-              <p className="text-[13px] text-white/50">crédits gagnés</p>
-            </div>
-          </div>
-          <p className="text-[12px] text-white/30">{credits.toLocaleString()} / 799 000 crédits max</p>
-        </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 28, alignItems: "start", paddingBottom: 32 }}>
 
-        {/* Prochain palier */}
-        {nextLevel && (
-          <div>
-            <p className="text-[11px] font-black text-white/30 uppercase tracking-wider mb-2">Prochain palier</p>
-            <div className="p-4 rounded-2xl border border-white/8 bg-white/3">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-[20px]">{nextLevel.icon}</span>
+        {/* LEFT — badges & paliers */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+
+          {/* Hero + next level in a row */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            {/* Hero card */}
+            <div className="p-6 rounded-2xl border border-[#4CAF50]/20 bg-[#4CAF50]/8">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="w-12 h-12 rounded-xl bg-[#4CAF50]/20 flex items-center justify-center">
+                  <Star className="w-6 h-6 text-[#4CAF50] fill-[#4CAF50]" />
+                </div>
+                <div>
+                  <p className="text-[32px] font-black text-white leading-none">{credits.toLocaleString()}</p>
+                  <p className="text-[13px] text-white/50">crédits gagnés</p>
+                </div>
+              </div>
+              <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden mb-2">
+                <div className="h-full rounded-full bg-[#4CAF50] transition-all" style={{ width: `${progressPct}%` }} />
+              </div>
+              <p className="text-[11px] text-white/30">{credits.toLocaleString()} / 799 000 crédits max</p>
+            </div>
+
+            {/* Next level */}
+            {nextLevel ? (
+              <div className="p-6 rounded-2xl border border-white/8 bg-white/3 flex flex-col justify-between">
+                <p className="text-[10px] font-black text-white/30 uppercase tracking-wider mb-3">Prochain palier</p>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-[28px]">{nextLevel.icon}</span>
                   <div>
-                    <p className="text-[15px] font-black text-white">{nextLevel.name}</p>
+                    <p className="text-[16px] font-black text-white">{nextLevel.name}</p>
                     <p className="text-[12px] text-white/40">{nextLevel.reward}</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-[14px] font-black text-white">{nextLevel.credits.toLocaleString()} crédits</p>
-                  <p className="text-[11px] text-white/35">encore {remaining.toLocaleString()} à gagner</p>
-                </div>
-              </div>
-              <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
-                <div className="h-full rounded-full bg-[#4CAF50] transition-all" style={{ width: `${progressPct}%` }} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Paliers de récompenses */}
-        <div>
-          <p className="text-[11px] font-black text-white/30 uppercase tracking-wider mb-2">Paliers de récompenses</p>
-          <div className="flex flex-col gap-1">
-            {LEVELS.map((lvl, i) => {
-              const attained = credits >= lvl.credits;
-              const isCurrent = i === currentLevelIdx;
-              return (
-                <div
-                  key={lvl.name}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
-                    isCurrent ? "border-[#4CAF50]/30 bg-[#4CAF50]/8" : "border-white/5 bg-transparent"
-                  }`}
-                >
-                  <span className={`text-[18px] ${attained ? "" : "grayscale opacity-40"}`}>{lvl.icon}</span>
-                  <div className="flex-1">
-                    <p className={`text-[13px] font-bold ${attained ? "text-white" : "text-white/35"}`}>{lvl.name}</p>
-                    <p className="text-[11px] text-white/25 line-clamp-1">{lvl.reward}</p>
+                <div>
+                  <div className="flex justify-between mb-1.5">
+                    <span className="text-[11px] text-white/35">encore {remaining.toLocaleString()} cr.</span>
+                    <span className="text-[11px] font-bold text-[#4CAF50]">{nextLevel.credits.toLocaleString()} cr.</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    {attained ? (
-                      <span className="text-[11px] font-bold text-[#4CAF50]">✓ Atteint</span>
-                    ) : (
-                      <span className="text-[12px] font-semibold text-white/30">{lvl.credits.toLocaleString()} cr.</span>
-                    )}
+                  <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                    <div className="h-full rounded-full bg-[#4CAF50] transition-all" style={{ width: `${progressPct}%` }} />
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ) : (
+              <div className="p-6 rounded-2xl border border-[#4CAF50]/20 bg-[#4CAF50]/5 flex items-center justify-center">
+                <p className="text-[14px] font-bold text-[#4CAF50]">Niveau max atteint 🏆</p>
+              </div>
+            )}
           </div>
-        </div>
 
-        {/* Badges à compléter */}
-        <div>
-          <p className="text-[11px] font-black text-white/30 uppercase tracking-wider mb-3">Badges à compléter</p>
-          <div className="flex flex-col gap-5">
-            {BADGE_TIERS.map((tier) => {
-              const earned = tier.badges.filter((b) => (progress[b.field] ?? 0) >= b.target).length;
-              return (
-                <div key={tier.name}>
-                  {/* Tier header */}
-                  <div className="flex items-center justify-between mb-2">
-                    <p className="text-[11px] font-black text-white/40 uppercase tracking-wider">{tier.name}</p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-bold text-[#4CAF50]">
-                        + {tier.creditsPerBadge.toLocaleString()} cr./badge
-                      </span>
-                      <span className="text-[11px] text-white/25">{earned}/{tier.badges.length}</span>
+          {/* Badges à compléter */}
+          <div>
+            <p className="text-[10px] font-black text-white/30 uppercase tracking-wider mb-4">Badges à compléter</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {BADGE_TIERS.map((tier) => {
+                const earned = tier.badges.filter((b) => (progress[b.field] ?? 0) >= b.target).length;
+                return (
+                  <div key={tier.name}>
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[10px] font-black text-white/40 uppercase tracking-wider">{tier.name}</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-[#4CAF50]">+ {tier.creditsPerBadge.toLocaleString()} cr./badge</span>
+                        <span className="text-[10px] text-white/25">{earned}/{tier.badges.length}</span>
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+                      {tier.badges.map((badge) => {
+                        const val = progress[badge.field] ?? 0;
+                        const done = val >= badge.target;
+                        const pct = Math.min(100, Math.round((val / badge.target) * 100));
+                        return (
+                          <div key={badge.name} className={`p-3 rounded-2xl border transition-all ${done ? "border-[#4CAF50]/25 bg-[#4CAF50]/8" : "border-white/6 bg-white/2"}`}>
+                            <div className="flex items-start gap-2 mb-2">
+                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${done ? "bg-[#4CAF50]/20" : "bg-white/8"}`}>
+                                <span className="text-[14px]">
+                                  {badge.field === "listings" ? "🗂" : badge.field === "favorites" ? "❤️" : badge.field === "messages" ? "💬" : badge.field === "reviews" ? "⭐" : "🛍"}
+                                </span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className={`text-[12px] font-bold leading-tight ${done ? "text-white" : "text-white/70"}`}>{badge.name}</p>
+                                <p className="text-[10px] text-white/30 leading-tight mt-0.5">{badge.desc}</p>
+                              </div>
+                            </div>
+                            <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mb-1">
+                              <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: done || pct > 0 ? "#4CAF50" : "transparent" }} />
+                            </div>
+                            <div className="flex justify-between items-center">
+                              {done ? (
+                                <><span className="text-[10px] font-bold text-[#4CAF50]">✓ Débloqué</span><span className="text-[10px] font-bold text-[#4CAF50]">+{tier.creditsPerBadge} cr.</span></>
+                              ) : (
+                                <span className="text-[10px] text-white/25">{val} / {badge.target}</span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
-                  {/* Badge cards grid */}
-                  <div className="grid grid-cols-2 gap-2">
-                    {tier.badges.map((badge) => {
-                      const val = progress[badge.field] ?? 0;
-                      const done = val >= badge.target;
-                      const pct = Math.min(100, Math.round((val / badge.target) * 100));
-                      return (
-                        <div
-                          key={badge.name}
-                          className={`p-3 rounded-2xl border transition-all ${
-                            done
-                              ? "border-[#4CAF50]/25 bg-[#4CAF50]/8"
-                              : "border-white/6 bg-white/2"
-                          }`}
-                        >
-                          <div className="flex items-start gap-2 mb-2">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                              done ? "bg-[#4CAF50]/20" : "bg-white/8"
-                            }`}>
-                              <span className="text-[14px]">
-                                {badge.field === "listings" ? "🗂" :
-                                 badge.field === "favorites" ? "❤️" :
-                                 badge.field === "messages" ? "💬" :
-                                 badge.field === "reviews" ? "⭐" : "🛍"}
-                              </span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className={`text-[12px] font-bold leading-tight ${done ? "text-white" : "text-white/70"}`}>
-                                {badge.name}
-                              </p>
-                              <p className="text-[10px] text-white/30 leading-tight mt-0.5">{badge.desc}</p>
-                            </div>
-                          </div>
-                          {/* Progress bar */}
-                          <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mb-1">
-                            <div
-                              className="h-full rounded-full transition-all"
-                              style={{
-                                width: `${pct}%`,
-                                background: done ? "#4CAF50" : pct > 0 ? "#4CAF50" : "transparent",
-                              }}
-                            />
-                          </div>
-                          <div className="flex justify-between items-center">
-                            {done ? (
-                              <>
-                                <span className="text-[10px] font-bold text-[#4CAF50]">✓ Débloqué</span>
-                                <span className="text-[10px] font-bold text-[#4CAF50]">+{tier.creditsPerBadge} cr.</span>
-                              </>
-                            ) : (
-                              <span className="text-[10px] text-white/25">{val} / {badge.target}</span>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
+
+        {/* RIGHT — paliers de récompenses */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <div style={{ padding: 24, borderRadius: 18, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <p className="text-[10px] font-black text-white/30 uppercase tracking-wider mb-4">Paliers de récompenses</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              {LEVELS.map((lvl, i) => {
+                const attained = credits >= lvl.credits;
+                const isCurrent = i === currentLevelIdx;
+                return (
+                  <div key={lvl.name} className={`flex items-center gap-3 px-3 py-2.5 rounded-xl border transition-all ${isCurrent ? "border-[#4CAF50]/30 bg-[#4CAF50]/8" : "border-white/5 bg-transparent"}`}>
+                    <span className={`text-[16px] ${attained ? "" : "grayscale opacity-40"}`}>{lvl.icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-[12px] font-bold ${attained ? "text-white" : "text-white/35"}`}>{lvl.name}</p>
+                      <p className="text-[10px] text-white/25 truncate">{lvl.reward}</p>
+                    </div>
+                    {attained ? (
+                      <span className="text-[10px] font-bold text-[#4CAF50] flex-shrink-0">✓ Atteint</span>
+                    ) : (
+                      <span className="text-[11px] font-semibold text-white/30 flex-shrink-0">{lvl.credits.toLocaleString()} cr.</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {creditsChip && (
+            <div style={{ padding: "16px 20px", borderRadius: 14, background: "rgba(76,175,80,0.06)", border: "1px solid rgba(76,175,80,0.15)" }}>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", margin: "0 0 8px" }}>Tes crédits</p>
+              {creditsChip}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
   }
 
   return (
